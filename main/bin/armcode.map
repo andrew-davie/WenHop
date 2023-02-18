@@ -1,0 +1,921 @@
+Archive member included to satisfy reference by file (symbol)
+
+/Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uqi.o)
+                              /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o (__gnu_thumb1_case_uqi)
+/Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uhi.o)
+                              /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o (__gnu_thumb1_case_uhi)
+/Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+                              /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o (memset)
+
+Discarded input sections
+
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x46 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x0000000000000000       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x46 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x0000000000000000       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x46 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000000000       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000000000       0x46 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .group         0x0000000000000000        0xc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+ .debug_macro   0x0000000000000000       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+boot             0x0000000000000800 0x0000000000000080 xr
+C_code           0x0000000000000880 0x000000000000691f xr
+ram              0x0000000040001660 0x000000000000095b
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD main.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+LOAD /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+LOAD sound.o
+LOAD custom.o
+LOAD attribute.o
+LOAD amoeba.o
+LOAD random.o
+LOAD decodecaves.o
+LOAD characterset.o
+LOAD rockford.o
+LOAD cavedata.o
+LOAD drawplayer.o
+LOAD player.o
+LOAD overlay.o
+LOAD drawscreen.o
+LOAD colour.o
+LOAD swipeCircle.o
+LOAD score.o
+LOAD scroll.o
+LOAD animations.o
+LOAD menu.o
+LOAD atarivox.o
+LOAD joystick.o
+START GROUP
+LOAD /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a
+LOAD /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a
+LOAD /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libc.a
+END GROUP
+                0x0000000040001fdc                _stack_end = 0x40001fdc
+
+.bootcode       0x0000000000000800       0x68
+                0x0000000000000800                _sboot = .
+ *(.boot)
+ .boot          0x0000000000000800       0x68 custom.o
+                0x0000000000000800                Custom
+                0x0000000000000868                . = ALIGN (0x4)
+                0x0000000000000868                _eboot = .
+
+.text           0x0000000000000880     0x65d4
+                0x0000000000000880                .stext = .
+                0x0000000000000880                . = ALIGN (0x4)
+ *(.text)
+ .text          0x0000000000000880        0x0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text          0x0000000000000880        0x0 custom.o
+ .text          0x0000000000000880       0x14 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uqi.o)
+                0x0000000000000880                __gnu_thumb1_case_uqi
+ .text          0x0000000000000894       0x14 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uhi.o)
+                0x0000000000000894                __gnu_thumb1_case_uhi
+ .text          0x00000000000008a8        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+ *(.text.*)
+ .text.Scheduler
+                0x00000000000008a8       0x20 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.createParallaxCharset
+                0x00000000000008c8        0x2 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ *fill*         0x00000000000008ca        0x2 
+ .text.conglomerate
+                0x00000000000008cc       0x8c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.doRoll   0x0000000000000958       0x8c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.phaseshiftDiamond
+                0x00000000000009e4       0x50 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.killAudio
+                0x0000000000000a34       0x24 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.getRandom32
+                0x0000000000000a58       0x38 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.playAudio
+                0x0000000000000a90      0x2b8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.rangeRandom
+                0x0000000000000d48       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.decodeCave
+                0x0000000000000d58       0x7c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.StoreObject
+                0x0000000000000dd4       0x48 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.DrawLine
+                0x0000000000000e1c       0x3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.DrawRect
+                0x0000000000000e58       0x4c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.decodeExplicitData
+                0x0000000000000ea4      0x338 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.scheduleUnpackCave
+                0x00000000000011dc       0x68 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.startPlayerAnimation
+                0x0000000000001244       0x38 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.processAnimationCommand
+                0x000000000000127c       0x9c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.grab     0x0000000000001318       0xdc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawOverviewScreen
+                0x00000000000013f4      0x2e0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawIconScreen
+                0x00000000000016d4      0x1dc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.interleaveColour
+                0x00000000000018b0       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.convertColour
+                0x00000000000018e4       0x4c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.setFlash2
+                0x0000000000001930       0x1c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.Explode  0x000000000000194c       0x80 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.handleFly
+                0x00000000000019cc       0xd0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.doFlash  0x0000000000001a9c       0x44 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.rollRainbow
+                0x0000000000001ae0       0x28 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.loadPalette
+                0x0000000000001b08       0xb0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.doRainbowBackground.part.0
+                0x0000000000001bb8       0x54 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.checkSwipeFinished
+                0x0000000000001c0c       0x18 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.addScore
+                0x0000000000001c24       0x54 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawBigDigit
+                0x0000000000001c78      0x198 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawWord
+                0x0000000000001e10       0xb8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawDecimal2
+                0x0000000000001ec8       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.bigStuff
+                0x0000000000001f08       0xc8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawTime
+                0x0000000000001fd0       0x68 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.startCharAnimation
+                0x0000000000002038       0x3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.initNextLife
+                0x0000000000002074      0x120 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.grabDiamond
+                0x0000000000002194       0x50 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.processBoardSquares
+                0x00000000000021e4      0xa04 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.setupBoard
+                0x0000000000002be8       0xe4 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.processCharAnimations
+                0x0000000000002ccc       0x48 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.initMenuDatastreams
+                0x0000000000002d14       0x28 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.doDrawBitmap
+                0x0000000000002d3c       0xd8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.drawString
+                0x0000000000002e14       0x78 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.chooseColourScheme
+                0x0000000000002e8c       0x3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.setStatusBackgroundPalette
+                0x0000000000002ec8       0x44 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.processSpeech
+                0x0000000000002f0c       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.GameVerticalBlank
+                0x0000000000002f40      0x840 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.doubleSize.constprop.0
+                0x0000000000003780       0x8c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.initKernel
+                0x000000000000380c      0x1d0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.SystemReset
+                0x00000000000039dc       0xc0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.handleSelectReset
+                0x0000000000003a9c       0x74 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.GameOverscan
+                0x0000000000003b10     0x1008 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.MenuOverscan
+                0x0000000000004b18      0x47c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.MenuVerticalBlank
+                0x0000000000004f94      0x3e4 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .text.startup.main
+                0x0000000000005378       0x24 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+                0x0000000000005378                main
+ .text.memset   0x000000000000539c       0xb0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+                0x000000000000539c                memset
+ *(.rodata)
+ .rodata        0x000000000000544c     0x19ee /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ *(.rodata*)
+ .rodata.str1.1
+                0x0000000000006e3a       0x19 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+                0x0000000000006e54                . = ALIGN (0x4)
+ *fill*         0x0000000000006e53        0x1 
+                0x0000000000006e54                _etext = .
+
+.glue_7         0x0000000000006e54        0x0
+ .glue_7        0x0000000000006e54        0x0 linker stubs
+
+.glue_7t        0x0000000000006e54        0x0
+ .glue_7t       0x0000000000006e54        0x0 linker stubs
+
+.vfp11_veneer   0x0000000000006e54        0x0
+ .vfp11_veneer  0x0000000000006e54        0x0 linker stubs
+
+.v4_bx          0x0000000000006e54        0x0
+ .v4_bx         0x0000000000006e54        0x0 linker stubs
+
+.iplt           0x0000000000006e54        0x0
+ .iplt          0x0000000000006e54        0x0 custom.o
+
+.rel.dyn        0x0000000000006e54        0x0
+ .rel.iplt      0x0000000000006e54        0x0 custom.o
+
+.data           0x0000000040001660       0x64 load address 0x0000000000006e54
+                0x0000000040001660                . = ALIGN (0x4)
+                0x0000000040001660                _sdata = .
+ *(.data)
+ .data          0x0000000040001660       0x64 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .data          0x00000000400016c4        0x0 custom.o
+ .data          0x00000000400016c4        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uqi.o)
+ .data          0x00000000400016c4        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uhi.o)
+ .data          0x00000000400016c4        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+ *(.data.*)
+                0x00000000400016c4                . = ALIGN (0x4)
+                0x00000000400016c4                _edata = .
+
+.igot.plt       0x00000000400016c4        0x0 load address 0x0000000000006eb8
+ .igot.plt      0x00000000400016c4        0x0 custom.o
+
+.bss            0x00000000400016c4      0x594 load address 0x0000000000006eb8
+                0x00000000400016c4                . = ALIGN (0x4)
+                0x00000000400016c4                _sbss = .
+ *(.bss)
+ .bss           0x00000000400016c4      0x594 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .bss           0x0000000040001c58        0x0 custom.o
+ .bss           0x0000000040001c58        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uqi.o)
+ .bss           0x0000000040001c58        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uhi.o)
+ .bss           0x0000000040001c58        0x0 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+ *(COMMON)
+                0x0000000040001c58                . = ALIGN (0x4)
+                0x0000000040001c58                _ebss = .
+                0x0000000040001c58                end = .
+OUTPUT(main/bin/armcode.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x0000000000000000     0xd1f1
+ .debug_info    0x0000000000000000     0x4f62 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .debug_info    0x0000000000004f62     0x14f8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+                0x0000000000004f62                main.c.d0b96aeb
+ .debug_info    0x000000000000645a      0x7ff /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+                0x000000000000645a                sound.c.c6bea3a2
+ .debug_info    0x0000000000006c59      0x1fc /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+                0x0000000000006c59                attribute.c.01644cf6
+ .debug_info    0x0000000000006e55      0x469 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+                0x0000000000006e55                amoeba.c.f9cf192e
+ .debug_info    0x00000000000072be       0xde /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+                0x00000000000072be                random.c.d445825d
+ .debug_info    0x000000000000739c      0x9a2 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+                0x000000000000739c                decodecaves.c.03f96f35
+ .debug_info    0x0000000000007d3e      0x2f1 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+                0x0000000000007d3e                characterset.c.adeb9d90
+ .debug_info    0x000000000000802f      0xb24 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+                0x000000000000802f                rockford.c.334f706d
+ .debug_info    0x0000000000008b53      0x690 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+                0x0000000000008b53                cavedata.c.ece7c7ab
+ .debug_info    0x00000000000091e3      0x3cd /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+                0x00000000000091e3                drawplayer.c.503c5668
+ .debug_info    0x00000000000095b0      0x67d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+                0x00000000000095b0                player.c.68638bdc
+ .debug_info    0x0000000000009c2d       0x53 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+                0x0000000000009c2d                overlay.c.c8f553cf
+ .debug_info    0x0000000000009c80      0xce8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+                0x0000000000009c80                drawscreen.c.4cc4768c
+ .debug_info    0x000000000000a968      0x47d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+                0x000000000000a968                colour.c.73d670ea
+ .debug_info    0x000000000000ade5      0x2c0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+                0x000000000000ade5                swipeCircle.c.35a7d205
+ .debug_info    0x000000000000b0a5      0x719 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+                0x000000000000b0a5                score.c.1182b3ab
+ .debug_info    0x000000000000b7be      0x36d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+                0x000000000000b7be                scroll.c.c3359146
+ .debug_info    0x000000000000bb2b      0x52f /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+                0x000000000000bb2b                animations.c.6dd3ca98
+ .debug_info    0x000000000000c05a      0xf56 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+                0x000000000000c05a                menu.c.dcccf4b4
+ .debug_info    0x000000000000cfb0       0xc5 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+                0x000000000000cfb0                atarivox.c.0cdb027a
+ .debug_info    0x000000000000d075      0x17c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+                0x000000000000d075                joystick.c.533a03c1
+
+.debug_abbrev   0x0000000000000000     0x1a1c
+ .debug_abbrev  0x0000000000000000      0x29a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .debug_abbrev  0x000000000000029a      0x1ca /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_abbrev  0x0000000000000464      0x18b /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_abbrev  0x00000000000005ef       0x87 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_abbrev  0x0000000000000676       0xe0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_abbrev  0x0000000000000756       0x98 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+ .debug_abbrev  0x00000000000007ee      0x191 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_abbrev  0x000000000000097f       0xc2 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_abbrev  0x0000000000000a41      0x1d3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_abbrev  0x0000000000000c14       0xbf /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_abbrev  0x0000000000000cd3       0xcd /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_abbrev  0x0000000000000da0      0x106 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_abbrev  0x0000000000000ea6       0x29 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_abbrev  0x0000000000000ecf      0x1a4 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_abbrev  0x0000000000001073      0x164 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_abbrev  0x00000000000011d7      0x127 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_abbrev  0x00000000000012fe      0x1b3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_abbrev  0x00000000000014b1       0xe9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_abbrev  0x000000000000159a       0xee /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_abbrev  0x0000000000001688      0x21e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_abbrev  0x00000000000018a6       0x88 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_abbrev  0x000000000000192e       0xee /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+
+.debug_loc      0x0000000000000000     0x8244
+ .debug_loc     0x0000000000000000     0x8244 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+
+.debug_aranges  0x0000000000000000      0x1e0
+ .debug_aranges
+                0x0000000000000000      0x1e0 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+
+.debug_ranges   0x0000000000000000     0x18f8
+ .debug_ranges  0x0000000000000000     0x18f8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+
+.debug_line     0x0000000000000000     0x84a3
+ .debug_line    0x0000000000000000     0x6907 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .debug_line    0x0000000000006907      0x20a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_line    0x0000000000006b11      0x116 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_line    0x0000000000006c27       0xda /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_line    0x0000000000006d01      0x125 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_line    0x0000000000006e26       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+ .debug_line    0x0000000000006e60      0x168 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_line    0x0000000000006fc8      0x15f /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_line    0x0000000000007127      0x189 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_line    0x00000000000072b0       0xe7 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_line    0x0000000000007397      0x16a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_line    0x0000000000007501      0x10d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_line    0x000000000000760e      0x11d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_line    0x000000000000772b      0x1b1 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_line    0x00000000000078dc      0x141 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_line    0x0000000000007a1d       0xfb /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_line    0x0000000000007b18      0x185 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_line    0x0000000000007c9d      0x11f /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_line    0x0000000000007dbc       0xf7 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_line    0x0000000000007eb3      0x3de /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_line    0x0000000000008291       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_line    0x0000000000008379      0x12a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+
+.debug_str      0x0000000000000000     0xaee9
+ .debug_str     0x0000000000000000      0x13c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+                                        0x143 (size before relaxing)
+ .debug_str     0x000000000000013c     0x6c9c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+                                       0x6daf (size before relaxing)
+ .debug_str     0x0000000000006dd8      0x5a5 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+                                       0x4852 (size before relaxing)
+ .debug_str     0x000000000000737d      0x125 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+                                       0x4494 (size before relaxing)
+ .debug_str     0x00000000000074a2       0x79 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+                                       0x4878 (size before relaxing)
+ .debug_str     0x000000000000751b       0x6b /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+                                       0x2c39 (size before relaxing)
+ .debug_str     0x0000000000007586      0x1e3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+                                       0x50dd (size before relaxing)
+ .debug_str     0x0000000000007769       0xee /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+                                       0x57d9 (size before relaxing)
+ .debug_str     0x0000000000007857      0x1fa /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+                                       0x5605 (size before relaxing)
+ .debug_str     0x0000000000007a51      0x449 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+                                       0x4a8a (size before relaxing)
+ .debug_str     0x0000000000007e9a      0x151 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+                                       0x5585 (size before relaxing)
+ .debug_str     0x0000000000007feb      0x23f /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+                                       0x524d (size before relaxing)
+ .debug_str     0x000000000000822a        0xf /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+                                       0x5193 (size before relaxing)
+ .debug_str     0x0000000000008239      0x178 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+                                       0x624b (size before relaxing)
+ .debug_str     0x00000000000083b1      0x17d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+                                       0x493f (size before relaxing)
+ .debug_str     0x000000000000852e       0xfd /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+                                       0x4356 (size before relaxing)
+ .debug_str     0x000000000000862b      0x1b1 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+                                       0x58dc (size before relaxing)
+ .debug_str     0x00000000000087dc      0x106 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+                                       0x45dd (size before relaxing)
+ .debug_str     0x00000000000088e2       0xab /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+                                       0x49a1 (size before relaxing)
+ .debug_str     0x000000000000898d     0x24a9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+                                       0x8180 (size before relaxing)
+ .debug_str     0x000000000000ae36       0x35 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+                                       0x40b7 (size before relaxing)
+ .debug_str     0x000000000000ae6b       0x7e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+                                       0x45db (size before relaxing)
+
+.comment        0x0000000000000000       0x4d
+ .comment       0x0000000000000000       0x4d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+                                         0x4e (size before relaxing)
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .comment       0x000000000000004d       0x4e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
+
+.ARM.attributes
+                0x0000000000000000       0x28
+ .ARM.attributes
+                0x0000000000000000       0x28 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .ARM.attributes
+                0x0000000000000028       0x1a custom.o
+ .ARM.attributes
+                0x0000000000000042       0x1c /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uqi.o)
+ .ARM.attributes
+                0x000000000000005e       0x1c /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/thumb/nofp/libgcc.a(_thumb1_case_uhi.o)
+ .ARM.attributes
+                0x000000000000007a       0x2a /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+
+.debug_frame    0x0000000000000000      0x688
+ .debug_frame   0x0000000000000000      0x658 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//armcode.elf.hUb0Fy.ltrans0.ltrans.o
+ .debug_frame   0x0000000000000658       0x30 /Users/boo/Documents/software/gcc-arm-none-eabi-10-2020-q4-major/bin/../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/lib/thumb/nofp/libg.a(lib_a-memset.o)
+
+.debug_macro    0x0000000000000000     0x3117
+ .debug_macro   0x0000000000000000      0x19f /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x000000000000019f      0xa3c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000000bdb       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000000bfd       0x40 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000000c3d      0x4a3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x00000000000010e0       0xe8 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x00000000000011c8       0xf9 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x00000000000012c1       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x00000000000012d1       0x7a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x000000000000134b       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x000000000000136d       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x000000000000137d      0x685 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001a02       0x34 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001a36       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001a46       0x10 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001a56       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001a78       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001a8e       0x46 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001ad4       0x2e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001b02       0x3a /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001b3c       0x16 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvz6vFy.debug.temp.o
+ .debug_macro   0x0000000000001b52      0x1ac /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cctwOoZS.debug.temp.o
+ .debug_macro   0x0000000000001cfe       0xba /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_macro   0x0000000000001db8       0x74 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccAG2Kfl.debug.temp.o
+ .debug_macro   0x0000000000001e2c       0x73 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccSKnhek.debug.temp.o
+ .debug_macro   0x0000000000001e9f       0x1b /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccieBauv.debug.temp.o
+ .debug_macro   0x0000000000001eba       0xaa /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc3Dq3b7.debug.temp.o
+ .debug_macro   0x0000000000001f64       0x9f /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccNy7oUx.debug.temp.o
+ .debug_macro   0x0000000000002003       0xc7 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc4rT0KS.debug.temp.o
+ .debug_macro   0x00000000000020ca       0xed /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccwMt177.debug.temp.o
+ .debug_macro   0x00000000000021b7       0xa6 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccaXVczT.debug.temp.o
+ .debug_macro   0x000000000000225d       0xaf /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc6Bqz1d.debug.temp.o
+ .debug_macro   0x000000000000230c       0x69 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvszU62.debug.temp.o
+ .debug_macro   0x0000000000002375       0xd3 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccUaFzUM.debug.temp.o
+ .debug_macro   0x0000000000002448       0x8b /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccZvV4UZ.debug.temp.o
+ .debug_macro   0x00000000000024d3       0x65 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccfUHZ8t.debug.temp.o
+ .debug_macro   0x0000000000002538       0xd7 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccvXLT8W.debug.temp.o
+ .debug_macro   0x000000000000260f       0x82 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccQ2jI6R.debug.temp.o
+ .debug_macro   0x0000000000002691       0x54 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccR5UFxV.debug.temp.o
+ .debug_macro   0x00000000000026e5      0x1bb /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x00000000000028a0       0x22 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x00000000000028c2       0x5e /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000002920       0x94 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x00000000000029b4       0x51 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000002a05      0x174 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000002b79      0x333 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000002eac       0x7c /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000002f28       0x17 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000002f3f      0x118 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//cc2wLOB7.debug.temp.o
+ .debug_macro   0x0000000000003057       0x4d /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccft4FQb.debug.temp.o
+ .debug_macro   0x00000000000030a4       0x73 /var/folders/2m/tkjygvg91g76fx8wv6xqch6m0000gn/T//ccCB5gpl.debug.temp.o
