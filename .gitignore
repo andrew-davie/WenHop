@@ -4,3 +4,8 @@ silent
 *.o
 *.bin
 
+main/bin/armcode.elf
+main/bin/armcode.map
+main/bin/armcode.obj
+nohup.out
+main/defines_from_dasm_for_c.h
