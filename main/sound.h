@@ -85,7 +85,7 @@ struct trackInfo {
 
 #define TRACK_MAX 2
 #define VOLUME_NONPLAYING 312
-#define VOLUME_PLAYING 180
+#define VOLUME_PLAYING 256
 #define VOLUME_MAX 1024
 
 

@@ -205,7 +205,6 @@ void Scheduler();
 void processBoardSquares();
 void reanimateDiamond(unsigned char *this);
 void handleSelectReset();
-void phaseshiftDiamond(unsigned char *cell);
 void initNewGame();
 
 //extern int actualScore;

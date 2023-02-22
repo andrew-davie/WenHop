@@ -41,7 +41,7 @@ void initColours() {
 bool interleavedColour = false;
 void interleaveColour() {
 
-    interleavedColour = (enableICC != LEFT_DIFFICULTY_A);
+    interleavedColour = (enableICC == LEFT_DIFFICULTY_A);
 
     if (++roller > 2 || !interleavedColour)
         roller = 0;
@@ -299,7 +299,7 @@ void setPalette() {
             int rollx = roll;
             static const unsigned char scoreColour[] = { 0x46, 0x98, 0xD8, 0x46, 0x98, 0x28, 0x28, 0x28 };
 
-            if (enableICC == LEFT_DIFFICULTY_A)
+            if (enableICC != LEFT_DIFFICULTY_A)
                 rollx = 5;
 
             unsigned char cc0 = convertColour(scoreColour[rollx]);

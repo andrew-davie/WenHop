@@ -34,7 +34,7 @@ void initAmoeba() {
 void handleAmoeba() {
 
     if (!lastAmoebaCanGrow) {
-        *this = CH_DIAMOND;
+        *this = CH_DOGE_00;
         totalDiamondsPossible++;
         return;
     }

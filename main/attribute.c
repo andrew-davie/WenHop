@@ -23,9 +23,9 @@ const unsigned char CharToType[]= {
      TYPE_PEBBLE2,                // CH_PEBBLE2,                 // 13
      TYPE_EASTEREGG,              // CH_EASTEREGG                // 14
      TYPE_BOULDER,                // CH_BOULDER,                 // 15
-     TYPE_BOULDER,                // CH_BOULDER_FALLING,         // 16
-     TYPE_DIAMOND,                // CH_DIAMOND,                 // 17
-     TYPE_DIAMOND_FALLING,        // CH_DIAMOND_FALLING,         // 18
+     TYPE_BOULDER_FALLING,        // CH_BOULDER_FALLING,         // 16
+     TYPE_DIAMOND,                // CH_DOGE_00,                 // 17
+     TYPE_DOGE_FALLING,           // CH_DOGE_FALLING,            // 18
      TYPE_EXPLODE_DIAMOND_0,      // CH_EXPLODETODIAMOND1,       // 19
      TYPE_EXPLODE_DIAMOND_1,      // CH_EXPLODETODIAMOND2,       // 20
      TYPE_EXPLODE_DIAMOND_2,      // CH_EXPLODETODIAMOND3,       // 21
@@ -52,16 +52,19 @@ const unsigned char CharToType[]= {
      TYPE_DIAMOND_PULSE_5,        // CH_DIAMOND_PULSE_5,         // 42
      TYPE_DIAMOND_PULSE_6,        // CH_DIAMOND_PULSE_6,         // 43
      TYPE_DIAMOND_STATIC,         // CH_DIAMOND_STATIC,          // 44
-     TYPE_SPACE,                  // CH_SPARKLE_0                // 45
-     TYPE_SPACE,                  // CH_SPARKLE_1                // 46
-     TYPE_SPACE,                  // CH_SPARKLE_2                // 47
+     TYPE_LADDER,                                                // 45
+     TYPE_LADDER,                                                // 46
+     TYPE_LADDER,                                                // 47
+     // TYPE_SPACE,                  // CH_SPARKLE_0                // 45
+     // TYPE_SPACE,                  // CH_SPARKLE_1                // 46
+     // TYPE_SPACE,                  // CH_SPARKLE_2                // 47
      TYPE_SPACE,                  // CH_SPARKLE_3                // 48
      TYPE_EXPLODE_BLANK_0,        // CH_EXPLODETOBLANK_0,        // 49
      TYPE_EXPLODE_BLANK_1,        // CH_EXPLODETOBLANK_1,        // 50
      TYPE_EXPLODE_BLANK_2,        // CH_EXPLODETOBLANK_2,        // 51
      TYPE_EXPLODE_BLANK_3,        // CH_EXPLODETOBLANK_3,        // 52
      TYPE_EXPLODE_BLANK_4,        // CH_EXPLODETOBLANK_4,        // 53
-     TYPE_DIAMOND_GRAB,           // CH_DIAMOND_GRAB,            // 54
+     TYPE_DIAMOND_GRAB,           // CH_DOGE_GRAB,               // 54
      TYPE_DIAMOND_WITHOUT_DIRT,   // CH_DIAMOND_WITHOUT_DIRT,    // 55
      TYPE_DUST_0,                 // CH_DUST_0,                  // 56
      TYPE_DUST_1,                 // CH_DUST_1,                  // 57
@@ -73,30 +76,28 @@ const unsigned char CharToType[]= {
      TYPE_DUST_RIGHT,             // CH_DUST_RIGHT_1             // 63
 
      TYPE_BOULDER,                                               // 64
-     TYPE_BOULDER,                                             // 65
-     TYPE_BOULDER,                                             // 66
-     TYPE_BOULDER,                                             // 67
-     TYPE_BOULDER,                                             // 68
-     TYPE_BOULDER,                                             // 69
-     TYPE_BOULDER,                                             // 70
-     TYPE_BOULDER,                                             // 71
-     TYPE_BOULDER,                                             // 72
-     TYPE_BOULDER,                                             // 73
-     TYPE_BOULDER,                                             // 74
-     TYPE_BOULDER,                                             // 75
-     TYPE_BOULDER,                                             // 76
-     TYPE_BOULDER,                                             // 77
-     TYPE_BOULDER,                                             // 78
-     TYPE_BOULDER,                                             // 79
+     TYPE_BOULDER,                                               // 65
+     TYPE_BOULDER,                                               // 66
+     TYPE_BOULDER,                                               // 67
+     TYPE_BOULDER,                                               // 68
+     TYPE_BOULDER,                                               // 69
+     TYPE_BOULDER,                                               // 70
+     TYPE_BOULDER,                                               // 71
+     TYPE_BOULDER,                                               // 72
+     TYPE_BOULDER,                                               // 73
+     TYPE_BOULDER,                                               // 74
+     TYPE_BOULDER,                                               // 75
+     TYPE_BOULDER,                                               // 76
+     TYPE_BOULDER,                                               // 77
+     TYPE_BOULDER,                                               // 78
+     TYPE_BOULDER,                                               // 79
 
+     TYPE_BOULDER_FALLING,                                       // 80     broken
+     TYPE_BOULDER_FALLING,                                       // 81     broken2
 
-
-// #if __ENABLE_LAVA
-// TYPE_LAVA,                   // CH_LAVA                     // 69
-// TYPE_LAVA,                   // CH_LAVA                     // 70
-// TYPE_LAVA,                   // CH_LAVA                     // 71
-// TYPE_LAVA,                   // CH_LAVA                     // 72
-// #endif
+     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_0,                  // 82
+     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_1,                  // 83
+     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_2,                  // 84
 
 // #if __ENABLE_WATER
 // TYPE_WATER,                  // CH_WATER                    // 73
@@ -197,8 +198,13 @@ const short Attribute[] = {
      _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ |XPD| _ |ROL , // 39 TYPE_BOULDER_SHAKE
      _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 40 TYPE_DUST_LEFT
      _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 41 TYPE_DUST_RIGHT
-     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 42 TYPE_DIAMOND_FALLING
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 42 TYPE_DOGE_FALLING
      _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG|GRB| _ | _ |XPD| _ |ROL , // 43 TYPE_DIAMOND2
+     _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 44 TYPE_BOULDER_FALLING
+
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 45 TYPE_LADDER
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 45 TYPE_DUST_ROCK
+
 
 #if __ENABLE_LAVA
      _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 47 LAVA

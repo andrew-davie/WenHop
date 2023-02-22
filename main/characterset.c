@@ -13,7 +13,6 @@
 
 
 static unsigned char char_parallaxBlank[PIECE_DEPTH];
-static unsigned char char_Diamond_Falling[PIECE_DEPTH];
 static unsigned char char_Dust_2[PIECE_DEPTH];
 static unsigned char char_DustLeft_1[PIECE_DEPTH];
 static unsigned char char_DustRight_1[PIECE_DEPTH];
@@ -23,7 +22,7 @@ static unsigned char char_uncover[PIECE_DEPTH];
 
 void createParallaxCharset() {
 
-    return;
+//    return;
 
     static int lastX = -1;
     static int lastY = -1;
@@ -56,11 +55,10 @@ void createParallaxCharset() {
 
             for (int i = 0; i < PIECE_DEPTH; i++) {
 
-                int pb = char_parallaxBlank[i] =
-                    lastParallax ? ((((const unsigned char *const)__CHAR_PARALLAX_TEMPLATE)[yOffset]
-                        >> offset) & 0xF) : 0;
+                int pb = char_parallaxBlank[i] = 0;
+//                    lastParallax ? ((((const unsigned char *const)__CHAR_PARALLAX_TEMPLATE)[yOffset]
+//                        >> offset) & 0xF) : 0;
 
-                char_Diamond_Falling[i]   = pb | ((unsigned char *)__CHAR_DIAMOND_FALLING)[i];
                 char_Dust_2[i]      = pb | ((unsigned char *)__CHAR_DUST_2)[i];
                 char_DustLeft_1[i]  = pb | ((unsigned char *)__CHAR_DUST_LEFT_1)[i];
                 char_DustRight_1[i] = pb | ((unsigned char *)__CHAR_DUST_RIGHT_1)[i];
@@ -102,8 +100,8 @@ const unsigned char *const charSet[] = {
     C(__CHAR_STEELWALL),                            // 14  CH_EASTEREGG
     C(__CHAR_BOULDER),                              // 15  CH_BOULDER
     C(__CHAR_BOULDER),                              // 16  CH_BOULDER_FALLING
-    C(__CHAR_DIAMOND),                              // 17  CH_DIAMOND (RAM)
-    C(char_Diamond_Falling),                        // 18  CH_DIAMOND_FALLING
+    C(__CHAR_DOGE_00),                              // 17  CH_DIAMOND (RAM)
+    C(__CHAR_DOGE_00),                              // 18  CH_DOGE_FALLING
     C(__CHAR_EXPLODETO_0),                          // 19  CH_EXPLODETODIAMOND_0
     C(__CHAR_EXPLODETO_1),                          // 20  CH_EXPLODETODIAMOND_1
     C(__CHAR_EXPLODETO_2),                          // 21  CH_EXPLODETODIAMOND_2 
@@ -122,25 +120,30 @@ const unsigned char *const charSet[] = {
     C(__CHAR_AMOEBA_2),                             // 34
     C(__CHAR_AMOEBA_3),                             // 35
     C(__CHAR_BLANK),                                // 36  CH_ROCKFORD (RAM)
-    C(__CHAR_DIAMOND),                              // 37  CH_DIAMOND_PULSE_0 (RAM)
-    C(__CHAR_DIAMOND_0),                            // 38  CH_DIAMOND_PULSE_1 (RAM)
-    C(__CHAR_DIAMONDx2),                            // 39  CH_DIAMOND_PULSE_2 (RAM)
-    C(__CHAR_DIAMONDx3),                            // 40  CH_DIAMOND_PULSE_3 (RAM)
-    C(__CHAR_DIAMONDx4),                            // 41  CH_DIAMOND_PULSE_4 (RAM)
+    C(__CHAR_DOGE_01),                              // 37  CH_DIAMOND_PULSE_0 (RAM)
+    C(__CHAR_DOGE_02),                              // 38  CH_DIAMOND_PULSE_1 (RAM)
+    C(__CHAR_DOGE_03),                              // 39  CH_DIAMOND_PULSE_2 (RAM)
+    C(__CHAR_DOGE_04),                              // 40  CH_DIAMOND_PULSE_3 (RAM)
+    C(__CHAR_DOGE_05),                              // 41  CH_DIAMOND_PULSE_4 (RAM)
     C(__CHAR_BLANK),                                // 42  CH_DIAMOND_PULSE_5  TYPE-HOLDER ONLY
     C(__CHAR_BLANK),                                // 43  CH_DIAMOND_PULSE_6  TYPE-HOLDER ONLY
-    C(__CHAR_DIAMOND),                              // 44  CH_DIAMOND_STATIC (RAM) can switch animations
-    C(__CHAR_SPARKLE_0),                            // 45  CH_SPARKLE_0
-    C(__CHAR_SPARKLE_1),                            // 46  CH_SPARKLE_1
-    C(__CHAR_SPARKLE_2),                            // 47  CH_SPARKLE_2
+    C(__CHAR_DOGE_00),                              // 44  CH_DIAMOND_STATIC (RAM) can switch animations
+
+    C(__CHAR_LADDER_0),                             // 45  CH_LADDER_0
+    C(__CHAR_LADDER_1),                             // 46  CH_LADDER_1
+    C(__CHAR_LADDER_2),                             // 47  CH_LADDER_2
+
+    // C(__CHAR_SPARKLE_0),                            // 45  CH_SPARKLE_0
+    // C(__CHAR_SPARKLE_1),                            // 46  CH_SPARKLE_1
+    // C(__CHAR_SPARKLE_2),                            // 47  CH_SPARKLE_2
     C(__CHAR_SPARKLE_3),                            // 48  CH_SPARKLE_3
     C(__CHAR_EXPLODETO_0),                          // 49  CH_EXPLODETOBLANK_0
     C(__CHAR_EXPLODETO_1),                          // 50  CH_EXPLODETOBLANK_1
     C(__CHAR_EXPLODETO_2),                          // 51  CH_EXPLODETOBLANK_2
     C(__CHAR_EXPLODETO_3),                          // 52  CH_EXPLODETOBLANK_3
     C(__CHAR_EXPLODETO_4),                          // 53  CH_EXPLODETOBLANK_4
-    C(__CHAR_DIAMOND_GRABBED),                      // 54  CH_DIAMOND_GRAB
-    C(char_Diamond_Falling),                        // 55  CH_DIAMOND_WITHOUT_DIRT
+    C(__CHAR_DOGE_02),                              // 54  CH_DIAMOND_GRAB
+    C(__CHAR_DOGE_00),                              // 55  CH_DIAMOND_WITHOUT_DIRT
     C(__CHAR_DUST_0),                               // 56  CH_DUST_0
     C(__CHAR_DUST_1),                               // 57  CH_DUST_1
     C(char_Dust_2),                                 // 58  CH_DUST_2 (RAM)
@@ -170,6 +173,12 @@ const unsigned char *const charSet[] = {
     C(__CHAR_BOULDER_RDL),                          // 78  CH_BOULDER  14
     C(__CHAR_BOULDER_URDL),                         // 79  CH_BOULDER  15
 
+    C(__CHAR_BOULDER_BROKEN),                       // 80  CH_BOULDER_BROKEN
+    C(__CHAR_BOULDER_BROKEN),                       // 81  CH_BOULDER_BROKEN2
+
+    C(__CHAR_DUST_ROCK_0),                          // 82  CH_DUST_ROCK_0
+    C(__CHAR_DUST_ROCK_1),                          // 83  CH_DUST_ROCK_1
+    C(__CHAR_DUST_ROCK_2),                          // 84  CH_DUST_ROCK_1
 
 
 #if __ENABLE_LAVA

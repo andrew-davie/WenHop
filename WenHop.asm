@@ -18,7 +18,7 @@ __ENABLE_LAVA = 0
  IF __ENABLE_TRAINER == 1
 __ENABLE_DEMO = 0       ; 260 bytes + joystick data (DO NOT ADJUST)
  ELSE
-__ENABLE_DEMO = 1       ; 260 bytes + joystick data (adjust this on/off as required)
+__ENABLE_DEMO = 0;1       ; 260 bytes + joystick data (adjust this on/off as required)
 
  ENDIF
  

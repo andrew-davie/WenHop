@@ -182,7 +182,8 @@ void chooseIdleAnimation() {
 
 void grabDiamond(unsigned char *where) {
 
-    *where = CH_DIAMOND_GRAB | FLAG_THISFRAME;
+    // TODO
+    *where = CH_DOGE_GRAB | FLAG_THISFRAME;
 
     startCharAnimation(TYPE_DIAMOND_GRAB, AnimateBase[TYPE_DIAMOND_GRAB]);
 
@@ -222,7 +223,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
         triggerPressCounter = 999;
 
-        if (destType == TYPE_DIAMOND_FALLING && dir < 2) {
+        if (destType == TYPE_DOGE_FALLING && dir < 2) {
             grabDiamond(thisOffset);
             startPlayerAnimation(newSnatch[dir]);
             handled = true;
@@ -335,12 +336,13 @@ bool checkLowPriorityMove(int dir, int blanker) {
     unsigned char *thisOffset = this + offset;
     unsigned char destType = CharToType[(*thisOffset) & 0x7F]; 
 
+    #if 1  // disable push
     if (faceDirection[dir] && (Attribute[destType] & ATT_PUSH)
         && !(Attribute[CharToType[(*(thisOffset + 40)) & 0x7F]] & ATT_BLANK)) {
 
         
         if (++pushCounter > 1) {
-            *thisOffset = CH_BOULDER_SHAKE | FLAG_THISFRAME; //((rockfordFaceDirection > 0) ? FLAG_THISFRAME : 0);
+//            *thisOffset = CH_BOULDER_SHAKE | FLAG_THISFRAME; //((rockfordFaceDirection > 0) ? FLAG_THISFRAME : 0);
             if (playerAnimationID != ID_Push)
                 startPlayerAnimation(ID_Push);
         }
@@ -349,26 +351,31 @@ bool checkLowPriorityMove(int dir, int blanker) {
             startPlayerAnimation(ID_Locked);          // works nicely as start of push
         }
 
-        if ((pushCounter > 20 || ((pushCounter > 5 && (
+        if (pushCounter > 8)
+        // || ((pushCounter > 5 && (
 #if __ENABLE_DEMO
             demoMode || 
 #endif
-            rndX < (5 << 24)))))
-            && (Attribute[CharToType[GET(*(this + 2 * offset))]] & ATT_BLANK)) {
+          //  rndX < (5 << 24))))))
+//            && (Attribute[CharToType[GET(*(this + 2 * offset))]] & ATT_BLANK))
+        {
 
+            //FLASH(0xC2,4);
             pushCounter = 2;
 
-            *(this + 2 * offset) = CH_BOULDER_SHAKE | FLAG_THISFRAME;
+            ADDAUDIO(SFX_EXPLODE);
+//            *(this + 2 * offset) = CH_BOULDER_SHAKE | FLAG_THISFRAME;
             if (JOY0_FIRE) {
-                startPlayerAnimation(ID_EndPush2);
-                *thisOffset = blanker;
+                //startPlayerAnimation(ID_EndPush2);
+                *thisOffset = CH_DUST_ROCK_0; //blanker;
             }
             else {
-                rockfordX += offset;
-                *thisOffset = CH_ROCKFORD;
-                *this = blanker;
+                //rockfordX += offset;
+                *thisOffset = CH_DUST_ROCK_0; // CH_ROCKFORD;
+                //*this = blanker;
             }
-
+//            startCharAnimation(TYPE_BOULDER_FALLING, AnimBrokenBoulder);
+ 
             if (rockfordFaceDirection > 0) {
                 this += 2;
                 boardCol += 2;                      // SKIP processing it!
@@ -388,6 +395,8 @@ bool checkLowPriorityMove(int dir, int blanker) {
     }
 
     else
+
+    #endif
         startPlayerAnimation(ID_Locked);
 
     return handled;
@@ -489,7 +498,7 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
     
-    if (*(this - 40) == (CH_DIAMOND_FALLING | FLAG_THISFRAME)
+    if (*(this - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME)
         || *(this - 40) == (CH_BOULDER_FALLING | FLAG_THISFRAME)) {
         SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);

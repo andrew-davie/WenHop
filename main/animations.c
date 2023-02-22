@@ -1,3 +1,4 @@
+#include "attribute.h"
 #include "main.h"
 #include "animations.h"
 #include "random.h"
@@ -8,7 +9,7 @@ char AnimCount[TYPE_MAX];
 
 static const char AnimGrab[] = {
 
-    CH_DIAMOND_GRAB,8,
+    CH_DOGE_GRAB,8, //_GRAB,8,
     CH_DUST_2, 6,
     CH_DUST_1, 6,
     CH_DUST_0, 6,
@@ -16,6 +17,16 @@ static const char AnimGrab[] = {
 
 
 };
+
+// const char AnimBrokenBoulder[] = {
+//     CH_BLANK,3,
+//     CH_BOULDER,6,
+//     CH_BLANK,3,
+//     CH_BOULDER,6,
+//     CH_DUST_ROCK_0, 9,
+//     CH_DUST_ROCK_1, 9,
+//     CH_DUST_ROCK_2, ANIM_HALT,
+// };
 
 static const char AnimMagicWall[] = {
     
@@ -48,14 +59,17 @@ static const char AnimFirefly[] = {
 
 static const char AnimPulseDiamond0[] = {
 
-    CH_DIAMOND,ANIM_RNDSPEED,
+    CH_DOGE_00, 12, //ANIM_RNDSPEED,
+    CH_DOGE_01, 8,
+    CH_DOGE_02, 5,
+    CH_DOGE_03, 4,
+    CH_DOGE_04, 5,
+    CH_DOGE_05, 8,
 
-    CH_DIAMOND_PULSE_0,5,
-    CH_DIAMOND_PULSE_1,4,
-    CH_DIAMOND_PULSE_2,3,
-    CH_DIAMOND_PULSE_3,2,
-    CH_DIAMOND_STATIC,2,
-    CH_DIAMOND_PULSE_4,5,
+    CH_DOGE_04, 5,
+    CH_DOGE_03, 4,
+    CH_DOGE_02, 5,
+    CH_DOGE_01, 8,
 
     ANIM_LOOP
 };
@@ -86,7 +100,7 @@ static const char AnimRockford[] = {
     // @20...   see grab in rockford.c
 
     CH_DIAMOND_WITHOUT_DIRT, 3,
-    CH_DIAMOND_GRAB,8,
+    CH_DOGE_GRAB,8,
 
     CH_ROCKFORD, ANIM_HALT
 
@@ -143,8 +157,10 @@ const char *const AnimateBase[TYPE_MAX] = {
     0,                          // 39 TYPE_BOULDER_SHAKE
     0,                          // 40 TYPE_DUST_LEFT
     0,                          // 41 TYPE_DUST_RIGHT
-    0,                          // 42 TYPE_DIAMOND_FALLING
-    0,                          // 43 TYPE_DIAMOND_WITHO
+    0,                          // 42 TYPE_DOGE_FALLING
+    0,                          // 43 TYPE_DIAMOND_WITHOT_DIRT
+    0,                          // 44 TYPE_BOULDER_FALLING
+    0,                          // 45 TYPE_LADDER
 
 
 #if __ENABLE_LAVA    
@@ -170,7 +186,7 @@ void startCharAnimation(int type, const char *idx) {
 
     if (idx) {
 
-        if (*idx  == ANIM_LOOP)
+        if ((*idx)  == ANIM_LOOP)
             idx = AnimateBase[type];
 
         Animate[type] = idx++;

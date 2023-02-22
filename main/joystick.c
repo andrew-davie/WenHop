@@ -34,7 +34,9 @@ void initDemoMode(bool mode) {
     #endif
 
     #if CIRCLE
+    #if __ENABLE_DEMO
     demoCircleTriggered = false;
+    #endif
     #endif
 }
 

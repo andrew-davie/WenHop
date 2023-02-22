@@ -1,5 +1,6 @@
 #include <stdbool.h>
 
+#include "attribute.h"
 #include "defines_cdfj.h"
 #include "defines_from_dasm_for_c.h"
 
@@ -328,7 +329,7 @@ void initNextLife() {
 #endif
     
     uncoverTimer = 25;
-    ADDAUDIO(SFX_UNCOVER);
+//    ADDAUDIO(SFX_UNCOVER);
 
     uncoverCount = 880;
 
@@ -502,6 +503,7 @@ void drawWord(const unsigned char *string, int y) {
 
 
 void drawOverlayWords() {
+ return; //tmp
 
     togt++;
 
@@ -1103,14 +1105,16 @@ void conglomerate() {
 
         *this = CH_CONGLOMERATE;
 
-        if (Attribute[CharToType[*(this - 40)]] & ATT_PUSH)
-            *this += 1;
-        if (Attribute[CharToType[*(this + 1)]] & ATT_PUSH)
-            *this += 2;
-        if (Attribute[CharToType[*(this + 40)]] & ATT_PUSH)
-            *this += 4;
-         if (Attribute[CharToType[*(this - 1)]] & ATT_PUSH)
-           *this += 8;
+        const int dir[] = { -40, 40, -1, 1 };
+        const int merge[] = { 1, 4, 8, 2 };
+
+        for (int i = 0; i < 4; i++) {
+
+            int type = CharToType[GET(*(this + dir[i]))];
+            if (Attribute[type] & ATT_PUSH) {
+                *this |= merge[i];
+            }
+        }
     }
 }
 
@@ -1161,7 +1165,7 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
             unsigned char type = CharToType[GET(*cell)];
             if (Attribute[type] & ATT_EXPLODABLE) {
                 *cell = explosionShape;
-                if (explosionShape == CH_DIAMOND)
+                if (explosionShape == CH_DOGE_00)
                     totalDiamondsPossible++;
             }
             if (type == TYPE_ROCKFORD)
@@ -1276,18 +1280,25 @@ void doRoll(unsigned char *this, unsigned char creature) {
 
 
 
-void phaseshiftDiamond(unsigned char *cell) {
+void chainReactDoge() {
 
-    int type = CharToType[GET(*cell)];
-    if (Animate[type] && *Animate[type] == CH_DIAMOND) {
-        
-        unsigned char dType = ((rndX & 0xFF) * 7) >> 8;
-        unsigned char pulsarType = TYPE_DIAMOND_PULSE_0 + dType;
-        if (Animate[pulsarType] && *Animate[pulsarType] == CH_DIAMOND)
-            *cell = CH_DIAMOND_PULSE_0 + dType;
+    const int dir[] = { -40, 40, -1, 1 };
+    for (int i = 0; i < 4; i++) {
+
+        int type = CharToType[GET(*(this + dir[i]))];
+        if (Attribute[type] & ATT_PUSH) {
+            *(this + dir[i]) = CH_DUST_ROCK_2;
+
+    static int audiox[] = { SFX_DIAMOND, SFX_DIAMOND2, SFX_DIAMOND3 };
+    static int auds = 0;
+
+            if (++auds > 2)
+                auds = 0;
+
+            ADDAUDIO(audiox[auds]);
+        }
     }
 }
-
 
 
 void processBoardSquares() {
@@ -1295,8 +1306,19 @@ void processBoardSquares() {
     #define blanker (CH_DUST_0 | FLAG_THISFRAME)
 
     // int lastCreature = 12345;
+        if (!(getRandom32() & 0xFF)) {
+         
+            if (sound_max_volume)
+                sound_max_volume = 0;
+            else
+                sound_max_volume = VOLUME_PLAYING;
+        }
+
 
     while (true) {
+
+
+
 
 //        if (T1TC >= availableIdleTime) {
 //            setScore(lastCreature);
@@ -1465,10 +1487,6 @@ void processBoardSquares() {
     #endif // ENABLE_LAVA
 
 
-        if (!(rndX & 3) && Attribute[CharToType[GET(creature)]] & ATT_GRAB)
-            phaseshiftDiamond(this);
-
-
 //        if (uncoverTimer <= 0) {
 
 //            *this &= ~FLAG_UNCOVER;
@@ -1477,7 +1495,7 @@ void processBoardSquares() {
 
                 unsigned char type = CharToType[creature]; 
                 
-                if (Attribute[type] & ATT_ACTIVE)
+                if (Attribute[type] & ATT_ACTIVE) {
                     switch (type) {
 
                     case TYPE_AMOEBA:
@@ -1555,12 +1573,24 @@ void processBoardSquares() {
                     
                     switch (creature) {
 
+                    case CH_BOULDER_BROKEN:
+                        if (*Animate[TYPE_BOULDER_FALLING] == CH_DUST_ROCK_2) {                         
+                            *this = CH_DUST_ROCK_2;
+                        }
+                        break;
+
+
+                    case CH_DUST_ROCK_2:
+                        *this = CH_DOGE_00;
+                        break;
+
                     case CH_DUST_0:
                     case CH_DUST_1:
                     case CH_DUST_RIGHT_0:
                     case CH_DUST_LEFT_0:
-
-                        *this = (creature + 1);
+                    case CH_DUST_ROCK_0:
+                    case CH_DUST_ROCK_1:
+                        (*this)++;
                         break;
 
                     case CH_EXPLODETODIAMOND_0:
@@ -1579,44 +1609,44 @@ void processBoardSquares() {
                         break;
 
                     case CH_EXPLODETODIAMOND_4:
-                        *this = CH_DIAMOND_WITHOUT_DIRT;
+                        *this = CH_DOGE_00; //CH_DIAMOND_WITHOUT_DIRT;
 
                         __attribute__ ((fallthrough));
 
 
-                    case CH_DIAMOND_WITHOUT_DIRT:
+//                    case CH_DIAMOND_WITHOUT_DIRT:
 
 
-                    case CH_DIAMOND:
-                    case CH_DIAMOND_STATIC:
-                    case CH_DIAMOND_PULSE_0:
-                    case CH_DIAMOND_PULSE_1:
-                    case CH_DIAMOND_PULSE_2:
-                    case CH_DIAMOND_PULSE_3:
-                    case CH_DIAMOND_PULSE_4:
-                    case CH_DIAMOND_PULSE_5:
-                    case CH_DIAMOND_PULSE_6: {
+                    // case CH_DIAMOND:
+                    // case CH_DIAMOND_STATIC:
+                    // case CH_DIAMOND_PULSE_0:
+                    // case CH_DIAMOND_PULSE_1:
+                    // case CH_DIAMOND_PULSE_2:
+                    // case CH_DIAMOND_PULSE_3:
+                    // case CH_DIAMOND_PULSE_4:
+                    // case CH_DIAMOND_PULSE_5:
+                    // case CH_DIAMOND_PULSE_6: {
 
+                    case CH_DOGE_00:
+                    case CH_DOGE_01:
+                    case CH_DOGE_02:
+                    case CH_DOGE_03:
+                    case CH_DOGE_04:
+                    case CH_DOGE_05:
+                    case CH_DOGE_06: {
+
+                        chainReactDoge();
 
                         int attrNext = Attribute[CharToType[GET(*next)]]; 
 
-
                         if (attrNext & ATT_BLANK) {
-
-                            //if (creature != CH_DIAMOND_WITHOUT_DIRT)
-                                *this = CH_DUST_0 | FLAG_THISFRAME;
-                            //else
-                            //    *this = CH_BLANK | FLAG_THISFRAME;
-                            *next = CH_DIAMOND_FALLING | FLAG_THISFRAME;
-
+                            *this = CH_DUST_0 | FLAG_THISFRAME;
+                            *next = CH_DOGE_FALLING | FLAG_THISFRAME;
                             break;
                         }
 
-                        // if (creature != CH_DIAMOND_WITHOUT_DIRT && !(rndX & 3))
-                        //     phaseshiftDiamond(this);
-
                         if (attrNext & ATT_ROLL)
-                            doRoll(this, CH_DIAMOND_FALLING);
+                            doRoll(this, CH_DOGE_FALLING);
 
                         break;
                     }
@@ -1641,9 +1671,7 @@ void processBoardSquares() {
                     case CH_CONGLOMERATE_13:                    
                     case CH_CONGLOMERATE_14:                    
                     case CH_CONGLOMERATE_15:                    
-                    
-                    
-                     {
+                    {
 
                         unsigned char typeDown = CharToType[GET(*next)];
                         
@@ -1670,8 +1698,11 @@ void processBoardSquares() {
                         break;
                     }
 
-                    case CH_DIAMOND_FALLING:
+                    case CH_DOGE_FALLING:
                     case CH_BOULDER_FALLING: {
+
+                        // *this = CH_BOULDER_FALLING;
+                        // break;
 
                         unsigned char typeDown = CharToType[GET(*next)];
 
@@ -1685,7 +1716,7 @@ void processBoardSquares() {
                             typeDown = CharToType[downCh];
                             int attNextNext = Attribute[typeDown];
 
-                            if (downCh != CH_BOULDER_FALLING && downCh != CH_DIAMOND_FALLING) {
+                            if (downCh != CH_BOULDER_FALLING && downCh != CH_DOGE_FALLING) {
                                 
                                 int sfx = 0;
 
@@ -1702,8 +1733,8 @@ void processBoardSquares() {
 
                                         sfx = SFX_ROCK;
 
-                                        if (typeDown == TYPE_BOULDER)
-                                            *nextNext = CH_BOULDER_SHAKE | FLAG_THISFRAME;
+                                        // if (typeDown == TYPE_BOULDER)
+                                        //     *nextNext = CH_BOULDER_SHAKE | FLAG_THISFRAME;
 
                                         *next = CH_BOULDER_SHAKE | FLAG_THISFRAME;
             
@@ -1735,7 +1766,7 @@ void processBoardSquares() {
                         else if (typeDown == TYPE_MAGICWALL) {
 
                             int sfx = SFX_ROCK;;
-                            unsigned char trnsf = CH_DIAMOND_FALLING | FLAG_THISFRAME;
+                            unsigned char trnsf = CH_DOGE_FALLING | FLAG_THISFRAME;
 
                             if (millingTime && !magicWallActive) {
                                 magicWallActive = true;
@@ -1743,7 +1774,7 @@ void processBoardSquares() {
                                 ADDAUDIO(SFX_MAGIC);
                             }
 
-                            if (*this == CH_DIAMOND_FALLING) {
+                            if (*this == CH_DOGE_FALLING) {
                                 sfx = SFX_DIAMOND;
                                 trnsf = CH_BOULDER_FALLING | FLAG_THISFRAME;
                             }
@@ -1769,8 +1800,8 @@ void processBoardSquares() {
                                 break;
                             }
 
-                            case CH_DIAMOND_FALLING: {
-                                *this = CH_DIAMOND_WITHOUT_DIRT;
+                            case CH_DOGE_FALLING: {
+                                *this = CH_DOGE_00;
                                 sfx = SFX_DIAMOND; //att & ATT_HARD ? SFX_DIAMOND : SFX_DIAMOND;
                                 break;
                             }
@@ -1820,7 +1851,7 @@ void processBoardSquares() {
                         break;
 
 
-                    case CH_DIAMOND_GRAB:
+                    case CH_DOGE_GRAB:
                         if (*Animate[TYPE_DIAMOND_GRAB] == CH_BLANK)
                              *this = CH_BLANK;
                         break;
@@ -1834,7 +1865,7 @@ void processBoardSquares() {
                     default:
                         break;
                     }
-        //    }
+            }
     }
 
     // Clear any "scanned this frame" objects on the previous line

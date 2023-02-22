@@ -184,11 +184,11 @@ void Scroll() {
     if (displayMode == DISPLAY_HALF) {
 
         maxX = 0x140000;
-        maxY = 0x660000;
+        maxY = 0x660000 - 0x100000;
     }
     else {
         maxX = SCROLL_MAXIMUM_X;
-        maxY = (14 * PIECE_DEPTH / 3 - 3) << 16;
+        maxY = (13 * PIECE_DEPTH / 3 - 3) << 16;
     }
 
 

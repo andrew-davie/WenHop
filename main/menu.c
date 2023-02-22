@@ -321,6 +321,7 @@ static char bBase[BUT];
 
 
 void doDrawBitmap(const unsigned char *shape, int x, int y) {
+ return;
 
     unsigned char *pf1L = RAM + _BUF_MENU_PF1_LEFT + y;
     unsigned char *pf2L = pf1L + _ARENA_SCANLINES; // RAM + _BUF_MENU_PF2_LEFT + y;
@@ -380,7 +381,7 @@ void doDrawBitmap(const unsigned char *shape, int x, int y) {
 
 #if ENABLE_ANIMATING_MAN
 void doRockford() {
-
+ return;
 
     if (pushCount > 0) {
         pushCount--;
@@ -405,7 +406,7 @@ void doRockford() {
 
 
 void doButterflies(int marginL, int marginR, int marginT, int marginB) {
- 
+ return;
     static int butFlap = 0;
 
     static int localRoller = 0;
@@ -1018,7 +1019,7 @@ void drawCharacter(int x, int y, int ch) {
 
 
 void drawString(int x, int y, const char *text, int colour) {
-
+ return; //tmp
     while (*text && x < 6)
         drawCharacter(x++, y, *text++);
 
@@ -1172,7 +1173,7 @@ void handleMenuScreen() {
         break;
     }
 
-    drawSmallString(y, smallWord[sline]);
+//tmp    drawSmallString(y, smallWord[sline]);
 
 
 #if ENABLE_EASTER_MYNAME
@@ -1197,7 +1198,7 @@ void handleMenuScreen() {
     unsigned char *pf1L = RAM + _BUF_MENU_PF1_LEFT;
     for (int i = 0; i < _ARENA_SCANLINES * 4; i += 3) {
         for (int icc = 0; icc < 3; icc++) {
-            pf1L[icc] = logo0a[roller];
+            pf1L[icc] = 0; //logo0a[roller];
             if (++roller > 2)
                 roller = 0;
         }
@@ -1315,10 +1316,10 @@ void initKernel(int kernel) {
         decodeCave(cave);
         loadPalette();
  
-        static const char caveWord[] = "CAVE";
-        drawString(1, 35, caveWord, bgPalette[0] + 0x80);
-        doubleSize(2, 56, '1' + level);
-        doubleSize(0, 56, 'A' + cave);
+        // static const char caveWord[] = "CAVE";
+        // drawString(1, 35, caveWord, bgPalette[0] + 0x80);
+        // doubleSize(2, 56, '1' + level);
+        // doubleSize(0, 56, 'A' + cave);
 
 
         break;
@@ -1367,7 +1368,7 @@ void MenuOverscan() {
         //     enableICC = LEFT_DIFFICULTY_A;
         // }
 
-        if (!--mustWatchDelay)
+//tmp        if (!--mustWatchDelay)
             initKernel(KERNEL_MENU);
         break;
 
@@ -1379,8 +1380,8 @@ void MenuOverscan() {
 
         interleaveColour();
         processCharAnimations();
-        initIconPalette();
-        drawIconScreen(0, 12);
+//tmp        initIconPalette();
+//tmp        drawIconScreen(0, 12);
 
 
         if (!caveUnpackComplete) {
@@ -1393,16 +1394,6 @@ void MenuOverscan() {
                 caveUnpackComplete = !decodeExplicitData(true);
             }
 
-        }
-
-        // sparkle diamonds tilt
-        static int cell = 40;
-        for (int i = 0; i < 32; i++) {
-            if (++cell >= 840)
-                cell = 40;
-
-            rndX = (rndX >> 31) | (rndX << 1);
-            phaseshiftDiamond((unsigned char *)(cell + RAM + _BOARD));
         }
 
 
@@ -1494,7 +1485,7 @@ void handleMenuVB() {
 
     if (!waitRelease) {
 
-        if (!(INPT4 & 0x80)) {
+        if (true) { //tmp !(INPT4 & 0x80)) {
 
             initNewGame();
             initKernel(KERNEL_STATS);
@@ -1565,19 +1556,21 @@ void MenuVerticalBlank() {
 
     case KERNEL_STATS: // VBlank
 
-        setStatusBackgroundPalette();
-        drawIconScreen(12, 22);
+//tmp        setStatusBackgroundPalette();
+//tmp        drawIconScreen(12, 22);
 
         if (sound_volume && !caveUnpackComplete)
             sound_volume--;
 
+/*tmp
         if (!JOY0_FIRE)
             waitRelease = false;
 
         else if (!waitRelease) {
+            */
             waitRelease = true;
             initKernel(KERNEL_GAME);
-        }
+//tmop        }
 
 
         handleSelectReset();

@@ -43,8 +43,10 @@ enum FRAME {
     FRAME_TALK,             // 26
 
 
+
     // actions start after frames
 
+    ACTION_SFX,
     ACTION_SAY,
     ACTION_POSITION,
     ACTION_FLIP,

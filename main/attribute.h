@@ -53,8 +53,12 @@ enum ObjectType {
     TYPE_BOULDER_SHAKE,         // 39
     TYPE_DUST_LEFT,             // 40
     TYPE_DUST_RIGHT,            // 41
-    TYPE_DIAMOND_FALLING,       // 42
+    TYPE_DOGE_FALLING,          // 42
     TYPE_DIAMOND_WITHOUT_DIRT,  // 43
+    TYPE_BOULDER_FALLING,       // 44
+    TYPE_LADDER,                // 45
+
+    TYPE_DUST_ROCK,             // 46
 
 #if __ENABLE_LAVA    
     TYPE_LAVA,                  // 47
@@ -95,8 +99,8 @@ enum ChName {
     CH_EASTEREGG,               // 14
     CH_BOULDER,                 // 15
     CH_BOULDER_FALLING,         // 16          +2 offset assumed by code
-    CH_DIAMOND,                 // 17
-    CH_DIAMOND_FALLING,         // 18          +2 offset assumed by code
+    CH_DOGE_00,                 // 17
+    CH_DOGE_FALLING,            // 18          +2 offset assumed by code
     CH_EXPLODETODIAMOND_0,      // 19
     CH_EXPLODETODIAMOND_1,      // 20
     CH_EXPLODETODIAMOND_2,      // 21
@@ -115,24 +119,27 @@ enum ChName {
     CH_AMOEBA_2,                // 34
     CH_AMOEBA_3,                // 35
     CH_ROCKFORD,                // 36 rockford
-    CH_DIAMOND_PULSE_0,         // 37
-    CH_DIAMOND_PULSE_1,         // 38
-    CH_DIAMOND_PULSE_2,         // 39
-    CH_DIAMOND_PULSE_3,         // 40
-    CH_DIAMOND_PULSE_4,         // 41
-    CH_DIAMOND_PULSE_5,         // 42
-    CH_DIAMOND_PULSE_6,         // 43
-    CH_DIAMOND_STATIC,          // 44 (CAN SWITCH ANIMATIONS ON THIS!)
-    CH_SPARKLE_0,               // 45
-    CH_SPARKLE_1,               // 46
-    CH_SPARKLE_2,               // 47
+    CH_DOGE_01,         // 37
+    CH_DOGE_02,         // 38
+    CH_DOGE_03,         // 39
+    CH_DOGE_04,         // 40
+    CH_DOGE_05,         // 41
+    CH_DOGE_06,         // 42
+    CH_DOGE_07,         // 43
+    CH_DOGE_STATIC,          // 44 (CAN SWITCH ANIMATIONS ON THIS!)
+    CH_LADDER_0,                // 45
+    CH_LADDER_1,                // 46
+    CH_LADDER_2,                // 47
+    // CH_SPARKLE_0,               // 45
+    // CH_SPARKLE_1,               // 46
+    // CH_SPARKLE_2,               // 47
     CH_SPARKLE_3,               // 48
     CH_EXPLODETOBLANK_0,        // 49
     CH_EXPLODETOBLANK_1,        // 50
     CH_EXPLODETOBLANK_2,        // 51
     CH_EXPLODETOBLANK_3,        // 52
     CH_EXPLODETOBLANK_4,        // 53
-    CH_DIAMOND_GRAB,            // 54
+    CH_DOGE_GRAB,               // 54
     CH_DIAMOND_WITHOUT_DIRT,    // 55
     CH_DUST_0,                  // 56
     CH_DUST_1,                  // 57
@@ -144,21 +151,28 @@ enum ChName {
     CH_DUST_RIGHT_1,            // 63
 
     CH_CONGLOMERATE,            // 64
-    CH_CONGLOMERATE_1,          // 64
-    CH_CONGLOMERATE_2,          // 64
-    CH_CONGLOMERATE_3,          // 64
-    CH_CONGLOMERATE_4,          // 64
-    CH_CONGLOMERATE_5,          // 64
-    CH_CONGLOMERATE_6,          // 64
-    CH_CONGLOMERATE_7,          // 64
-    CH_CONGLOMERATE_8,          // 64
-    CH_CONGLOMERATE_9,          // 64
-    CH_CONGLOMERATE_10,         // 64
-    CH_CONGLOMERATE_11,         // 64
-    CH_CONGLOMERATE_12,         // 64
-    CH_CONGLOMERATE_13,         // 64
-    CH_CONGLOMERATE_14,         // 64
-    CH_CONGLOMERATE_15,         // 64
+    CH_CONGLOMERATE_1,          // 65
+    CH_CONGLOMERATE_2,          // 66
+    CH_CONGLOMERATE_3,          // 67
+    CH_CONGLOMERATE_4,          // 68
+    CH_CONGLOMERATE_5,          // 69
+    CH_CONGLOMERATE_6,          // 70
+    CH_CONGLOMERATE_7,          // 71
+    CH_CONGLOMERATE_8,          // 72
+    CH_CONGLOMERATE_9,          // 73
+    CH_CONGLOMERATE_10,         // 74
+    CH_CONGLOMERATE_11,         // 75
+    CH_CONGLOMERATE_12,         // 76
+    CH_CONGLOMERATE_13,         // 77
+    CH_CONGLOMERATE_14,         // 78
+    CH_CONGLOMERATE_15,         // 79
+
+    CH_BOULDER_BROKEN,          // 80
+    CH_BOULDER_BROKEN2,         // 81
+
+    CH_DUST_ROCK_0,             // 82
+    CH_DUST_ROCK_1,             // 83
+    CH_DUST_ROCK_2,             // 84
 
 #if __ENABLE_LAVA
     CH_LAVA_0,                  // 69

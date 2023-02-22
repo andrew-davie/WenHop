@@ -144,7 +144,7 @@ void drawHalfSprite() { // --> 3960 cycles
     int frameXOffset = *spr++;
     int frameYOffset = *spr++;
 
-    playerHalfSpriteY = SCORE_SCANLINES + 1
+    playerHalfSpriteY = //1 //SCORE_SCANLINES + 1
         + rockfordY * HALF_DEPTH
         - ((scrollY * 3) >> 17)
         + ((frameYOffset * 3) >> 2)

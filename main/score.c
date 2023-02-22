@@ -133,7 +133,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
 
 
 
-    if (colour && enableICC == LEFT_DIFFICULTY_A)
+    if (colour && enableICC != LEFT_DIFFICULTY_A)
         colour |= 7;
 
     int shift = (digit & 1) << 2;
@@ -259,12 +259,14 @@ unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer,
 
 void drawCaveLevel(){
 
-    scoreLineNew[2] = LETTER('C');
+    scoreLineNew[1] = LETTER('P');
+    scoreLineNew[2] = LETTER('L');
     scoreLineNew[3] = LETTER('A');
-    scoreLineNew[4] = LETTER('V');
+    scoreLineNew[4] = LETTER('N');
     scoreLineNew[5] = LETTER('E');
+    scoreLineNew[6] = LETTER('T');
 
-    scoreLineNew[7] = LETTER('A' + cave);
+//    scoreLineNew[7] = LETTER('A' + cave);
     scoreLineNew[8] = level + 1;
 
     scoreLineColour[2] =
@@ -457,6 +459,9 @@ void drawScore() {
     default:
         break;
     }
+
+    // static int colr = 0;
+    // colr++;
 
     for (int i = 0; i < 10; i++)
         drawBigDigit(scoreLineNew[i], 9 - i, 9, 7 /*scoreLineColour[i]*/, false);

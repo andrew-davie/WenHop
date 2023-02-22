@@ -8,6 +8,7 @@
 #include "bitpatterns.h"
 #include "colour.h"
 #include "rockford.h"
+#include "sound.h"
 
 
 int autoMoveX;
@@ -22,6 +23,8 @@ const signed char AnimationDefault[] = {
 };
 
 const signed char AnimationPush[] = {
+
+    ACTION_SFX, SFX_ROCK,
     FRAME_PUSH, 10,
     FRAME_PUSH2, 10,
     ACTION_LOOP,
@@ -378,7 +381,7 @@ const unsigned char playerColour[][4] = {
     { 0x96, 0x20, 0x20, 0x04 },   // 3 TOP 2
     { 0x24, 0x22, 0x22, 0x02 },   // 4 BOOT
     { 0xA4, 0x04, 0x04, 0x0A },   // 5 PANT
-    { 0x08, 0x96, 0x96, 0x0E },   // 6 BELT
+    { 0x58, 0x96, 0x96, 0x0E },   // 6 BELT
     { 0x08, 0x06, 0x06, 0x0E },   // 5 SOLE
     { 0x0A, 0x0A, 0x0A, 0x0E },   // 8 BONE    
 };
@@ -626,29 +629,29 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     1, 0,
 
-    SP( ________,XXXX____, HAIR, HAIR ),     //00
-    SP( _______X,XXXXXXX_, HAIR, HAIR ),     //01
-    SP( ______XX,XXXXX___, HAIR, HAIR ),     //02
-    SP( ______XX,XXXXX___, HAIR, HAIR ),     //03
-    SP( ______XX,XXXX____, HAIR, SKIN ),     //04
-    SP( ______XX,XX_X____, HAIR, SKIN ),     //05
-    SP( ______XX,XXXX____, SKIN, SKIN ),     //06
-    SP( ______XX,XX______, SKIN, SKIN ),     //05
-    SP( _______X,XXX_____, SKIN, SKIN ),     //08
-    SP( _____XXX,XXXXXXXX, TOP2, TOP2 ),     //09
-    SP( _____XXX,XXX____X, TOP1, TOP1 ),     //10
-    SP( ____XXXX,XXXXXXXX, TOP2, TOP2 ),     //11
-    SP( ____XXXX,XXXXXXX_, TOP1, TOP1 ),     //12
-    SP( ____XXXX,XX______, TOP2, TOP2 ),     //13
-    SP( ___XXXXX,________, TOP1, TOP1 ),     //14
-    SP( ___XXXXX,________, TOP2, TOP2 ),     //15
-    SP( ___XXXXX,________, BELT, BELT ),     //16
-    SP( __XXXXXX,________, PANT, PANT ),     //15
-    SP( __XXX_XX,X_______, PANT, PANT ),     //18
-    SP( _XXX___X,XX______, PANT, PANT ),     //19
-    SP( XXX_____,XX______, BOOT, BOOT ),     //20
-    SP( XX______,XX______, BOOT, BOOT ),     //21
-    SP( XXX_____,XXX_____, SOLE, SOLE ),     //22
+    SP( ________,________, HAIR, HAIR ),     //00
+    SP( ____XXXX,________, HAIR, HAIR ),     //01
+    SP( ___XXXXX,_XXXX___, HAIR, BOOT ),     //02
+    SP( __XXXXXX,__XXXXX_, HAIR, BOOT ),     //03
+    SP( __XXXXXX,___XXXXX, HAIR, BOOT ),     //04
+    SP( __XXXXXX,___XXXXX, HAIR, BOOT ),     //05
+    SP( __XX_X_X,___XX_XX, SKIN, BOOT ),     //06
+    SP( __XXXXXX,__XX___X, SKIN, BOOT ),     //05
+    SP( __XXXXX_,__XX___X, SKIN, BOOT ),     //08
+    SP( ___XX_X_,_XX_____, TOP2, BOOT ),     //09
+    SP( __XXXXX_,_XX_____, TOP1, BOOT ),     //10
+    SP( _XXXXXX_,XX______, TOP2, BOOT ),     //11
+    SP( XXXXXXXX,XX______, TOP1, BOOT ),     //12
+    SP( XXXXXXXX,________, TOP2, TOP2 ),     //13
+    SP( XXX_XXXX,________, TOP1, TOP1 ),     //14
+    SP( XXX_XX_X,________, TOP2, TOP2 ),     //15
+    SP( _XXXXX_X,________, BELT, BELT ),     //16
+    SP( __XXXXX_,________, PANT, PANT ),     //15
+    SP( _XXX_XX_,________, PANT, PANT ),     //18
+    SP( _XXX_XX_,________, PANT, PANT ),     //19
+    SP( _XX__XX_,________, BOOT, BOOT ),     //20
+    SP( _XXX_XXX,________, BOOT, BOOT ),     //21
+    SP( _XXX_XXX,________, SOLE, SOLE ),     //22
 
 },
 
@@ -657,29 +660,29 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2, 0,
 
-    SP( ________,XXXX____, HAIR, HAIR ),     //00
-    SP( _______X,XXXXXXX_, HAIR, HAIR ),     //01
-    SP( ______XX,XXXXX___, HAIR, HAIR ),     //02
-    SP( ______XX,XXXXX___, HAIR, HAIR ),     //03
-    SP( ______XX,XXXX____, HAIR, SKIN ),     //04
-    SP( ______XX,XX_X____, HAIR, SKIN ),     //05
-    SP( ______XX,XXXX____, SKIN, SKIN ),     //06
-    SP( ______XX,XX______, SKIN, SKIN ),     //05
-    SP( _______X,XXX_____, SKIN, SKIN ),     //08
-    SP( _____XXX,XXXXXXXX, TOP2, TOP2 ),     //09
-    SP( _____XXX,XXX____X, TOP1, TOP1 ),     //10
-    SP( ____XXXX,XXXXXXXX, TOP2, TOP2 ),     //11
-    SP( ____XXXX,XXXXXXX_, TOP1, TOP1 ),     //12
-    SP( ____XXXX,XX______, TOP2, TOP2 ),     //13
-    SP( ___XXXXX,________, TOP1, TOP1 ),     //14
-    SP( ___XXXXX,________, TOP2, TOP2 ),     //15
-    SP( ___XXXXX,________, BELT, BELT ),     //16
-    SP( ____XXXX,________, PANT, PANT ),     //15
-    SP( ____XXXX,________, PANT, PANT ),     //18
-    SP( _____XXX,________, PANT, PANT ),     //19
-    SP( ____XXXX,________, BOOT, BOOT ),     //20
-    SP( _____XX_,________, BOOT, BOOT ),     //21
-    SP( _____XXX,________, SOLE, SOLE ),     //22
+    SP( ________,________, HAIR, BOOT ),     //00
+    SP( ____XXXX,________, HAIR, BOOT ),     //01
+    SP( ___XXXXX,XX______, HAIR, BOOT ),     //02
+    SP( __XXXXXX,________, HAIR, BOOT ),     //03
+    SP( __XXXXXX,________, HAIR, BOOT ),     //04
+    SP( __XXXXXX,________, HAIR, BOOT ),     //05
+    SP( __XX_X_X,________, SKIN, BOOT ),     //06
+    SP( __XXXXXX,________, SKIN, BOOT ),     //05
+    SP( __XXXXX_,________, SKIN, BOOT ),     //08
+    SP( ___XX_X_,________, TOP2, BOOT ),     //09
+    SP( __XXXXX_,________, TOP1, BOOT ),     //10
+    SP( _XXXXXX_,________, TOP2, BOOT ),     //11
+    SP( XXXXXXXX,________, TOP1, BOOT ),     //12
+    SP( XXXXXXXX,________, TOP2, BOOT ),     //13
+    SP( XXX_XXXX,________, TOP1, TOP1 ),     //14
+    SP( XXX_XX_X,X_______, TOP2, TOP2 ),     //15
+    SP( _XXXXX_X,X_______, BELT, BELT ),     //16
+    SP( __XXXXX_,X_______, PANT, PANT ),     //15
+    SP( _XXX_XX_,________, PANT, PANT ),     //18
+    SP( _XXX_XX_,________, PANT, PANT ),     //19
+    SP( _XX__XX_,________, BOOT, BOOT ),     //20
+    SP( _XXX_XXX,________, BOOT, BOOT ),     //21
+    SP( _XXX_XXX,________, SOLE, SOLE ),     //22
 
 },
 
@@ -1435,6 +1438,11 @@ void processAnimationCommand() {
 
     while (!playerAnimationCount)
         switch (*playerAnimation) {
+
+        case ACTION_SFX:
+            ADDAUDIO(*++playerAnimation);
+            playerAnimation++;
+            break;
 
         case ACTION_FLIP:
             rockfordFaceDirection = -rockfordFaceDirection;

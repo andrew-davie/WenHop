@@ -310,7 +310,7 @@ void initAudio() {
         audioRequest[i] = false;
 
     loadTrack(1, trackSimple);
-    loadTrack(0, trackSimple2);
+    loadTrack(0, trackSimple+16);
 }
 
 
@@ -627,93 +627,93 @@ static const unsigned char trackSimple[] = {
     // Boulder Dash theme
     // HALFNOTE
 
-    f3 a3 c4 f4 g3 a3_SHARP c4 g4 c4_SHARP d4_SHARP f4 g4_SHARP d4_SHARP d5 e4 c5 f3 f4 c3
-    g3 d3_SHARP g4 g3 d3_SHARP f3 f4 c3 g3 c4_SHARP f5 f4 c4_SHARP d3_SHARP d4_SHARP a2_SHARP
-    f3 b3 d5_SHARP d4_SHARP b3 c3 e4 d3 f4 a3_SHARP a3_SHARP a4_SHARP a3_SHARP f4 f4 f4 f4 f4
-    f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 d4_SHARP d4_SHARP
-    d4_SHARP d4_SHARP f4 f5 f4 d5_SHARP f4 d5 f4 c5 d4_SHARP d5_SHARP d4_SHARP d5_SHARP
-    d4_SHARP a4_SHARP d4_SHARP d5_SHARP f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 d4_SHARP d4_SHARP
-    d4_SHARP d4_SHARP a4 f4 c4 a3 g4 d4_SHARP a3_SHARP d3_SHARP a4 f4 c4 a3 g4 d4_SHARP
-    a3_SHARP d3_SHARP
+    // f3 a3 c4 f4 g3 a3_SHARP c4 g4 c4_SHARP d4_SHARP f4 g4_SHARP d4_SHARP d5 e4 c5 f3 f4 c3
+    // g3 d3_SHARP g4 g3 d3_SHARP f3 f4 c3 g3 c4_SHARP f5 f4 c4_SHARP d3_SHARP d4_SHARP a2_SHARP
+    // f3 b3 d5_SHARP d4_SHARP b3 c3 e4 d3 f4 a3_SHARP a3_SHARP a4_SHARP a3_SHARP f4 f4 f4 f4 f4
+    // f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 d4_SHARP d4_SHARP
+    // d4_SHARP d4_SHARP f4 f5 f4 d5_SHARP f4 d5 f4 c5 d4_SHARP d5_SHARP d4_SHARP d5_SHARP
+    // d4_SHARP a4_SHARP d4_SHARP d5_SHARP f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 d4_SHARP d4_SHARP
+    // d4_SHARP d4_SHARP a4 f4 c4 a3 g4 d4_SHARP a3_SHARP d3_SHARP a4 f4 c4 a3 g4 d4_SHARP
+    // a3_SHARP d3_SHARP
 
 
 // music for a found harmonium
     /* the one in A major */
 
-    // FULLNOTE
-    // a4 b4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+ //   FULLNOTE
+    a4 b4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
 
-    // b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-    // c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
-    // d5 a4 b4 a4 g4_SHARP a4 d5 a4
-    // c5_SHARP a4 a4 a4 
-    // //QUARTERNOTE 
-    // a4 a4
-    // // FULLNOTE 
-    // /* previous 2 should be single quarter note */ a4 a4
-    // b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-    // c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
-    // d5 a4 b4 a4 g4_SHARP a4 d5 a4
-    // c5_SHARP a4 a4 a4 
-    // //QUARTERNOTE
-    //  a4 a4 
-    //  //FULLNOTE
-    //   /* previous 2 should be single quarter note */ a4 c5
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
+    d5 a4 b4 a4 g4_SHARP a4 d5 a4
+    c5_SHARP a4 a4 a4 
+    //QUARTERNOTE 
+    a4 a4
+    // FULLNOTE 
+    /* previous 2 should be single quarter note */ a4 a4
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
+    d5 a4 b4 a4 g4_SHARP a4 d5 a4
+    c5_SHARP a4 a4 a4 
+    //QUARTERNOTE
+     a4 a4 
+     //FULLNOTE
+      /* previous 2 should be single quarter note */ a4 c5
 
-    // g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
-    // g5_SHARP c5_SHARP b4 c5_SHARP b4 
-    // //QUARTERNOTE
-    //  b4 b4
-    //  // FULLNOTE
-    //   /* previous 2 should be single quarter note */ c5_SHARP
-    // g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
-    // g5_SHARP c5_SHARP b4 c5_SHARP b4
-    // // QUARTERNOTE
-    //  b4 b4 
-    //  //FULLNOTE
-    //   /* previous 2 should be single quarter note */ a4
+    g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
+    g5_SHARP c5_SHARP b4 c5_SHARP b4 
+    //QUARTERNOTE
+     b4 b4
+     // FULLNOTE
+      /* previous 2 should be single quarter note */ c5_SHARP
+    g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
+    g5_SHARP c5_SHARP b4 c5_SHARP b4
+    // QUARTERNOTE
+     b4 b4 
+     //FULLNOTE
+      /* previous 2 should be single quarter note */ a4
 
-    // f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
-    // f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
-    // f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
-    // f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
+    f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
+    f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
+    f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
+    f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
 
-    // g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
-    // g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
-    // g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
-    // g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
 
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-    // b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
 
-    // b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-    // c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
-    // d5 a4 b4 a4 g4_SHARP a4 b5 a4
-    // c5_SHARP a4 a4 a4 
-    // //QUARTERNOTE
-    //  a4 a4 
-    //  //FULLNOTE
-    //   /* previous 2 should be single quarter note */ a4 a4
-    // b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-    // c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
-    // d5 a4 b4 a4 g4_SHARP a4 b5 a4
-    // c5_SHARP a4 a4 a4
-    //  //QUARTERNOTE
-    //   a4 a4 a4 a4 /* previous 4 should be single half note */
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
+    d5 a4 b4 a4 g4_SHARP a4 b5 a4
+    c5_SHARP a4 a4 a4 
+    //QUARTERNOTE
+     a4 a4 
+     //FULLNOTE
+      /* previous 2 should be single quarter note */ a4 a4
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
+    d5 a4 b4 a4 g4_SHARP a4 b5 a4
+    c5_SHARP a4 a4 a4
+     //QUARTERNOTE
+      a4 a4 a4 a4 /* previous 4 should be single half note */
 
     0
 };
@@ -744,9 +744,9 @@ static const unsigned char adsr_Trombone[] = {
 };
 
 static const unsigned char adsr_Trombone2[] = {
-//    100, 200, 255, 255, 200, 150, 75, 75, 100, 100, 100, 100, 75, 75, 75, 75,
+    100, 200, 255, 255, 200, 150, 75, 75, 100, 100, 100, 100, 75, 75, 75, 75,
     // 10, 20, 25, 25, 20, 15, 7, 7, 10, 10, 10, 10, 7, 7, 7, 7,
-    80, 80, 60, 250, 250, 160, 50, 40, 10, 0, 0, 0, 0, 0, 0, 0
+//    80, 80, 60, 250, 250, 160, 50, 40, 10, 0, 0, 0, 0, 0, 0, 0
 };
 
 // static const unsigned char adsr_2[] = {
@@ -755,7 +755,7 @@ static const unsigned char adsr_Trombone2[] = {
 
 static const unsigned char *const instrument[] = {
     adsr_Trombone,
-    adsr_Trombone, //tmp2,
+    adsr_Trombone2, //tmp2,
 };
 
 
@@ -796,7 +796,7 @@ void processTracks() {
     if (sound_volume < sound_max_volume)
         sound_volume += 2;
 
-    else
+    else if (sound_volume > 2)
         sound_volume -= 3;
 
     for (int i = 0; i < 2; i++) {

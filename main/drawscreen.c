@@ -28,36 +28,41 @@ const unsigned char *p;
 void rain();
 
 
-void grab(int size) {
+void grab(int frac, int size) {
 
-    if (sparkleTimer) {
+    // if (sparkleTimer) {
 
-        if (rndX < (unsigned int)(1 << (size + 1)))
-            rndX = getRandom32();
+    //     if (rndX < (unsigned int)(1 << (size + 1)))
+    //         rndX = getRandom32();
 
+    //     for (int col = 0; col < size; col++) {
+    //         unsigned char p2 = GET2(p[col]);
+    //         int type = CharToType[p2];
+    //         if (Attribute[type] & ATT_BLANK) {
+    //             p2 = (rndX & 3) + CH_SPARKLE_0;
+    //             rndX >>= 1;
+    //         }
+    //         else if (Animate[type])
+    //             p2 = *Animate[type];
+    //         img[col] = charSet[p2];
+    //     }
+
+    // }
+
+    // else {
         for (int col = 0; col < size; col++) {
-            unsigned char p2 = GET2(p[col]);
-            int type = CharToType[p2];
-            if (Attribute[type] & ATT_BLANK) {
-                p2 = (rndX & 3) + CH_SPARKLE_0;
-                rndX >>= 1;
-            }
-            else if (Animate[type])
-                p2 = *Animate[type];
-            img[col] = charSet[p2];
-        }
 
-    }
+            int base = frac + col;
+            if (base >= 40)
+                base -= 40;
 
-    else {
-        for (int col = 0; col < size; col++) {
-            unsigned char p2 = GET2(p[col]);
+            unsigned char p2 = GET2(p[base]);
             int type = CharToType[p2];
             if (Animate[type])
                 p2 = *Animate[type];
             img[col] = charSet[p2];
         }
-    }
+    // }
 
     p += size;
 }
@@ -103,8 +108,8 @@ void drawScreen() { // --> cycles 44743 (@20221216)
 
         for (int half = 0; half < 2; half++) {
 
-            p = RAM + _BOARD + row * 40 + half * 5 + frac;
-            grab(6);
+            p = RAM + _BOARD + row * 40 + half * 5;
+            grab(frac, 6);
 
             unsigned char *pf0 = arenas[half] + scanline;
 
@@ -140,8 +145,8 @@ void drawHalfScreen() { // 66151
 
 
     static unsigned char *const arenas[] = {
-        RAM + _BUF_PF0_LEFT + SCORE_SCANLINES,
-        RAM + _BUF_PF0_RIGHT + SCORE_SCANLINES,
+        RAM + _BUF_PF0_LEFT, // + SCORE_SCANLINES,
+        RAM + _BUF_PF0_RIGHT, // + SCORE_SCANLINES,
     };
 
 #if ENABLE_SHAKE
@@ -167,8 +172,8 @@ void drawHalfScreen() { // 66151
 
         for (int half = 0; half < 2; half++) {
 
-            p = RAM + _BOARD + (row + rowOffset) * 40 + half * 10 + frac;
-            grab(11);
+            p = RAM + _BOARD + (row + rowOffset) * 40 + half * 10;
+            grab(frac, 11);
 
             unsigned char *pf0 = arenas[half] + scanline;
 
