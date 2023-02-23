@@ -24,11 +24,12 @@ const signed char AnimationDefault[] = {
 
 const signed char AnimationPush[] = {
 
-    ACTION_SFX, SFX_ROCK,
+    FRAME_PUSH2, 3,
+    ACTION_SFX, SFX_PICKAXE,
     FRAME_PUSH, 10,
-    FRAME_PUSH2, 10,
-    ACTION_LOOP,
+    FRAME_PUSH2, 3,
     FRAME_HUNCH, 3,
+    FRAME_STAND, 2,
     ACTION_STOP,
 };
 
@@ -38,9 +39,9 @@ const signed char AnimationLocked[] = {
 };
 
 const signed char AnimationEndPush2[] = {
-    ACTION_POSITION, 4,0,
-    FRAME_PUSH2, 15,
-    ACTION_POSITION, 2,0,
+//    ACTION_POSITION, 4,0,
+//    FRAME_PUSH2, 15,
+//    ACTION_POSITION, 2,0,
     FRAME_HUNCH, 5,
     ACTION_STOP,
 };
@@ -366,7 +367,7 @@ unsigned int playerAnimationCount = 0;
 #define BOOT 4
 #define PANT 5
 #define BELT 6
-#define SOLE 5
+#define SOLE 7
 #define BONE 8
 
 
@@ -376,15 +377,18 @@ const unsigned char playerColour[][4] = {
     //NTSC  PAL  PAL_60 SECAM
 
     { 0x28, 0x98, 0x98, 0x0C },   // 0 HAIR
-    { 0x58, 0x24, 0x24, 0x06 },   // 1 SKIN
-    { 0x96, 0x26, 0x26, 0x0C },   // 2 TOP1
-    { 0x96, 0x20, 0x20, 0x04 },   // 3 TOP 2
+    { 0x34, 0x24, 0x24, 0x06 },   // 1 SKIN
+    { 0x06, 0x26, 0x26, 0x0C },   // 2 TOP1
+    { 0x06, 0x20, 0x20, 0x04 },   // 3 TOP 2
     { 0x24, 0x22, 0x22, 0x02 },   // 4 BOOT
-    { 0xA4, 0x04, 0x04, 0x0A },   // 5 PANT
+    { 0x08, 0x04, 0x04, 0x0A },   // 5 PANT
     { 0x58, 0x96, 0x96, 0x0E },   // 6 BELT
     { 0x08, 0x06, 0x06, 0x0E },   // 5 SOLE
     { 0x0A, 0x0A, 0x0A, 0x0E },   // 8 BONE    
 };
+
+
+
 
 #define SP(a,b,c,d) \
     a, b, (c << 4) + d
@@ -432,23 +436,23 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2+0, 0,
 
-    SP( ____XXX_,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,XX______, HAIR, HAIR ),     //01
-    SP( __XXXXXX,________, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, SKIN, HAIR ),     //03
+    SP( ____X_X_,X_______, HAIR, HAIR ),     //00
+    SP( __X_____,________, HAIR, HAIR ),     //00
+    SP( _X_XXXX_,_X______, HAIR, HAIR ),     //01
+    SP( __XXXXXX,X_______, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( __XX_X_X,________, SKIN, HAIR ),     //05
+    SP( X_XX_X_X,_X______, SKIN, HAIR ),     //05
     SP( __XXXXXX,________, SKIN, HAIR ),     //06
-    SP( __XXXXX_,________, SKIN, SKIN ),     //05
+    SP( X_XXXXX_,X_______, SKIN, SKIN ),     //05
     SP( ___X____,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
+    SP( _X_XXXX_,X_______, SKIN, SKIN ),     //09
     SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,X_______, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, TOP1 ),     //14
-    SP( ___XXXX_,XX______, TOP2, SKIN ),     //15
-    SP( XX_XXXX_,________, BELT, BELT ),     //16
+    SP( _XX_XX_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXX_X_X,X_______, TOP1, TOP1 ),     //12
+    SP( XXXXX_XX,XX______, TOP2, TOP2 ),     //13
+    SP( ___XX_X_,XX______, TOP2, SKIN ),     //15
+    SP( XX_XX_X_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
     SP( ___XX_XX,________, PANT, PANT ),     //18
     SP( __XXX_XX,________, PANT, PANT ),     //19
@@ -464,9 +468,9 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     -3+0, 0,
 
-    SP( ________,_XXX____, HAIR, HAIR ),     //00
-    SP( ________,_XXXX___, HAIR, HAIR ),     //01
-    SP( _____XX_,XXXXXX__, SKIN, HAIR ),     //02
+    SP( ________,_X_X_X__, HAIR, HAIR ),     //00
+    SP( _______X,_______X, HAIR, HAIR ),     //01
+    SP( _____XX_,_XXXX___, SKIN, HAIR ),     //02
     SP( _____XX_,XXXXXXXX, SKIN, SKIN ),     //03
     SP( ____XX__,XXXXX_XX, TOP2, SKIN ),     //04
     SP( ____XX__,X_X_X_XX, TOP1, SKIN ),     //05
@@ -474,12 +478,12 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
     SP( ____XX__,XX_XX_XX, TOP1, SKIN ),     //05
     SP( ____XXX_,XXXX__XX, TOP2, SKIN ),     //08
     SP( _____XXX,_XXX_XX_, TOP1, SKIN ),     //09
-    SP( ______XX,XXXXXXX_, TOP1, TOP1 ),     //10
-    SP( _______X,XXXXXXX_, TOP2, TOP2 ),     //11
-    SP( _______X,XXXXXX__, TOP1, TOP1 ),     //12
-    SP( ________,XXXXX___, TOP2, TOP2 ),     //13
-    SP( ________,XXXX____, TOP1, TOP1 ),     //14
-    SP( ________,XXXX____, TOP2, TOP2 ),     //15
+    SP( ______XX,_XXX_XX_, TOP1, TOP1 ),     //10
+    SP( _______X,X_X_XXX_, TOP2, TOP2 ),     //11
+    SP( _______X,XX_XXX__, TOP1, TOP1 ),     //12
+    SP( ________,XX_XX___, TOP2, TOP2 ),     //13
+    SP( ________,XX_X____, TOP1, TOP1 ),     //14
+    SP( ________,XX_X____, TOP2, TOP2 ),     //15
     SP( ________,XXXX____, BELT, BELT ),     //16
     SP( _______X,XXXXX___, PANT, PANT ),     //15
     SP( _______X,XXXXX___, PANT, PANT ),     //18
@@ -568,21 +572,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     3+0, 0,
 
-    SP( ________,________, ____, ____ ),     //00
-    SP( ____XXXX,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,XX______, HAIR, HAIR ),     //01
-    SP( __XXXXXX,________, HAIR, HAIR ),     //02
+    SP( ___X_X_X,________, ____, ____ ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //00
+    SP( ___XXXX_,________, HAIR, HAIR ),     //01
+    SP( X_XXXXXX,_X______, HAIR, HAIR ),     //02
     SP( __XXXXXX,________, SKIN, HAIR ),     //03
-    SP( __XXXXXX,________, SKIN, HAIR ),     //04
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //04
     SP( __XX_X_X,________, SKIN, HAIR ),     //05
-    SP( __XXXXXX,________, SKIN, SKIN ),     //06
+    SP( X_XXXXXX,_X______, SKIN, SKIN ),     //06
     SP( __XXXXX_,________, SKIN, SKIN ),     //05
-    SP( ___XX_X_,________, SKIN, SKIN ),     //08
+    SP( _X_XX_X_,X_______, SKIN, SKIN ),     //08
     SP( __XXXXX_,________, TOP1, TOP1 ),     //10
-    SP( _XXXXXX_,________, TOP2, TOP2 ),     //11
-    SP( XXXXXXXX,________, TOP1, TOP1 ),     //12
-    SP( XXXXXXXX,________, TOP2, TOP2 ),     //13
-    SP( XXX_XXXX,________, TOP1, TOP1 ),     //14
+    SP( _XX_XXX_,________, TOP2, TOP2 ),     //11
+    SP( XXXX_X_X,________, TOP1, TOP1 ),     //12
+    SP( XXXXX_XX,________, TOP2, TOP2 ),     //13
+    SP( XXX_X_XX,________, TOP1, TOP1 ),     //14
     SP( XXX_XX_X,X_______, TOP2, SKIN ),     //15
     SP( _XXXXX_X,X_______, BELT, BELT ),     //16
     SP( __XXXXX_,X_______, PANT, SKIN ),     //15
@@ -599,21 +603,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2+0, 0,
 
-    SP( ____XXX_,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,X_______, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, SKIN, HAIR ),     //03
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ___XXXX_,________, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, SKIN ),     //04
-    SP( __XX_X_X,________, SKIN, SKIN ),     //05
+    SP( X_XX_X_X,_X______, SKIN, SKIN ),     //05
     SP( __XXXXXX,________, SKIN, SKIN ),     //06
-    SP( __XXXXXX,________, SKIN, SKIN ),     //05
-    SP( ___XX_X_,________, SKIN, SKIN ),     //08
-    SP( ____XXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,XX______, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, TOP1 ),     //14
+    SP( X_XXXXXX,_X______, SKIN, SKIN ),     //05
+    SP( ___XX_X_,X_______, SKIN, SKIN ),     //08
+    SP( _X__XXX_,________, SKIN, SKIN ),     //09
+    SP( __X_XXXX,X_______, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,XX______, TOP1, TOP1 ),     //12
+    SP( XX_XX_X_,XX______, TOP2, TOP2 ),     //13
+    SP( XX_XX_X_,XX______, TOP1, TOP1 ),     //14
     SP( ___XXXX_,XX______, TOP2, SKIN ),     //15
     SP( XX_XXXX_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
@@ -627,22 +631,22 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 {   // FRAME_PUSH = 6
 
-    1, 0,
+    4, 0,
 
-    SP( ________,________, HAIR, HAIR ),     //00
-    SP( ____XXXX,________, HAIR, HAIR ),     //01
-    SP( ___XXXXX,_XXXX___, HAIR, BOOT ),     //02
-    SP( __XXXXXX,__XXXXX_, HAIR, BOOT ),     //03
-    SP( __XXXXXX,___XXXXX, HAIR, BOOT ),     //04
-    SP( __XXXXXX,___XXXXX, HAIR, BOOT ),     //05
-    SP( __XX_X_X,___XX_XX, SKIN, BOOT ),     //06
-    SP( __XXXXXX,__XX___X, SKIN, BOOT ),     //05
-    SP( __XXXXX_,__XX___X, SKIN, BOOT ),     //08
-    SP( ___XX_X_,_XX_____, TOP2, BOOT ),     //09
-    SP( __XXXXX_,_XX_____, TOP1, BOOT ),     //10
-    SP( _XXXXXX_,XX______, TOP2, BOOT ),     //11
-    SP( XXXXXXXX,XX______, TOP1, BOOT ),     //12
-    SP( XXXXXXXX,________, TOP2, TOP2 ),     //13
+    SP( ___X__X_,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ____XXXX,_X______, HAIR, BOOT ),     //02
+    SP( X_XXXXXX,___X____, HAIR, BOOT ),     //03
+    SP( __XXXXXX,__XXXX__, SKIN, BOOT ),     //04
+    SP( X_XXXXXX,_XXXXXXX, SKIN, BOOT ),     //05
+    SP( __XX_X_X,_X_XXXXX, SKIN, BOOT ),     //06
+    SP( X_XXXXXX,__XX_XX_, SKIN, BOOT ),     //05
+    SP( __XXXXX_,X_XX____, SKIN, BOOT ),     //08
+    SP( _X_XX_X_,_XX_____, TOP2, BOOT ),     //09
+    SP( ___XXXX_,_XX_____, TOP1, BOOT ),     //10
+    SP( _XXX_XX_,XX______, TOP2, BOOT ),     //11
+    SP( XXXXX_XX,X_______, TOP1, BOOT ),     //12
+    SP( XXXXXX_X,________, TOP2, TOP2 ),     //13
     SP( XXX_XXXX,________, TOP1, TOP1 ),     //14
     SP( XXX_XX_X,________, TOP2, TOP2 ),     //15
     SP( _XXXXX_X,________, BELT, BELT ),     //16
@@ -658,26 +662,26 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 {   // FRAME_PUSH2 = 5
 
-    2, 0,
+    3, 0,
 
-    SP( ________,________, HAIR, BOOT ),     //00
-    SP( ____XXXX,________, HAIR, BOOT ),     //01
-    SP( ___XXXXX,XX______, HAIR, BOOT ),     //02
-    SP( __XXXXXX,________, HAIR, BOOT ),     //03
-    SP( __XXXXXX,________, HAIR, BOOT ),     //04
-    SP( __XXXXXX,________, HAIR, BOOT ),     //05
-    SP( __XX_X_X,________, SKIN, BOOT ),     //06
-    SP( __XXXXXX,________, SKIN, BOOT ),     //05
-    SP( __XXXXX_,________, SKIN, BOOT ),     //08
-    SP( ___XX_X_,________, TOP2, BOOT ),     //09
-    SP( __XXXXX_,________, TOP1, BOOT ),     //10
-    SP( _XXXXXX_,________, TOP2, BOOT ),     //11
-    SP( XXXXXXXX,________, TOP1, BOOT ),     //12
-    SP( XXXXXXXX,________, TOP2, BOOT ),     //13
-    SP( XXX_XXXX,________, TOP1, TOP1 ),     //14
-    SP( XXX_XX_X,X_______, TOP2, TOP2 ),     //15
-    SP( _XXXXX_X,X_______, BELT, BELT ),     //16
-    SP( __XXXXX_,X_______, PANT, PANT ),     //15
+    SP( ___X__X_,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ____XXXX,_X______, HAIR, BOOT ),     //02
+    SP( X_XXXXXX,________, HAIR, BOOT ),     //03
+    SP( __XXXXXX,_X______, SKIN, BOOT ),     //04
+    SP( X_XXXXXX,________, SKIN, BOOT ),     //05
+    SP( __XX_X_X,_X______, SKIN, BOOT ),     //06
+    SP( X_XXXXXX,________, SKIN, BOOT ),     //05
+    SP( __XXXXX_,X_______, SKIN, BOOT ),     //08
+    SP( _X_XX_X_,________, TOP2, BOOT ),     //09
+    SP( ___XXXX_,________, TOP1, BOOT ),     //10
+    SP( _XXX_XX_,_X______, TOP2, BOOT ),     //11
+    SP( XXXXX_XX,XX______, TOP1, BOOT ),     //12
+    SP( XXXXXX_X,X_______, TOP2, BOOT ),     //13
+    SP( XXX_XXXX,X_______, TOP1, TOP1 ),     //14
+    SP( XXX_XX_X,________, TOP2, TOP2 ),     //15
+    SP( _XXXXX_X,________, BELT, BELT ),     //16
+    SP( __XXXXX_,________, PANT, PANT ),     //15
     SP( _XXX_XX_,________, PANT, PANT ),     //18
     SP( _XXX_XX_,________, PANT, PANT ),     //19
     SP( _XX__XX_,________, BOOT, BOOT ),     //20
@@ -690,21 +694,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2+0, 0,
 
-    SP( ____XXX_,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,________, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, SKIN, HAIR ),     //03
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ___XXXX_,________, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, SKIN ),     //04
-    SP( __X_X_XX,________, SKIN, SKIN ),     //05
+    SP( X_X_X_XX,_X______, SKIN, SKIN ),     //05
     SP( __XXXXXX,________, SKIN, SKIN ),     //06
-    SP( ___XXXXX,________, SKIN, SKIN ),     //05
-    SP( ___X_XX_,________, SKIN, SKIN ),     //08
-    SP( ____XXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,XX______, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, TOP1 ),     //14
+    SP( X__XXXXX,_X______, SKIN, SKIN ),     //05
+    SP( ___X_XX_,X_______, SKIN, SKIN ),     //08
+    SP( _X__XXX_,________, SKIN, SKIN ),     //09
+    SP( __X_XXXX,X_______, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,XX______, TOP1, TOP1 ),     //12
+    SP( XX_XX_X_,XX______, TOP2, TOP2 ),     //13
+    SP( XX_XX_X_,XX______, TOP1, TOP1 ),     //14
     SP( ___XXXX_,XX______, TOP2, SKIN ),     //15
     SP( XX_XXXX_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
@@ -719,54 +723,54 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 {   // FRAME_IMPATIENT = 9
 
-    0+2, 0,
+    0+1, 0,
 
-    SP( ___XXXX_,________, HAIR, HAIR ),     //00
-    SP( __XXXXXX,X_______, HAIR, HAIR ),     //01
-    SP( _XXXXXX_,________, HAIR, HAIR ),     //02
-    SP( _XXXXXX_,________, SKIN, HAIR ),     //03
-    SP( _XXXXXX_,________, SKIN, SKIN ),     //04
-    SP( _XX_X_X_,________, SKIN, SKIN ),     //05
-    SP( _XXXXXX_,________, SKIN, SKIN ),     //06
-    SP( _XXXXX__,________, SKIN, SKIN ),     //05
-    SP( __XX_X__,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, TOP2 ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( __XXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,XX______, TOP1, TOP1 ),     //12
-    SP( XXXXXXXX,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, SKIN ),     //14
-    SP( XX_XXXXX,________, TOP2, TOP2 ),     //15
-    SP( ___XXXXX,________, BELT, BELT ),     //16
-    SP( XX_XXXXX,________, PANT, PANT ),     //15
-    SP( XX_XX_XX,________, PANT, PANT ),     //18
-    SP( __XXX_XX,XX______, PANT, BOOT ),     //19
-    SP( __XX__XX,XX______, BOOT, BOOT ),     //20
-    SP( __XXX___,________, BOOT, SOLE ),     //21
-    SP( __XXX___,________, SOLE, SOLE ),     //22
+    SP( __X_X_X_,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ___XXXX_,_X______, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,________, SKIN, HAIR ),     //03
+    SP( __XXXXXX,_X______, SKIN, SKIN ),     //04
+    SP( X_XX_X_X,________, SKIN, SKIN ),     //05
+    SP( __XXXXXX,_X______, SKIN, SKIN ),     //06
+    SP( X_XXXXX_,________, SKIN, SKIN ),     //05
+    SP( ___XX_X_,_X______, SKIN, SKIN ),     //08
+    SP( __X_XXXX,________, SKIN, TOP2 ),     //09
+    SP( ___X_XXX,X_______, TOP1, TOP1 ),     //10
+    SP( ___XX_X_,XX______, TOP2, TOP2 ),     //11
+    SP( __XXXX_X,XXX_____, TOP1, TOP1 ),     //12
+    SP( _XXXXX_X,XXX_____, TOP2, TOP2 ),     //13
+    SP( _XX_XX_X,_XX_____, TOP1, SKIN ),     //14
+    SP( _XX_XXXX,X_______, TOP2, TOP2 ),     //15
+    SP( ____XXXX,X_______, BELT, BELT ),     //16
+    SP( _XX_XXXX,X_______, PANT, PANT ),     //15
+    SP( _XX_XX_X,X_______, PANT, PANT ),     //18
+    SP( ___XXX_X,XXX_____, PANT, BOOT ),     //19
+    SP( ___XX__X,XXX_____, BOOT, BOOT ),     //20
+    SP( ___XXX__,________, BOOT, SOLE ),     //21
+    SP( ___XXX__,________, SOLE, SOLE ),     //22
 
     },
 
 
 {   // FRAME_IMPATIENT2 = 10
 
-    0+2, 0,
+    0+1, 0,
 
-    SP( ___XXXX_,________, HAIR, HAIR ),     //00
-    SP( __XXXXXX,X_______, HAIR, HAIR ),     //01
-    SP( _XXXXXX_,________, HAIR, HAIR ),     //02
-    SP( _XXXXXX_,________, SKIN, HAIR ),     //03
-    SP( _XXXXXX_,________, SKIN, SKIN ),     //04
-    SP( _XX_X_X_,________, SKIN, SKIN ),     //05
-    SP( _XXXXXX_,________, SKIN, SKIN ),     //06
-    SP( _XXXXX__,________, SKIN, SKIN ),     //05
-    SP( __XX_X__,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( __XXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,XX______, TOP1, TOP1 ),     //12
-    SP( XXXXXXXX,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, SKIN ),     //14
+    SP( __X_X_X_,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ___XXXX_,_X______, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,________, SKIN, HAIR ),     //03
+    SP( __XXXXXX,_X______, SKIN, SKIN ),     //04
+    SP( X_XX_X_X,________, SKIN, SKIN ),     //05
+    SP( __XXXXXX,_X______, SKIN, SKIN ),     //06
+    SP( X_XXXXX_,________, SKIN, SKIN ),     //05
+    SP( ___XX_X_,_X______, SKIN, SKIN ),     //08
+    SP( __X_XXXX,________, SKIN, TOP2 ),     //09
+    SP( __X_XXX_,________, TOP1, TOP1 ),     //10
+    SP( __XX_X_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,XX______, TOP1, TOP1 ),     //12
+    SP( XXXXX_XX,XX______, TOP2, TOP2 ),     //13
+    SP( XX_XX_X_,XX______, TOP1, SKIN ),     //14
     SP( XX_XXXX_,________, TOP2, TOP2 ),     //15
     SP( ___XXXXX,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
@@ -781,21 +785,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     3,0,
 
-    SP( ____XXX_,________, HAIR, HAIR ),     //00
-    SP( ___XXXX_,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,XX______, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, SKIN, HAIR ),     //03
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( ___XXXX_,________, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( __X_X_XX,________, SKIN, HAIR ),     //05
+    SP( X_X_X_XX,_X______, SKIN, HAIR ),     //05
     SP( __XXXXXX,________, SKIN, SKIN ),     //06
-    SP( __XXXXXX,________, SKIN, SKIN ),     //05
+    SP( X_XXXXXX,_X______, SKIN, SKIN ),     //05
     SP( ___X_XX_,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,XX______, TOP1, TOP1 ),     //12
-    SP( _XX_XXXX,XX______, TOP2, TOP2 ),     //13
-    SP( _XXXXXX_,XX______, TOP1, TOP1 ),     //14
+    SP( _X_XXXX_,X_______, SKIN, SKIN ),     //09
+    SP( __X_XXXX,________, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,XX______, TOP1, TOP1 ),     //12
+    SP( _XX_X_XX,XX______, TOP2, TOP2 ),     //13
+    SP( _XXXX_X_,XX______, TOP1, TOP1 ),     //14
     SP( ___XXXX_,XX______, TOP2, SKIN ),     //15
     SP( _XXXXXX_,________, BELT, BELT ),     //16
     SP( ___XXXX_,________, PANT, PANT ),     //15
@@ -811,21 +815,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2,0,
 
-    SP( ___XXXXX,________, HAIR, HAIR ),     //00
-    SP( _XXXXXXX,X_______, HAIR, HAIR ),     //01
-    SP( ___XXXXX,X_______, HAIR, HAIR ),     //02
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //03
-    SP( __XXXXXX,X_______, SKIN, HAIR ),     //04
-    SP( __X_X_XX,X_______, SKIN, HAIR ),     //05
-    SP( __XXXXXX,X_______, SKIN, HAIR ),     //06
-    SP( ___XXXXX,________, SKIN, SKIN ),     //05
-    SP( _____XXX,________, SKIN, SKIN ),     //08
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,_X______, HAIR, HAIR ),     //01
+    SP( ___XXXXX,__X_____, HAIR, HAIR ),     //02
+    SP( X__XXXXX,X_______, SKIN, HAIR ),     //03
+    SP( __XXXXXX,X_X_____, SKIN, HAIR ),     //04
+    SP( X_X_X_XX,X_______, SKIN, HAIR ),     //05
+    SP( __XXXXXX,X_X_____, SKIN, HAIR ),     //06
+    SP( _X_XXXXX,_X______, SKIN, SKIN ),     //05
+    SP( __X__XXX,________, SKIN, SKIN ),     //08
     SP( ____XXXX,________, SKIN, SKIN ),     //09
-    SP( ___XXXXX,XX______, TOP1, TOP1 ),     //10
-    SP( __XXXXXX,XXX_____, TOP2, TOP2 ),     //11
-    SP( __XXXXXX,XXX_____, TOP1, TOP1 ),     //12
-    SP( __XX_XXX,_XX_____, TOP2, TOP2 ),     //13
-    SP( __XXXXXX,__XX____, TOP1, TOP1 ),     //14
+    SP( ___X_XXX,XX______, TOP1, TOP1 ),     //10
+    SP( __XXX_X_,XXX_____, TOP2, TOP2 ),     //11
+    SP( __XXXX_X,XXX_____, TOP1, TOP1 ),     //12
+    SP( __XX_X_X,_XX_____, TOP2, TOP2 ),     //13
+    SP( __XXXX_X,__XX____, TOP1, TOP1 ),     //14
     SP( ____XXXX,__XX____, TOP2, SKIN ),     //15
     SP( __XXXXXX,________, BELT, BELT ),     //16
     SP( ____XXXX,________, PANT, PANT ),     //15
@@ -840,21 +844,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2+0,0,
     
-    SP( ____XXXX,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,XX______, HAIR, HAIR ),     //01
-    SP( __XXXXXX,________, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, SKIN, HAIR ),     //03
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,_X______, HAIR, HAIR ),     //01
+    SP( ___XXXXX,________, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( ________,________, SKIN, HAIR ),     //05
+    SP( X_______,_X______, SKIN, HAIR ),     //05
     SP( __XX_X_X,________, SKIN, HAIR ),     //06
-    SP( __XXXXX_,________, SKIN, SKIN ),     //05
-    SP( ___XX_X_,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,XX______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,XX______, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,_XX_____, TOP1, TOP1 ),     //14
+    SP( X_XXXXX_,_X______, SKIN, SKIN ),     //05
+    SP( ___XX_X_,X_______, SKIN, SKIN ),     //08
+    SP( _X_XXXX_,________, SKIN, SKIN ),     //09
+    SP( __X_XXXX,X_______, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,XX______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,XX______, TOP1, TOP1 ),     //12
+    SP( XX_XX_X_,XX______, TOP2, TOP2 ),     //13
+    SP( XX_XX_X_,_XX_____, TOP1, TOP1 ),     //14
     SP( ___XXXX_,_XX_____, TOP2, SKIN ),     //15
     SP( XX_XXXX_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
@@ -870,21 +874,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2+0, 0,
 
-    SP( ____XXX_,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,X_______, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, HAIR, HAIR ),     //03
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( __X_XXX_,________, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, HAIR, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( ________,XX______, SKIN, SKIN ),     //05
+    SP( X_______,XX______, SKIN, SKIN ),     //05
     SP( __XX_X_X,XX______, SKIN, SKIN ),     //06
-    SP( __XXXXX_,XX______, SKIN, TOP2 ),     //05
+    SP( X_XXXXX_,XX______, SKIN, TOP2 ),     //05
     SP( ___XX_X_,XX______, SKIN, TOP1 ),     //08
-    SP( ___XXXX_,XX______, SKIN, TOP2 ),     //09
-    SP( __XXXXXX,XX______, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,________, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,________, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,________, TOP1, TOP1 ),     //14
+    SP( _X_XXXX_,XX______, SKIN, TOP2 ),     //09
+    SP( ___XXXXX,XX______, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,________, TOP1, TOP1 ),     //12
+    SP( XX_XX_X_,________, TOP2, TOP2 ),     //13
+    SP( XX_XX_X_,________, TOP1, TOP1 ),     //14
     SP( ___XXXX_,________, TOP2, TOP2 ),     //15
     SP( XX_XXXX_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
@@ -901,23 +905,23 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     2+0, 0,
 
-    SP( ____XXX_,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,XX______, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, SKIN, HAIR ),     //03
+    SP( ____X_X_,X_______, HAIR, HAIR ),     //00
+    SP( __X_____,________, HAIR, HAIR ),     //00
+    SP( _X_XXXX_,_X______, HAIR, HAIR ),     //01
+    SP( __XXXXXX,X_______, HAIR, HAIR ),     //02
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //03
     SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( __XXXXXX,________, SKIN, HAIR ),     //05
-    SP( __XXXXXX,________, SKIN, SKIN ),     //06
-    SP( __XXXXX_,________, SKIN, SKIN ),     //05
+    SP( X_XXXXXX,_X______, SKIN, HAIR ),     //05
+    SP( __XXXXXX,________, SKIN, HAIR ),     //06
+    SP( X_XXXXX_,X_______, SKIN, SKIN ),     //05
     SP( ___X____,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
+    SP( _X_XXXX_,X_______, SKIN, SKIN ),     //09
     SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,X_______, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, TOP1 ),     //14
-    SP( ___XXXX_,XX______, TOP2, SKIN ),     //15
-    SP( XX_XXXX_,________, BELT, BELT ),     //16
+    SP( _XX_XX_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXX_X_X,X_______, TOP1, TOP1 ),     //12
+    SP( XXXXX_XX,XX______, TOP2, TOP2 ),     //13
+    SP( ___XX_X_,XX______, TOP2, SKIN ),     //15
+    SP( XX_XX_X_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15
     SP( ___XX_XX,________, PANT, PANT ),     //18
     SP( __XXX_XX,________, PANT, PANT ),     //19
@@ -931,19 +935,19 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     3, -2,
 
-    SP( _____XXX,X_______, HAIR, HAIR ),     //00
-    SP( ____XXXX,XX______, HAIR, HAIR ),     //01
-    SP( ___XXXXX,XXX_____, HAIR, HAIR ),     //02
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //03
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //04
-    SP( ___XX_X_,X_______, SKIN, HAIR ),     //05
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //06
-    SP( ___XXXXX,________, SKIN, SKIN ),     //05
-    SP( ____XX_X,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,XX______, TOP2, TOP2 ),     //11
-    SP( XXXXXXXX,XX______, TOP1, TOP1 ),     //12
+    SP( ____X_X_,X_______, HAIR, HAIR ),     //00
+    SP( __X_____,_X______, HAIR, HAIR ),     //01
+    SP( _X__XXXX,X_______, HAIR, HAIR ),     //02
+    SP( ___XXXXX,X_X_____, SKIN, HAIR ),     //03
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //04
+    SP( ___XX_X_,X_X_____, SKIN, HAIR ),     //05
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //06
+    SP( ___XXXXX,__X_____, SKIN, SKIN ),     //05
+    SP( __X_XX_X,X_______, SKIN, SKIN ),     //08
+    SP( ____XXX_,________, SKIN, SKIN ),     //09
+    SP( __XXX_XX,X_______, TOP1, TOP1 ),     //10
+    SP( _XXXX_X_,XX______, TOP2, TOP2 ),     //11
+    SP( XXXXXX_X,XX______, TOP1, TOP1 ),     //12
     SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
     SP( XX_XXXX_,_XX_____, TOP1, TOP1 ),     //14
     SP( ___XXXXX,_XX_____, TOP2, SKIN ),     //15
@@ -963,19 +967,19 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     3, 0,
 
-    SP( _____XXX,X_______, HAIR, HAIR ),     //00
-    SP( ____XXXX,XX______, HAIR, HAIR ),     //01
-    SP( ___XXXXX,XXX_____, HAIR, HAIR ),     //02
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //03
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //04
-    SP( ___XX_X_,X_______, SKIN, HAIR ),     //05
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //06
-    SP( ___XXXXX,________, SKIN, SKIN ),     //05
-    SP( ____XX_X,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( __XXXXXX,________, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //12
+    SP( ____X_X_,X_______, HAIR, HAIR ),     //00
+    SP( __X_____,_X______, HAIR, HAIR ),     //01
+    SP( _X__XXXX,X_______, HAIR, HAIR ),     //02
+    SP( ___XXXXX,X_X_____, SKIN, HAIR ),     //03
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //04
+    SP( ___XX_X_,X_X_____, SKIN, HAIR ),     //05
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //06
+    SP( ___XXXXX,__X_____, SKIN, SKIN ),     //05
+    SP( __X_XX_X,X_______, SKIN, SKIN ),     //08
+    SP( ____XXX_,________, SKIN, SKIN ),     //09
+    SP( __XXX_XX,________, TOP1, TOP1 ),     //10
+    SP( __XXXX_X,________, TOP2, TOP2 ),     //11
+    SP( _XXXXX_X,X_______, TOP2, TOP2 ),     //12
     SP( __XXXXXX,X_______, TOP1, TOP1 ),     //13
     SP( ___XXXXX,X_______, TOP2, SKIN ),     //14
     SP( __X_XXX_,________, BELT, BELT ),     //15
@@ -994,19 +998,19 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     3, 1,
 
-    SP( _____XXX,X_______, HAIR, HAIR ),     //00
-    SP( ____XXXX,XX______, HAIR, HAIR ),     //01
-    SP( ___XXXXX,XXX_____, HAIR, HAIR ),     //02
-    SP( ___XXXXX,X_______, SKIN, HAIR ),     //03
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //04
-    SP( ___XX_X_,X_______, SKIN, SKIN ),     //05
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //06
-    SP( ___XXXXX,________, SKIN, SKIN ),     //05
-    SP( ____XX_X,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( __XXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,X_______, TOP1, TOP1 ),     //12
+    SP( ____X_X_,X_______, HAIR, HAIR ),     //00
+    SP( __X_____,_X______, HAIR, HAIR ),     //01
+    SP( _X__XXXX,X_______, HAIR, HAIR ),     //02
+    SP( ___XXXXX,X_X_____, SKIN, HAIR ),     //03
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //04
+    SP( ___XX_X_,X_X_____, SKIN, HAIR ),     //05
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //06
+    SP( ___XXXXX,__X_____, SKIN, SKIN ),     //05
+    SP( __X_XX_X,X_______, SKIN, SKIN ),     //08
+    SP( ____XXX_,________, SKIN, SKIN ),     //09
+    SP( __XXX_XX,________, TOP1, TOP1 ),     //10
+    SP( __XXXX_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXXX_X,X_______, TOP1, TOP1 ),     //12
     SP( _XX_XXX_,X_______, TOP2, TOP1 ),     //13
     SP( _XX_XXX_,X_______, TOP1, TOP1 ),     //14
     SP( ____XXXX,X_______, TOP2, SKIN ),     //15
@@ -1027,19 +1031,19 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
     3, 0,
 
-    SP( _____XXX,X_______, HAIR, HAIR ),     //00
-    SP( ____XXXX,XX______, HAIR, HAIR ),     //01
-    SP( ___XXXXX,XXX_____, HAIR, HAIR ),     //02
-    SP( ___XXXXX,X_______, HAIR, HAIR ),     //03
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //04
-    SP( ___XX_X_,X_______, SKIN, SKIN ),     //05
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //06
-    SP( ___XXXXX,________, SKIN, SKIN ),     //05
-    SP( ____XX_X,________, SKIN, SKIN ),     //08
-    SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,XX______, TOP2, TOP2 ),     //11
-    SP( XXXXXXXX,XX______, TOP1, TOP1 ),     //12
+    SP( ____X_X_,X_______, HAIR, HAIR ),     //00
+    SP( __X_____,_X______, HAIR, HAIR ),     //01
+    SP( _X__XXXX,X_______, HAIR, HAIR ),     //02
+    SP( ___XXXXX,X_X_____, SKIN, HAIR ),     //03
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //04
+    SP( ___XX_X_,X_X_____, SKIN, HAIR ),     //05
+    SP( _X_XXXXX,X_______, SKIN, HAIR ),     //06
+    SP( ___XXXXX,__X_____, SKIN, SKIN ),     //05
+    SP( __X_XX_X,X_______, SKIN, SKIN ),     //08
+    SP( ____XXX_,________, SKIN, SKIN ),     //09
+    SP( __XXX_XX,X_______, TOP1, TOP1 ),     //10
+    SP( _XXXXX_X,XX______, TOP2, TOP2 ),     //11
+    SP( XXXXXX_X,XX______, TOP1, TOP1 ),     //12
     SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
     SP( XX_XXXX_,_XX_____, TOP1, TOP1 ),     //14
     SP( ___XXXXX,_XX_____, TOP2, SKIN ),     //15
@@ -1063,18 +1067,18 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
     SP( ________,________, ____, ____ ),     //03
     SP( ________,________, ____, ____ ),     //04
     SP( ________,________, ____, ____ ),     //05
-    SP( ________,________, ____, ____ ),     //06
-    SP( ____XXXX,XX______, HAIR, HAIR ),     //05
-    SP( ___XXXXX,XXX_____, HAIR, HAIR ),     //08
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //09
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //10
-    SP( ___XX_X_,X_______, SKIN, SKIN ),     //11
-    SP( ___XXXXX,X_______, SKIN, SKIN ),     //12
-    SP( ___XXXXX,________, SKIN, SKIN ),     //13
-    SP( ____XX_X,________, SKIN, SKIN ),     //14
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //15
-    SP( __XXXXXX,X_______, TOP2, TOP2 ),     //16
-    SP( __XXXXXX,X_______, TOP1, TOP1 ),     //15
+    SP( ____X_X_,X_______, ____, ____ ),     //06
+    SP( __X_____,__X_____, HAIR, HAIR ),     //05
+    SP( _X__XXXX,X_______, HAIR, HAIR ),     //08
+    SP( ___XXXXX,X_X_____, SKIN, SKIN ),     //09
+    SP( _X_XXXXX,X_______, SKIN, SKIN ),     //10
+    SP( ___XX_X_,X_X_____, SKIN, SKIN ),     //11
+    SP( _X_XXXXX,X_______, SKIN, SKIN ),     //12
+    SP( ___XXXXX,_X______, SKIN, SKIN ),     //13
+    SP( __X_XX_X,________, SKIN, SKIN ),     //14
+    SP( __XX_XXX,X_______, TOP1, TOP1 ),     //15
+    SP( __XXX_X_,X_______, TOP2, TOP2 ),     //16
+    SP( __XXXX_X,X_______, TOP1, TOP1 ),     //15
     SP( __XX_XXX,X_______, TOP2, TOP2 ),     //18
     SP( ___XX_XX,X_______, TOP1, TOP1 ),     //19
     SP( ___XXXXX,X_______, TOP2, TOP2 ),     //20
@@ -1245,18 +1249,18 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 
 
-    SP( ____XXXX,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,XX______, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, HAIR, HAIR ),     //03
-    SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( __XX_X_X,________, SKIN, HAIR ),     //05
-    SP( __XXXXXX,________, SKIN, HAIR ),     //06
-    SP( __XXXXX_,________, SKIN, SKIN ),     //05
-    SP( ___XX_X_,________, SKIN, SKIN ),     //08
+    SP( ___X_X_X,________, HAIR, HAIR ),     //00
+    SP( _X______,X_______, HAIR, HAIR ),     //01
+    SP( X__XXXXX,________, HAIR, HAIR ),     //02
+    SP( __XXXXXX,_X______, HAIR, HAIR ),     //03
+    SP( X_XXXXXX,________, SKIN, HAIR ),     //04
+    SP( __XX_X_X,_X______, SKIN, HAIR ),     //05
+    SP( X_XXXXXX,________, SKIN, HAIR ),     //06
+    SP( __XXXXX_,_X______, SKIN, SKIN ),     //05
+    SP( _X_XX_X_,X_______, SKIN, SKIN ),     //08
     SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
+    SP( __X_XXXX,________, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,X_______, TOP2, TOP2 ),     //11
     SP( _XXX__XX,X_______, TOP1, TOP1 ),     //12
     SP( _XXXXXXX,X_______, TOP2, BELT ),     //13
     SP( __XXXX_X,X_______, PANT, TOP1 ),     //14
@@ -1372,21 +1376,21 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 
 
-    SP( ____XXXX,________, HAIR, HAIR ),     //00
-    SP( ___XXXXX,________, HAIR, HAIR ),     //01
-    SP( __XXXXXX,XX______, HAIR, HAIR ),     //02
-    SP( __XXXXXX,________, HAIR, HAIR ),     //03
-    SP( __XXXXXX,________, SKIN, HAIR ),     //04
-    SP( __XX_X_X,________, SKIN, HAIR ),     //05
-    SP( __XXXXXX,________, SKIN, HAIR ),     //06
-    SP( __XXXXX_,________, SKIN, SKIN ),     //05
-    SP( ___XX_X_,________, SKIN, SKIN ),     //08
+    SP( ____X_X_,________, HAIR, HAIR ),     //00
+    SP( __X_____,X_______, HAIR, HAIR ),     //01
+    SP( _X_XXXXX,________, HAIR, HAIR ),     //02
+    SP( __XXXXXX,_X______, HAIR, HAIR ),     //03
+    SP( X_XXXXXX,________, SKIN, HAIR ),     //04
+    SP( __XX_X_X,_X______, SKIN, HAIR ),     //05
+    SP( X_XXXXXX,________, SKIN, HAIR ),     //06
+    SP( __XXXXX_,_X______, SKIN, SKIN ),     //05
+    SP( _X_XX_X_,X_______, SKIN, SKIN ),     //08
     SP( ___XXXX_,________, SKIN, SKIN ),     //09
-    SP( __XXXXXX,________, TOP1, TOP1 ),     //10
-    SP( _XXXXXXX,X_______, TOP2, TOP2 ),     //11
-    SP( _XXXXXXX,X_______, TOP1, TOP1 ),     //12
-    SP( XX_XXXX_,XX______, TOP2, TOP2 ),     //13
-    SP( XX_XXXX_,XX______, TOP1, TOP1 ),     //14
+    SP( __X_XXXX,________, TOP1, TOP1 ),     //10
+    SP( _XXX_X_X,X_______, TOP2, TOP2 ),     //11
+    SP( _XXXX_XX,X_______, TOP1, TOP1 ),     //12
+    SP( XX_XX_X_,XX______, TOP2, TOP2 ),     //13
+    SP( XX_XX_X_,XX______, TOP1, TOP1 ),     //14
     SP( ___XXXX_,XX______, TOP2, SKIN ),     //15
     SP( XX_XXXX_,________, BELT, BELT ),     //16
     SP( XX_XXXXX,________, PANT, PANT ),     //15

@@ -57,6 +57,14 @@ const unsigned char sampleMagic2[] = {
     CMD_STOP,
 };
 
+const unsigned char samplePick[] = {
+    9, 12, 8, 1,
+    9, 20, 15, 1,
+    9, 31, 12, 1,
+    // 8, 18, 9, 1,
+    // 8, 18, 6, 1,
+    CMD_STOP,
+};
 
 
 const unsigned char sampleRock[] = {
@@ -261,6 +269,7 @@ const struct AudioTable AudioSamples[] = {
 
     { sampleUncovered,    201, 0                                  }, // SFX_UNCOVERED,          // 0
     { sample10987654321,  200, AUDIO_LOCKED                       }, // SFX_COUNTDOWN2,         // 1
+    { samplePick,         200, 0                                  }, // SFX_PICKAXE,           // 2
     { sampleSFX,          200, 0                                  }, // SFX_DIAMOND2,           // 2
     { sampleWhoosh,       127, 0                                  }, // SFX_WHOOSH,             // 3
     { sampleBlip,         125, 0                                  }, // SFX_BLIP,               // 4

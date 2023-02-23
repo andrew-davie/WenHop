@@ -26,14 +26,15 @@ enum AudioID {
 
     SFX_UNCOVERED,          // 1
     SFX_COUNTDOWN2,         // 2   time expiring
+    SFX_PICKAXE,            // 
     SFX_DIAMOND2,           // 3
-    SFX_WHOOSH,             // 5
-    SFX_BLIP,               // 6
-    SFX_EXTRA,              // 7
-    SFX_EXIT,               // 8
-    SFX_EXPLODE,            // 9
-    SFX_MAGIC,              // 10
-    SFX_MAGIC2,              // 10
+    SFX_WHOOSH,             // 4
+    SFX_BLIP,               // 5
+    SFX_EXTRA,              // 6
+    SFX_EXIT,               // 7
+    SFX_EXPLODE,            // 8
+    SFX_MAGIC,              // 9
+    SFX_MAGIC2,             // 10
     SFX_ROCK,               // 11
     SFX_ROCK2,              // 12
     SFX_SCORE,              // 13
@@ -85,7 +86,7 @@ struct trackInfo {
 
 #define TRACK_MAX 2
 #define VOLUME_NONPLAYING 312
-#define VOLUME_PLAYING 256
+#define VOLUME_PLAYING 384
 #define VOLUME_MAX 1024
 
 

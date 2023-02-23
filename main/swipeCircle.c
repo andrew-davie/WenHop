@@ -148,7 +148,7 @@ bool checkSwipeFinished() {
 
 void initSwipeCircle(int zoom) {
 
-    ADDAUDIO(SFX_WHOOSH);
+    //ADDAUDIO(SFX_WHOOSH);
     circleZoom = zoom;
     radius = zoom < CIRCLE_ZOOM_ZERO ? CIRCLE_RADIUS_MAX : CIRCLE_RADIUS_MIN;
 }

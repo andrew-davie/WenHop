@@ -106,6 +106,9 @@ unsigned int triggerPressCounter;
 static unsigned int triggerOffCounter;
 
 
+int dogeBlockCount;
+int cumulativeBlockCount;
+
 
 int lives;
 int selectResetDelay;;
@@ -316,6 +319,9 @@ void initNextLife() {
     triggerPressCounter = 0;
     triggerOffCounter = 0;
     // expandSpeed = 0;
+
+    dogeBlockCount = 0;
+    cumulativeBlockCount = 0;
 
     resetDelay = 0;
     selectResetDelay = 0;
@@ -692,7 +698,7 @@ void handleCaveCompletion() {
                 if (diamonds < 0) {
 
                     static const unsigned char extraBonus[] = {
-                        'D','I','A','M','O','N','D','S',END_STRING,
+                        'D','O','G','E',END_STRING,
                     };
 
                     if (exitMode == 51)
@@ -1132,6 +1138,8 @@ void setupBoard() {
 
         boardCol = -1;
         boardRow = 0;
+        //dogeBlockCount = 0;
+        //cumulativeBlockCount = 0;
 
         if (uncoverTimer <= 0)
             checkAmoeba();
@@ -1287,15 +1295,10 @@ void chainReactDoge() {
 
         int type = CharToType[GET(*(this + dir[i]))];
         if (Attribute[type] & ATT_PUSH) {
-            *(this + dir[i]) = CH_DUST_ROCK_2;
-
-    static int audiox[] = { SFX_DIAMOND, SFX_DIAMOND2, SFX_DIAMOND3 };
-    static int auds = 0;
-
-            if (++auds > 2)
-                auds = 0;
-
-            ADDAUDIO(audiox[auds]);
+            *(this + dir[i]) = CH_DOGE_00 | ((dir > 0) ? FLAG_THISFRAME : 0);
+            ADDAUDIO(SFX_UNCOVER);
+            dogeBlockCount++;
+            cumulativeBlockCount++;
         }
     }
 }
@@ -1306,13 +1309,13 @@ void processBoardSquares() {
     #define blanker (CH_DUST_0 | FLAG_THISFRAME)
 
     // int lastCreature = 12345;
-        if (!(getRandom32() & 0xFF)) {
+        // if (!(getRandom32() & 0xFF)) {
          
-            if (sound_max_volume)
-                sound_max_volume = 0;
-            else
-                sound_max_volume = VOLUME_PLAYING;
-        }
+        //     if (sound_max_volume)
+        //         sound_max_volume = 0;
+        //     else
+        //         sound_max_volume = VOLUME_PLAYING;
+        // }
 
 
     while (true) {
@@ -1356,6 +1359,27 @@ void processBoardSquares() {
 
 
             if (boardRow > 21) {
+
+                if (!dogeBlockCount && cumulativeBlockCount) {
+
+                    int val = 0;
+
+                    if (cumulativeBlockCount < 10)
+                        val = cumulativeBlockCount;
+                    else if (cumulativeBlockCount < 20)
+                        val = cumulativeBlockCount * 10;
+                    else
+                        val = cumulativeBlockCount * 100;
+
+                    addScore(val);
+
+                    cumulativeBlockCount = 0;
+                }
+                dogeBlockCount = 0;
+
+
+                if (!cumulativeBlockCount)
+                    killAudio(SFX_UNCOVER);
 
                 if (uncoverTimer >= 0)
                     uncoverTimer--;
@@ -1582,6 +1606,7 @@ void processBoardSquares() {
 
                     case CH_DUST_ROCK_2:
                         *this = CH_DOGE_00;
+                        ADDAUDIO(SFX_UNCOVER);
                         break;
 
                     case CH_DUST_0:
@@ -1628,6 +1653,14 @@ void processBoardSquares() {
                     // case CH_DIAMOND_PULSE_6: {
 
                     case CH_DOGE_00:
+
+                        // if (!(getRandom32() & 0xFF)) {
+                        //     *this = CH_DUST_0;
+                        //     break;
+                        // }
+
+
+
                     case CH_DOGE_01:
                     case CH_DOGE_02:
                     case CH_DOGE_03:

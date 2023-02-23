@@ -129,6 +129,7 @@ void initRockford() {
 
 void chooseIdleAnimation() {
 
+
 #if ENABLE_IDLE_ANIMATION
 #define ANIM_COUNT (sizeof(animID)/2)
 
@@ -166,7 +167,7 @@ void chooseIdleAnimation() {
                     playerIdleTime = 0;
                 }
 
-                else if (rndX < 0x70000000) {
+                else if (getRandom32() < 0x70000000) {
                     int idle = rangeRandom(ANIM_COUNT) << 1;
                     if ((rndX & 0xFFF) < animID[idle + 1])
                         startPlayerAnimation(animID[idle]);   
@@ -189,7 +190,7 @@ void grabDiamond(unsigned char *where) {
 
     totalDiamondsPossible--;
 
-    if (diamonds > 0)
+    // if (diamonds > 0)
         addScore(theCave->diamondValue);
 
     if (!--diamonds) {
@@ -323,14 +324,17 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
     return handled;
 }
 
+bool waitForNothing;
 
 
 bool checkLowPriorityMove(int dir, int blanker) {
 
 
     unsigned char joyBit = joyDirectBit[dir] << 4;
-    if (usableSWCHA & joyBit)
+    if (usableSWCHA & joyBit) {
         return false;
+    }
+
 
     int offset = dirOffset[dir];
     unsigned char *thisOffset = this + offset;
@@ -363,17 +367,25 @@ bool checkLowPriorityMove(int dir, int blanker) {
             //FLASH(0xC2,4);
             pushCounter = 2;
 
-            ADDAUDIO(SFX_EXPLODE);
 //            *(this + 2 * offset) = CH_BOULDER_SHAKE | FLAG_THISFRAME;
             if (JOY0_FIRE) {
                 //startPlayerAnimation(ID_EndPush2);
-                *thisOffset = CH_DUST_ROCK_0; //blanker;
+                *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; //blanker;
             }
             else {
                 //rockfordX += offset;
-                *thisOffset = CH_DUST_ROCK_0; // CH_ROCKFORD;
+                *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; // CH_ROCKFORD;
                 //*this = blanker;
             }
+
+            waitForNothing = true;
+
+            extern int dogeBlockCount;
+            extern int cumulativeBlockCount;
+            dogeBlockCount++;
+            cumulativeBlockCount++;
+
+
 //            startCharAnimation(TYPE_BOULDER_FALLING, AnimBrokenBoulder);
  
             if (rockfordFaceDirection > 0) {
@@ -479,6 +491,13 @@ void colourAdjust() {
 void moveRockford(unsigned char *this, unsigned char blanker) {
 
     handled = false;
+
+    if (usableSWCHA & 0xF)
+        waitForNothing = false;
+
+    if (waitForNothing)
+        return;
+        
     
     for (int dir = 0; dir < 4; dir++ )
         if (checkHighPriorityMove(dir, blanker))

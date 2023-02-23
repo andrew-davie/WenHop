@@ -1253,24 +1253,24 @@ __DIGIT_SHAPE
     ;    dc B________
 
 
-       dc BX____X__
-       dc BX____X__
-       dc BX____X__
-       dc BXX___X__
-       dc BXX___X__
-       dc BXX___X__
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXX___X__
-       dc BXX___X__
-       dc BXX___X__
-       dc BX____X__
-       dc BX____X__
-       dc BX____X__
+       dc B___XXX__
+       dc B___XXX__
+       dc B___XXX__
+       dc B___X_XX_
+       dc B___X__X_
+       dc B___X__X_
+       dc B__XXX_X_
+       dc B__XXX_X_
+       dc B__XXX_X_
+       dc B__XXX_X_
+       dc B__XXX_X_
+       dc B__XXX_X_
+       dc B___X__X_
+       dc B___X__X_
+       dc B___X_XX_
+       dc B___XXX__
+       dc B___XXX__
+       dc B___XXX__
        dc B________
        dc B________
 

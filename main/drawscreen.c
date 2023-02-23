@@ -483,6 +483,13 @@ void rain() {
                 }
             }
 
+            else if (type == TYPE_DIAMOND) {
+                *cell = CH_DUST_0;
+                rainX[i] = -1;
+                ADDAUDIO(SFX_DRIP)
+;                continue;
+            }
+
             if (halt || !(Attribute[type] & ATT_ROCKFORDYBLANK)) {
 
                 if (rainSpeed[i] > 0) {

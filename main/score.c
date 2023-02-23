@@ -47,7 +47,7 @@ void addScore(int score) {
 
     actualScore += score;
 
-    ADDAUDIO(SFX_SCORE);
+//    ADDAUDIO(SFX_SCORE);
 
     partialScore += score;
 
@@ -292,15 +292,16 @@ void drawSpeedRun() {
 
 void drawDiamond() {
 
-    scoreLineNew[1] = diamonds < 0 ? DIGIT_PLUS : DIGIT_DIAMOND;
-    scoreLineColour[1] = RGB_GREEN;
+    scoreLineNew[1] = DIGIT_PLUS;
+    scoreLineNew[0] = DIGIT_DIAMOND;
+    scoreLineColour[1] = scoreLineColour[0] = RGB_GREEN;
     drawDecimal2(scoreLineNew + 2, scoreLineColour + 2, RGB_YELLOW, diamonds < 0 ? - diamonds : diamonds);
 }
 
 
 void drawTime() {
 
-    int tPos = time >= 0xA00 ? time >= 0x6400 ? 5 : 6 : 7;
+    int tPos = 0; //time >= 0xA00 ? time >= 0x6400 ? 5 : 6 : 7;
 
     scoreLineNew[tPos] = LETTER('T');
     scoreLineColour[tPos++] = RGB_BLUE;
@@ -323,6 +324,7 @@ void drawLives() {
 
 void drawTheScore(int score) {
 
+    int notLeadingZero = 0;
     for (int digit = 5; digit >= 0; digit--) {
 
         int displayDigit = 0;
@@ -331,8 +333,12 @@ void drawTheScore(int score) {
             score -= pwr[digit];
         }
 
-        scoreLineNew[7 - digit] = displayDigit;
-        scoreLineColour[7 - digit] = RGB_YELLOW; // digit + 1;
+        notLeadingZero |= displayDigit;
+
+        if (!digit || notLeadingZero) {
+            scoreLineNew[9 - digit] = displayDigit;
+            scoreLineColour[9 - digit] = RGB_YELLOW; // digit + 1;
+        }
     }
 }
 
@@ -436,14 +442,14 @@ void drawScore() {
 
     switch (scoreCycle) {
     case SCORELINE_TIME:
-        drawDiamond();
-        drawTime();
-        break;
     case SCORELINE_SCORE:
+//        drawDiamond();
+        drawTime();
+//        break;
         drawTheScore(actualScore);
         break;
     case SCORELINE_LIVES:
-        drawTime();
+//        drawTime();
         drawLives();
         break;
     case SCORELINE_CAVELEVEL:

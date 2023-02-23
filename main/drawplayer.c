@@ -18,23 +18,35 @@ static int playerHalfSpriteY;
 static int playerSmallSpriteY;
 
 
+extern const unsigned char playerColour[][4];
+unsigned char dynamicPlayerColours[9];
 
 void initSprites() {
 
     playerSpriteY =
     playerHalfSpriteY =
     playerSmallSpriteY -1;
+
+    for (int i = 0; i < 9; i++)
+        dynamicPlayerColours[i] = playerColour[i][mm_tv_type];
 }
 
 
 
-extern const unsigned char playerColour[][4];
 
 
 void drawPlayerSprite() {  // --> 3171 cycles
 
     // if (time < 0xA00 && (time & 2))
     //     return;
+
+    static int pulseRed = 0x4200;
+
+    dynamicPlayerColours[5] =
+    dynamicPlayerColours[2] =
+    dynamicPlayerColours[3] = pulseRed >> 8;
+
+//    pulseRed = (pulseRed & 0xF000) | ((pulseRed + 80) & 0xFFF);
 
 
 #if ENABLE_SHAKE
@@ -109,7 +121,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
             }
 
             int col = *spr >> 4;
-            int hueLum = playerColour[col][mm_tv_type];
+            int hueLum = dynamicPlayerColours[col]; // playerColour[col][mm_tv_type];
 
 #if __FADE
             p0Colour[line] = (hueLum & 0xF0) | (((hueLum & 0xF) * theFade) >> 16);
@@ -117,7 +129,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
             p0Colour[line] = hueLum;
 #endif
             col = *spr++ & 0xF;
-            hueLum = playerColour[col][mm_tv_type];
+            hueLum = dynamicPlayerColours[col]; // playerColour[col][mm_tv_type];
 
 #if __FADE
             p1Colour[line] = (hueLum & 0xF0) | (((hueLum & 0xF) * theFade) >> 16);
@@ -178,7 +190,7 @@ void drawHalfSprite() { // --> 3960 cycles
                 newSp |= 1 << bit;
 
         p0[line] = (rockfordFaceDirection == FACE_RIGHT) ? newSp : BitRev[newSp];
-        p0Colour[line] = playerColour[(spr[2] & 0xF)][mm_tv_type];
+        p0Colour[line] = dynamicPlayerColours[spr[2] & 0xF]; // playerColour[(spr[2] & 0xF)][mm_tv_type];
     }
 }
 
@@ -226,7 +238,7 @@ void drawPlayerSmallSprite() { // --> 2132 cycles
                     newSp |= 1 << bit;
 
             p0[line] = (rockfordFaceDirection == FACE_RIGHT) ? newSp : BitRev[newSp];
-            p0Colour[line] = playerColour[(spr[2] >> 4)/* + easterEggColour*/][mm_tv_type];
+            p0Colour[line] = dynamicPlayerColours[spr[2] >> 4]; // playerColour[(spr[2] >> 4)/* + easterEggColour*/][mm_tv_type];
 
             spr += 6;
         }

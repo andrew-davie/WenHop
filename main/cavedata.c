@@ -627,7 +627,7 @@ const unsigned char caveA[]= {
 
     20,       // milling
     10,15,  // diamond $
-    1,          // rain
+    5, //              ,          // rain
 
     10,11,50,56,8,       // randomiser[level]
     25,12,12,12,12,
