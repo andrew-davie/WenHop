@@ -47,13 +47,12 @@ SRCS =  amoeba.c	characterset.c	joystick.c	random.c	swipeCircle.c \
 		
 # C Compiler flags
 OPTIMIZATION =  -Os
-CFLAGS = -g3 -gdwarf-2 -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
+CFLAGS = -g3 -gdwarf-4 -gstrict-dwarf -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
 CFLAGS += -Wall -Wextra -Wunused-macros -ffunction-sections # -save-temps #-mlong-calls 
 CFLAGS += $(OPTIMIZATION) $(INCLUDES) 
 CFLAGS += -Wl,--print-memory-usage,--build-id=none -flto -mno-thumb-interwork -fextended-identifiers
 
 
-#SHOWFPS = -showfps
 
 # Search path
 VPATH += $(BASE):$(SRC)
