@@ -3,7 +3,5 @@
 silent
 *.o
 *.bin
-*.elf
-*.map
-*.obj
+main/bin/*.*
 .DS_Store
