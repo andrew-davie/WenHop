@@ -203,7 +203,7 @@ const short Attribute[] = {
      _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 44 TYPE_BOULDER_FALLING
 
      _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 45 TYPE_LADDER
-     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 45 TYPE_DUST_ROCK
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 46 TYPE_DUST_ROCK
 
 
 #if __ENABLE_LAVA

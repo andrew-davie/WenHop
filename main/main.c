@@ -111,7 +111,7 @@ int cumulativeBlockCount;
 
 
 int lives;
-int selectResetDelay;;
+// int selectResetDelay;;
 int resetDelay;
 
 #if ENABLE_DEBUG
@@ -324,7 +324,7 @@ void initNextLife() {
     cumulativeBlockCount = 0;
 
     resetDelay = 0;
-    selectResetDelay = 0;
+    // selectResetDelay = 0;
 
     #if ENABLE_DEBUG
     selectDelay = 0;
@@ -363,7 +363,7 @@ void initNextLife() {
     initSprites();
 
     for (int i = 0; i < RAINHAILSHINE; i++)
-        rainX[i] = 255;
+        rainX[i] = -1;
 
     initAmoeba();
 
@@ -572,34 +572,74 @@ void drawOverscanThings() {
 
             createParallaxCharset();
             drawScreen();
-        drawScore();
+            drawScore();
 
             drawPlayerSprite();
 
             static int whichDrop = 0;
-            if (!showingWords && theCave->weather && rainX[whichDrop] == 255) {
+            if (!showingWords) {
 
-                rndX = getRandom32();
+                // bullets
 
-                int dripX = rockfordX + ((((rndX >> 12) & 0xFF) * 9) >> 8) - 4;
-                int dripY = rockfordY + ((((rndX >> 7) & 0xFF) * 9) >> 8) - 4;
+                //static int whichDrop = 0;
+                if (JOY0_FIRE)  
+                for (int whichDrop = 0; whichDrop < RAINHAILSHINE; whichDrop++) {
+                    if (rainX[whichDrop] == -1) {
 
-                if (dripX >= 1 && dripX <= 39 && dripY >= 1 && dripY <= 19) {
+                        rndX = getRandom32();
 
-                    unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
-                    if ((Attribute[CharToType[GET(*(dripPos - 40))]] & ATT_DRIP)
-                        && (Attribute[CharToType[GET(*dripPos)]] & ATT_BLANK)) {
+                        int dripX = rockfordX;
+                        int dripY = rockfordY;
 
-                        rainX[whichDrop] = (dripX << 2) + (rndX & 3);
-                        rainRow[whichDrop] = dripY;
-                        rainY[whichDrop] = -1;                  // embed in upper char
-                        rainSpeed[whichDrop] = RAIN_FORMING_DRIP;
+    //                    if (dripX >= 1 && dripX <= 39 && dripY >= 1 && dripY <= 19) {
 
-                        if (++whichDrop >= theCave->weather)
-                            whichDrop = 0;
+                            unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
+                            // if ((Attribute[CharToType[GET(*(dripPos - 40))]] & ATT_DRIP)
+                            //     && (Attribute[CharToType[GET(*dripPos)]] & ATT_BLANK)) {
+
+                                rainType[whichDrop] = 0;                // bullet
+                                rainX[whichDrop] = ((dripX << 2) + 2) << 8; //(rndX & 3);
+                                rainRow[whichDrop] = dripY;
+                                rainY[whichDrop] = -1;                  // embed in upper char
+                                rainSpeed[whichDrop] = 0x100; //RAIN_FORMING_DRIP;
+                                rainSpeedX[whichDrop] = (rangeRandom(128) - 64)<<1;
+                                rainSpeedY[whichDrop] = (rangeRandom(65536) - 32768)<<1;
+
+    //                            ADDAUDIO(SFX_BLIP);
+
+                            // }
+    //                    }
                     }
                 }
-            }            
+                // if (++whichDrop >= theCave->weather)
+                //     whichDrop = 0;
+
+                // real rain
+                    
+                // if (theCave->weather && rainX[whichDrop] == 255) {
+
+                //     rndX = getRandom32();
+
+                //     int dripX = rockfordX + ((((rndX >> 12) & 0xFF) * 9) >> 8) - 4;
+                //     int dripY = rockfordY + ((((rndX >> 7) & 0xFF) * 9) >> 8) - 4;
+
+                //     if (dripX >= 1 && dripX <= 39 && dripY >= 1 && dripY <= 19) {
+
+                //         unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
+                //         if ((Attribute[CharToType[GET(*(dripPos - 40))]] & ATT_DRIP)
+                //             && (Attribute[CharToType[GET(*dripPos)]] & ATT_BLANK)) {
+
+                //             rainX[whichDrop] = (dripX << 2) + (rndX & 3);
+                //             rainRow[whichDrop] = dripY;
+                //             rainY[whichDrop] = -1;                  // embed in upper char
+                //             rainSpeed[whichDrop] = RAIN_FORMING_DRIP;
+
+                //             if (++whichDrop >= theCave->weather)
+                //                 whichDrop = 0;
+                //         }
+                //     }
+                // }      
+            }
         }
     }
     
@@ -859,14 +899,15 @@ void GameOverscan() {
     }
     else {
 
-        if (!(SWCHB & 0b11)    // select+reset
-            || (swcha == 0xFF && !(inpt4 & 0x80))) {
-                selectResetDelay++;
-        }
+        // if (!(SWCHB & 0b11)    // select+reset
+        //     || (swcha == 0xFF && !(inpt4 & 0x80))) {
+        //         selectResetDelay++;
+        // }
 
-        else {
+        // else
+        {
 
-            selectResetDelay = 0;
+//            selectResetDelay = 0;
 
             if (!GAME_RESET_PRESSED)
                 resetDelay = 0;
@@ -937,9 +978,9 @@ void GameOverscan() {
         if (!exitMode && triggerPressCounter && triggerOffCounter >= DOUBLE_TAP) {
             
             if (triggerPressCounter < TOOLONG) {
-                if (displayMode == DISPLAY_NORMAL)
-                    displayMode = DISPLAY_HALF;
-                else
+                // if (displayMode == DISPLAY_NORMAL)
+                //     displayMode = DISPLAY_HALF;
+                // else
                     displayMode = DISPLAY_NORMAL;
 
 //                ADDAUDIO(SFX_BLIP);
@@ -1360,6 +1401,7 @@ void processBoardSquares() {
 
             if (boardRow > 21) {
 
+                int lastCumulative = cumulativeBlockCount;
                 if (!dogeBlockCount && cumulativeBlockCount) {
 
                     int val = 0;
@@ -1378,8 +1420,10 @@ void processBoardSquares() {
                 dogeBlockCount = 0;
 
 
-                if (!cumulativeBlockCount)
+                if (!cumulativeBlockCount && lastCumulative) {
                     killAudio(SFX_UNCOVER);
+                }
+
 
                 if (uncoverTimer >= 0)
                     uncoverTimer--;
@@ -1575,18 +1619,18 @@ void processBoardSquares() {
                         if (!exitMode)
                             moveRockford(this, blanker);
 
-                        if (selectResetDelay > DEAD_RESTART_COUCH
-                            || (selectResetDelay > DEAD_RESTART && GAME_RESET_PRESSED && GAME_SELECT_PRESSED)
-                            || ( (!time && !invincible)/*&& !terminalDelay*/)
-        #if __ENABLE_LAVA
-                            || (lava && boardRowPD + 10 > lava)
-        #endif
-                            ) {
+//                         if (selectResetDelay > DEAD_RESTART_COUCH
+//                             || (selectResetDelay > DEAD_RESTART && GAME_RESET_PRESSED && GAME_SELECT_PRESSED)
+//                             || ( (!time && !invincible)/*&& !terminalDelay*/)
+//         #if __ENABLE_LAVA
+//                             || (lava && boardRowPD + 10 > lava)
+//         #endif
+//                             ) {
 
-                            Explode(this, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
-                            startPlayerAnimation(ID_Die);
-//                            *this = CH_BLANK;
-                        }
+//                             Explode(this, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
+//                             startPlayerAnimation(ID_Die);
+// //                            *this = CH_BLANK;
+//                         }
 
                         break;
 
@@ -1790,8 +1834,8 @@ void processBoardSquares() {
                             }
                         }
 
-                        else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
-                            Explode(next, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
+                        // else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
+                        //      Explode(next, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
 
                         else if (typeDown == TYPE_BUTTERFLY)
                             Explode(next, CH_EXPLODETODIAMOND_0 | FLAG_THISFRAME);

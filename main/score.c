@@ -54,7 +54,7 @@ void addScore(int score) {
     while (partialScore >= 500) {
         partialScore -= 500;
         lives++;
-        FLASH(0x86,6);
+//        FLASH(0x86,6);
         sparkleTimer = SPARKLE;
         ADDAUDIO(SFX_EXTRA);
         setScoreCycle(SCORELINE_LIVES);

@@ -144,15 +144,16 @@ void chooseIdleAnimation() {
     };
 
     // suicide skeleton
-    if (selectResetDelay > DEAD_RESTART_COUCH * 3 / 5) {
-        if (playerAnimationID != ID_Skeleton2) {
-            startPlayerAnimation(ID_Skeleton2);
-//            ADDAUDIO(SFX_DRIP);
-            SAY(__WORD_GOODBYE);
-        }
-    }
+//     if (selectResetDelay > DEAD_RESTART_COUCH * 3 / 5) {
+//         if (playerAnimationID != ID_Skeleton2) {
+//             startPlayerAnimation(ID_Skeleton2);
+// //            ADDAUDIO(SFX_DRIP);
+//             SAY(__WORD_GOODBYE);
+//         }
+//     }
 
-    else {
+//    else
+     {
 
         // choose an idle animation
         if ((inpt4 & 0x80) && usableSWCHA == 0xFF) {
@@ -195,8 +196,8 @@ void grabDiamond(unsigned char *where) {
 
     if (!--diamonds) {
         exitTrigger = true;
-        FLASH(0x08, 8);     //open door
-        ADDAUDIO(SFX_EXIT);
+//        FLASH(0x08, 8);     //open door
+//            ADDAUDIO(SFX_EXIT);
     }
     else
         ADDAUDIO(SFX_DIAMOND2);
@@ -215,6 +216,8 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
         rockfordFaceDirection = faceDirection[dir];
     }
 
+    if (pushCounter)
+        return false;
 
     unsigned char *thisOffset = this + dirOffset[dir];
     unsigned char destType = CharToType[(*thisOffset) & 0x7F]; 
@@ -253,7 +256,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
         
                 //startCharAnimation(TYPE_ROCKFORD, AnimateBase[TYPE_ROCKFORD]);
 
-            pushCounter = 0;
+//            pushCounter = 0;
 
             if (Attribute[destType] & ATT_DIRT) {
                 ADDAUDIO(SFX_DIRT);
@@ -274,11 +277,11 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
             }
 
-            else if (destType == TYPE_EASTEREGG) {
-                FLASH(0x8, 10);
-                time += 50 << 8;
-                lockDisplay = false;
-            }
+            // else if (destType == TYPE_EASTEREGG) {
+            //     FLASH(0x8, 10);
+            //     time += 50 << 8;
+            //     lockDisplay = false;
+            // }
 
             if (Attribute[destType] & ATT_GRAB) {
                 grabDiamond(thisOffset);
@@ -324,7 +327,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
     return handled;
 }
 
-bool waitForNothing;
+//bool waitForNothing;
 
 
 bool checkLowPriorityMove(int dir, int blanker) {
@@ -345,7 +348,7 @@ bool checkLowPriorityMove(int dir, int blanker) {
         && !(Attribute[CharToType[(*(thisOffset + 40)) & 0x7F]] & ATT_BLANK)) {
 
         
-        if (++pushCounter > 1) {
+        if (++pushCounter > 3) {
 //            *thisOffset = CH_BOULDER_SHAKE | FLAG_THISFRAME; //((rockfordFaceDirection > 0) ? FLAG_THISFRAME : 0);
             if (playerAnimationID != ID_Push)
                 startPlayerAnimation(ID_Push);
@@ -365,20 +368,21 @@ bool checkLowPriorityMove(int dir, int blanker) {
         {
 
             //FLASH(0xC2,4);
-            pushCounter = 2;
+            pushCounter = 3;
 
 //            *(this + 2 * offset) = CH_BOULDER_SHAKE | FLAG_THISFRAME;
-            if (JOY0_FIRE) {
+//            if (JOY0_FIRE) {
                 //startPlayerAnimation(ID_EndPush2);
                 *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; //blanker;
-            }
-            else {
+//            }
+//            else {
                 //rockfordX += offset;
-                *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; // CH_ROCKFORD;
+//                *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; // CH_ROCKFORD;
                 //*this = blanker;
-            }
+//            }
+            // FLASH(0xD4,4);
 
-            waitForNothing = true;
+//            waitForNothing = true;
 
             extern int dogeBlockCount;
             extern int cumulativeBlockCount;
@@ -407,6 +411,13 @@ bool checkLowPriorityMove(int dir, int blanker) {
     }
 
     else
+
+        if (pushCounter) {
+            --pushCounter;
+            handled = true;
+        }
+
+        else
 
     #endif
         startPlayerAnimation(ID_Locked);
@@ -492,11 +503,11 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
 
     handled = false;
 
-    if (usableSWCHA & 0xF)
-        waitForNothing = false;
+    // if (usableSWCHA & 0xF)
+    //     waitForNothing = false;
 
-    if (waitForNothing)
-        return;
+    // if (waitForNothing)
+    //     return;
         
     
     for (int dir = 0; dir < 4; dir++ )

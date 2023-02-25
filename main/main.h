@@ -157,7 +157,7 @@ extern bool exitTrigger;
 // extern int diamondValue;
 //extern int extraDiamondValue;
 
-extern int selectResetDelay;
+// extern int selectResetDelay;
 extern unsigned char *this;
 
 extern int boardCol;
@@ -179,10 +179,13 @@ extern unsigned int fade;
 
 extern bool caveCompleted;
 
-#define RAINHAILSHINE 12
+#define RAINHAILSHINE 32
 
-extern unsigned char rainX[RAINHAILSHINE];
+extern int rainX[RAINHAILSHINE];
+extern int rainType[RAINHAILSHINE];
 extern int rainY[RAINHAILSHINE], rainSpeed[RAINHAILSHINE];
+extern int rainSpeedX[RAINHAILSHINE];
+extern int rainSpeedY[RAINHAILSHINE];
 extern char rainRow[RAINHAILSHINE];
 extern int weather;
 extern int canPlay[5];

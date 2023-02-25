@@ -58,6 +58,7 @@ void grab(int frac, int size) {
 
             unsigned char p2 = GET2(p[base]);
             int type = CharToType[p2];
+            diamonds = p2;
             if (Animate[type])
                 p2 = *Animate[type];
             img[col] = charSet[p2];
@@ -412,7 +413,7 @@ bool drawBit(char x, int y) {
 
 
     int line = y * 3 - (scrollY >> 16) * 3; // + 21;
-    if (line >= _ARENA_SCANLINES - 3) // || line < SCORE_SCANLINES)
+    if (line < 0 || line >= _ARENA_SCANLINES - 3) // || line < SCORE_SCANLINES)
         return false;
 
     int col = x - (scrollX >> 14);
@@ -449,9 +450,10 @@ bool drawBit(char x, int y) {
     return true;
 }
 
-
-unsigned char rainX[RAINHAILSHINE];
-int rainY[RAINHAILSHINE], rainSpeed[RAINHAILSHINE];
+int rainType[RAINHAILSHINE];
+int rainX[RAINHAILSHINE];
+int rainY[RAINHAILSHINE], rainSpeed[RAINHAILSHINE], rainSpeedX[RAINHAILSHINE];
+int rainSpeedY[RAINHAILSHINE];
 char rainRow[RAINHAILSHINE];
 
 
@@ -459,63 +461,113 @@ char rainRow[RAINHAILSHINE];
 void rain() {
 
     
-    int mw = theCave->weather;
+    int mw = RAINHAILSHINE; //theCave->weather;
     if (mw > RAINHAILSHINE)
         mw = RAINHAILSHINE;
 
     for (int i = 0; i < mw; i++) {
-        if (rainX[i] != 255) {
+        if (rainX[i] != -1) {
 
-            unsigned char *cell = RAM + _BOARD + rainRow[i] * 40 + (rainX[i] >> 2);
-            int type = CharToType[GET2(*cell)];
+            unsigned char *cell = RAM + _BOARD + rainRow[i] * 40 + (rainX[i] >> (8+2));
+            int type = CharToType[GET2(*cell) & 0x7F];
 
             bool halt = false;
 
-            if (type == TYPE_ROCKFORD) {
-                if ((rainX[i] + 1) & 2) {                   // col 0 or 3?
-                    if (playerAnimationID == ID_Stand)
-                        startPlayerAnimation(ID_Drip);
-                    halt = true;
-                }
-                else {
-                    if (playerAnimationID == ID_Stand)
-                        startPlayerAnimation(ID_Talk2);
-                }
-            }
+            // if (type == TYPE_ROCKFORD) {
+            //     if ((rainX[i] + 1) & 2) {                   // col 0 or 3?
+            //         if (playerAnimationID == ID_Stand)
+            //             startPlayerAnimation(ID_Drip);
+            //         halt = true;
+            //     }
+            //     else {
+            //         if (playerAnimationID == ID_Stand)
+            //             startPlayerAnimation(ID_Talk2);
+            //     }
+            // }
 
-            else if (type == TYPE_DIAMOND) {
-                *cell = CH_DUST_0;
-                rainX[i] = -1;
-                ADDAUDIO(SFX_DRIP)
-;                continue;
-            }
+            // else 
 
-            if (halt || !(Attribute[type] & ATT_ROCKFORDYBLANK)) {
 
-                if (rainSpeed[i] > 0) {
-                    rainSpeed[i] = RAIN_RESET_AFTER_IMPACT;
-                    ADDAUDIO(SFX_DRIP2);
-                }
+            if (rainType[i] == 0) {     //bullet
 
-                else if (rainSpeed[i] > RAIN_DEAD) {
-                    rainX[i] = -1;
-                    continue;
-                }
-            }
 
-            rainSpeed[i] += RAIN_ACCEL;
 
-            if (rainSpeed[i] > 0) {
-                rainY[i] += rainSpeed[i];
+                rainX[i] += rainSpeedX[i];
+                rainY[i] += rainSpeedY[i];
 
                 if (rainY[i] > 0x70000) {
                     rainRow[i]++;
                     rainY[i] -= 0x70000;
                 }
+
+                else if (rainY[i] < 0) {
+                    rainRow[i]--;
+                    rainY[i] += 0x70000;
+
+                }
+
+
+                cell = RAM + _BOARD + rainRow[i] * 40 + (rainX[i] >> (8+2));
+                type = CharToType[GET2(*cell) & 0x7F];
+
+
+                if (Attribute[type] & (ATT_DIRT | ATT_GRAB)) {
+                    *cell = CH_DUST_0;
+                    rainX[i] = -1;
+                    ADDAUDIO(SFX_DRIP);
+                    continue;
+                }
+
+                if (Attribute[type] != ATT_GRAB)
+                    if (type != TYPE_SPACE && type != TYPE_ROCKFORD) {
+
+    //                if (Attribute[type] != ATT_ROCKFORDYBLANK) {
+                        rainX[i] = -1;
+                        continue;
+                    }
+
+                if (!drawBit(rainX[i]>>8, (rainRow[i] * 7) + (rainY[i] >> 16) ))
+                    rainX[i] = -1;
+            }
+
+            else {
+                
+                if (type == TYPE_DIAMOND) {
+                    *cell = CH_DUST_0;
+                    rainX[i] = -1;
+                    ADDAUDIO(SFX_DRIP);
+                    continue;
+                }
+
+                if (halt || !(Attribute[type] & ATT_ROCKFORDYBLANK)) {
+
+
+                    if (rainSpeed[i] > 0) {
+                        rainSpeed[i] = RAIN_RESET_AFTER_IMPACT;
+                        ADDAUDIO(SFX_DRIP2);
+                    }
+
+                    else if (rainSpeed[i] > RAIN_DEAD) {
+                        rainX[i] = -1;
+                        continue;
+                    }
+                }
+
+                rainSpeed[i] += RAIN_ACCEL;
+
+
+                if (rainSpeed[i] > 0) {
+                    rainY[i] += rainSpeed[i];
+
+                    if (rainY[i] > 0x70000) {
+                        rainRow[i]++;
+                        rainY[i] -= 0x70000;
+                    }
+                }
             }
 
             if ((rainSpeed[i] & 0x2000) || rainSpeed[i] > 0)
-                if (!drawBit(rainX[i], (rainRow[i] * 7) + (rainY[i] >> 16) ))
+                if (!drawBit(rainX[i]>>8, (rainRow[i] * 7) + (rainY[i] >> 16) ))
                     rainX[i] = -1;
         }
     }

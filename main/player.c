@@ -24,12 +24,12 @@ const signed char AnimationDefault[] = {
 
 const signed char AnimationPush[] = {
 
-    FRAME_PUSH2, 3,
+    FRAME_PUSH2, 2,
     ACTION_SFX, SFX_PICKAXE,
-    FRAME_PUSH, 10,
-    FRAME_PUSH2, 3,
-    FRAME_HUNCH, 3,
-    FRAME_STAND, 2,
+    FRAME_PUSH, 6,
+    FRAME_PUSH2, 2,
+    FRAME_HUNCH, 2,
+    FRAME_STAND, 1,
     ACTION_STOP,
 };
 
