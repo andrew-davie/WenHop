@@ -168,7 +168,7 @@ void chooseIdleAnimation() {
                     playerIdleTime = 0;
                 }
 
-                else if (getRandom32() < 0x70000000) {
+                else if (getRandom32() < 0x700000) {
                     int idle = rangeRandom(ANIM_COUNT) << 1;
                     if ((rndX & 0xFFF) < animID[idle + 1])
                         startPlayerAnimation(animID[idle]);   
@@ -197,7 +197,7 @@ void grabDiamond(unsigned char *where) {
     if (!--diamonds) {
         exitTrigger = true;
 //        FLASH(0x08, 8);     //open door
-//            ADDAUDIO(SFX_EXIT);
+        ADDAUDIO(SFX_EXIT);
     }
     else
         ADDAUDIO(SFX_DIAMOND2);
@@ -216,8 +216,6 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
         rockfordFaceDirection = faceDirection[dir];
     }
 
-    if (pushCounter)
-        return false;
 
     unsigned char *thisOffset = this + dirOffset[dir];
     unsigned char destType = CharToType[(*thisOffset) & 0x7F]; 
@@ -256,7 +254,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
         
                 //startCharAnimation(TYPE_ROCKFORD, AnimateBase[TYPE_ROCKFORD]);
 
-//            pushCounter = 0;
+            pushCounter = 0;
 
             if (Attribute[destType] & ATT_DIRT) {
                 ADDAUDIO(SFX_DIRT);
@@ -277,13 +275,17 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
             }
 
+            else if (destType == TYPE_SWITCH) {
+                switchOn = !switchOn;
+            }
+
             // else if (destType == TYPE_EASTEREGG) {
             //     FLASH(0x8, 10);
             //     time += 50 << 8;
             //     lockDisplay = false;
             // }
 
-            if (Attribute[destType] & ATT_GRAB) {
+            else if (Attribute[destType] & ATT_GRAB) {
                 grabDiamond(thisOffset);
             }
 
@@ -327,7 +329,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
     return handled;
 }
 
-//bool waitForNothing;
+int waitForNothing;
 
 
 bool checkLowPriorityMove(int dir, int blanker) {
@@ -348,7 +350,7 @@ bool checkLowPriorityMove(int dir, int blanker) {
         && !(Attribute[CharToType[(*(thisOffset + 40)) & 0x7F]] & ATT_BLANK)) {
 
         
-        if (++pushCounter > 3) {
+        if (++pushCounter > 1) {
 //            *thisOffset = CH_BOULDER_SHAKE | FLAG_THISFRAME; //((rockfordFaceDirection > 0) ? FLAG_THISFRAME : 0);
             if (playerAnimationID != ID_Push)
                 startPlayerAnimation(ID_Push);
@@ -358,40 +360,17 @@ bool checkLowPriorityMove(int dir, int blanker) {
             startPlayerAnimation(ID_Locked);          // works nicely as start of push
         }
 
-        if (pushCounter > 8)
-        // || ((pushCounter > 5 && (
-#if __ENABLE_DEMO
-            demoMode || 
-#endif
-          //  rndX < (5 << 24))))))
-//            && (Attribute[CharToType[GET(*(this + 2 * offset))]] & ATT_BLANK))
-        {
+        if (pushCounter > 6) {
+//            pushCounter = 2;
+            *thisOffset = CH_DOGE_CONVERT;
 
-            //FLASH(0xC2,4);
-            pushCounter = 3;
-
-//            *(this + 2 * offset) = CH_BOULDER_SHAKE | FLAG_THISFRAME;
-//            if (JOY0_FIRE) {
-                //startPlayerAnimation(ID_EndPush2);
-                *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; //blanker;
-//            }
-//            else {
-                //rockfordX += offset;
-//                *thisOffset = CH_DOGE_00; //CH_DUST_ROCK_0; // CH_ROCKFORD;
-                //*this = blanker;
-//            }
-            // FLASH(0xD4,4);
-
-//            waitForNothing = true;
+            waitForNothing = 4;
 
             extern int dogeBlockCount;
             extern int cumulativeBlockCount;
             dogeBlockCount++;
             cumulativeBlockCount++;
 
-
-//            startCharAnimation(TYPE_BOULDER_FALLING, AnimBrokenBoulder);
- 
             if (rockfordFaceDirection > 0) {
                 this += 2;
                 boardCol += 2;                      // SKIP processing it!
@@ -399,25 +378,11 @@ bool checkLowPriorityMove(int dir, int blanker) {
 
             ADDAUDIO(SFX_PUSH);
         }
-        // else {
-        //     if (rockfordFaceDirection > 0) {
-        //         this++;
-        //         boardCol += 1;
-        //     }
-        // }
-
 
         handled = true;
     }
 
     else
-
-        if (pushCounter) {
-            --pushCounter;
-            handled = true;
-        }
-
-        else
 
     #endif
         startPlayerAnimation(ID_Locked);
@@ -503,11 +468,15 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
 
     handled = false;
 
-    // if (usableSWCHA & 0xF)
-    //     waitForNothing = false;
+    if (SWCHA == 0xFF) {
+        waitForNothing = 0;
+        usableSWCHA = 0xFF;
+    }
 
-    // if (waitForNothing)
-    //     return;
+    if (waitForNothing) {
+        --waitForNothing;
+        return;
+    }
         
     
     for (int dir = 0; dir < 4; dir++ )
@@ -530,7 +499,7 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
     
     if (*(this - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME)
         || *(this - 40) == (CH_BOULDER_FALLING | FLAG_THISFRAME)) {
-        SAY(__WORD_WATCHOUT);
+//        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;
     }

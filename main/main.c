@@ -76,6 +76,7 @@ int time;
 int level;
 
 bool waitRelease;
+bool switchOn;
 
 unsigned char mm_tv_type;  // 0 = NTSC, 1 = PAL, 2 = PAL-60, 3 = SECAM... start @ NTSC always
 //unsigned char autoTVType;
@@ -127,6 +128,11 @@ bool caveCompleted;
 unsigned char bufferedSWCHA;
 unsigned int usableSWCHA;
 unsigned int inhibitSWCHA;
+
+int snakeX[32];
+int snakeY[32];
+int snakeHead = -1;
+
 
 #if __FADE
 unsigned int fade = 0;
@@ -265,13 +271,197 @@ void SystemReset() {
 }
 
 
+void sphereDot(int type, int age) {
+    for (int whichDrop = 0; whichDrop < RAINHAILSHINE; whichDrop++) {
+        if (rainX[whichDrop] == -1) {
 
+            int dripX = rockfordX;
+            int dripY = rockfordY;
+
+            unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
+
+            rainType[whichDrop] = type;                // bullet
+            rainX[whichDrop] = ((dripX << 2) + (2) ) << 8; //(rndX & 3);
+            rainRow[whichDrop] = dripY;
+            rainY[whichDrop] = 0x50000;
+            rainSpeed[whichDrop] = 0x100; //RAIN_FORMING_DRIP;
+            rainSpeedX[whichDrop] = (((rangeRandom(64) - 32)<< 1)); // * rockfordFaceDirection;
+            rainSpeedY[whichDrop] = (rangeRandom(0x10000) - 0x8000);
+
+            rainAge[whichDrop] = age;
+        }
+    }
+
+}
 
 void setJumpVectors(int midKernel, int exitKernel) {
 
     for (int i=0; i < _ARENA_SCANLINES; i++)
         RAM_SINT[(_BUF_JUMP1 / 2) + i] = midKernel;
     RAM_SINT[ _BUF_JUMP1_EXIT / 2 ] = exitKernel;
+}
+
+
+#define DIR_U 1
+#define DIR_R 2
+#define DIR_D 4
+#define DIR_L 8
+
+int dirFromCoords(int x, int y, int prevX, int prevY) {
+
+    int dir = 0;
+    if (x < prevX)
+        dir |= DIR_L;
+    if (x > prevX)
+        dir |= DIR_R;
+
+    if (y < prevY)
+        dir |= DIR_U;
+    if (y > prevY)
+        dir |= DIR_D;
+
+    return dir;
+}
+
+
+
+void snake() {
+
+    if (snakeHead < 0 /*|| (gameFrame & 3)*/ )
+        return;
+
+    int x, y;
+
+
+    x = snakeX[snakeHead];
+    y = snakeY[snakeHead];
+
+    unsigned char *head = RAM + _BOARD + y * 40 + x;
+
+
+    unsigned char *newHead;
+
+    int offsetX[] = { 0, 1, 0, -1, 0 };
+    int offsetY[] = { -1, 0, 1, 0, 0 };
+
+    static int snakeDir = 0;
+    bool mustTurn = false;
+
+    int candidateX = x + offsetX[snakeDir];
+    int candidateY = y + offsetY[snakeDir];
+
+    newHead = RAM + _BOARD + y * 40 + x;
+
+    int whatsThere = CharToType[GET(*newHead)];
+    bool moveable = Attribute[whatsThere] & (ATT_DIRT | ATT_BLANK | ATT_GRAB);
+
+    if (!moveable || !(getRandom32() & 31)) {
+
+        int rdir = getRandom32() & 3;
+
+        for (int dir = 0; dir < 4; dir++) {
+
+            candidateX = x + offsetX[rdir];
+            candidateY = y + offsetY[rdir];
+
+            newHead = RAM + _BOARD + candidateY * 40 + candidateX;
+            whatsThere = CharToType[GET(*newHead)];
+            if (Attribute[whatsThere] & (ATT_DIRT | ATT_BLANK | ATT_GRAB)) {
+                snakeDir = rdir;
+                moveable = true;
+
+                break;
+            }
+            
+            rdir = (rdir + 1) & 3;
+        }
+
+        if (!moveable) {
+
+            // reverse snake
+
+            int tempX[32], tempY[32];
+            for (int i = 0; i <= snakeHead; i++) {
+                tempX[snakeHead - i] = snakeX[i];
+                tempY[snakeHead - i] = snakeY[i];
+            }
+
+            for (int i = 0; i <= snakeHead; i++) {
+                snakeX[i] = tempX[i];
+                snakeY[i] = tempY[i];
+            }
+
+
+        }
+
+
+
+
+
+
+        // TODO: flip snake - no moves!
+
+    }
+
+    if (moveable) {
+
+
+
+        static const unsigned char snakeChar[] = {
+            0,                   // 0
+            CH_SNAKE_VERT_BODY,  // 1   U
+            CH_SNAKE_BODY,       // 2   R
+            CH_SNAKE_CORNER_RU,  // 3   RU
+            CH_SNAKE_VERT_BODY,  // 4   D
+            CH_SNAKE_VERT_BODY,  // 5   UD
+            CH_SNAKE_CORNER_RD,  // 6   RD
+            0,                   // 7
+            CH_SNAKE_BODY,       // 8   L
+            CH_SNAKE_CORNER_LU,  // 9   LU
+            CH_SNAKE_BODY,       // 10  LR
+            0,                   // 11
+            CH_SNAKE_CORNER_LD,  // 12  LD
+            0,                   // 13
+            0,                   // 14
+            0,                   // 15
+        };
+
+
+        // candidateX, candidateY --> new head position
+        // snakeX[snakeHead], snakeY[snakeHead] --> old head position (new neck)
+        // snakeX[snakeHead -1], snakeY[snakeHead - 1] -> previous neck
+
+        unsigned char *segment;
+        if (snakeHead > 0) {
+            int dir = dirFromCoords( candidateX, candidateY, snakeX[snakeHead], snakeY[snakeHead])
+                | dirFromCoords(snakeX[snakeHead - 1], snakeY[snakeHead - 1], snakeX[snakeHead], snakeY[snakeHead]);
+            segment = RAM + _BOARD + snakeY[snakeHead] * 40 + snakeX[snakeHead];
+            *segment = snakeChar[dir];
+        }
+
+        snakeHead++;
+        snakeX[snakeHead] = candidateX;
+        snakeY[snakeHead] = candidateY;
+
+        segment = RAM + _BOARD + candidateY * 40 + candidateX;
+        *segment = CH_SNAKE_HEAD;   //todo - 4 face directions
+
+    }
+
+
+
+    if (/*whatsThere != TYPE_DIAMOND && */snakeHead > 6) {
+        unsigned char *tailPos = RAM + _BOARD + snakeY[0] * 40 + snakeX[0];
+        *tailPos = CH_BLANK;
+
+        for (int i = 0; i < 31; i++) {
+            snakeX[i] = snakeX[i + 1];
+            snakeY[i] = snakeY[i + 1];
+        }
+
+        snakeHead--;
+    }
+
 }
 
 
@@ -340,6 +530,8 @@ void initNextLife() {
     uncoverCount = 880;
 
     lastDisplayMode = DISPLAY_NONE;
+    switchOn = true;
+
 
     #define SPEED_INCREMENT (0xC000)
     #define SPEED_INCREMENT_60 (SPEED_INCREMENT)
@@ -358,6 +550,13 @@ void initNextLife() {
 
 
     frameCounter = gameSpeed;               // force initial 
+
+
+    for (int i = 0; i < 32; i++) {
+        snakeX[i] = -1;
+        snakeY[i] = -1;
+    }
+
 
     initRockford();
     initSprites();
@@ -527,6 +726,31 @@ void drawOverlayWords() {
 }
 
 
+void add1PixObject(int x, int y, int pix) {
+
+    for (int whichDrop = 0; whichDrop < RAINHAILSHINE; whichDrop++) {
+        if (rainX[whichDrop] == -1) {
+
+            int dripX = x;
+            int dripY = y;
+
+            unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
+
+            rainType[whichDrop] = 2;
+            rainX[whichDrop] = ((dripX << 2) + pix ) << 8;
+            rainRow[whichDrop] = dripY;
+            rainY[whichDrop] = 0x6FFFF;
+            rainSpeedX[whichDrop] = ((((rangeRandom(8))<< 1) + 2) << 1) * rockfordFaceDirection;
+            rainSpeedY[whichDrop] = -0x2300 + (rangeRandom(12000));
+
+            rainAge[whichDrop] = 32;
+
+            break;
+        }
+    }
+}
+
+
 
 void drawOverscanThings() {
 
@@ -582,35 +806,9 @@ void drawOverscanThings() {
                 // bullets
 
                 //static int whichDrop = 0;
-                if (JOY0_FIRE)  
-                for (int whichDrop = 0; whichDrop < RAINHAILSHINE; whichDrop++) {
-                    if (rainX[whichDrop] == -1) {
+                if (!rockfordDead && JOY0_FIRE)
+                    sphereDot(0, 0);
 
-                        rndX = getRandom32();
-
-                        int dripX = rockfordX;
-                        int dripY = rockfordY;
-
-    //                    if (dripX >= 1 && dripX <= 39 && dripY >= 1 && dripY <= 19) {
-
-                            unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
-                            // if ((Attribute[CharToType[GET(*(dripPos - 40))]] & ATT_DRIP)
-                            //     && (Attribute[CharToType[GET(*dripPos)]] & ATT_BLANK)) {
-
-                                rainType[whichDrop] = 0;                // bullet
-                                rainX[whichDrop] = ((dripX << 2) + 2) << 8; //(rndX & 3);
-                                rainRow[whichDrop] = dripY;
-                                rainY[whichDrop] = -1;                  // embed in upper char
-                                rainSpeed[whichDrop] = 0x100; //RAIN_FORMING_DRIP;
-                                rainSpeedX[whichDrop] = (rangeRandom(128) - 64)<<1;
-                                rainSpeedY[whichDrop] = (rangeRandom(65536) - 32768)<<1;
-
-    //                            ADDAUDIO(SFX_BLIP);
-
-                            // }
-    //                    }
-                    }
-                }
                 // if (++whichDrop >= theCave->weather)
                 //     whichDrop = 0;
 
@@ -941,7 +1139,7 @@ void GameOverscan() {
             switch (displayMode) {
             case DISPLAY_NORMAL:
             case DISPLAY_HALF :
-                displayMode = DISPLAY_OVERVIEW;
+//                displayMode = DISPLAY_OVERVIEW;
                 break;
             default:
                 displayMode = DISPLAY_NORMAL;
@@ -1222,13 +1420,13 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
         }
 
 
-    if (player) {
-        FLASH(0x44, 8);
-        #if ENABLE_SHAKE
-            shakeTime += 50;
-        #endif
-    }
-    else
+    // if (player) {
+    //     FLASH(0x44, 8);
+    //     #if ENABLE_SHAKE
+    //         shakeTime += 50;
+    //     #endif
+    // }
+    // else
         FLASH(4, 4);
 }
 
@@ -1329,6 +1527,7 @@ void doRoll(unsigned char *this, unsigned char creature) {
 
 
 
+
 void chainReactDoge() {
 
     const int dir[] = { -40, 40, -1, 1 };
@@ -1336,7 +1535,7 @@ void chainReactDoge() {
 
         int type = CharToType[GET(*(this + dir[i]))];
         if (Attribute[type] & ATT_PUSH) {
-            *(this + dir[i]) = CH_DOGE_00 | ((dir > 0) ? FLAG_THISFRAME : 0);
+            *(this + dir[i]) = CH_DOGE_CONVERT | ((dir > 0) ? FLAG_THISFRAME : 0);
             ADDAUDIO(SFX_UNCOVER);
             dogeBlockCount++;
             cumulativeBlockCount++;
@@ -1401,6 +1600,8 @@ void processBoardSquares() {
 
             if (boardRow > 21) {
 
+                snake();
+
                 int lastCumulative = cumulativeBlockCount;
                 if (!dogeBlockCount && cumulativeBlockCount) {
 
@@ -1454,6 +1655,7 @@ void processBoardSquares() {
                     rockfordDead = (type != TYPE_ROCKFORD && type != TYPE_ROCKFORD_PRE && !exitMode);
 
                     if (oldDead != rockfordDead) {
+                        sphereDot(1, 60);
                         startPlayerAnimation(ID_Die);
                         waitRelease = true;
                         lives--;
@@ -1641,6 +1843,226 @@ void processBoardSquares() {
                     
                     switch (creature) {
 
+
+/*
+                    case CH_SNAKE_HEAD: {
+
+                        if (gameFrame & 3)
+                            break;
+
+                        static int snakeDir = 0;
+                        const int offset[] = { -1, 1, -40, 40, 0 };
+                        const int snakeChar[] = { CH_SNAKE_BODY, CH_SNAKE_BODY, CH_SNAKE_VERT_BODY, CH_SNAKE_VERT_BODY };
+                        bool mustTurn = false;
+
+
+                        int whatsThere = CharToType[GET(*(this + offset[snakeDir]))];
+                        if (!(Attribute[CharToType[whatsThere]] & (ATT_DIRT | ATT_ROCKFORDYBLANK | ATT_GRAB))) {
+                            mustTurn = true;
+                        }
+
+                        int rdir = getRandom32() & 3;
+
+                        if (mustTurn || !(getRandom32() & 3)) {
+
+                            snakeDir = 4;   // can't move
+
+                            for (int dir = 0; dir < 4; dir++) {
+                                int whatsThere = CharToType[GET(*(this + offset[rdir]))];
+                                if (Attribute[CharToType[whatsThere]] & (ATT_DIRT | ATT_ROCKFORDYBLANK | ATT_GRAB)) {
+
+                                    snakeDir = rdir;
+
+                                    if (whatsThere != TYPE_DIAMOND) {
+
+                                        //TODO: modify tail
+                                    }
+
+                                    break;
+                                }
+                                
+                                rdir = (rdir + 1) & 3;
+                            }
+
+                        }
+
+                        int newChar = CH_SNAKE_HEAD;
+                        if (offset[snakeDir] > 0)
+                            newChar |= FLAG_THISFRAME;
+
+
+                        // move the tail  pos 0 = current tail
+
+                        unsigned char *tailPos = RAM + _BOARD + snakeY[0] * 40 + snakeX[0];
+                        *tailPos = CH_BLANK | FLAG_THISFRAME;
+
+                        for (int i = 1; i < 31; i++) {
+                            snakeX[i] = snakeX[i + 1];
+                            snakeY[i] = snakeY[i + 1];
+                            snakeX[31] = -1;
+                            snakeY[31] = -1;
+                        }
+
+                        snakeHead--;
+
+
+                        *this = snakeChar[snakeDir];
+                        *(this + offset[snakeDir]) = newChar;
+
+                        snakeX[]
+
+
+                        snakeTail++;
+
+                        break;
+                    }
+
+*/
+
+
+                    case CH_PUSH_LEFT: {
+
+                        if (switchOn) {
+
+                            int att = Attribute[CharToType[GET(*(this - 1 ))]];
+
+                            if (att & (ATT_BLANK | ATT_GRAB)) {
+                                *(this - 1) = CH_PUSH_LEFT;
+                                *this = CH_HORIZONTAL_BAR;
+                            }
+
+                            else
+                                *this = CH_PUSH_LEFT_REVERSE;
+                        }
+                        break;
+                    }
+
+
+                    case CH_PUSH_LEFT_REVERSE: {
+
+                        if (switchOn) {
+
+                            int type = CharToType[GET(*(this + 1 ))];
+
+                            if (type == TYPE_PUSHER) {
+                                *(this + 1) = CH_PUSH_LEFT_REVERSE | FLAG_THISFRAME;
+                                *this = CH_BLANK;
+                            }
+
+                            else
+                                *this = CH_PUSH_LEFT;
+                        }
+                        break;
+                    }
+
+
+
+                    case CH_PUSH_RIGHT: {
+
+                        if (switchOn) {
+
+                            int att = Attribute[CharToType[GET(*(this + 1 ))]];
+
+                            if (att & (ATT_BLANK | ATT_GRAB)) {
+                                *(this + 1) = CH_PUSH_RIGHT | FLAG_THISFRAME;
+                                *this = CH_HORIZONTAL_BAR;
+                            }
+
+                            else
+                                *this = CH_PUSH_RIGHT_REVERSE;
+                        }
+                        break;
+                    }
+
+                    case CH_PUSH_RIGHT_REVERSE: {
+
+                        if (switchOn) {
+                            int type = CharToType[GET(*(this - 1 ))];
+
+                            if (type == TYPE_PUSHER) {
+                                *(this - 1) = CH_PUSH_RIGHT_REVERSE;
+                                *this = CH_BLANK;
+                            }
+
+                            else
+                                *this = CH_PUSH_RIGHT;
+                        }
+                        break;
+                    }
+
+
+                    case CH_PUSH_UP: {
+
+                        if (switchOn) {
+
+                            int att = Attribute[CharToType[GET(*(this - 40 ))]];
+
+                            if (att & (ATT_BLANK | ATT_GRAB)) {
+                                *(this - 40) = CH_PUSH_UP;
+                                *this = CH_VERTICAL_BAR;
+                            }
+
+                            else
+                                *this = CH_PUSH_UP_REVERSE;
+                        }
+                        break;
+                    }
+
+
+                    case CH_PUSH_UP_REVERSE: {
+
+                        if (switchOn) {
+                            int type = CharToType[GET(*(this + 40 ))];
+
+                            if (type == TYPE_PUSHER_VERT) {
+                                *(this + 40) = CH_PUSH_UP_REVERSE | FLAG_THISFRAME;
+                                *this = CH_BLANK;
+                            }
+
+                            else
+                                *this = CH_PUSH_UP;
+                        }
+                        break;
+                    }
+
+                    case CH_PUSH_DOWN: {
+
+                        if (switchOn) {
+
+                            int att = Attribute[CharToType[GET(*(this + 40 ))]];
+
+                            if (att & (ATT_BLANK | ATT_GRAB)) {
+                                *(this + 40) = CH_PUSH_DOWN | FLAG_THISFRAME;
+                                *this = CH_VERTICAL_BAR;
+                            }
+
+                            else
+                                *this = CH_PUSH_DOWN_REVERSE;
+                        }
+                        break;
+                    }
+
+
+                    case CH_PUSH_DOWN_REVERSE: {
+
+                        if (switchOn) {
+
+                            int type = CharToType[GET(*(this - 40 ))];
+
+                            if (type == TYPE_PUSHER_VERT) {
+                                *(this - 40) = CH_PUSH_DOWN_REVERSE;
+                                *this = CH_BLANK;
+                            }
+
+                            else
+                                *this = CH_PUSH_DOWN;
+                        }
+                        break;
+                    }
+
+
+
+
                     case CH_BOULDER_BROKEN:
                         if (*Animate[TYPE_BOULDER_FALLING] == CH_DUST_ROCK_2) {                         
                             *this = CH_DUST_ROCK_2;
@@ -1696,15 +2118,13 @@ void processBoardSquares() {
                     // case CH_DIAMOND_PULSE_5:
                     // case CH_DIAMOND_PULSE_6: {
 
+                    case CH_DOGE_CONVERT:
+
+                        chainReactDoge();
+                        *this = CH_DOGE_00;
+
+
                     case CH_DOGE_00:
-
-                        // if (!(getRandom32() & 0xFF)) {
-                        //     *this = CH_DUST_0;
-                        //     break;
-                        // }
-
-
-
                     case CH_DOGE_01:
                     case CH_DOGE_02:
                     case CH_DOGE_03:
@@ -1712,7 +2132,6 @@ void processBoardSquares() {
                     case CH_DOGE_05:
                     case CH_DOGE_06: {
 
-                        chainReactDoge();
 
                         int attrNext = Attribute[CharToType[GET(*next)]]; 
 
@@ -1818,11 +2237,18 @@ void processBoardSquares() {
                                         unsigned char *dL = this + 40 - 1;
                                         unsigned char *dR = dL + 2;
 
-                                        if (!CharToType[GET(*dR)])
+                                        if (!CharToType[GET(*dR)]) {
                                             *dR = CH_DUST_RIGHT_0;
+                                            for (int i = 0; i < 4; i++)
+                                                add1PixObject(boardCol, boardRow + 1, 2);
 
-                                        if (!CharToType[GET(*dL)])
+                                        }
+
+                                        if (!CharToType[GET(*dL)]) {
                                             *dL = CH_DUST_LEFT_0;
+                                            for (int i = 0; i < 4; i++)
+                                                add1PixObject(boardCol, boardRow + 1, 1);
+                                        }
                                     }
                                     // else
                                     //     sfx = SFX_DIAMOND;
@@ -1834,8 +2260,8 @@ void processBoardSquares() {
                             }
                         }
 
-                        // else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
-                        //      Explode(next, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
+                        else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
+                             Explode(next, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
 
                         else if (typeDown == TYPE_BUTTERFLY)
                             Explode(next, CH_EXPLODETODIAMOND_0 | FLAG_THISFRAME);

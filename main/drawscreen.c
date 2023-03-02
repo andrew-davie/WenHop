@@ -30,41 +30,19 @@ void rain();
 
 void grab(int frac, int size) {
 
-    // if (sparkleTimer) {
+    for (int col = 0; col < size; col++) {
 
-    //     if (rndX < (unsigned int)(1 << (size + 1)))
-    //         rndX = getRandom32();
+        int base = frac + col;
+        if (base >= 40)
+            base -= 40;
 
-    //     for (int col = 0; col < size; col++) {
-    //         unsigned char p2 = GET2(p[col]);
-    //         int type = CharToType[p2];
-    //         if (Attribute[type] & ATT_BLANK) {
-    //             p2 = (rndX & 3) + CH_SPARKLE_0;
-    //             rndX >>= 1;
-    //         }
-    //         else if (Animate[type])
-    //             p2 = *Animate[type];
-    //         img[col] = charSet[p2];
-    //     }
-
-    // }
-
-    // else {
-        for (int col = 0; col < size; col++) {
-
-            int base = frac + col;
-            if (base >= 40)
-                base -= 40;
-
-            unsigned char p2 = GET2(p[base]);
-            int type = CharToType[p2];
-            diamonds = p2;
-            if (Animate[type])
-                p2 = *Animate[type];
-            img[col] = charSet[p2];
-        }
-    // }
-
+        unsigned char p2 = GET2(p[base]);
+        int type = CharToType[p2];
+//        diamonds = p2;
+        if (Animate[type])
+            p2 = *Animate[type];
+        img[col] = charSet[p2];
+    }
     p += size;
 }
 
@@ -455,7 +433,7 @@ int rainX[RAINHAILSHINE];
 int rainY[RAINHAILSHINE], rainSpeed[RAINHAILSHINE], rainSpeedX[RAINHAILSHINE];
 int rainSpeedY[RAINHAILSHINE];
 char rainRow[RAINHAILSHINE];
-
+int rainAge[RAINHAILSHINE];
 
 
 void rain() {
@@ -487,13 +465,24 @@ void rain() {
 
             // else 
 
+// 0 fire
+// 1 death
+// 2 boulder
 
-            if (rainType[i] == 0) {     //bullet
+            if (rainType[i] < 3) {     //bullet
 
+                if (rainType[i] == 2 && rainAge[i] && !--rainAge[i]) {
+                    rainX[i] = -1;
+                    continue;
+                }
 
 
                 rainX[i] += rainSpeedX[i];
                 rainY[i] += rainSpeedY[i];
+
+                if (rainAge[i] == 2)
+                    rainSpeedY[i] += 0x500;         // gravity
+
 
                 if (rainY[i] > 0x70000) {
                     rainRow[i]++;
@@ -506,25 +495,27 @@ void rain() {
 
                 }
 
+                if (rainAge[i] == 0 ) {
+                    cell = RAM + _BOARD + rainRow[i] * 40 + (rainX[i] >> (8+2));
+                    type = CharToType[GET2(*cell) & 0x7F];
 
-                cell = RAM + _BOARD + rainRow[i] * 40 + (rainX[i] >> (8+2));
-                type = CharToType[GET2(*cell) & 0x7F];
 
-
-                if (Attribute[type] & (ATT_DIRT | ATT_GRAB)) {
-                    *cell = CH_DUST_0;
-                    rainX[i] = -1;
-                    ADDAUDIO(SFX_DRIP);
-                    continue;
-                }
-
-                if (Attribute[type] != ATT_GRAB)
-                    if (type != TYPE_SPACE && type != TYPE_ROCKFORD) {
-
-    //                if (Attribute[type] != ATT_ROCKFORDYBLANK) {
+                    if (Attribute[type] & (ATT_DIRT | ATT_GRAB)) {
+                        *cell = CH_DUST_0;
                         rainX[i] = -1;
+                        ADDAUDIO(SFX_DRIP);
                         continue;
                     }
+
+                    if (Attribute[type] != ATT_GRAB)
+                        if (type != TYPE_SPACE && type != TYPE_ROCKFORD) {
+
+        //                if (Attribute[type] != ATT_ROCKFORDYBLANK) {
+                            rainX[i] = -1;
+                            continue;
+                        }
+                }
+
 
                 if (!drawBit(rainX[i]>>8, (rainRow[i] * 7) + (rainY[i] >> 16) ))
                     rainX[i] = -1;

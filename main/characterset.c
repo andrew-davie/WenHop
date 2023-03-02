@@ -72,6 +72,318 @@ void createParallaxCharset() {
 }
 
 
+
+const unsigned char __CHAR_PUSH_LEFT[] = {
+
+        0b1100,  
+        0b1100,  
+        0b1100,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b0000,  
+        0b1111,  
+        0b1111,  
+        0b1100,  
+        0b1111,  
+        0b1111,  
+        0b1100,  
+        0b1100,  
+        0b1100,  
+        0b0000,  
+};
+
+const unsigned char __CHAR_PUSH_RIGHT[] = {
+
+        0b0011,  
+        0b0011,  
+        0b0011,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b0000,  
+        0b1111,  
+        0b1111,  
+        0b0011,  
+        0b1111,  
+        0b1111,  
+        0b0011,  
+        0b0011,  
+        0b0011,  
+        0b0000,  
+};
+
+const unsigned char __CHAR_VERTICAL_BAR[] = {
+
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,
+        0b0110,  
+        0b0110,  
+        0b0100,  
+};
+
+const unsigned char __CHAR_PUSH_UP[] = {
+
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1100,  
+        0b1111,  
+        0b1111,  
+        0b1100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,
+        0b0110,  
+        0b0110,  
+        0b0100,  
+};
+
+const unsigned char __CHAR_PUSH_DOWN[] = {
+
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b0110,  
+        0b0110,  
+        0b0100,  
+        0b1111,  
+        0b1111,  
+        0b1100,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,
+        0b1111,  
+        0b1111,  
+        0b0000,  
+};
+const unsigned char __CHAR_HORIZONTAL_BAR[] = {
+        0b0000,  
+        0b0000,  
+        0b0000,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b1111,  
+        0b0000,  
+        0b1111,  
+        0b1111,  
+        0b0000,  
+        0b1111,  
+        0b1111,  
+        0b0000,  
+        0b0000,  
+        0b0000,  
+        0b0000,  
+};
+
+
+const unsigned char __CHAR_SWITCH_LEFT_OFF[] = {
+
+        0b1000,  
+        0b1000,  
+        0b0000,  
+        0b1100,  
+        0b1100,  
+        0b0000,  
+        0b1100,  
+        0b1100,  
+        0b0000,  
+        0b1000,  
+        0b1000,  
+        0b0000,
+        0b1000,  
+        0b1000,  
+        0b0000,  
+        0b1000,  
+        0b1000,  
+        0b0000,  
+        0b1000,  
+        0b1000,  
+        0b0000,  
+};
+
+const unsigned char __CHAR_SWITCH_LEFT_ON[] = {
+
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,
+        0b1100,  
+        0b1100,  
+        0b1000,  
+        0b1100,  
+        0b1100,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+        0b1000,  
+
+};
+
+
+
+
+const unsigned char __CHAR_SNAKE_CORNER_RD[] = {
+
+    0b0000, // 00 <
+    0b0000, // 01
+    0b0011, // 02
+    0b0000, // 03 <
+    0b0100, // 04
+    0b0111, // 05
+    0b0000, // 06 <
+    0b0000, // 07
+    0b1111, // 08
+    0b0000, // 09 <
+    0b0100, // 10
+    0b1111, // 11
+    0b0000, // 12 <
+    0b1110, // 13
+    0b1111, // 14
+    0b0000, // 15 <
+    0b0100, // 16
+    0b1111, // 17
+    0b0000, // 18 <
+    0b0000, // 19
+    0b1111, // 20
+};
+
+
+const unsigned char __CHAR_SNAKE_CORNER_LD[] = {
+
+    0b0000, // 00 <
+    0b0000, // 01
+    0b1000, // 02
+    0b0000, // 03 <
+    0b0100, // 04
+    0b1100, // 05
+    0b0000, // 06 <
+    0b0000, // 07
+    0b1110, // 08
+    0b0000, // 09 <
+    0b0100, // 10
+    0b1110, // 11
+    0b0000, // 12 <
+    0b1110, // 13
+    0b1110, // 14
+    0b0000, // 15 <
+    0b0100, // 16
+    0b1110, // 17
+    0b0000, // 18 <
+    0b0000, // 19
+    0b1110, // 20
+};
+
+
+const unsigned char __CHAR_SNAKE_CORNER_RU[] = {
+
+    0b0000, // 00 <
+    0b0000, // 01
+    0b1110, // 02
+    0b0000, // 03 <
+    0b0100, // 04
+    0b1111, // 05
+    0b0001, // 06 <
+    0b0000, // 07
+    0b1111, // 08
+    0b0001, // 09 <
+    0b0100, // 10
+    0b1111, // 11
+    0b0000, // 12 <
+    0b0110, // 13
+    0b0111, // 14
+    0b0000, // 15 <
+    0b0000, // 16
+    0b0011, // 17
+    0b0000, // 18 <
+    0b0000, // 19
+    0b0000, // 20
+};
+
+
+const unsigned char __CHAR_SNAKE_CORNER_LU[] = {
+
+    0b0000, // 00 <
+    0b0000, // 01
+    0b1110, // 02
+    0b0000, // 03 <
+    0b0100, // 04
+    0b1110, // 05
+    0b0000, // 06 <
+    0b0000, // 07
+    0b1110, // 08
+    0b0000, // 09 <
+    0b0100, // 10
+    0b1110, // 11
+    0b0000, // 12 <
+    0b1100, // 13
+    0b1100, // 14
+    0b0000, // 15 <
+    0b0000, // 16
+    0b1000, // 17
+    0b0000, // 18 <
+    0b0000, // 19
+    0b0000, // 20
+};
+
+
+
+
+
+
 #define __CHAR_BLANK playerBigSprite
 
 #define C(x) (const unsigned char *const) x
@@ -179,6 +491,32 @@ const unsigned char *const charSet[] = {
     C(__CHAR_DUST_ROCK_0),                          // 82  CH_DUST_ROCK_0
     C(__CHAR_DUST_ROCK_1),                          // 83  CH_DUST_ROCK_1
     C(__CHAR_DUST_ROCK_2),                          // 84  CH_DUST_ROCK_1
+
+    C(__CHAR_DOGE_00),                              // 85  CH_DOGE_CONVERT
+
+    C(__CHAR_SWITCH_LEFT_OFF),                      // 86  CH_SWITCH_LEFT_OFF
+    C(__CHAR_SWITCH_LEFT_ON),                       // 87  CH_SWITCH_LEFT_ON
+    C(__CHAR_PUSH_LEFT),                            // 88  CH_PUSH_LEFT
+    C(__CHAR_HORIZONTAL_BAR),                       // 89  CH_HORIZONTAL_BAR
+    C(__CHAR_PUSH_RIGHT),                           // 90  CH_PUSH_RIGHT    (TODO)
+    C(__CHAR_PUSH_LEFT),                            // 91  CH_PUSH_LEFT_REVERSE
+    C(__CHAR_PUSH_RIGHT),                           // 92  CH_PUSH_RIGHT_REVERSE
+
+    C(__CHAR_PUSH_UP),                              // 93 CH_PUSH_UP,                     
+    C(__CHAR_VERTICAL_BAR),                         // 94 CH_VERTICAL_BAR,                    
+    C(__CHAR_PUSH_DOWN),                            // 95 CH_PUSH_DOWN,                    
+    C(__CHAR_PUSH_UP),                              // 96 CH_PUSH_UP_REVERSE,                   // reverse
+    C(__CHAR_PUSH_DOWN),                            // 97 CH_PUSH_DOWN_REVERSE,                 // reverse
+
+    C(__CHAR_AMOEBA_0),
+    C(__CHAR_AMOEBA_0),
+    C(__CHAR_AMOEBA_2),
+
+    C(__CHAR_SNAKE_CORNER_LD),
+    C(__CHAR_SNAKE_CORNER_RD),
+    C(__CHAR_SNAKE_CORNER_LU),
+    C(__CHAR_SNAKE_CORNER_RU),
+
 
 
 #if __ENABLE_LAVA

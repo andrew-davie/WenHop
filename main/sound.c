@@ -319,7 +319,7 @@ void initAudio() {
         audioRequest[i] = false;
 
     loadTrack(1, trackSimple);
-    loadTrack(0, trackSimple+16);
+    loadTrack(0, trackSimple);
 }
 
 
@@ -764,7 +764,7 @@ static const unsigned char adsr_Trombone2[] = {
 
 static const unsigned char *const instrument[] = {
     adsr_Trombone,
-    adsr_Trombone2, //tmp2,
+    adsr_Trombone, //tmp2,
 };
 
 

@@ -638,8 +638,14 @@ const unsigned char caveA[]= {
     CAVEDEF_PARALLAX,
     STEEL,DIRT,
 
-    2,  CH_BLANK,   60,60,60,60,10,
-        CH_BOULDER, 90,75,80,85,20,
+    6,  CH_BLANK,       60, 255,   0, 255,  10,
+        CH_BOULDER,     90,   0, 240,   0,  20,
+
+        CH_PUSH_LEFT,    0,  10,   5,   0,  20,
+        CH_PUSH_RIGHT,   0,  10,   5,   0,  20,
+        CH_PUSH_UP,      0,  10,   5,   0,  20,
+        CH_PUSH_DOWN,    0,  10,   5,   0,  20,
+
         // DIAMOND,    9,9,9,9,200,
 
     //CH_DOGE_00, 4, 2,
@@ -665,7 +671,9 @@ const unsigned char caveA[]= {
     CH_DOORCLOSED,38,16,
     CH_ROCKFORD_BIRTH,3,2,
 
+    CH_SWITCH_LEFT_OFF, 1, 19,
 
+    CH_SNAKE_HEAD, 6, 4,
 
     0xFF,
 

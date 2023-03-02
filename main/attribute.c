@@ -55,9 +55,6 @@ const unsigned char CharToType[]= {
      TYPE_LADDER,                                                // 45
      TYPE_LADDER,                                                // 46
      TYPE_LADDER,                                                // 47
-     // TYPE_SPACE,                  // CH_SPARKLE_0                // 45
-     // TYPE_SPACE,                  // CH_SPARKLE_1                // 46
-     // TYPE_SPACE,                  // CH_SPARKLE_2                // 47
      TYPE_SPACE,                  // CH_SPARKLE_3                // 48
      TYPE_EXPLODE_BLANK_0,        // CH_EXPLODETOBLANK_0,        // 49
      TYPE_EXPLODE_BLANK_1,        // CH_EXPLODETOBLANK_1,        // 50
@@ -95,9 +92,35 @@ const unsigned char CharToType[]= {
      TYPE_BOULDER_FALLING,                                       // 80     broken
      TYPE_BOULDER_FALLING,                                       // 81     broken2
 
-     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_0,                  // 82
-     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_1,                  // 83
-     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_2,                  // 84
+     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_0,          // 82
+     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_1,          // 83
+     TYPE_DUST_ROCK,                 // CH_DUST_ROCK_2,          // 84
+
+     TYPE_DOGE_CONVERT,              // CH_DOGE_CONVERT,         // 85
+
+     TYPE_SWITCH,                    // CH_SWITCH_LEFT_OFF       // 86
+     TYPE_SWITCH,                    // CH_SWITCH_LEFT_ON        // 87
+     TYPE_PUSHER,                    // CH_PUSH_LEFT             // 88
+     TYPE_PUSHER,                    // CH_HORIZONTAL_BAR        // 89
+     TYPE_PUSHER,                    // CH_PUSH_RIGHT            // 90
+     TYPE_PUSHER,                    // CH_PUSH_LEFT_REVERSE     // 91
+     TYPE_PUSHER,                    // CH_PUSH_RIGHT_REVERSE    // 92
+
+     TYPE_PUSHER_VERT,                    // CH_PUSH_UP               // 93
+     TYPE_PUSHER_VERT,                    // CH_VERTICAL_BAR          // 94
+     TYPE_PUSHER_VERT,                    // CH_PUSH_DOWN             // 95
+     TYPE_PUSHER_VERT,                    // CH_PUSH_UP_REVERSE       // 96
+     TYPE_PUSHER_VERT,                    // CH_PUSH_DOWN_REVERSE     // 97
+
+     TYPE_SNAKE,                        // CH_SNAKE_HEAD    // 98
+     TYPE_SNAKE,                        // CH_SNAKE_TAIL    // 99
+     TYPE_SNAKE,
+
+     TYPE_SNAKE,
+     TYPE_SNAKE,
+     TYPE_SNAKE,
+     TYPE_SNAKE,
+
 
 // #if __ENABLE_WATER
 // TYPE_WATER,                  // CH_WATER                    // 73
@@ -205,6 +228,13 @@ const short Attribute[] = {
      _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 45 TYPE_LADDER
      _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 46 TYPE_DUST_ROCK
 
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _| _ | _ |XPD| _ |ROL ,  // 47 TYPE_DOGE_CONVERT
+
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ |GRB| _ | _ | _ | _ | _  ,  // 48 TYPE_SWITCH
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _| _ | _ | _ | _ | _  ,  // 49 TYPE_PUSHER
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _| _ | _ | _ | _ | _  ,  // 50 TYPE_PUSHER_VERT
+
+     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _| _ | _ | _ | _ | _  ,  // 51 TYPE_SNAKE
 
 #if __ENABLE_LAVA
      _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 47 LAVA

@@ -144,8 +144,11 @@ int decodeExplicitData(bool sfx) {
                 for (int x = 1; x < 39; x++)
                     for (int object = 0; object < theCave->objectCount; object++) {
                         unsigned char *p = (&(theCave->objectData)) + object * 6;
-                        if ((getCaveRandom32() >> 24) < p[level + 1])
-                            StoreObject(x, decodingRow, p[0]);
+                        
+                        // unsigned char *this = RAM + _BOARD + x + decodingRow * 40;
+                        // if (GET(*this) == 0)
+                            if ((getCaveRandom32() >> 24) < p[level + 1])
+                                StoreObject(x, decodingRow, p[0]);
                     }
             }
 
@@ -191,8 +194,8 @@ int decodeExplicitData(bool sfx) {
                 break;
             }
 
-            cmd = theCode & 0b11000000;
-            theObject = theCode & 0x3F;
+            cmd = 0; //theCode & 0b11000000;
+            theObject = theCode; // & 0x3F;
 
             a = *theCaveData++;
             b = *theCaveData++;
@@ -309,13 +312,23 @@ int decodeExplicitData(bool sfx) {
     return decodeFlasher;
 }
 
-
+    extern int snakeX[];
+    extern int snakeY[];
+    extern int snakeHead;
+    
 void StoreObject(int x, int y, objectType anObject) {
 
     unsigned char *this = RAM + _BOARD + x + y * 40;
 
     if (CharToType[GET(*this)] == TYPE_DIAMOND)
         totalDiamondsPossible--;
+
+    else if (anObject == CH_SNAKE_HEAD) {
+        snakeHead = 0;
+        snakeX[0] = x;
+        snakeY[0] = y;
+    }
+
 
     *this = anObject; // | FLAG_UNCOVER;
 

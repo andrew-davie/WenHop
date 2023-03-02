@@ -31,7 +31,8 @@ __ = %00000000
 _Y = %01000000
 Y_ = %10000000
 YY = %11000000
-    
+
+
 
 __CHAR_LADDER_0
 
@@ -1577,8 +1578,8 @@ __CHAR_DOGE_FALLING ;
 __CHAR_AMOEBA_1
 
      dc __ | __ | ____ ; 00 <
-     dc __ | __ | _X__ ; 01
-     dc XX | YY | XXXX ; 02
+     dc __ | __ | ____ ; 01
+     dc XX | YY | ____ ; 02
      dc _X | __ | ____ ; 03 <
      dc __ | __ | XXX_ ; 04
      dc XX | YY | XXXX ; 05
@@ -1594,9 +1595,9 @@ __CHAR_AMOEBA_1
      dc           ___X ; 15 <
      dc           ____ ; 16
      dc           XXXX ; 17
-     dc           ___X ; 18 <
+     dc           ____ ; 18 <
      dc           ____ ; 19
-;     dc           XXXX ; 20
+     dc           ____ ; 20
 
 
 __CHAR_PEBBLE1
@@ -1645,32 +1646,32 @@ __CHAR_AMOEBA_0
      dc           XXXX ; 17
      dc           ____ ; 18 <
      dc           ____ ; 19
-     dc           XXXX ; 20
+     dc           ____ ; 20
 
 
 __CHAR_AMOEBA_2
 
      dc X_ | __ | __X_ ; 00 <
-     dc __ | __ | _XXX ; 01
-     dc XX | YY | XX_X ; 02
+     dc __ | __ | _XX_ ; 01
+     dc XX | YY | XX__ ; 02
      dc __ | __ | __X_ ; 03 <
-     dc __ | __ | _XXX ; 04
-     dc XX | YY | XX_X ; 05
+     dc __ | __ | _XX_ ; 04
+     dc XX | YY | XX__ ; 05
      dc __ | __ | __X_ ; 06 <
      dc __ | __ | __X_ ; 07
-     dc XX | YY | XX_X ; 08
+     dc XX | YY | XX__ ; 08
      dc      __ | ____ ; 09 <
      dc      __ | ____ ; 10
-     dc      YY | XXXX ; 11
+     dc      YY | XXX_ ; 11
      dc      __ | ____ ; 12 <
-     dc      Y_ | ___X ; 13
-     dc      YY | XXXX ; 14
+     dc      Y_ | ____ ; 13
+     dc      YY | XXX_ ; 14
      dc           ____ ; 15 <
      dc           ____ ; 16
-     dc           XXXX ; 17
+     dc           XXX_ ; 17
      dc           ____ ; 18 <
      dc           ____ ; 19
-     dc           XXXX ; 20
+     dc           XXX_ ; 20
 
 
 __CHAR_AMOEBA_3

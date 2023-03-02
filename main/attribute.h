@@ -59,6 +59,13 @@ enum ObjectType {
     TYPE_LADDER,                // 45
 
     TYPE_DUST_ROCK,             // 46
+    TYPE_DOGE_CONVERT,          // 47
+
+    TYPE_SWITCH,                // 48
+    TYPE_PUSHER,                // 49
+    TYPE_PUSHER_VERT,           // 50
+    
+    TYPE_SNAKE,                 // 51
 
 #if __ENABLE_LAVA    
     TYPE_LAVA,                  // 47
@@ -173,6 +180,33 @@ enum ChName {
     CH_DUST_ROCK_0,             // 82
     CH_DUST_ROCK_1,             // 83
     CH_DUST_ROCK_2,             // 84
+
+    CH_DOGE_CONVERT,            // 85
+
+    CH_SWITCH_LEFT_OFF,         // 86
+    CH_SWITCH_LEFT_ON,          // 87
+
+    CH_PUSH_LEFT,               // 88
+    CH_HORIZONTAL_BAR,          // 89
+    CH_PUSH_RIGHT,              // 90
+    CH_PUSH_LEFT_REVERSE,       // 91
+    CH_PUSH_RIGHT_REVERSE,      // 92
+
+    CH_PUSH_UP,                 // 93
+    CH_VERTICAL_BAR,            // 94
+    CH_PUSH_DOWN,               // 95
+    CH_PUSH_UP_REVERSE,         // 96
+    CH_PUSH_DOWN_REVERSE,       // 97
+
+    CH_SNAKE_HEAD,               // 98
+    CH_SNAKE_BODY,               // 99
+    CH_SNAKE_VERT_BODY,         // 100
+
+    CH_SNAKE_CORNER_LD,
+    CH_SNAKE_CORNER_RD,
+    CH_SNAKE_CORNER_LU,
+    CH_SNAKE_CORNER_RU,
+
 
 #if __ENABLE_LAVA
     CH_LAVA_0,                  // 69

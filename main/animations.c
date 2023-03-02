@@ -18,6 +18,14 @@ static const char AnimGrab[] = {
 
 };
 
+
+static const char AnimSwitch[] = {
+    CH_SWITCH_LEFT_OFF, 20,
+    CH_SWITCH_LEFT_ON, 20,
+    ANIM_LOOP
+};
+
+
 // const char AnimBrokenBoulder[] = {
 //     CH_BLANK,3,
 //     CH_BOULDER,6,
@@ -107,7 +115,7 @@ static const char AnimRockford[] = {
 };
 
 
-const char *const AnimateBase[TYPE_MAX] = {
+const char *const AnimateBase[] = {
 
     // indexed by object TYPE (def: ObjectType in attribute.h)
     // =0 if object does not auto-animate
@@ -162,6 +170,10 @@ const char *const AnimateBase[TYPE_MAX] = {
     0,                          // 44 TYPE_BOULDER_FALLING
     0,                          // 45 TYPE_LADDER
 
+    0,                          // 46 TYPE_DUST_ROCK
+    0,                          // 47 TYPE_DOGE_CONVERT
+    AnimSwitch,                 // 48 TYPE_SWITCH
+    0,                          // 49 TYPE_PUSHER
 
 #if __ENABLE_LAVA    
     0,                          // 47 TYPE_LAVA

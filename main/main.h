@@ -49,7 +49,7 @@
 #define RAIN_DEAD (RAIN_RESET_AFTER_IMPACT + RAIN_IMPACT_DURATION)
 
 
-#define SPEED_BASE 7
+#define SPEED_BASE 6
 
 
 #if __ENABLE_LAVA
@@ -119,7 +119,7 @@ enum SCHEDULE {
 extern enum SCHEDULE gameSchedule;
 extern int gameSpeed;
 extern int gameFrame;
-
+extern bool switchOn;
 
 enum KERNEL_TYPE {
     KERNEL_COPYRIGHT,
@@ -179,7 +179,7 @@ extern unsigned int fade;
 
 extern bool caveCompleted;
 
-#define RAINHAILSHINE 32
+#define RAINHAILSHINE 12
 
 extern int rainX[RAINHAILSHINE];
 extern int rainType[RAINHAILSHINE];
@@ -187,6 +187,8 @@ extern int rainY[RAINHAILSHINE], rainSpeed[RAINHAILSHINE];
 extern int rainSpeedX[RAINHAILSHINE];
 extern int rainSpeedY[RAINHAILSHINE];
 extern char rainRow[RAINHAILSHINE];
+extern int rainAge[RAINHAILSHINE];
+
 extern int weather;
 extern int canPlay[5];
 
