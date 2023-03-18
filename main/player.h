@@ -42,16 +42,29 @@ enum FRAME {
 
     FRAME_TALK,             // 26
 
+    FRAME_WALKUP0,
+    FRAME_WALKUP1,
+    FRAME_WALKUP2,
+    FRAME_WALKUP3,
+
+    FRAME_WALKDOWN0,
+    FRAME_WALKDOWN1,
+    FRAME_WALKDOWN2,
+    FRAME_WALKDOWN3,
+
+
 
 
     // actions start after frames
 
+    ACTION_DOT,
     ACTION_SFX,
     ACTION_SAY,
     ACTION_POSITION,
     ACTION_FLIP,
     ACTION_LOOP,
     ACTION_STOP,
+
 };
 
 
@@ -86,6 +99,8 @@ enum AnimationIdent {
 //#endif
 
     ID_Locked,
+    ID_WalkUp,
+    ID_WalkDown,
 
 };
 
@@ -103,7 +118,7 @@ extern const signed char *playerAnimation;
 extern const signed char *playerAnimationLoop;
 extern unsigned int playerAnimationCount;
 
-extern const signed char playerBigSprite[][2 + 23 * 3];
+extern const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3];
 
 //#define ZEROBLOCK playerBigSprite
 

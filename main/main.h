@@ -34,8 +34,8 @@
 
 
 
-#define PIECE_DEPTH 21
-#define SPRITE_DEPTH 23
+#define PIECE_DEPTH 30
+#define SPRITE_DEPTH 30
 #define HALF_DEPTH 15
 
 
@@ -49,7 +49,7 @@
 #define RAIN_DEAD (RAIN_RESET_AFTER_IMPACT + RAIN_IMPACT_DURATION)
 
 
-#define SPEED_BASE 6
+#define SPEED_BASE 8
 
 
 #if __ENABLE_LAVA
@@ -67,6 +67,14 @@
 
 #define SCORE_SCANLINES 21
 #define SCANLINES (_ARENA_SCANLINES /* - SCORE_SCANLINES*/) 
+
+#define WYRM_POP 10
+#define WYRM_MAX 4
+
+extern signed char wyrmX[WYRM_POP][WYRM_MAX];
+extern signed char wyrmY[WYRM_POP][WYRM_MAX];
+extern int wyrmHead[WYRM_POP]; // = -1;
+extern int wyrmDir[WYRM_POP];
 
 
 void setJumpVectors(int midKernel, int exitKernel);
@@ -181,13 +189,15 @@ extern bool caveCompleted;
 
 #define RAINHAILSHINE 12
 
-extern int rainX[RAINHAILSHINE];
-extern int rainType[RAINHAILSHINE];
-extern int rainY[RAINHAILSHINE], rainSpeed[RAINHAILSHINE];
+extern short rainType[RAINHAILSHINE];
+extern short rainAge[RAINHAILSHINE];
+
+extern int rainY[RAINHAILSHINE];
+//extern int rainSpeed[RAINHAILSHINE];
 extern int rainSpeedX[RAINHAILSHINE];
 extern int rainSpeedY[RAINHAILSHINE];
 extern char rainRow[RAINHAILSHINE];
-extern int rainAge[RAINHAILSHINE];
+extern int rainX[RAINHAILSHINE];
 
 extern int weather;
 extern int canPlay[5];
@@ -211,6 +221,8 @@ void processBoardSquares();
 void reanimateDiamond(unsigned char *this);
 void handleSelectReset();
 void initNewGame();
+
+void sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY);
 
 //extern int actualScore;
 

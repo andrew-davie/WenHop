@@ -188,7 +188,7 @@ void Scroll() {
     }
     else {
         maxX = SCROLL_MAXIMUM_X;
-        maxY = (13 * PIECE_DEPTH / 3 - 3) << 16;
+        maxY = (16 * PIECE_DEPTH / 3 - 6) << 16;
     }
 
 
@@ -226,7 +226,7 @@ void resetTracking() {
         return;
 
     if (displayMode == DISPLAY_NORMAL)
-        scrollX = (rockfordX - (HALFWAYX >> 2)) << 16;
+        scrollX = (rockfordX - (HALFWAYX /5)) << 16;
 
     else if (displayMode == DISPLAY_HALF)
         scrollX = (rockfordX - (HALFWAYX >> 1)) << 16;

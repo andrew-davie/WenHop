@@ -1,5 +1,5 @@
-; Boulder Dash CDFJ
-; (c) 2020 Andrew Davie
+; Wen Hop CDFJ
+; (c) 2023 Andrew Davie
 
 ; REMEMBER cannot use lda # as this is overloaded for datastream access!!
 ; use ldx # or ldy # instead
@@ -1859,7 +1859,7 @@ i2c_txack
 
 HandleSaveKey
 
-SAVEKEY_ADR     = $0600         ;           reserved address for Boulder Dash (64 bytes)
+SAVEKEY_ADR     = $0600         ;           TODO : fix - reserved address for Wen Hop Dash (64 bytes)
 
 ; SK Memory Map:
 ;               cave    level
@@ -2340,6 +2340,8 @@ _BUF_JUMP1_EXIT     ds 2
 
 _BOARD              ds 22*40 + 4    ; extra for grab+1 in drawscreen "bug"
 
+
+
     IF __ENABLE_ATARIVOX
 _BUF_SPEECH         ds 1
     ENDIF
@@ -2356,6 +2358,9 @@ _BUF_{1}             ds ARENA_BUFFER_SIZE
 BUFN SET BUFN + 1
     ENDM
 
+;    DEFBUF HMP0
+;    DEFBUF HMP1
+
     DEFBUF COLUP0
     DEFBUF COLUP1
     DEFBUF COLUPF
@@ -2371,6 +2376,7 @@ BUFN SET BUFN + 1
 
     DEFBUF GRP0A
     DEFBUF GRP1A
+
 
 _BUFFER_BLOCK_SIZE = * - _BUFFERS
 

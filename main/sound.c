@@ -151,6 +151,21 @@ const unsigned char sampleExplode[] = {
     CMD_STOP,
 };
 
+const unsigned char sampleExplodeQuiet[] = {
+    8, 7, 7, 2,
+//    8, 10, 8, 2,
+    8, 13, 5, 2,
+ //   8, 16, 7, 3,
+    8, 19, 4, 4,
+ //   8, 22, 5, 5,
+    8, 25, 2, 6,
+ //   8, 28, 3,10,
+    8, 29, 1, 15,
+  //  8, 31, 1, 15,
+    CMD_STOP,
+};
+
+
 const unsigned char sampleWhoosh[] = {
     15, 31, 1, 2,
     15, 31, 2, 2,
@@ -276,6 +291,7 @@ const struct AudioTable AudioSamples[] = {
     { sampleExxtra,       110, 0                                  }, // SFX_EXTRA,              // 5
     { sampleExit,          99, 0                                  }, // SFX_EXIT,               // 6
     { sampleExplode,       99, 0                                  }, // SFX_EXPLODE,            // 7
+    { sampleExplodeQuiet,  99, 0                                  }, // SFX_EXPLODE_QUIET,            // 7
     { sampleMagic,         50, AUDIO_KILL                         }, // SFX_MAGIC,              // 8
     { sampleMagic2,        50, 0                                  }, // SFX_MAGIC2,             // 9
     { sampleRock,          11, 0                                  }, // SFX_ROCK,               // 10
@@ -626,6 +642,23 @@ void playAudio() {
 #define d4           X(C12, 17),
 #define b5           X(C4, 15),
 
+#define e5 X(4, 23),
+#define g5 X(4,19),
+#define a5 X(4,17),
+#define c6_SHARP X(12,4),
+#define d6 X(4, 12),
+#define f4_SHARP X(12,13),
+#define e6 X(4,11),
+#define f6_SHARP X(4,10),
+#define g6 X(4,9),
+#define a6 X(4,8),
+#define b6 X(4,7),
+#define c7 X(1,0),
+#define f6 X(4,10),
+#define c6 X(4,14),
+#define f6_SHARP X(4,10),
+#define d6_SHARP X(4,12),
+#define e7 X(4,5),
 
 // ref: http://www.retrointernals.org/boulder-dash/music.html
 // ref: https://forums.atariage.com/topic/176497-atari-2600-frequency-and-tuning-chart-new-v11/#comment-2198932
@@ -633,18 +666,63 @@ void playAudio() {
 
 static const unsigned char trackSimple[] = {
 
-    // Boulder Dash theme
-    // HALFNOTE
 
-    // f3 a3 c4 f4 g3 a3_SHARP c4 g4 c4_SHARP d4_SHARP f4 g4_SHARP d4_SHARP d5 e4 c5 f3 f4 c3
-    // g3 d3_SHARP g4 g3 d3_SHARP f3 f4 c3 g3 c4_SHARP f5 f4 c4_SHARP d3_SHARP d4_SHARP a2_SHARP
-    // f3 b3 d5_SHARP d4_SHARP b3 c3 e4 d3 f4 a3_SHARP a3_SHARP a4_SHARP a3_SHARP f4 f4 f4 f4 f4
-    // f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 d4_SHARP d4_SHARP
-    // d4_SHARP d4_SHARP f4 f5 f4 d5_SHARP f4 d5 f4 c5 d4_SHARP d5_SHARP d4_SHARP d5_SHARP
-    // d4_SHARP a4_SHARP d4_SHARP d5_SHARP f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 f4 d4_SHARP d4_SHARP
-    // d4_SHARP d4_SHARP a4 f4 c4 a3 g4 d4_SHARP a3_SHARP d3_SHARP a4 f4 c4 a3 g4 d4_SHARP
-    // a3_SHARP d3_SHARP
+// a4 g4 f4 g4 a4 c5 a4 g4 f4 e4 f4 g4 e4 a3 g4 f4 g4 a4 c5 a4 g4 f4 e4 f4 g4 e4
+// e4 f4 g4 a4 b4 a4 g4 f4 e4 f4 g4 e4 f4 g4 e4 d4 e4 f4 g4 a4 b4 a4 g4 f4 e4
+// b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c5 b5 a5 g5 f5 e5 d5 c5 b4 a4 g4 f4 e4 d4 c4
+// d4 e4 f4 g4 a4 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c5 b5 a5 g5 f5 e5 d5 c5 b4 a4
+// e4 d4 c4 b3 c4 d4 e4 d4 c4 b3 c4 d4 e4 f4 e4 d4 c4 b3 c4 d4 e4 f4 g4 a4 g4 f4 e4 f4 g4 e4 f4 g4 a4 g4 f4 e4
+// b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 
 
+/*
+
+Subject (A minor):
+a4 g4 f4 g4 a4 c5 a4 g4 f4 e4 f4 g4 e4 a3 g4 f4 g4 a4 c5 a4 g4 f4 e4 f4 g4 e4
+
+Counter-Subject:
+e4 f4 g4 a4 b4 a4 g4 f4 e4 f4 g4 e4 f4 g4 e4 d4 e4 f4 g4 a4 b4 a4 g4 f4 e4
+
+Episode 1:
+b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c7 d7 e7 f7 g7
+
+Subject (D minor):
+d4 e4 f4 g4 a4 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c7 d7
+
+Counter-Subject:
+g4 f4 e4 d4 c4 d4 e4 f4 g4 a4 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6
+
+Episode 2:
+f5 e5 d5 c5 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c7 d7
+
+Subject (G major):
+g4 a4 b4 c5 d5 e5 f#5 g5 a5 b5 c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7
+
+Counter-Subject:
+d5 e5 f#5 g5 a5 b5 c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7
+
+Episode 3:
+c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
+
+
+*/
+
+
+// a4 g4 f4 g4 a4 c5 a4 g4 f4 e4 f4 g4 e4 a3 g4 f4 g4 a4 c5 a4 g4 f4 e4 f4 g4 e4
+// e4 f4 g4 a4 b4 a4 g4 f4 e4 f4 g4 e4 f4 g4 e4 d4 e4 f4 g4 a4 b4 a4 g4 f4 e4
+// // b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c7 d7 e7 f7 g7
+// // d4 e4 f4 g4 a4 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c7 d7
+// // g4 f4 e4 d4 c4 d4 e4 f4 g4 a4 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6
+// // f5 e5 d5 c5 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c7 d7
+// // g4 a4 b4 c5 d5 e5 f#5 g5 a5 b5 c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7
+// // d5 e5 f#5 g5 a5 b5 c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7
+// // c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
+
+
+// d5 d5 d5 d5  e5 f5 g5 a5 b5 c6 d6  c6 b5 a5 g5 f5 e5 d5 
+// d5 d5 d5 d5  e5 f5 g5 a5 b5 c6 d6  c6 b5 a5 g5 f5 e5 d5 
+// d5 d5 d5 d5  c5_SHARP d5 e5 f5 g5 a5 b5 c6  b5 a5 g5 f5 e5 d5 c5_SHARP 
+// d5 d5 d5 d5  c5_SHARP d5 e5 f5 g5 a5 b5 c6  b5 a5 g5 f5 e5 d5 c5_SHARP 
+// d5 c5_SHARP c5 b4  a4 g4 f4_SHARP f4  e4 d4 c4_SHARP c4  b3 a3 c3_SHARP g3 
 
 // music for a found harmonium
     /* the one in A major */
@@ -749,6 +827,9 @@ static const unsigned char trackSimple2[] = {
 // Instrument envelopes have 16 bytes defining the volume multipliers for each "audio tick"
 
 static const unsigned char adsr_Trombone[] = {
+
+    50, 100, 150, 200, 200, 180, 200, 180, 200, 180, 200, 150, 100, 50, 0, 0,
+
     200, 180, 160, 140, 96, 95, 94, 93, 92, 91, 80, 60, 40, 20, 0, 0
 };
 
@@ -763,7 +844,7 @@ static const unsigned char adsr_Trombone2[] = {
 // };
 
 static const unsigned char *const instrument[] = {
-    adsr_Trombone,
+    adsr_Trombone2,
     adsr_Trombone, //tmp2,
 };
 

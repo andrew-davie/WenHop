@@ -76,8 +76,11 @@ static int decodeFlasher;
 // int last_prng_a;
 // int last_prng_b;
 
+int wyrmNum;
 
 void decodeCave(int cave) {
+
+    wyrmNum = 0;
 
     theCave = (struct CAVE_DEFINITION *) (((int)caveList[cave]) & 0xFFFF);
 
@@ -186,7 +189,6 @@ int decodeExplicitData(bool sfx) {
                     break;
                 }
 
-
                 for (int skipBotBlock = level; skipBotBlock < 4; skipBotBlock++)
                     while (*theCaveData++ != 0xFF);
 
@@ -194,8 +196,15 @@ int decodeExplicitData(bool sfx) {
                 break;
             }
 
-            cmd = 0; //theCode & 0b11000000;
-            theObject = theCode; // & 0x3F;
+            if (theCode == 0xFE) {
+                theObject = *theCaveData++;
+                cmd = 0;
+            }
+
+            else {
+                cmd = theCode & 0b11000000;
+                theObject = theCode & 0x3F;
+            }
 
             a = *theCaveData++;
             b = *theCaveData++;
@@ -219,7 +228,7 @@ int decodeExplicitData(bool sfx) {
                     rockfordY = b;
 
                     if (displayMode == DISPLAY_NORMAL)
-                        scrollX = (rockfordX - (HALFWAYX >> 2)) << 16;
+                        scrollX = (rockfordX - (HALFWAYX /5)) << 16;
 
                     else if (displayMode == DISPLAY_HALF)
                         scrollX = (rockfordX - (HALFWAYX >> 1)) << 16;
@@ -312,10 +321,7 @@ int decodeExplicitData(bool sfx) {
     return decodeFlasher;
 }
 
-    extern int snakeX[];
-    extern int snakeY[];
-    extern int snakeHead;
-    
+
 void StoreObject(int x, int y, objectType anObject) {
 
     unsigned char *this = RAM + _BOARD + x + y * 40;
@@ -323,10 +329,12 @@ void StoreObject(int x, int y, objectType anObject) {
     if (CharToType[GET(*this)] == TYPE_DIAMOND)
         totalDiamondsPossible--;
 
-    else if (anObject == CH_SNAKE_HEAD) {
-        snakeHead = 0;
-        snakeX[0] = x;
-        snakeY[0] = y;
+    else if (CharToType[anObject] == TYPE_WYRM) {
+        wyrmHead[wyrmNum] = 0;
+        wyrmDir[wyrmNum] = 0;
+        wyrmX[wyrmNum][0] = x;
+        wyrmY[wyrmNum][0] = y;
+        wyrmNum++;
     }
 
 
