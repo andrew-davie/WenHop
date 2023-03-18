@@ -3,7 +3,7 @@
 
     #include "main.h"
         
-extern const short Attribute[];
+extern const int Attribute[];
 extern const unsigned char CharToType[];
 
 enum ObjectType {
@@ -65,7 +65,11 @@ enum ObjectType {
     TYPE_PUSHER,                // 49
     TYPE_PUSHER_VERT,           // 50
     
-    TYPE_SNAKE,                 // 51
+    TYPE_WYRM,                  // 51
+
+    TYPE_LIFE,                  // 52
+    TYPE_BOULDER_DOGE,          // 53
+    TYPE_BOULDER_DOGE_FALLING,  // 54
 
 #if __ENABLE_LAVA    
     TYPE_LAVA,                  // 47
@@ -198,14 +202,43 @@ enum ChName {
     CH_PUSH_UP_REVERSE,         // 96
     CH_PUSH_DOWN_REVERSE,       // 97
 
-    CH_SNAKE_HEAD,               // 98
-    CH_SNAKE_BODY,               // 99
-    CH_SNAKE_VERT_BODY,         // 100
+    CH_WYRM_HEAD,               // 98
+    CH_WYRM_BODY,               // 99
+    CH_WYRM_VERT_BODY,          // 100
 
-    CH_SNAKE_CORNER_LD,
-    CH_SNAKE_CORNER_RD,
-    CH_SNAKE_CORNER_LU,
-    CH_SNAKE_CORNER_RU,
+    CH_WYRM_CORNER_LD,          // 101
+    CH_WYRM_CORNER_RD,          // 102
+    CH_WYRM_CORNER_LU,          // 103
+    CH_WYRM_CORNER_RU,          // 104
+
+    CH_WYRM_HEAD_U,             // 105
+    CH_WYRM_HEAD_R,             // 106
+    CH_WYRM_HEAD_D,             // 107
+    CH_WYRM_HEAD_L,             // 108
+
+    CH_CORNER_0,                    // 109
+    CH_CORNER_1,                    // 110
+    CH_CORNER_2,                    // 111
+    CH_CORNER_3,                    // 112
+    CH_CORNER_4,                    // 113
+    CH_CORNER_5,                    // 114
+    CH_CORNER_6,                    // 115
+    CH_CORNER_7,                    // 116
+    CH_CORNER_8,                    // 117
+    CH_CORNER_9,                    // 118
+    CH_CORNER_10,                   // 119
+    CH_CORNER_11,                   // 120
+    CH_CORNER_12,                   // 121
+    CH_CORNER_13,                   // 122
+    CH_CORNER_14,                   // 123
+    CH_CORNER_15,                   // 124
+
+    CH_CONGLOMERATE_MID,            // 125
+
+    CH_BOULDER_DOGE,                // 126
+    CH_BOULDER_DOGE_FALLING,        // 127
+
+// 127 is limit
 
 
 #if __ENABLE_LAVA
@@ -243,5 +276,11 @@ enum ChName {
 #define ATT_PUSH                 8192
 #define ATT_ROCKFORDYBLANK      16384
 #define ATT_DRIP                32768
+
+#define ATT_CORNER (1 << 31)
+#define ATT_PAD (1 << 30)
+#define ATT_SHOVE (1<<29)
+#define ATT_BOULDER (1<<28)
+#define ATT_BOULDER_DOGE (1 << 27)
 
 #endif

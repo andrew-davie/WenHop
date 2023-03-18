@@ -33,6 +33,7 @@ enum AudioID {
     SFX_EXTRA,              // 6
     SFX_EXIT,               // 7
     SFX_EXPLODE,            // 8
+    SFX_EXPLODE_QUIET,      // 23
     SFX_MAGIC,              // 9
     SFX_MAGIC2,             // 10
     SFX_ROCK,               // 11

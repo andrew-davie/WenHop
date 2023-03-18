@@ -591,40 +591,6 @@ const unsigned char caveZPH4[]= {
 const unsigned char caveA[]= {
 
 
-/*
-
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-▓▓░░  ● ░░░░    ░░  F ● ● ● ● ░░░░  ● ░░  ░░  ░░░░░░░░    ░░B ░░░░●   ░░● ░░  ▓▓
-▓▓▲ ░░R ●   ░░░░    F ● ░░░░░░░░  ░░  ░░░░░░  ░░░░  ▲ ░░●   B ░░░░  ░░░░░░░░░░▓▓
-▓▓░░░░░░● ● ░░░░░░    ░░  ░░● ░░░░░░● ● ░░░░░░● ░░● ░░  ░░░░B ░░░░  ▲ ░░░░░░● ▓▓
-▓▓░░░░░░░░░░░░░░░░░░  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  ░░░░░░B ░░● ░░░░░░░░░░░░▓▓
-▓▓░░░░  ░░●     ░░░░      ░░  ░░░░  ░░░░░░● ▲   ●   ░░  ░░░░  ░░  ░░●   ▲ ░░  ▓▓
-▓▓░░  ░░░░░░  ░░░░░░  ░░  ░░░░● ● ▲ ░░▲ ░░  ░░░░░░░░  ░░● ░░  ░░░░░░●   ░░  ░░▓▓
-▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒● ░░░░● ░░● ░░░░▓▓
-▓▓░░░░● ● B   ░░● ● ● ● ░░░░░░░░░░░░● ░░▲ ░░●   ░░  ● ░░░░    ░░  ● ░░● ●   ● ▓▓
-▓▓░░▲   ░░B ░░  ░░● ░░● ● ░░  ░░  ░░░░  ● ▲ ░░░░● ░░●   ░░▲ ░░  ● ░░░░░░░░● ░░▓▓
-▓▓░░░░░░░░B ░░  ● ░░● ● ░░░░░░░░    ●   ░░░░    ░░░░▲ ░░● ░░  ░░░░    ●   ░░░░▓▓
-▓▓░░● ░░░░B ░░░░●     ░░░░    ░░░░●   ● ░░● ░░░░░░░░▲   ░░░░░░░░░░░░  ● ░░● ● ▓▓
-▓▓░░  ░░●   ▲ ░░░░  ●     ● ░░● ● ● ░░  ░░░░░░  ░░░░    ░░░░  ░░▲ ▲ ░░░░░░  ● ▓▓
-▓▓●   ░░░░  ░░● ░░░░░░░░░░●   ░░░░● ░░  ░░░░░░● ░░░░░░● ● ░░  ░░░░● ░░  ░░  ● ▓▓
-▓▓● ░░  ░░  ░░● ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░▓▓
-▓▓░░░░▲ ● ● ▲   ● ● ░░░░░░░░▲     ●   ░░░░░░░░░░░░░░  ░░░░░░B ░░░░░░● ░░░░▲   ▓▓
-▓▓  ░░● ● ░░  ░░░░░░░░░░░░░░●   ● ░░● ▲ ░░░░● ░░░░● ░░  ░░░░B ░░░░    ● ░░● X ▓▓
-▓▓● ● ░░    ░░  ● ░░░░● ● ░░░░  ░░░░░░▲ ░░░░░░░░░░● ░░░░░░░░B ░░░░░░░░░░░░░░● ▓▓
-▓▓  ░░░░  ░░░░● ░░░░● ░░░░  ▲   ░░░░░░░░▲   ░░    ░░░░░░░░░░B ░░    ░░    ░░░░▓▓
-▓▓  ░░░░░░░░  ░░● ● ● ░░░░░░░░░░░░● ░░░░░░  ░░  ░░░░░░● ● ░░  ░░  ░░░░● ●     ▓▓
-▓▓░░░░░░░░░░░░░░●     ● ▲ ░░▲ ░░░░  ░░░░  ░░●   ░░░░░░░░░░  ● ░░░░░░░░● ●   ● ▓▓
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-
-
-
-
-
-
-
-
-*/
-
     20,       // milling
     10,15,  // diamond $
     5, //              ,          // rain
@@ -638,19 +604,68 @@ const unsigned char caveA[]= {
     CAVEDEF_PARALLAX,
     STEEL,DIRT,
 
-    6,  CH_BLANK,       60, 255,   0, 255,  10,
-        CH_BOULDER,     90,   0, 240,   0,  20,
+    3,  CH_BLANK,       60, 255,   0, 255,  10,
+        CH_BOULDER,     30,   0, 240,   0,  20,
+        CH_BOULDER_DOGE,     80,   0, 240,   0,  20,
 
-        CH_PUSH_LEFT,    0,  10,   5,   0,  20,
-        CH_PUSH_RIGHT,   0,  10,   5,   0,  20,
-        CH_PUSH_UP,      0,  10,   5,   0,  20,
-        CH_PUSH_DOWN,    0,  10,   5,   0,  20,
+//        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
+
+        // CH_PUSH_LEFT,    0,  10,   5,   0,  20,
+        // CH_PUSH_RIGHT,   0,  10,   5,   0,  20,
+        // CH_PUSH_UP,      0,  10,   5,   0,  20,
+        // CH_PUSH_DOWN,    0,  10,   5,   0,  20,
 
         // DIAMOND,    9,9,9,9,200,
 
     //CH_DOGE_00, 4, 2,
 
     //LINE + CH_LADDER_0, 4,2,4,10,
+
+
+    //FILLRECT+CH_BOULDER,5,5,21,10,CH_DIRT,
+    
+
+#define VS 3
+#define HS 3
+
+    0xFE,CH_PUSH_DOWN,6,9,
+//    0xFE,CH_PUSH_DOWN,7,1,
+    0xFE,CH_PUSH_RIGHT,7,8,
+  //  0xFE,CH_PUSH_DOWN,9,1,
+    0xFE,CH_PUSH_LEFT,5,8,
+    //0xFE,CH_PUSH_DOWN,11,1,
+    0xFE,CH_PUSH_UP,6,7,
+    //0xFE,CH_PUSH_DOWN,13,1,
+    0xFE, CH_STEELWALL, 6,8,
+    
+
+
+    0xFE,CH_PUSH_DOWN,6+HS,9+VS,
+//    0xFE,CH_PUSH_DOWN,7,1,
+    0xFE,CH_PUSH_RIGHT,7+HS,8+VS,
+  //  0xFE,CH_PUSH_DOWN,9,1,
+    0xFE,CH_PUSH_LEFT,5+HS,8+VS,
+    //0xFE,CH_PUSH_DOWN,11,1,
+    0xFE,CH_PUSH_UP,6+HS,7+VS,
+    //0xFE,CH_PUSH_DOWN,13,1,
+    0xFE, CH_STEELWALL, 6+HS,8+VS,
+
+
+    0xFE,CH_PUSH_DOWN,6+HS*3,9+VS*2,
+//    0xFE,CH_PUSH_DOWN,7,1,
+    0xFE,CH_PUSH_RIGHT,7+HS*3,8+VS*2,
+  //  0xFE,CH_PUSH_DOWN,9,1,
+    0xFE,CH_PUSH_LEFT,5+HS*3,8+VS*2,
+    //0xFE,CH_PUSH_DOWN,11,1,
+    0xFE,CH_PUSH_UP,6+HS*3,7+VS*2,
+    //0xFE,CH_PUSH_DOWN,13,1,
+    0xFE, CH_STEELWALL, 6+HS*3,8+VS*2,
+
+    
+    0xFE, CH_WYRM_HEAD_U, 11, 16,
+
+
+    //0xFE,CH_BUTTERFLY_0, 9,7,
 
 
     // LINE + CH_BRICKWALL,1,7,2,31,
@@ -668,12 +683,22 @@ const unsigned char caveA[]= {
     // LINE+CH_BLANK,30,15,4,5,
     // LINE+CH_BUTTERFLY_0,30,15,4,4,
 
-    CH_DOORCLOSED,38,16,
-    CH_ROCKFORD_BIRTH,3,2,
+    0xFE, CH_DOORCLOSED,38,16,
+    0xFE, CH_ROCKFORD_BIRTH,3,2,
 
-    CH_SWITCH_LEFT_OFF, 1, 19,
+    // 0xFE, CH_SWITCH_LEFT_OFF, 1, 19,
 
-    CH_SNAKE_HEAD, 6, 4,
+    // 0xFE, CH_WYRM_BODY, 6, 4,
+    0xFE, CH_WYRM_BODY, 16, 10,
+
+    // 0xFE, CH_WYRM_BODY, 12, 2,
+    // 0xFE, CH_WYRM_BODY, 16, 14,
+    // 0xFE, CH_WYRM_BODY, 16, 18,
+    // 0xFE, CH_WYRM_BODY, 11, 12,
+    // 0xFE, CH_WYRM_BODY, 16, 4,
+    // 0xFE, CH_WYRM_BODY, 16, 8,
+    // 0xFE, CH_WYRM_BODY, 12, 12,
+    // 0xFE, CH_WYRM_BODY, 2, 12,
 
     0xFF,
 
@@ -690,7 +715,183 @@ const unsigned char caveA[]= {
 
 
 
+const unsigned char caveA2[]= {
 
+
+    20,       // milling
+    10,15,  // diamond $
+    5, //              ,          // rain
+
+    10,11,50,56,8,       // randomiser[level]
+    25,12,12,12,12,
+    200,200,200,200,200,
+    //70,65,60,55,50,
+
+
+    CAVEDEF_PARALLAX,
+    STEEL,CH_BLANK,
+
+    4,
+        CH_PUSH_LEFT,    0,  10,   5,   0,  20,
+        CH_PUSH_RIGHT,   0,  10,   5,   0,  20,
+        CH_PUSH_UP,      0,  10,   5,   0,  20,
+        CH_PUSH_DOWN,    0,  10,   5,   0,  20,
+    //   CH_BLANK,       60, 255,   0, 255,  10,
+    //     CH_BOULDER,     90,   0, 240,   0,  20,
+
+    0x80+ CH_STEELWALL,10,5,20,12,CH_DIRT,
+
+//    0xFE, CH_DOORCLOSED,38,16,
+    0xFE, CH_ROCKFORD_BIRTH,16,6,
+
+    0xFE, CH_WYRM_HEAD_U, 11, 6,
+    0xFE, CH_WYRM_HEAD_U, 12, 6,
+    0xFE, CH_WYRM_HEAD_U, 13, 6,
+    0xFE, CH_WYRM_HEAD_U, 14, 6,
+    0xFE, CH_WYRM_HEAD_U, 15, 6,
+
+    // 0xFE, CH_WYRM_HEAD_U, 11, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 12, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 13, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 14, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 15, 9,
+
+    0xFF,
+
+    // EXTRAS
+            // LEVEL 0
+    0xFF,   // LEVEL 1
+    0xFF,   // LEVEL 2
+    0xFF,   // LEVEL 3
+    0xFF,   // LEVEL 4
+    0xFF,
+
+    'M','E','R','C','U','R','Y',END_STRING
+};
+
+
+
+const unsigned char caveA3[]= {
+
+
+    20,       // milling
+    10,15,  // diamond $
+    5, //              ,          // rain
+
+    10,11,50,56,8,       // randomiser[level]
+    25,12,12,12,12,
+    200,200,200,200,200,
+    //70,65,60,55,50,
+
+
+    CAVEDEF_PARALLAX,
+    STEEL,CH_BLANK,
+
+    0,
+
+
+    0x80+ CH_STEELWALL,10,5,20,9,CH_DIRT,
+
+    // LINER(CH_PUSH_DOWN,11,6,18,R)
+    // LINER(CH_PUSH_UP,11,11,18,R)
+
+    0xFE, CH_PUSH_DOWN, 11, 6,
+//    0xFE, CH_PUSH_DOWN, 13, 6,
+    0xFE, CH_PUSH_DOWN, 15, 6,
+//    0xFE, CH_PUSH_DOWN, 17, 6,
+    0xFE, CH_PUSH_DOWN, 19, 6,
+//    0xFE, CH_PUSH_DOWN, 21, 6,
+    0xFE, CH_PUSH_DOWN, 23, 6,
+//    0xFE, CH_PUSH_DOWN, 25, 6,
+
+
+    0xFE, CH_PUSH_UP, 11, 12,
+//    0xFE, CH_PUSH_UP, 13, 12,
+    0xFE, CH_PUSH_UP, 15, 12,
+//    0xFE, CH_PUSH_UP, 17, 12,
+    0xFE, CH_PUSH_UP, 19, 12,
+//    0xFE, CH_PUSH_UP, 21, 12,
+    0xFE, CH_PUSH_UP, 23, 12,
+//    0xFE, CH_PUSH_UP, 25, 12,
+
+//    0xFE, CH_DOORCLOSED,38,16,
+    0xFE, CH_ROCKFORD_BIRTH,11,9,
+
+    0xFE, CH_WYRM_HEAD_U, 16, 9,
+
+
+
+    // 0xFE, CH_WYRM_HEAD_U, 11, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 12, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 13, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 14, 9,
+    // 0xFE, CH_WYRM_HEAD_U, 15, 9,
+
+    0xFF,
+
+    // EXTRAS
+            // LEVEL 0
+    0xFF,   // LEVEL 1
+    0xFF,   // LEVEL 2
+    0xFF,   // LEVEL 3
+    0xFF,   // LEVEL 4
+    0xFF,
+
+    'M','E','R','C','U','R','Y',END_STRING
+};
+
+
+// const unsigned char caveLife[]= {
+
+
+//     20,       // milling
+//     10,15,  // diamond $
+//     5, //              ,          // rain
+
+//     10,11,50,56,8,       // randomiser[level]
+//     25,12,12,12,12,
+//     200,200,200,200,200,
+//     //70,65,60,55,50,
+
+
+//     CAVEDEF_PARALLAX,
+//     STEEL,CH_DIRT,
+
+//     0,
+
+
+//     // r pentomino
+//     0xFE, CH_LIFE_0, 11, 6,
+//     // 0xFE, CH_LIFE_0, 12, 6,
+//     // 0xFE, CH_LIFE_0, 11, 7,
+//     // 0xFE, CH_LIFE_0, 10, 7,
+//     // 0xFE, CH_LIFE_0, 11, 8,
+//     // 0xFE, CH_LIFE_0, 11, 3+6,
+//     // 0xFE, CH_LIFE_0, 12, 3+6,
+//     // 0xFE, CH_LIFE_0, 11, 3+7,
+//     // 0xFE, CH_LIFE_0, 10, 3+7,
+//     // 0xFE, CH_LIFE_0, 11, 3+8,
+//     // 0xFE, CH_LIFE_0, 3+11, 6,
+//     // 0xFE, CH_LIFE_0, 3+12, 6,
+//     // 0xFE, CH_LIFE_0, 3+11, 7,
+//     // 0xFE, CH_LIFE_0, 3+10, 7,
+//     // 0xFE, CH_LIFE_0, 3+11, 8,
+
+//     0xFE, CH_ROCKFORD_BIRTH,11,9,
+
+
+//     0xFF,
+
+//     // EXTRAS
+//             // LEVEL 0
+//     0xFF,   // LEVEL 1
+//     0xFF,   // LEVEL 2
+//     0xFF,   // LEVEL 3
+//     0xFF,   // LEVEL 4
+//     0xFF,
+
+//     'M','E','R','C','U','R','Y',END_STRING
+// };
 
 const unsigned char newCaveA[]= {
 
@@ -2369,6 +2570,8 @@ const unsigned char *caveList[] = {
     #else
 
     caveA,
+    caveA3,
+    caveA2,
     // caveV + CAVE_REQUIRES_AMOEBA_PALETTE       , // 24 Y *
     // newCaveA                                    , // 00 A *
     // newCaveB                                    , // 01 B *

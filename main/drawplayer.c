@@ -18,8 +18,8 @@ static int playerHalfSpriteY;
 static int playerSmallSpriteY;
 
 
-extern const unsigned char playerColour[][4];
-unsigned char dynamicPlayerColours[9];
+extern const unsigned char playerColour[];
+unsigned char dynamicPlayerColours[16];
 
 void initSprites() {
 
@@ -27,8 +27,15 @@ void initSprites() {
     playerHalfSpriteY =
     playerSmallSpriteY -1;
 
-    for (int i = 0; i < 9; i++)
-        dynamicPlayerColours[i] = playerColour[i][mm_tv_type];
+    int rcol = getRandom32() & 0xF0;
+
+    for (int i = 0; i < 16; i++)
+        dynamicPlayerColours[i] = convertColour(playerColour[i]);
+
+    for (int i = 9; i < 16; i++)
+        dynamicPlayerColours[i] += rcol;
+
+
 }
 
 
@@ -40,11 +47,11 @@ void drawPlayerSprite() {  // --> 3171 cycles
     // if (time < 0xA00 && (time & 2))
     //     return;
 
-    static int pulseRed = 0x4200;
+    // static int pulseRed = 0x4200;
 
-    dynamicPlayerColours[5] =
-    dynamicPlayerColours[2] =
-    dynamicPlayerColours[3] = pulseRed >> 8;
+    // dynamicPlayerColours[5] =
+    // dynamicPlayerColours[2] =
+    // dynamicPlayerColours[3] = pulseRed >> 8;
 
 //    pulseRed = (pulseRed & 0xF000) | ((pulseRed + 80) & 0xFFF);
 
@@ -52,7 +59,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
 #if ENABLE_SHAKE
     extern int shakeX, shakeY;
 
-    int x = (scrollX + shakeX) >> 14;
+    int x = ((scrollX + shakeX) * 5) >> 16;
     int y = (scrollY + shakeY) >> 16;
 #else
     int x = scrollX >> 14;
@@ -66,8 +73,8 @@ void drawPlayerSprite() {  // --> 3171 cycles
     //     return;
 
 
-    int ypos = (rockfordY  + 1) * PIECE_DEPTH - y * 3 - frameAdjustY -1 + autoMoveY - SCORE_SCANLINES;
-    int xpos = rockfordX * 4 - x;
+    int ypos = (rockfordY  + 1) * PIECE_DEPTH - y * 3 - frameAdjustY - 8 + autoMoveY - SCORE_SCANLINES;
+    int xpos = rockfordX * 5 - x;
 
 
     if ((/*rockfordDead &&*/ (frameAdjustY || frameAdjustX || autoMoveX || autoMoveY )) || (/*(type == TYPE_ROCKFORD)
@@ -83,7 +90,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
         playerSpriteY = ypos + frameYOffset - 1;
 
-        int pX = ((rockfordX * 4)- x) * 4 + (rockfordFaceDirection * (frameOffset + frameAdjustX + autoMoveX));
+        int pX = (xpos) * 4 + (rockfordFaceDirection * (frameOffset + frameAdjustX + autoMoveX)) + 2;
 
         if (playerSpriteY < 0 || playerSpriteY >= _ARENA_SCANLINES - SPRITE_DEPTH
             || pX > 159)
@@ -98,7 +105,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
             P1_X = P0_X + 8;
 
 
-        unsigned char *p0Colour = RAM + _BUF_COLUP0 + playerSpriteY;
+        unsigned char *p0Colour = RAM + _BUF_COLUP0 + playerSpriteY + 1;
         unsigned char *p1Colour = p0Colour + _ARENA_SCANLINES;
 
         unsigned char *p0 = RAM + _BUF_GRP0A + playerSpriteY;
@@ -120,22 +127,8 @@ void drawPlayerSprite() {  // --> 3171 cycles
                 p1[line] = BitRev[(unsigned char) *spr++];
             }
 
-            int col = *spr >> 4;
-            int hueLum = dynamicPlayerColours[col]; // playerColour[col][mm_tv_type];
-
-#if __FADE
-            p0Colour[line] = (hueLum & 0xF0) | (((hueLum & 0xF) * theFade) >> 16);
-#else
-            p0Colour[line] = hueLum;
-#endif
-            col = *spr++ & 0xF;
-            hueLum = dynamicPlayerColours[col]; // playerColour[col][mm_tv_type];
-
-#if __FADE
-            p1Colour[line] = (hueLum & 0xF0) | (((hueLum & 0xF) * theFade) >> 16);
-#else
-            p1Colour[line] = hueLum;
-#endif
+            p0Colour[line] = dynamicPlayerColours[*spr >> 4]; // playerColour[col][mm_tv_type];
+            p1Colour[line] = dynamicPlayerColours[*spr++ & 0xF]; // playerColour[col][mm_tv_type];
         }
     }
 }

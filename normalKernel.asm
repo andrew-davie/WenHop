@@ -3,7 +3,9 @@ _NORMAL_KERNEL
     ; This is the entire display
     ;@3
 
-                    SLEEP 5                         ; @8
+                    lda #_DS_COLUP0
+                    sta COLUP0                      ; 5
+;                    SLEEP 5                         ; @8
 
                     lda #_DS_COLUBK
                     sta WSYNC                       ; 5 @13
@@ -35,10 +37,8 @@ _NORMAL_KERNEL
                     lda #_DS_PF2_RIGHT
                     sta PF2                         ; 5 @61 
 
-                    SLEEP 5                         ; @66
+                    SLEEP 10                         ; @66
 
-                    lda #_DS_COLUP0
-                    sta COLUP0                      ; 5
                     lda #_DS_COLUP1
                     sta COLUP1                      ; 5 @76
 

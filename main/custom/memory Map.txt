@@ -1,0 +1,20 @@
+memory Map
+
+
+
+0x800   0x8FF           C-runtime boot loader
+0x880 + 26911           C code (26K)
+
+
+RAM     0x40001660  + 0x95B
+
+
+
+ROM
+0x0000
+
+
+
+0x7000 - 0x7FFF     6502 page (4K)
+
+0x8000

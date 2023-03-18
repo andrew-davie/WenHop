@@ -200,9 +200,9 @@ void rollRainbow() {
 void setPalette() {
 
     static const int shiftMode[] = { 16, 17, 31 };
-    static const int rowSize[] = { 21, 15, 9 };
+    static const int rowSize[] = { PIECE_DEPTH, 15, 9 };
 
-    int size = rowSize[displayMode];
+    int size = PIECE_DEPTH; //rowSize[displayMode];
 
     int shift = shiftMode[displayMode];
 
@@ -294,28 +294,28 @@ void setPalette() {
 
 
 
-        if (displayMode != DISPLAY_OVERVIEW) {            
+        // if (displayMode != DISPLAY_OVERVIEW) {            
 
-            int rollx = roll;
-            static const unsigned char scoreColour[] = { 0x46, 0x98, 0xD8, 0x46, 0x98, 0x28, 0x28, 0x28 };
+        //     int rollx = roll;
+        //     static const unsigned char scoreColour[] = { 0x46, 0x98, 0xD8, 0x46, 0x98, 0x28, 0x28, 0x28 };
 
-            if (enableICC != LEFT_DIFFICULTY_A)
-                rollx = 5;
+        //     if (enableICC != LEFT_DIFFICULTY_A)
+        //         rollx = 5;
 
-            unsigned char cc0 = convertColour(scoreColour[rollx]);
-            unsigned char cc1 = convertColour(scoreColour[rollx + 1]);
-            unsigned char cc2 = convertColour(scoreColour[rollx + 2]);
+        //     unsigned char cc0 = convertColour(scoreColour[rollx]);
+        //     unsigned char cc1 = convertColour(scoreColour[rollx + 1]);
+        //     unsigned char cc2 = convertColour(scoreColour[rollx + 2]);
  
-             while (i < _ARENA_SCANLINES/*SCORE_SCANLINES*/) {
+        //      while (i < _ARENA_SCANLINES/*SCORE_SCANLINES*/) {
  
-                 pfCol[0] = cc0;
-                 pfCol[1] = cc1;
-                 pfCol[2] = cc2;
+        //          pfCol[0] = cc0;
+        //          pfCol[1] = cc1;
+        //          pfCol[2] = cc2;
  
-                 pfCol += 3;
-                 i += 3;
-           }
-        }
+        //          pfCol += 3;
+        //          i += 3;
+        //    }
+        // }
     // }
 }
 
