@@ -731,13 +731,13 @@ __CHAR_BOULDER_URDL
     dc __X__ ; 11
     dc _____ ; 12 <
     dc _XXX_ ; 13
-    dc XXXXX ; 14
+    dc XX_XX ; 14
     dc _____ ; 15 <
     dc _XXX_ ; 16
-    dc XXXXX ; 17
+    dc XX_XX ; 17
     dc _____ ; 18 <
     dc _XXX_ ; 19
-    dc XXXXX ; 20
+    dc XX_XX ; 20
     dc _____ ; 21 <
     dc XXXXX ; 22
     dc __X__ ; 23
@@ -1924,31 +1924,31 @@ __CHAR_PEBBLE1
 ; actually worm horiz body
 __CHAR_AMOEBA_0
 
-     dc _____ ; 00 <
+     dc ___XX ; 00 <
      dc _____ ; 01
      dc ___XX ; 02
-     dc _____ ; 03 <
+     dc XXXXX ; 03 <
      dc _____ ; 04
      dc XXXXX ; 05
-     dc _____ ; 06 <
+     dc XXXXX ; 06 <
      dc _____ ; 07
      dc XXXXX ; 08
-     dc _____ ; 09 <
-     dc _____ ; 10
+     dc XX_XX ; 09 <
+     dc __X__ ; 10
      dc XXXXX ; 11
-     dc _____ ; 12 <
-     dc _____ ; 13
+     dc XX_XX ; 12 <
+     dc _XXX_ ; 13
      dc XXXXX ; 14
-     dc _____ ; 15 <
-     dc _____ ; 16
+     dc XX_XX ; 15 <
+     dc _XXX_ ; 16
      dc XXXXX ; 17
-     dc _____ ; 18 <
-     dc _____ ; 19
+     dc XX_XX ; 18 <
+     dc __X__ ; 19
      dc XXXXX ; 20
-     dc _____ ; 21 <
+     dc XXXXX ; 21 <
      dc _____ ; 22
      dc XXXXX ; 23
-     dc _____ ; 24 <
+     dc XXX__ ; 24 <
      dc _____ ; 25
      dc XXX__ ; 26
      dc _____ ; 27 <
@@ -1958,34 +1958,34 @@ __CHAR_AMOEBA_0
 
 __CHAR_AMOEBA_2
 
-     dc _____ ; 00 <
+     dc _XXX_ ; 00 <
      dc _____ ; 01
      dc _XXX_ ; 02
-     dc _____ ; 03 <
+     dc _XXX_ ; 03 <
      dc _____ ; 04
      dc _XXX_ ; 05
-     dc _____ ; 06 <
+     dc _XXX_ ; 06 <
      dc _____ ; 07
      dc _XXX_ ; 08
-     dc _____ ; 09 <
-     dc _____ ; 10
+     dc _XXX_ ; 09 <
+     dc __X__ ; 10
      dc _XXX_ ; 11
      dc _____ ; 12 <
-     dc _____ ; 13
+     dc _XXX_ ; 13
      dc _XXX_ ; 14
-     dc _____ ; 15 <
-     dc _____ ; 16
+     dc _X_X_ ; 15 <
+     dc __X__ ; 16
      dc _XXX_ ; 17
-     dc _____ ; 18 <
-     dc _____ ; 19
+     dc _XXX_ ; 18 <
+     dc __X__ ; 19
      dc _XXX_ ; 20
-     dc _____ ; 21 <
+     dc _XXX_ ; 21 <
      dc _____ ; 22
      dc _XXX_ ; 23
-     dc _____ ; 24 <
+     dc _XXX_ ; 24 <
      dc _____ ; 25
      dc _XXX_ ; 26
-     dc _____ ; 27 <
+     dc _XXX_ ; 27 <
      dc _____ ; 28
      dc _XXX_ ; 29
 

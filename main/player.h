@@ -71,6 +71,8 @@ enum FRAME {
 enum AnimationIdent {
 
     ID_Stand,
+    ID_StandUp,
+    ID_StandLR,
     ID_Push,
 //#if ENABLE_SHAKE
 //    ID_Shake,

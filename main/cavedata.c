@@ -859,24 +859,6 @@ const unsigned char caveA3[]= {
 
 //     0,
 
-
-//     // r pentomino
-//     0xFE, CH_LIFE_0, 11, 6,
-//     // 0xFE, CH_LIFE_0, 12, 6,
-//     // 0xFE, CH_LIFE_0, 11, 7,
-//     // 0xFE, CH_LIFE_0, 10, 7,
-//     // 0xFE, CH_LIFE_0, 11, 8,
-//     // 0xFE, CH_LIFE_0, 11, 3+6,
-//     // 0xFE, CH_LIFE_0, 12, 3+6,
-//     // 0xFE, CH_LIFE_0, 11, 3+7,
-//     // 0xFE, CH_LIFE_0, 10, 3+7,
-//     // 0xFE, CH_LIFE_0, 11, 3+8,
-//     // 0xFE, CH_LIFE_0, 3+11, 6,
-//     // 0xFE, CH_LIFE_0, 3+12, 6,
-//     // 0xFE, CH_LIFE_0, 3+11, 7,
-//     // 0xFE, CH_LIFE_0, 3+10, 7,
-//     // 0xFE, CH_LIFE_0, 3+11, 8,
-
 //     0xFE, CH_ROCKFORD_BIRTH,11,9,
 
 
