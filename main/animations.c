@@ -27,44 +27,12 @@ static const char AnimConglomerateMid[] = {
 };
 
 
-
-// static const char AnimLife[] = {
-//     CH_LIFE_0, 15,
-//     CH_LIFE_1, 15,
-//     CH_LIFE_2, 15,
-//     CH_LIFE_3, 15,
-//     CH_LIFE_4, 15,
-//     CH_LIFE_5, 15,
-//     CH_LIFE_6, 15,
-//     CH_LIFE_7, 15,
-//     CH_LIFE_8, 15,
-//     CH_LIFE_9, 15,
-//     CH_LIFE_10, 15,
-//     CH_LIFE_11, 15,
-//     CH_LIFE_12, 15,
-//     CH_LIFE_13, 15,
-//     CH_LIFE_14, 15,
-//     CH_LIFE_15, 15,
-//     ANIM_LOOP,
-// };
-
-
 static const char AnimSwitch[] = {
     CH_SWITCH_LEFT_OFF, 20,
     CH_SWITCH_LEFT_ON, 20,
     ANIM_LOOP
 };
 
-
-// const char AnimBrokenBoulder[] = {
-//     CH_BLANK,3,
-//     CH_BOULDER,6,
-//     CH_BLANK,3,
-//     CH_BOULDER,6,
-//     CH_DUST_ROCK_0, 9,
-//     CH_DUST_ROCK_1, 9,
-//     CH_DUST_ROCK_2, ANIM_HALT,
-// };
 
 static const char AnimMagicWall[] = {
 
@@ -193,22 +161,17 @@ const char *const AnimateBase[] = {
     0,                          // 36 TYPE_DUST_0
     0,                          // 37 TYPE_DUST_1
     0,                          // 38 TYPE_DUST_2
-    0,                          // 39 TYPE_BOULDER_SHAKE
     0,                          // 40 TYPE_DUST_LEFT
     0,                          // 41 TYPE_DUST_RIGHT
     0,                          // 42 TYPE_DOGE_FALLING
-    0,                          // 43 TYPE_DIAMOND_WITHOUT_DIRT
     0,                          // 44 TYPE_BOULDER_FALLING
-    0,                          // 45 TYPE_LADDER
-
     0,                          // 46 TYPE_DUST_ROCK
     0,                          // 47 TYPE_DOGE_CONVERT
     AnimSwitch,                 // 48 TYPE_SWITCH
     0,                          // 49 TYPE_PUSHER
-
     0,                          // 50 TYPE_PUSHER_VERT
     0,                          // 51 TYPE_WYRM
-    0,                          // 52 TYPE_LIFE
+    // 0,                          // 52 TYPE_LIFE
     0,                          // 53 TYPE_BOULDER_DOGE_FALLING
     0,                          // 53 TYPE_BOULDER_FALLING
     AnimConglomerateMid,        // 54 TYPE_BOULDER_DOGE_DRITICAL

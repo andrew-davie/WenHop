@@ -8,7 +8,6 @@ extern const unsigned char CharToType[];
 
 enum ObjectType {
 
-
     // update Attribute[] in animations.c if changing this
 
     TYPE_SPACE,                 // 0       ASSUMED == 0 in code
@@ -53,14 +52,11 @@ enum ObjectType {
     TYPE_DUST_0,                // 36
     TYPE_DUST_1,                // 37
     TYPE_DUST_2,                // 38
-    TYPE_BOULDER_SHAKE,         // 39
 
     TYPE_DUST_LEFT,             // 40
     TYPE_DUST_RIGHT,            // 41
     TYPE_DOGE_FALLING,          // 42
-    TYPE_DIAMOND_WITHOUT_DIRT,  // 43
     TYPE_BOULDER_FALLING,       // 44
-    TYPE_LADDER,                // 45
     TYPE_DUST_ROCK,             // 46
     TYPE_DOGE_CONVERT,          // 47
     TYPE_SWITCH,                // 48
@@ -68,7 +64,6 @@ enum ObjectType {
 
     TYPE_PUSHER_VERT,           // 50
     TYPE_WYRM,                  // 51
-    TYPE_LIFE,                  // 52
     TYPE_BOULDER_DOGE,          // 53
     TYPE_BOULDER_DOGE_FALLING,  // 54
     TYPE_BOULDER_DOGE_CRITICAL, // 55

@@ -21,6 +21,7 @@ static int playerSmallSpriteY;
 extern const unsigned char playerColour[];
 unsigned char dynamicPlayerColours[16];
 
+
 void initSprites() {
 
     playerSpriteY =
@@ -34,11 +35,111 @@ void initSprites() {
 
     for (int i = 9; i < 16; i++)
         dynamicPlayerColours[i] += rcol;
-
-
 }
 
 
+
+    const unsigned char tinyDigit[][7] = {
+    {
+        0b111,
+        0b101,
+        0b101,
+        0b101,
+        0b101,
+        0b101,
+        0b111,
+    },
+
+    {
+        0b010,
+        0b010,
+        0b010,
+        0b010,
+        0b010,
+        0b010,
+        0b010,
+    },
+
+    {
+        0b111,
+        0b001,
+        0b001,
+        0b111,
+        0b100,
+        0b100,
+        0b111,
+    },
+
+    {
+        0b111,
+        0b001,
+        0b001,
+        0b111,
+        0b001,
+        0b001,
+        0b111,
+    },
+
+    {
+        0b100,
+        0b101,
+        0b101,
+        0b111,
+        0b001,
+        0b001,
+        0b001,
+    },
+
+    {
+        0b111,
+        0b100,
+        0b100,
+        0b111,
+        0b001,
+        0b001,
+        0b111,
+    },
+
+    {
+        0b111,
+        0b100,
+        0b100,
+        0b111,
+        0b101,
+        0b101,
+        0b111,
+    },
+
+    {
+        0b111,
+        0b001,
+        0b001,
+        0b001,
+        0b001,
+        0b001,
+        0b001,
+    },
+
+    {
+        0b111,
+        0b101,
+        0b101,
+        0b111,
+        0b101,
+        0b101,
+        0b111,
+    },
+
+    {
+        0b111,
+        0b101,
+        0b101,
+        0b111,
+        0b001,
+        0b001,
+        0b111,
+    },
+    };
 
 
 
@@ -111,10 +212,6 @@ void drawPlayerSprite() {  // --> 3171 cycles
         unsigned char *p0 = RAM + _BUF_GRP0A + playerSpriteY;
         unsigned char *p1 = p0 + _ARENA_SCANLINES;
         
-#if __FADE
-        unsigned int theFade = mm_tv_type == SECAM ? 0x10000 : fade;
-#endif
-
         for (int line = 0; line < SPRITE_DEPTH; line++) {
             
             if (rockfordFaceDirection == FACE_RIGHT) {
@@ -127,10 +224,55 @@ void drawPlayerSprite() {  // --> 3171 cycles
                 p1[line] = BitRev[(unsigned char) *spr++];
             }
 
-            p0Colour[line] = dynamicPlayerColours[*spr >> 4]; // playerColour[col][mm_tv_type];
-            p1Colour[line] = dynamicPlayerColours[*spr++ & 0xF]; // playerColour[col][mm_tv_type];
+            p0Colour[line] = dynamicPlayerColours[*spr >> 4];
+            p1Colour[line] = dynamicPlayerColours[*spr++ & 0xF];
         }
+
+
+
+        p1Colour = RAM + _BUF_COLUP1 + playerSpriteY - 11;
+        p1 = RAM + _BUF_GRP1A + playerSpriteY - 11;
+        p0Colour = RAM + _BUF_COLUP0 + playerSpriteY - 10;
+        p0 = RAM + _BUF_GRP0A + playerSpriteY - 10;
+
+        for (int i = 0; i < 7; i++) {
+            *p0++ = /*(tinyDigit[0][i] << 4) | */(tinyDigit[5][i]);
+            *p1++ = (tinyDigit[0][i] << 4) | (tinyDigit[0][i]);
+            *p0Colour++ = 0x08;
+            *p1Colour++ = 0x08;
+        }
+
+
+        const unsigned char drill[] = {
+
+            0b10100,
+            0b01110,
+            0b00101,
+            0b00100,
+            0b00100,
+            0b00100,
+            0b00100,
+
+
+        };
+
+
+        int drillDepth = 30;
+        static int drillofset = 0;
+
+        drillofset++;
+
+        p1Colour = RAM + _BUF_COLUP1 + playerSpriteY + 20;
+        p1 = RAM + _BUF_GRP1A + playerSpriteY + 20;
+
+        for (int i = 0; i < drillDepth; i++) {
+            *p1++ = drill[(i + (drillofset >> 1)) & 7];
+            *p1Colour++ = 0x8;
+        }
+
     }
+
+
 }
 
 

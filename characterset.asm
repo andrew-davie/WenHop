@@ -1970,10 +1970,10 @@ __CHAR_AMOEBA_2
      dc _XXX_ ; 09 <
      dc __X__ ; 10
      dc _XXX_ ; 11
-     dc _XXX_ ; 12 <
-     dc __X__ ; 13
+     dc _____ ; 12 <
+     dc _XXX_ ; 13
      dc _XXX_ ; 14
-     dc _XXX_ ; 15 <
+     dc _X_X_ ; 15 <
      dc __X__ ; 16
      dc _XXX_ ; 17
      dc _XXX_ ; 18 <

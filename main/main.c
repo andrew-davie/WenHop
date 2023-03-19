@@ -1946,39 +1946,6 @@ void processBoardSquares() {
                     switch (creature) {
 
 
-                    // case CH_LIFE_0:
-                    // case CH_LIFE_1:
-                    // case CH_LIFE_2:
-                    // case CH_LIFE_3:
-                    // case CH_LIFE_4:
-                    // case CH_LIFE_5:
-                    // case CH_LIFE_6:
-                    // case CH_LIFE_7:
-                    // case CH_LIFE_8:
-                    // case CH_LIFE_9:
-                    // case CH_LIFE_10:
-                    // case CH_LIFE_11:
-                    // case CH_LIFE_12:
-                    // case CH_LIFE_13:
-                    // case CH_LIFE_14:
-                    // case CH_LIFE_15:
-                    // {
-
-                    //     const int roffset[] = { -1, 1, -40, 40 };
-
-                    //     if (!(getRandom32() & 7)) {
-                    //         unsigned char *that = this + roffset[getRandom32() & 3];
-                    //         if (CharToType[GET(*that)] == TYPE_DIRT)
-                    //             *that = CH_LIFE_15;
-                    //     }
-
-                    //     if (getRandom32() & 3)
-                    //         *this = (getRandom32() & 15) + CH_LIFE_0;
-                    //     break;
-                    // }
-
-
-
                     case CH_PUSH_LEFT: {
 
                         if (switchOn) {
