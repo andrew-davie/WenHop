@@ -20,7 +20,8 @@ enum ObjectType {
     TYPE_STEELWALL,             // 6
     TYPE_FIREFLY,               // 7
     TYPE_BOULDER,               // 8
-    TYPE_DIAMOND,               // 9
+    TYPE_DOGE,                  // 9
+
     TYPE_EASTEREGG,             // 10
     TYPE_EXPLODE_DIAMOND_0,     // 11
     TYPE_EXPLODE_DIAMOND_1,     // 12
@@ -31,6 +32,7 @@ enum ObjectType {
     TYPE_BUTTERFLY,             // 17
     TYPE_ROCKFORD,              // 18
     TYPE_AMOEBA,                // 19
+
     TYPE_DIAMOND_PULSE_0,       // 20
     TYPE_DIAMOND_PULSE_1,       // 21
     TYPE_DIAMOND_PULSE_2,       // 22
@@ -41,35 +43,36 @@ enum ObjectType {
     TYPE_DIAMOND_STATIC,        // 27
     TYPE_PEBBLE1,               // 28
     TYPE_PEBBLE2,               // 29
+
     TYPE_EXPLODE_BLANK_0,       // 30
     TYPE_EXPLODE_BLANK_1,       // 31
     TYPE_EXPLODE_BLANK_2,       // 32
     TYPE_EXPLODE_BLANK_3,       // 33
     TYPE_EXPLODE_BLANK_4,       // 34
-    TYPE_DIAMOND_GRAB,          // 35
+    TYPE_GRAB,                  // 35
     TYPE_DUST_0,                // 36
     TYPE_DUST_1,                // 37
     TYPE_DUST_2,                // 38
     TYPE_BOULDER_SHAKE,         // 39
+
     TYPE_DUST_LEFT,             // 40
     TYPE_DUST_RIGHT,            // 41
     TYPE_DOGE_FALLING,          // 42
     TYPE_DIAMOND_WITHOUT_DIRT,  // 43
     TYPE_BOULDER_FALLING,       // 44
     TYPE_LADDER,                // 45
-
     TYPE_DUST_ROCK,             // 46
     TYPE_DOGE_CONVERT,          // 47
-
     TYPE_SWITCH,                // 48
     TYPE_PUSHER,                // 49
-    TYPE_PUSHER_VERT,           // 50
-    
-    TYPE_WYRM,                  // 51
 
+    TYPE_PUSHER_VERT,           // 50
+    TYPE_WYRM,                  // 51
     TYPE_LIFE,                  // 52
     TYPE_BOULDER_DOGE,          // 53
     TYPE_BOULDER_DOGE_FALLING,  // 54
+    TYPE_BOULDER_DOGE_CRITICAL, // 55
+
 
 #if __ENABLE_LAVA    
     TYPE_LAVA,                  // 47

@@ -9,7 +9,7 @@ char AnimCount[TYPE_MAX];
 
 static const char AnimGrab[] = {
 
-    CH_DOGE_GRAB,8, //_GRAB,8,
+    CH_DOGE_GRAB,8,
     CH_DUST_2, 6,
     CH_DUST_1, 6,
     CH_DUST_0, 6,
@@ -90,7 +90,7 @@ static const char AnimFirefly[] = {
     ANIM_LOOP
 };
 
-static const char AnimPulseDiamond0[] = {
+static const char AnimPulseDoge[] = {
 
     CH_DOGE_00, 12, //ANIM_RNDSPEED,
     CH_DOGE_01, 8,
@@ -135,7 +135,13 @@ static const char AnimRockford[] = {
     CH_DIAMOND_WITHOUT_DIRT, 3,
     CH_DOGE_GRAB,8,
 
-    CH_ROCKFORD, ANIM_HALT
+    CH_ROCKFORD, ANIM_HALT,
+
+    CH_DUST_0, 6,
+    CH_DUST_1, 6,
+    CH_DUST_2, 6,
+
+    CH_ROCKFORD, ANIM_HALT,
 
 };
 
@@ -157,7 +163,7 @@ const char *const AnimateBase[] = {
     0,                          // 06 TYPE_STEELWALL
     AnimFirefly,                // 07 TYPE_FIREFLY
     0,                          // 08 TYPE_BOULDER
-    AnimPulseDiamond0,          // 09 TYPE_DIAMOND
+    AnimPulseDoge,              // 09 TYPE_DOGE
     0,                          // 10 TYPE_EASTEREGG
     0,                          // 11 TYPE_EXPLODE_DIAMOND_0
     0,                          // 12 TYPE_EXPLODE_DIAMOND_1
@@ -168,14 +174,14 @@ const char *const AnimateBase[] = {
     AnimButterfly,              // 17 TYPE_BUTTERFLY
     AnimRockford,               // 18 TYPE_ROCKFORD
     0,                          // 19 TYPE_AMOEBA
-    AnimPulseDiamond0,          // 20 TYPE_DIAMOND_PULSE_0
-    AnimPulseDiamond0,          // 21 TYPE_DIAMOND_PULSE_1
-    AnimPulseDiamond0,          // 22 TYPE_DIAMOND_PULSE_2
-    AnimPulseDiamond0,          // 23 TYPE_DIAMOND_PULSE_3
-    AnimPulseDiamond0,          // 24 TYPE_DIAMOND_PULSE_4
-    AnimPulseDiamond0,          // 25 TYPE_DIAMOND_PULSE_5
-    AnimPulseDiamond0,          // 26 TYPE_DIAMOND_PULSE_6
-    AnimPulseDiamond0,          // 27 TYPE_DIAMOND_STATIC
+    AnimPulseDoge,              // 20 TYPE_DIAMOND_PULSE_0
+    AnimPulseDoge,              // 21 TYPE_DIAMOND_PULSE_1
+    AnimPulseDoge,              // 22 TYPE_DIAMOND_PULSE_2
+    AnimPulseDoge,              // 23 TYPE_DIAMOND_PULSE_3
+    AnimPulseDoge,              // 24 TYPE_DIAMOND_PULSE_4
+    AnimPulseDoge,              // 25 TYPE_DIAMOND_PULSE_5
+    AnimPulseDoge,              // 26 TYPE_DIAMOND_PULSE_6
+    AnimPulseDoge,              // 27 TYPE_DIAMOND_STATIC
     0,                          // 28 TYPE_PEBBLE1
     0,                          // 29 TYPE_PEBBLE2
     0,                          // 30 TYPE_EXPLODE_BLANK_0
@@ -183,7 +189,7 @@ const char *const AnimateBase[] = {
     0,                          // 32 TYPE_EXPLODE_BLANK_2
     0,                          // 33 TYPE_EXPLODE_BLANK_3
     0,                          // 34 TYPE_EXPLODE_BLANK_4
-    AnimGrab,                   // 35 TYPE_DIAMOND_GRAB
+    AnimGrab,                   // 35 TYPE_GRAB
     0,                          // 36 TYPE_DUST_0
     0,                          // 37 TYPE_DUST_1
     0,                          // 38 TYPE_DUST_2
@@ -203,8 +209,9 @@ const char *const AnimateBase[] = {
     0,                          // 50 TYPE_PUSHER_VERT
     0,                          // 51 TYPE_WYRM
     0,                          // 52 TYPE_LIFE
-    0,                          // 53 TYPE_BOULDER_DOGE
-
+    0,                          // 53 TYPE_BOULDER_DOGE_FALLING
+    0,                          // 53 TYPE_BOULDER_FALLING
+    AnimConglomerateMid,        // 54 TYPE_BOULDER_DOGE_DRITICAL
 
 #if __ENABLE_LAVA    
     0,                          // 47 TYPE_LAVA

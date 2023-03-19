@@ -24,7 +24,7 @@ const unsigned char CharToType[]= {
      TYPE_EASTEREGG,              // CH_EASTEREGG                // 14
      TYPE_BOULDER,                // CH_BOULDER,                 // 15
      TYPE_BOULDER_FALLING,        // CH_BOULDER_FALLING,         // 16
-     TYPE_DIAMOND,                // CH_DOGE_00,                 // 17
+     TYPE_DOGE,                   // CH_DOGE_00,                 // 17
      TYPE_DOGE_FALLING,           // CH_DOGE_FALLING,            // 18
      TYPE_EXPLODE_DIAMOND_0,      // CH_EXPLODETODIAMOND1,       // 19
      TYPE_EXPLODE_DIAMOND_1,      // CH_EXPLODETODIAMOND2,       // 20
@@ -61,7 +61,7 @@ const unsigned char CharToType[]= {
      TYPE_EXPLODE_BLANK_2,        // CH_EXPLODETOBLANK_2,        // 51
      TYPE_EXPLODE_BLANK_3,        // CH_EXPLODETOBLANK_3,        // 52
      TYPE_EXPLODE_BLANK_4,        // CH_EXPLODETOBLANK_4,        // 53
-     TYPE_DIAMOND_GRAB,           // CH_DOGE_GRAB,               // 54
+     TYPE_GRAB,                   // CH_DOGE_GRAB,               // 54
      TYPE_DIAMOND_WITHOUT_DIRT,   // CH_DIAMOND_WITHOUT_DIRT,    // 55
      TYPE_DUST_0,                 // CH_DUST_0,                  // 56
      TYPE_DUST_1,                 // CH_DUST_1,                  // 57
@@ -87,7 +87,7 @@ const unsigned char CharToType[]= {
      TYPE_BOULDER_DOGE,                                          // 76     conglomerate 12
      TYPE_BOULDER_DOGE,                                          // 77     conglomerate 13
      TYPE_BOULDER_DOGE,                                          // 78     conglomerate 14
-     TYPE_BOULDER_DOGE,                                          // 79     conglomerate 15
+     TYPE_BOULDER_DOGE_CRITICAL,                                 // 79     conglomerate 15
 
      TYPE_BOULDER_FALLING,                                       // 80     broken
      TYPE_BOULDER_FALLING,                                       // 81     broken2
@@ -223,7 +223,7 @@ const int Attribute[] = {
    CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _  , // 6 TYPE_STEELWALL
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ |WTR|LAV| _ | _ | _ |SQB|ACT| _ | _ | _ | _ |XPD| _ | _  , // 7 TYPE_FIREFLY
     _ |PAD|SHV|BOU| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 8 TYPE_BOULDER
-    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG|GRB| _ | _ |XPD| _ |ROL , // 9 TYPE_DIAMOND
+    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG|GRB| _ | _ |XPD| _ |ROL , // 9 TYPE_DOGE
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PER| _ | _ | _  , // 10 TYPE_EASTEREGG
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 11 TYPE_EXPLODE_DIAMOND_0
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 12 TYPE_EXPLODE_DIAMOND_1
@@ -249,7 +249,7 @@ const int Attribute[] = {
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 32 TYPE_EXPLODE_BLANK_2
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 33 TYPE_EXPLODE_BLANK_3
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 34 TYPE_EXPLODE_BLANK_4
-    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ |WTR|LAV|QUI| _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 35 TYPE_DIAMOND_GRAB
+    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ |WTR|LAV|QUI| _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 35 TYPE_GRAB
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 36 TYPE_DUST_0
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 37 TYPE_DUST_1
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 38 TYPE_DUST_2
@@ -269,6 +269,7 @@ const int Attribute[] = {
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 52 TYPE_LIFE
     _ |PAD|SHV|BOU|DGE| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 53 TYPE_BOULDER_DOGE
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 54 TYPE_BOULDER_DOGE_FALLING
+    _ |PAD|SHV|BOU|DGE| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 53 TYPE_BOULDER_DOGE_CRITICAL
 
 #if __ENABLE_LAVA
      _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 47 LAVA

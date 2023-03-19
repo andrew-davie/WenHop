@@ -19,15 +19,21 @@ int autoMoveFrameCount;
 
 
 const signed char AnimationDefault[] = {
-    // FRAME_WALK1, 255,
-    // FRAME_WALK2, 23,
-    // FRAME_WALK3, 23,
-    // FRAME_WALK4, 23,
-    // ACTION_LOOP,
-
-//    FRAME_WALK1, 10,
     FRAME_STAND, 255,
 };
+
+const signed char AnimationStandUp[] = {
+
+    FRAME_WALKUP0,20,
+    FRAME_WALK3, 6,
+    FRAME_STAND, 255,
+};
+
+const signed char AnimationStandLR[] = {
+    FRAME_WALK3, 20,
+    FRAME_STAND, 255,
+};
+
 
 const signed char AnimationPush[] = {
 
@@ -153,7 +159,7 @@ const signed char AnimationDie[] = {
 //     FRAME_SHAKE,6,
 // #endif
 
-    FRAME_ARMS_IN_AIR,10,
+//    FRAME_ARMS_IN_AIR,10,
     //FRAME_HUNCH,100,
     ACTION_STOP,
 };
@@ -340,6 +346,8 @@ const signed char AnimationDrip[] = {
 const signed char *const AnimationVector[] = {
 
     AnimationDefault,
+    AnimationStandUp,
+    AnimationStandLR,
     AnimationPush,
 // #if ENABLE_SHAKE
 //     AnimationShake,
@@ -1198,7 +1206,7 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 {   // FRAME_WALK1 = 16
 
-    5, 2,
+    5, 0,
 
 
 // Area 0,2:
@@ -1264,7 +1272,7 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 {   // FRAME_WALK2 = 15
 
-    3, 0,
+    3, -1,
 
 // Area 1,2:
  SP(________,________, BONE, BONE), // 0
@@ -1327,7 +1335,7 @@ const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3] = {
 
 {   // FRAME_WALK3 = 18
 
-    3, 0,
+    4, 0,
 
 // Area 2,2:
  SP(________,________, BONE, BONE), // 0
@@ -2867,7 +2875,7 @@ const unsigned short reciprocal[] = {
     0x10000/6,
 #endif
 
-//    0x10000/7,
+    0x10000/7,
     0x10000/8,
     0x10000/9,
     0x10000/10,

@@ -565,7 +565,7 @@ void rain() {
 
             // else {
                 
-            //     if (type == TYPE_DIAMOND) {
+            //     if (type == TYPE_DOGE) {
             //         *cell = CH_DUST_0;
             //         rainX[i] = -1;
             //         ADDAUDIO(SFX_DRIP);

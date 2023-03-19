@@ -326,7 +326,7 @@ void StoreObject(int x, int y, objectType anObject) {
 
     unsigned char *this = RAM + _BOARD + x + y * 40;
 
-    if (CharToType[GET(*this)] == TYPE_DIAMOND)
+    if (CharToType[GET(*this)] == TYPE_DOGE)
         totalDiamondsPossible--;
 
     else if (CharToType[anObject] == TYPE_WYRM) {
@@ -340,7 +340,7 @@ void StoreObject(int x, int y, objectType anObject) {
 
     *this = anObject; // | FLAG_UNCOVER;
 
-    if (CharToType[GET(anObject)] == TYPE_DIAMOND)
+    if (CharToType[GET(anObject)] == TYPE_DOGE)
         totalDiamondsPossible++;
 }
  
