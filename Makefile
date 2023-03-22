@@ -66,9 +66,11 @@ TARGET := $(shell date +"WenHop_%Y%m%d@%H:%M:%S" | tr ' :' '__')
 # asmSrcs = $(wildcard *.asm) macro.h vcs.h cdfj.h
 
 
+export FOO='hello'
 
 # Default target
 default: armcode
+	echo $(FOO)
 	@#sleep 20
 	@#open -a /Applications/Stella.app ./$(PROJECT).bin
 	@zsh -c "nohup ../Gopher2600/gopher2600_darwin_arm64 -right savekey $(SHOWFPS) ./$(PROJECT).bin &"

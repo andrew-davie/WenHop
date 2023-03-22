@@ -605,8 +605,8 @@ const unsigned char caveA[]= {
     STEEL,DIRT,
 
     3,  CH_BLANK,       60, 255,   0, 255,  10,
-        CH_BOULDER,     30,   0, 240,   0,  20,
-        CH_BOULDER_DOGE,     80,   0, 240,   0,  20,
+        CH_BOULDER_DOGE,     100,   0, 240,   0,  20,
+        CH_BOULDER,     10,   0, 240,   0,  20,
 
 //        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
 
@@ -684,7 +684,7 @@ const unsigned char caveA[]= {
     // LINE+CH_BUTTERFLY_0,30,15,4,4,
 
     0xFE, CH_DOORCLOSED,38,16,
-    0xFE, CH_ROCKFORD_BIRTH,3,2,
+    0xFE, CH_ROCKFORD_BIRTH,3,10,
 
     // 0xFE, CH_SWITCH_LEFT_OFF, 1, 19,
 

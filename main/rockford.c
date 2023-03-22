@@ -29,7 +29,6 @@ bool rockfordDead;
 // bool rockfordDeadRelease;
 
 static bool handled;
-static unsigned int playerIdleTime;
 
 
 enum DIR {
@@ -103,20 +102,18 @@ const signed char animDeltaY[] = {
     0,0,PIECE_DEPTH,-PIECE_DEPTH,
 };
 
-const char newSnatch[] = {
-    ID_Snatch,
-    ID_Snatch,
-    ID_SnatchUp,
-    ID_SnatchDown,
-};
+// const char newSnatch[] = {
+//     ID_Snatch,
+//     ID_Snatch,
+//     ID_SnatchUp,
+//     ID_SnatchDown,
+// };
 
 
 
 void initRockford() {
 
-    pushCounter =
-    playerIdleTime = 0;
-
+    pushCounter = 0;
     rockfordDead = false;
 
     rockfordFaceDirection = FACE_RIGHT;
@@ -127,58 +124,53 @@ void initRockford() {
 
 
 
-void chooseIdleAnimation() {
- return;
+// void chooseIdleAnimation() {
+//  return;
 
-#if ENABLE_IDLE_ANIMATION
-#define ANIM_COUNT (sizeof(animID)/2)
+// #if ENABLE_IDLE_ANIMATION
+// #define ANIM_COUNT (sizeof(animID)/2)
 
-    static const char animID[] = {
-        ID_Blink,       200, 
-        ID_WipeHair,    120,
-        ID_Impatient,   112, 
-        ID_Turn,        117, 
-//        ID_Look,        130, 
-        ID_Shades,      125, 
-        ID_ArmsCrossed, 113,
-    };
+//     static const char animID[] = {
+//         // ID_Blink,       200, 
+// //        ID_WipeHair,    120,
+// //        ID_Impatient,   112, 
+//         ID_Turn,        117, 
+// //        ID_Look,        130, 
+//         // ID_Shades,      125, 
+//         // ID_ArmsCrossed, 113,
+//     };
 
-    // suicide skeleton
-//     if (selectResetDelay > DEAD_RESTART_COUCH * 3 / 5) {
-//         if (playerAnimationID != ID_Skeleton2) {
-//             startPlayerAnimation(ID_Skeleton2);
-// //            ADDAUDIO(SFX_DRIP);
-//             SAY(__WORD_GOODBYE);
+//     // suicide skeleton
+// //     if (selectResetDelay > DEAD_RESTART_COUCH * 3 / 5) {
+// //         if (playerAnimationID != ID_Skeleton2) {
+// //             startPlayerAnimation(ID_Skeleton2);
+// // //            ADDAUDIO(SFX_DRIP);
+// //             SAY(__WORD_GOODBYE);
+// //         }
+// //     }
+
+// //    else
+//      {
+
+//         // choose an idle animation
+//         if ((inpt4 & 0x80) && usableSWCHA == 0xFF) {
+
+//             if (playerAnimationID == ID_Skeleton2)
+//                 startPlayerAnimation(ID_Stand);             // abort from suicide
+
+//             else if (playerAnimationID == ID_Stand) {
+
+//                 if (getRandom32() < 0x700000) {
+//                     int idle = rangeRandom(ANIM_COUNT) << 1;
+//                     if ((rndX & 0xFFF) < animID[idle + 1])
+//                         startPlayerAnimation(animID[idle]);   
+//                 }
+//             }
 //         }
 //     }
 
-//    else
-     {
-
-        // choose an idle animation
-        if ((inpt4 & 0x80) && usableSWCHA == 0xFF) {
-
-            if (playerAnimationID == ID_Skeleton2)
-                startPlayerAnimation(ID_Stand);             // abort from suicide
-
-            if (playerAnimationID == ID_Stand) {
-
-                if (playerIdleTime++ > PLAYER_BORED) {
-                    startPlayerAnimation(ID_Talk);   
-                    playerIdleTime = 0;
-                }
-
-                else if (getRandom32() < 0x700000) {
-                    int idle = rangeRandom(ANIM_COUNT) << 1;
-                    if ((rndX & 0xFFF) < animID[idle + 1])
-                        startPlayerAnimation(animID[idle]);   
-                }
-            }
-        }
-    }
-
-#endif
-}
+// #endif
+// }
 
 
 
@@ -204,6 +196,7 @@ void grabDoge(unsigned char *where) {
 }
 
 
+int playerSlow = 0;
 
 bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
@@ -223,28 +216,32 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
     if (!(inpt4 & 0x80)) {        // fire button
 
+    extern int shakeTime;
+        shakeTime += 10;
+
         triggerPressCounter = 999;
 
-        if (destType == TYPE_DOGE_FALLING && dir < 2) {
-            grabDoge(thisOffset);
-            startPlayerAnimation(newSnatch[dir]);
-            handled = true;
-        }
+        // if (destType == TYPE_DOGE_FALLING && dir < 2) {
+        //     grabDoge(thisOffset);
+        //     startPlayerAnimation(newSnatch[dir]);
+        //     handled = true;
+        // }
+        //else 
 
-        else if (Attribute[destType] & (ATT_DIRT | ATT_GRAB)) {
+        // if (Attribute[destType] & (ATT_DIRT | ATT_GRAB)) {
 
-            if (Attribute[destType] & ATT_GRAB)
-                grabDoge(thisOffset);
+        //     if (Attribute[destType] & ATT_GRAB)
+        //         grabDoge(thisOffset);
 
-            else {
-                ADDAUDIO(SFX_DIRT);
-                *thisOffset = CH_DUST_0 | FLAG_THISFRAME;
-            }
+        //     else {
+        //         ADDAUDIO(SFX_DIRT);
+        //         *thisOffset = CH_DUST_0 | FLAG_THISFRAME;
+        //     }
 
-            startPlayerAnimation(newSnatch[dir]);
-            handled = true;
-        }
-        else
+        //     startPlayerAnimation(newSnatch[dir]);
+        //     handled = true;
+        // }
+        // else
             startPlayerAnimation(ID_Locked);
     }
 
@@ -258,13 +255,8 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
             pushCounter = 0;
 
-            if (Attribute[destType] & ATT_DIRT) {
-                ADDAUDIO(SFX_DIRT);
-                dirtFlag = true;
-                startCharAnimation(TYPE_ROCKFORD, AnimateBase[TYPE_ROCKFORD]);
-            }
 
-            else if (Attribute[destType] & ATT_BLANK)
+            if (Attribute[destType] & ATT_BLANK)
                 ADDAUDIO(SFX_SPACE);
 
             else if (destType == TYPE_OUTBOX) {
@@ -324,20 +316,36 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
             *this = dirtFlag ? CH_DUST_0 | FLAG_THISFRAME : blanker | FLAG_THISFRAME;
 
 
-            const int WalkAnimation[] = {
-                ID_Walk,        // L
-                ID_Walk,        // R
-                ID_WalkUp,      // U
-                ID_WalkDown,    // D
-            };
+            playerSlow = 0;
+            if (!autoMoveFrameCount && Attribute[destType] & ATT_DIRT) {
 
-            if (playerAnimationID != WalkAnimation[dir])
-                startPlayerAnimation(WalkAnimation[dir]);
-            autoMoveFrameCount = gameSpeed;
+                playerSlow = 1;
+                ADDAUDIO(SFX_DIRT);
+                dirtFlag = true;
+                startCharAnimation(TYPE_ROCKFORD, AnimateBase[TYPE_ROCKFORD]);
+
+                for (int i = 0; i < 6; i++)
+                    sphereDot(rockfordX, rockfordY, 2, -50, 2, 4);
+            }
 
 
-            autoMoveX = autoMoveDeltaX = animDeltaX[dir];
-            autoMoveY = autoMoveDeltaY = animDeltaY[dir];
+                const int WalkAnimation[] = {
+                    ID_Walk,        // L
+                    ID_Walk,        // R
+                    ID_WalkUp,      // U
+                    ID_WalkDown,    // D
+                };
+
+                if (playerAnimationID != WalkAnimation[dir])
+                    startPlayerAnimation(WalkAnimation[dir]);
+
+            if (!autoMoveFrameCount) {
+
+                autoMoveFrameCount = gameSpeed << playerSlow;
+
+                autoMoveX = autoMoveDeltaX = animDeltaX[dir] >> playerSlow;
+                autoMoveY = autoMoveDeltaY = animDeltaY[dir] >> playerSlow;
+            }
 
             handled = true;
         }
@@ -387,7 +395,7 @@ bool checkLowPriorityMove(int dir, int blanker) {
 //            pushCounter = 2;
             *thisOffset = Attribute[CharToType[GET(*thisOffset)]] & ATT_BOULDER_DOGE ? CH_DOGE_CONVERT : CH_DUST_0;
 
-            waitForNothing = 4;
+            waitForNothing = 2;
             pushCounter = 0;
 
             extern int dogeBlockCount;
@@ -497,11 +505,30 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
     //     usableSWCHA = 0xFF;
     // }
 
+
+
+    extern int shakeTime;
+
+    if (!(inpt4 & 0x80))        // fire button
+        shakeTime += 10;
+
+
+
+    static unsigned char lastUsableSWCHA = 0;
+
+    if (usableSWCHA != lastUsableSWCHA)
+        waitForNothing = 0;
+
     if (waitForNothing) {
         --waitForNothing;
+        usableSWCHA = 0xFF;
         return;
     }
-        
+
+    if (autoMoveFrameCount)
+        return;
+
+    lastUsableSWCHA = usableSWCHA;        
     
     for (int dir = 0; dir < 4; dir++ )
         if (checkHighPriorityMove(dir, blanker))
@@ -540,8 +567,8 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
     pushCounter = 0;
     idleTimer++;
 
-    if (!autoMoveFrameCount)
-        chooseIdleAnimation();
+    // if (!autoMoveFrameCount)
+    //     chooseIdleAnimation();
 }
 
 //EOF

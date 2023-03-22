@@ -20,67 +20,6 @@ static unsigned char char_uncover[PIECE_DEPTH];
 
 
 
-// void createParallaxCharset() {
-
-// //    retn;
-
-//     static int lastX = -1;
-//     static int lastY = -1;
-
-//     #if ENABLE_SHAKE
-
-//         extern int shakeX, shakeY;
-//         int yOffset = ((scrollY + shakeY) >> 17) * 3;
-//         int offset = ((scrollX + shakeX) >> 15) & 3;
-
-//         while (offset > 0) {
-//             offset -= (0x10000/5);
-//         }
-
-
-
-//     #else
-//         int yOffset = ((scrollY) >> 17) * 3;
-//         int offset = ((scrollX) >> 15) & 3;
-//     #endif
-
-
-//     while (yOffset >= PIECE_DEPTH)
-//         yOffset -= PIECE_DEPTH;
-//     yOffset = PIECE_DEPTH - yOffset - 1;
-
-
-//     static bool lastParallax = false;
-
-//     if (displayMode == DISPLAY_NORMAL)
-//         if (((RIGHT_DIFFICULTY_A == enableParallax) != lastParallax)
-//             || (offset != lastX || yOffset != lastY)) {
-
-//             lastParallax = (enableParallax == RIGHT_DIFFICULTY_A);
-
-//             lastX = offset;
-//             lastY = yOffset;
-
-//             for (int i = 0; i < PIECE_DEPTH; i++) {
-
-//                 int pb = char_parallaxBlank[i] = 0;
-// //                    lastParallax ? ((((const unsigned char *const)__CHAR_PARALLAX_TEMPLATE)[yOffset]
-// //                        >> offset) & 0xF) : 0;
-
-//                 char_Dust_2[i]      = pb | ((unsigned char *)__CHAR_DUST_2)[i];
-//                 char_DustLeft_1[i]  = pb | ((unsigned char *)__CHAR_DUST_LEFT_1)[i];
-//                 char_DustRight_1[i] = pb | ((unsigned char *)__CHAR_DUST_RIGHT_1)[i];
-
-//                 if (++yOffset >= PIECE_DEPTH)
-//                     yOffset = 0;
-//             }
-//         }
-
-
-// }
-
-
-
 const unsigned char __CHAR_PUSH_LEFT[] = {
 
         0b11000,    // 00  
@@ -1204,7 +1143,9 @@ const unsigned char __CHAR_INNER_CORNER_15[] = {
 };
 
 
-#define __CHAR_BLANK playerBigSprite
+extern const unsigned char shape_FRAME_BLANK[];
+
+#define __CHAR_BLANK (shape_FRAME_BLANK + 3)
 
 #define C(x) (const unsigned char *const) x
 
@@ -1342,22 +1283,22 @@ const unsigned char *const charSet[] = {
     C(__CHAR_WYRM_HEAD_D),                          // 107
     C(__CHAR_WYRM_HEAD_L),                          // 108
 
-    C(__CHAR_INNER_CORNER_0),                               // 109 CH_CORNER  DELETE "LIFE"
-    C(__CHAR_INNER_CORNER_1),                               // 110
-    C(__CHAR_INNER_CORNER_2),                               // 111
-    C(__CHAR_INNER_CORNER_3),                               // 112
-    C(__CHAR_INNER_CORNER_4),                               // 113
-    C(__CHAR_INNER_CORNER_5),                               // 114
-    C(__CHAR_INNER_CORNER_6),                               // 115
-    C(__CHAR_INNER_CORNER_7),                               // 116
-    C(__CHAR_INNER_CORNER_8),                               // 117
-    C(__CHAR_INNER_CORNER_9),                               // 118
-    C(__CHAR_INNER_CORNER_10),                              // 119
-    C(__CHAR_INNER_CORNER_11),                              // 120
-    C(__CHAR_INNER_CORNER_12),                              // 121
-    C(__CHAR_INNER_CORNER_13),                              // 122
-    C(__CHAR_INNER_CORNER_14),                              // 123
-    C(__CHAR_INNER_CORNER_15),                              // 124
+    C(__CHAR_INNER_CORNER_0),                       // 109 CH_CORNER  DELETE "LIFE"
+    C(__CHAR_INNER_CORNER_1),                       // 110
+    C(__CHAR_INNER_CORNER_2),                       // 111
+    C(__CHAR_INNER_CORNER_3),                       // 112
+    C(__CHAR_INNER_CORNER_4),                       // 113
+    C(__CHAR_INNER_CORNER_5),                       // 114
+    C(__CHAR_INNER_CORNER_6),                       // 115
+    C(__CHAR_INNER_CORNER_7),                       // 116
+    C(__CHAR_INNER_CORNER_8),                       // 117
+    C(__CHAR_INNER_CORNER_9),                       // 118
+    C(__CHAR_INNER_CORNER_10),                      // 119
+    C(__CHAR_INNER_CORNER_11),                      // 120
+    C(__CHAR_INNER_CORNER_12),                      // 121
+    C(__CHAR_INNER_CORNER_13),                      // 122
+    C(__CHAR_INNER_CORNER_14),                      // 123
+    C(__CHAR_INNER_CORNER_15),                      // 124
     
     C(__CHAR_BOULDER_URDL2),                        // 125
 

@@ -3,11 +3,8 @@
 
 #define CHAR_SIZE (PIECE_DEPTH)
 
-// void createParallaxCharset();
 void createDripCharacter();
-
 extern const unsigned char *const charSet[];
-
 
 #endif
 

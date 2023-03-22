@@ -36,6 +36,7 @@
 #endif
 
 int togt;
+int cpulse;
 
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURABLE UX
@@ -102,8 +103,8 @@ int perfectTimer;
 
 int gameFrame;
 int gameSpeed;
-enum DisplayMode displayMode;
-enum DisplayMode lastDisplayMode;
+// enum DisplayMode displayMode;
+// enum DisplayMode lastDisplayMode;
 unsigned int triggerPressCounter;
 static unsigned int triggerOffCounter;
 
@@ -244,9 +245,6 @@ void SystemReset() {
 
     initKernel(KERNEL_COPYRIGHT);
 
-    // needed in case startup screen is mid-view
-    //createParallaxCharset();
-
     rageQuit = false;
     ARENA_COLOUR = 0;
 
@@ -273,7 +271,19 @@ void SystemReset() {
 }
 
 
-void sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY) {
+bool sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY) {
+
+    int x = (dripX * 5 + offsetX);
+    int y = dripY * (PIECE_DEPTH /3) + offsetY;
+
+    int line = (y - ((scrollY) >> 16)) * 3;
+    if (line < 0 || line >= _ARENA_SCANLINES - 3)
+        return false;
+
+    int col = x - ((scrollX * 5) >> 16);
+    if (col < 0 || col > 39)
+        return false;
+
 
     int whichDrop = -1;
     while (++whichDrop < RAINHAILSHINE)
@@ -282,6 +292,9 @@ void sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY
 
     if (whichDrop == RAINHAILSHINE)
         whichDrop = rangeRandom(RAINHAILSHINE);
+
+    // if (++whichDrop >= RAINHAILSHINE)
+    //     whichDrop = 0;
 
     rainType[whichDrop] = type;
     rainX[whichDrop] = (dripX * 5 + offsetX) << 8;
@@ -292,6 +305,8 @@ void sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY
     rainSpeedY[whichDrop] = (rangeRandom(0x10000) - 0x8000);
 
     rainAge[whichDrop] = age < 0 ? -age : age; //rangeRandom(-age>>1) + (age >>1) : age;
+
+    return true;
 }
 
 
@@ -497,6 +512,7 @@ void initNewGame() {
     partialScore = 0;
     lives = 3;
     invincible = false;
+    cpulse = 0;
 }
 
 
@@ -556,7 +572,7 @@ void initNextLife() {
 
     uncoverCount = 880;
 
-    lastDisplayMode = DISPLAY_NONE;
+    // lastDisplayMode = DISPLAY_NONE;
     switchOn = true;
 
 
@@ -737,23 +753,23 @@ void drawWord(const unsigned char *string, int y) {
 
 
 
-void drawOverlayWords() {
- return; //tmp
+// void drawOverlayWords() {
+//  return; //tmp
 
-    togt++;
+//     togt++;
 
-    if (
-#if __ENABLE_DEMO
-        !demoMode && 
-#endif
-        displayMode != DISPLAY_OVERVIEW && uncoverTimer > 1 && uncoverTimer < 20)
-        drawWord(theCaveData, 70);
+//     if (
+// #if __ENABLE_DEMO
+//         !demoMode && 
+// #endif
+//         displayMode != DISPLAY_OVERVIEW && uncoverTimer > 1 && uncoverTimer < 20)
+//         drawWord(theCaveData, 70);
 
-    else if (!lives && *playerAnimation == FRAME_BLANK) {
-        static const unsigned char gameOver[] = { 'G','A','M','E',NEW_LINE,'O','V','E','R',END_STRING };
-        drawWord(gameOver, 70);
-    }
-}
+//     else if (!lives && *playerAnimation == FRAME_BLANK) {
+//         static const unsigned char gameOver[] = { 'G','A','M','E',NEW_LINE,'O','V','E','R',END_STRING };
+//         drawWord(gameOver, 70);
+//     }
+// }
 
 
 // void add1PixObject(int x, int y, int pix) {
@@ -793,8 +809,8 @@ void drawOverscanThings() {
     for (int i = 0; i < _ARENA_SCANLINES / 2; i++)
         p[i] = 0;
 
-    if (exitMode)
-        displayMode = DISPLAY_NORMAL;
+    // if (exitMode)
+    //     displayMode = DISPLAY_NORMAL;
 
     // if (displayMode == DISPLAY_OVERVIEW) {
 
@@ -804,25 +820,25 @@ void drawOverscanThings() {
 
     // else {
 
-        if (displayMode == DISPLAY_HALF) {
-            // createParallaxCharset();
-            drawHalfSprite();
-        }
+        // if (displayMode == DISPLAY_HALF) {
+        //     // createParallaxCharset();
+        //     drawHalfSprite();
+        // }
 
-        if (lastDisplayMode == DISPLAY_OVERVIEW) {
-            unsigned char *p = RAM + _BUF_PF0_LEFT + DIGIT_SIZE;
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < _ARENA_SCANLINES * 6; j += _ARENA_SCANLINES)
-                    *(p + i + j) = 0;
-        }
+        // if (lastDisplayMode == DISPLAY_OVERVIEW) {
+        //     unsigned char *p = RAM + _BUF_PF0_LEFT + DIGIT_SIZE;
+        //     for (int i = 0; i < 3; i++)
+        //         for (int j = 0; j < _ARENA_SCANLINES * 6; j += _ARENA_SCANLINES)
+        //             *(p + i + j) = 0;
+        // }
 
-        if (lastDisplayMode != displayMode)
-            resetTracking();
+        // if (lastDisplayMode != displayMode)
+        //     resetTracking();
         
         Scroll();
 //        drawScore();
 
-        if (displayMode == DISPLAY_NORMAL) {
+        // if (displayMode == DISPLAY_NORMAL) {
 
             // createParallaxCharset();
             drawScreen(0);
@@ -868,10 +884,10 @@ void drawOverscanThings() {
                 //     }
                 // }      
             }
-        }
+        // }
     // }
     
-    lastDisplayMode = displayMode;
+//    lastDisplayMode = displayMode;
 }
 
 
@@ -1166,15 +1182,15 @@ void GameOverscan() {
 
 //            ADDAUDIO(SFX_BLIP);
 
-            switch (displayMode) {
-            case DISPLAY_NORMAL:
-            case DISPLAY_HALF :
-//                displayMode = DISPLAY_OVERVIEW;
-                break;
-            default:
-                displayMode = DISPLAY_NORMAL;
-                break;
-            }
+//             switch (displayMode) {
+//             case DISPLAY_NORMAL:
+//             case DISPLAY_HALF :
+// //                displayMode = DISPLAY_OVERVIEW;
+//                 break;
+//             default:
+//                 displayMode = DISPLAY_NORMAL;
+//                 break;
+//             }
 
             triggerPressCounter = 0;
             waitRelease = true;
@@ -1205,15 +1221,15 @@ void GameOverscan() {
 
         if (!exitMode && triggerPressCounter && triggerOffCounter >= DOUBLE_TAP) {
             
-            if (triggerPressCounter < TOOLONG) {
-                // if (displayMode == DISPLAY_NORMAL)
-                //     displayMode = DISPLAY_HALF;
-                // else
-                    displayMode = DISPLAY_NORMAL;
+//             if (triggerPressCounter < TOOLONG) {
+//                 // if (displayMode == DISPLAY_NORMAL)
+//                 //     displayMode = DISPLAY_HALF;
+//                 // else
+//                     // displayMode = DISPLAY_NORMAL;
 
-//                ADDAUDIO(SFX_BLIP);
+// //                ADDAUDIO(SFX_BLIP);
 
-            }
+//             }
             triggerPressCounter = 0;
             triggerOffCounter = 0;
         }
@@ -1350,6 +1366,7 @@ extern void colourAdjust();
 
         // if (displayMode == DISPLAY_NORMAL)
             drawScreen(1);
+            rain();
 
 
         // if (displayMode == DISPLAY_OVERVIEW)
@@ -1373,7 +1390,7 @@ extern void colourAdjust();
     }
 
 
-    drawOverlayWords();
+    // drawOverlayWords();
 }
 
 
@@ -1541,6 +1558,9 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
 
 void doRoll(unsigned char *this, unsigned char creature) {
 
+    if (!shakeTime || (getRandom32() & 7))
+        return;
+
     for (int offset = -1; offset < 2; offset += 2) {
 
         unsigned char *side = this + offset;
@@ -1582,7 +1602,7 @@ void chainReactDoge() {
 
         if (Attribute[type] & ATT_BOULDER_DOGE) {
 
-            *(this + dir[i]) = CH_DOGE_CONVERT | ((dir > 0) ? FLAG_THISFRAME : 0);
+            *(this + dir[i]) = CH_DOGE_CONVERT | FLAG_THISFRAME; //((dir > 0) ? FLAG_THISFRAME : 0);
             ADDAUDIO(SFX_UNCOVER);
             dogeBlockCount++;
             cumulativeBlockCount++;
@@ -1746,7 +1766,7 @@ void processBoardSquares() {
 
                     if (rockfordDead && *playerAnimation)
                         for (int i = 4; i < RAINHAILSHINE; i++)
-                            sphereDot(rockfordX, rockfordY, 1, -100, 2, 4);
+                            sphereDot(rockfordX, rockfordY, 1, -100, 2, 8);
 
 
                 }
@@ -1950,15 +1970,36 @@ void processBoardSquares() {
 
                         if (switchOn) {
 
+                            if ((boardCol == rockfordX +1 && boardRow == rockfordY)
+                                && Attribute[CharToType[GET(*(this - 2))]] & (ATT_BLANK | ATT_GRAB)) {
+                                *(this - 2) = CH_ROCKFORD;
+                                *(this - 1) = CH_BLANK;
+                                autoMoveY = 0;
+                                autoMoveY = 0;
+                                autoMoveFrameCount = 0;
+                                rockfordX--;
+
+                                    for (int i = 0; i < 10; i++)
+                                        sphereDot(boardCol - 1, boardRow, 2, -150, 0, 4);
+
+                            }
+
                             int att = Attribute[CharToType[GET(*(this - 1 ))]];
 
                             if (att & (ATT_BLANK | ATT_GRAB | ATT_BOULDER_DOGE)) {
+
+
+                                if (!(att & ATT_BLANK))
+                                    for (int i = 0; i < 10; i++)
+                                        sphereDot(boardCol - 1, boardRow, 2, -50, 0, 4);
+
+
                                 *(this - 1) = CH_PUSH_LEFT;
                                 *this = CH_HORIZONTAL_BAR;
 
                                 att = Attribute[CharToType[GET(*(this - 2))]];
                                 if (!(att & ATT_ROCKFORDYBLANK)) {
-                                    for (int i = 0; i < RAINHAILSHINE; i++)
+                                    for (int i = 0; i < 10; i++)
                                         sphereDot(boardCol - 1, boardRow, 2, -150, 0, 4);
                                     // if (att & ATT_HARD)
                                     //     ADDAUDIO(SFX_ROCK);
@@ -1997,6 +2038,18 @@ void processBoardSquares() {
 
                         if (switchOn) {
 
+                            if ((boardCol == rockfordX - 1 && boardRow == rockfordY)
+                                && Attribute[CharToType[GET(*(this + 2))]] & (ATT_BLANK | ATT_GRAB)) {
+                                *(this + 2) = CH_ROCKFORD;
+                                *(this + 1) = CH_BLANK;
+                                autoMoveY = 0;
+                                autoMoveY = 0;
+                                autoMoveFrameCount = 0;
+                                rockfordX++;
+                            }
+
+
+
                             int att = Attribute[CharToType[GET(*(this + 1 ))]];
 
                             if (att & (ATT_BLANK | ATT_GRAB | ATT_BOULDER_DOGE)) {
@@ -2005,7 +2058,7 @@ void processBoardSquares() {
 
                                 att = Attribute[CharToType[GET(*(this + 2))]];
                                 if (!(att & ATT_ROCKFORDYBLANK)) {
-                                    for (int i = 0; i < RAINHAILSHINE; i++)
+                                    for (int i = 0; i < 10; i++)
                                         sphereDot(boardCol + 2, boardRow, 2, -150, 0, 4);
                                     //shakeTime = 10;
                                     // if (att & ATT_HARD)
@@ -2040,6 +2093,16 @@ void processBoardSquares() {
 
                        if (switchOn) { //} && (!rockfordDead || boardCol != rockfordX)) {
 
+                            if ((boardCol == rockfordX && boardRow == rockfordY + 1)
+                                && Attribute[CharToType[GET(*(this - 80))]] & (ATT_BLANK | ATT_GRAB)) {
+                                *(this - 80) = CH_ROCKFORD;
+                                *(this - 40) = CH_BLANK;
+                                autoMoveY = 0;
+                                autoMoveY = 0;
+                                autoMoveFrameCount = 0;
+                                rockfordY--;
+                            }
+
                             int character = GET(*(this - 40));
                             int type = CharToType[character];
                             int att = Attribute[type];
@@ -2050,7 +2113,7 @@ void processBoardSquares() {
 
                                 att = Attribute[CharToType[GET(*(this -80))]];
                                 if (!(att & ATT_ROCKFORDYBLANK)) {
-                                    for (int i = 0; i < RAINHAILSHINE; i++)
+                                    for (int i = 0; i < 10; i++)
                                         sphereDot(boardCol, boardRow - 1, 2, -150, 2,0);
                                     // if (att & ATT_HARD)
                                     //     ADDAUDIO(SFX_ROCK);
@@ -2134,6 +2197,17 @@ void processBoardSquares() {
 
                        if (switchOn) { //} && (!rockfordDead || boardCol != rockfordX)) {
 
+                            if ((boardCol == rockfordX && boardRow + 1 == rockfordY)
+                                && Attribute[CharToType[GET(*(this + 80))]] & (ATT_BLANK | ATT_GRAB)) {
+                                *(this + 80) = CH_ROCKFORD;
+                                *(this + 40) = CH_BLANK;
+                                autoMoveY = 0;
+                                autoMoveY = 0;
+                                autoMoveFrameCount = 0;
+                                rockfordY++;
+                            }
+
+
                             int type = CharToType[GET(*(this + 40))];
                             int att = Attribute[type];
 
@@ -2142,7 +2216,7 @@ void processBoardSquares() {
                                 att = Attribute[CharToType[GET(*(this + 80))]];
 
                                 if (!(att & ATT_ROCKFORDYBLANK)) {
-                                    for (int i = 0; i < RAINHAILSHINE; i++)
+                                    for (int i = 0; i < 10; i++)
                                         sphereDot(boardCol, boardRow + 2, 2, -150, 2, 0);
 
                                     // if (att & ATT_HARD)
@@ -2327,12 +2401,28 @@ void processBoardSquares() {
 
                     case CH_BOULDER_DOGE:
                     {
-                        if (GET(*this) == CH_CONGLOMERATE_15)
-                            if (!(getRandom32() & 0xF)) {
-                                for (int i = 0; i < RAINHAILSHINE; i++)
-                                    sphereDot(boardCol, boardRow, 2, 50, 2, 5);
+                        if (GET(*this) == CH_CONGLOMERATE_15) {
+
+                            bool close = ((boardCol - rockfordX) * (boardCol - rockfordX) 
+                                    + (boardRow - rockfordY) * (boardRow - rockfordY) < 8);
+
+                            int sDot = RAINHAILSHINE - 1;
+
+                            int pulse = getRandom32() & 0x15;
+                            if (!pulse) {
+                                sDot = 0;
+                                if (close)
+                                    cpulse += 32;
+
+                                if (close)
+                                    FLASH(0x42, 10);
                             }
 
+                            for (int i = sDot; i < RAINHAILSHINE; i++)
+                                sphereDot(boardCol, boardRow, 2, 75, 2, 5);
+ 
+                        }
+                        
                         unsigned char typeDown = CharToType[GET(*next)];
                         
                         if (Attribute[typeDown] & ATT_BLANK) {
@@ -2462,6 +2552,10 @@ void processBoardSquares() {
                             }
                             }
 
+                            if (creature != CH_DOGE_FALLING)
+                                for (int i = 0; i < 4; i++)
+                                    sphereDot(boardCol, boardRow, 2, 40, getRandom32() & 3, 10);
+
                             if (att & ATT_ROLL)
                                 doRoll(this, creature);
 
@@ -2474,10 +2568,10 @@ void processBoardSquares() {
                         break;
                     }
 
-                    case CH_DOORCLOSED:
-                        if (!diamonds)
-                            *this = CH_DOOROPEN_0;
-                        break;
+                    // case CH_DOORCLOSED:
+                    //     if (!diamonds)
+                    //         *this = CH_DOOROPEN_0;
+                    //     break;
 
                     case CH_ROCKFORD_BIRTH:
 

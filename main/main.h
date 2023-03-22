@@ -86,14 +86,14 @@ void pulseDiamond(unsigned char *this);
 void drawWord(const unsigned char *string, int y);
 
 
-enum DisplayMode {
-    DISPLAY_NORMAL,
-    DISPLAY_HALF,
-    DISPLAY_OVERVIEW,
-    DISPLAY_NONE
-};
+// enum DisplayMode {
+//     DISPLAY_NORMAL,
+//     DISPLAY_HALF,
+//     DISPLAY_OVERVIEW,
+//     DISPLAY_NONE
+// };
 
-extern enum DisplayMode displayMode, lastDisplayMode;
+// extern enum DisplayMode displayMode, lastDisplayMode;
 
 extern const unsigned char BitRev[];
 
@@ -187,10 +187,10 @@ extern unsigned int fade;
 
 extern bool caveCompleted;
 
-#define RAINHAILSHINE 12
+#define RAINHAILSHINE 20
 
-extern short rainType[RAINHAILSHINE];
-extern short rainAge[RAINHAILSHINE];
+extern unsigned char rainType[RAINHAILSHINE];
+extern unsigned char rainAge[RAINHAILSHINE];
 
 extern int rainY[RAINHAILSHINE];
 //extern int rainSpeed[RAINHAILSHINE];
@@ -215,6 +215,7 @@ extern unsigned int currentPalette;
 extern int uncoverTimer;
 extern unsigned int uncoverCount;
 extern unsigned int availableIdleTime;
+extern int cpulse;
 
 void Scheduler();
 void processBoardSquares();
@@ -222,7 +223,7 @@ void reanimateDiamond(unsigned char *this);
 void handleSelectReset();
 void initNewGame();
 
-void sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY);
+bool sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY);
 
 //extern int actualScore;
 

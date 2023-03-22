@@ -199,12 +199,12 @@ void rollRainbow() {
 
 void setPalette() {
 
-    static const int shiftMode[] = { 16, 17, 31 };
-    static const int rowSize[] = { PIECE_DEPTH, 15, 9 };
+//    static const int shiftMode[] = { 16, 17, 31 };
+//    static const int rowSize[] = { PIECE_DEPTH, 15, 9 };
 
     int size = PIECE_DEPTH; //rowSize[displayMode];
 
-    int shift = shiftMode[displayMode];
+    int shift = 16; //shiftMode[displayMode];
 
 
 #if ENABLE_RAINBOW
@@ -224,7 +224,7 @@ void setPalette() {
     int pfCharLine = 0;
 
 
-    while (bgCharLine >= rowSize[displayMode]) {
+    while (bgCharLine >= PIECE_DEPTH) { //rowSize[displayMode]) {
         bgCharLine -= size;
         pfCharLine++;
     }
@@ -258,7 +258,7 @@ void setPalette() {
 
         lastBgCharLine = bgCharLine;
         lastPfCharLine = pfCharLine;
-        lastDisplayMode = displayMode;
+//        lastDisplayMode = displayMode;
 
 
 #if ENABLE_RAINBOW

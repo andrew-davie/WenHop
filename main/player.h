@@ -6,14 +6,17 @@
 
 
 enum FRAME {
+
+    // see (player.c) -> create a frame shape_* and add to spriteShape[] table
+
     FRAME_BLANK,            // 21
     FRAME_STAND,            // 0
     FRAME_ARMS_IN_AIR,      // 1
     FRAME_HUNCH,            // 2
-    FRAME_HAIR,             // 3
+//    FRAME_HAIR,             // 3
     FRAME_PUSH,             // 4
     FRAME_PUSH2,            // 5
-    FRAME_HAIR2,            // 6
+//    FRAME_HAIR2,            // 6
     FRAME_IMPATIENT,        // 7
     FRAME_IMPATIENT2,       // 8
     FRAME_LOOK1,            // 9
@@ -26,7 +29,7 @@ enum FRAME {
     FRAME_WALK3,            // 16
     FRAME_WALK4,            // 17
     FRAME_SNATCH_DOWN,      // 18
-    FRAME_SKELETON,         // 19
+    FRAME_SKELETON1,         // 19
     FRAME_SKELETON2,        // 20
     FRAME_SKELETON3,        // 22
     FRAME_SKELETON4,        // 23
@@ -70,39 +73,20 @@ enum FRAME {
 
 enum AnimationIdent {
 
-    ID_Stand,
-    ID_StandUp,
-    ID_StandLR,
-    ID_Push,
-//#if ENABLE_SHAKE
-//    ID_Shake,
-//#endif
-    ID_WipeHair,
-    ID_Impatient,
-    ID_Turn,
-    ID_Blink,
-    ID_Shades,
-    ID_Die,
-    ID_Walk,
-    ID_Snatch,
-    ID_SnatchDown,
-    ID_SnatchUp,
-    ID_Skeleton,
-    ID_Skeleton2,
-//    ID_Startup,
-    ID_ArmsCrossed,
-    ID_Talk,
-    ID_EndPush2,
-    
-//#if __ENABLE_DRIP
-    ID_Drip,
-    ID_Talk2,
-//    ID_Drip2,
-//#endif
+    // see (player.c) AnimationVector[] -> animation program
 
-    ID_Locked,
-    ID_WalkUp,
-    ID_WalkDown,
+    ID_Stand,           // 00
+    ID_StandUp,         // 01
+    ID_StandLR,         // 02
+    ID_Push,            // 03
+    ID_Turn,            // 04
+    ID_Die,             // 05
+    ID_Walk,            // 06
+    ID_Skeleton,        // 07
+    // ID_Skeleton2,       // 08
+    ID_Locked,          // 09
+    ID_WalkUp,          // 10
+    ID_WalkDown,        // 11
 
 };
 
@@ -120,10 +104,6 @@ extern const signed char *playerAnimation;
 extern const signed char *playerAnimationLoop;
 extern unsigned int playerAnimationCount;
 
-extern const signed char playerBigSprite[][2 + SPRITE_DEPTH * 3];
-
-//#define ZEROBLOCK playerBigSprite
-
 extern const unsigned short reciprocal[];
 
 void processAnimationCommand();
@@ -131,6 +111,7 @@ void updateAnimation();
 void startPlayerAnimation(enum AnimationIdent animID);
 
 extern const unsigned char redirect[];
+extern const unsigned char *const spriteShape[];
 
 #endif
 //EOF

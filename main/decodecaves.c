@@ -93,7 +93,7 @@ void decodeCave(int cave) {
     rainbow = theCave->flags & CAVEDEF_RAINBOW;
 #endif
     lockDisplay = theCave->flags & CAVEDEF_OVERVIEW;
-    displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
+    //displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
 
 
     diamonds = theCave->diamondsRequired[level]; 
@@ -227,11 +227,11 @@ int decodeExplicitData(bool sfx) {
                     rockfordX = a;
                     rockfordY = b;
 
-                    if (displayMode == DISPLAY_NORMAL)
+//                    if (displayMode == DISPLAY_NORMAL)
                         scrollX = (rockfordX - (HALFWAYX /5)) << 16;
 
-                    else if (displayMode == DISPLAY_HALF)
-                        scrollX = (rockfordX - (HALFWAYX >> 1)) << 16;
+                    // else if (displayMode == DISPLAY_HALF)
+                    //     scrollX = (rockfordX - (HALFWAYX >> 1)) << 16;
 
                     scrollY = (( 6 * PIECE_DEPTH / 3 - 3) << 16);
                 }
