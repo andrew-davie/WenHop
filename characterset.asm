@@ -142,32 +142,6 @@ __CHAR_LADDER_2
     dc           X__X ; 20
 
 
-__CHAR_BOULDER_BROKEN
-
-    dc XX | __ | __X_ ; 00 <
-    dc XX | YY | _XX_ ; 01
-    dc __ | YY | ____ ; 02
-    dc __ | __ | __X_ ; 03 <
-    dc XX | YY | _XX_ ; 04
-    dc __ | _Y | ____ ; 05
-    dc __ | __ | __X_ ; 06 <
-    dc XX | YY | _XX_ ; 07
-    dc __ | __ | ____ ; 08
-    dc      __ | ____ ; 09 <
-    dc      YY | ____ ; 10
-    dc      __ | ____ ; 11
-    dc      __ | _X_X ; 12 <
-    dc      YY | XXXX ; 13
-    dc      __ | ____ ; 14
-    dc           _X_X ; 15 <
-    dc           XXXX ; 16
-    dc           ____ ; 17
-    dc           _X_X ; 18 <
-    dc           XXXX ; 19
-    dc           ____ ; 20
-
-
-
 __CHAR_BOULDER
 __CHAR_BOULDER_SHAKE
 
@@ -781,27 +755,27 @@ __CHAR_BOULDER_URDL2
     dc XX_XX ; 28
     dc __X__ ; 29
 
-;        __XXX___,__XXX___,________,     
-;        _XXXXX__,_XX_XX__,___X____,     
-;        _XXXXX__,_X___X__,__XXX___,     
-;        _XXXXX__,_X___X__,__XXX___,     
-;        _XXXXX__,_X___X__,__XXX___,     
-;        _XXXXX__,_X___X__,__XXX___,     
-;        _XXXXX__,_X___X__,__XXX___,     
-;        _XXXXX__,_XX_XX__,___X____,     
-;        __XXX___,__XXX___,________,     
+;        __XXX___,__XXX___,________,
+;        _XXXXX__,_XX_XX__,___X____,
+;        _XXXXX__,_X___X__,__XXX___,
+;        _XXXXX__,_X___X__,__XXX___,
+;        _XXXXX__,_X___X__,__XXX___,
+;        _XXXXX__,_X___X__,__XXX___,
+;        _XXXXX__,_X___X__,__XXX___,
+;        _XXXXX__,_XX_XX__,___X____,
+;        __XXX___,__XXX___,________,
 ;    },
 
 ;    {  27,
-;        ________,________,________,     
-;        ________,________,________,     
-;        ___X____,___X____,________,     
-;        __XXX___,__XXX___,________,     
-;        __X_X___,__XXX___,________,     
-;        __X_X___,__XXX___,________,     
-;        __XXX___,__XXX___,________,     
-;        ___X____,___X____,________,     
-;        ________,________,________,     
+;        ________,________,________,
+;        ________,________,________,
+;        ___X____,___X____,________,
+;        __XXX___,__XXX___,________,
+;        __X_X___,__XXX___,________,
+;        __X_X___,__XXX___,________,
+;        __XXX___,__XXX___,________,
+;        ___X____,___X____,________,
+;        ________,________,________,
 ;    },
 
 
@@ -1172,27 +1146,27 @@ __CHAR_DIRT
 
 __CHAR_BUTTERFLY_1
 
-;     dc __ | __ | _XX_ ; 00 < 
-;     dc XX | __ | _XX_ ; 01 
-;     dc _X | __ | ____ ; 02 
-;     dc XX | Y_ | _XX_ ; 03 < 
-;     dc XX | _Y | _XX_ ; 04 
-;     dc _X | Y_ | ____ ; 05 
-;     dc XX | Y_ | _XX_ ; 06 < 
-;     dc __ | _Y | _XX_ ; 07 
-;     dc XX | Y_ | __X_ ; 08 
-;     dc      __ | __X_ ; 09 < 
-;     dc      _Y | _XX_ ; 10 
-;     dc      __ | _XX_ ; 11 
-;     dc      __ | _XX_ ; 12 < 
-;     dc      __ | _X__ ; 13 
-;     dc      __ | _XX_ ; 14 
-;     dc           _XX_ ; 15 < 
-;     dc           ____ ; 16 
-;     dc           _XX_ ; 17 
-;     dc           _XX_ ; 18 < 
-;     dc           ____ ; 19 
-;    dc           ____ ; 20 
+;     dc __ | __ | _XX_ ; 00 <
+;     dc XX | __ | _XX_ ; 01
+;     dc _X | __ | ____ ; 02
+;     dc XX | Y_ | _XX_ ; 03 <
+;     dc XX | _Y | _XX_ ; 04
+;     dc _X | Y_ | ____ ; 05
+;     dc XX | Y_ | _XX_ ; 06 <
+;     dc __ | _Y | _XX_ ; 07
+;     dc XX | Y_ | __X_ ; 08
+;     dc      __ | __X_ ; 09 <
+;     dc      _Y | _XX_ ; 10
+;     dc      __ | _XX_ ; 11
+;     dc      __ | _XX_ ; 12 <
+;     dc      __ | _X__ ; 13
+;     dc      __ | _XX_ ; 14
+;     dc           _XX_ ; 15 <
+;     dc           ____ ; 16
+;     dc           _XX_ ; 17
+;     dc           _XX_ ; 18 <
+;     dc           ____ ; 19
+;    dc           ____ ; 20
 
 
 
@@ -1507,7 +1481,7 @@ __CHAR_DUST_2
      dc _____ ; 22 <
      dc _____ ; 23
 
- 
+
 ;     dc           ____ ; 20
 
 __CHAR_PARALLAX_TEMPLATE        ; squished in here - careful about count above/below chars
@@ -1601,33 +1575,6 @@ __CHAR_DUST_LEFT_1
      dc ____ ; 27
      dc ____ ; 28
      dc ____ ; 29 <
-
-
-
-
-__CHAR_MAGICWALL_2
-
-     ; dc __ | _Y | ____ ; 00 <
-     ; dc X_ | _Y | X_XX ; 01
-     ; dc XX | YY | XXXX ; 02
-     ; dc XX | __ | X_XX ; 03 <
-     ; dc X_ | Y_ | X_XX ; 04
-     ; dc XX | YY | XXXX ; 05
-     ; dc XX | Y_ | X_XX ; 06 <
-     ; dc X_ | Y_ | X_XX ; 07
-     ; dc __ | YY | XXXX ; 08
-     ; dc      _Y | X_XX ; 09 <
-     ; dc      _Y | ____ ; 10
-     ; dc      YY | XXXX ; 11
-     ; dc      Y_ | XXX_ ; 12 <
-     ; dc      Y_ | XXX_ ; 13
-     ; dc      YY | XXXX ; 14
-     ; dc           XXX_ ; 15 <
-     ; dc           XXX_ ; 16
-     ; dc           XXXX ; 17
-     ; dc           XXX_ ; 18 <
-     ; dc           XXX_ ; 19
-     ; dc           XXXX ; 20
 
 
 __CHAR_DOGE_00 ; doged
@@ -2015,110 +1962,6 @@ __CHAR_AMOEBA_3
      ; dc           XXXX ; 20
 
 
-    #IF __ENABLE_LAVA
-
-__CHAR_LAVA_0
-
-     dc __ | __ | ____ ; 00 <
-     dc XX | __ | ____ ; 01
-     dc __ | __ | ____ ; 02
-     dc __ | __ | ____ ; 03 <
-     dc __ | __ | _X__ ; 04
-     dc __ | __ | ____ ; 05
-     dc __ | __ | ____ ; 06 <
-     dc __ | __ | ____ ; 07
-     dc __ | __ | ____ ; 08
-     dc      __ | ___X ; 09 <
-     dc      __ | _X__ ; 10
-     dc      __ | ____ ; 11
-     dc      __ | ____ ; 12 <
-     dc      __ | XXX_ ; 13
-     dc      __ | ____ ; 14
-     dc           ____ ; 15 <
-     dc           _X__ ; 16
-     dc           ____ ; 17
-     dc           ____ ; 18 <
-     dc           ____ ; 19
-     dc           ____ ; 20
-
-
-__CHAR_LAVA_1
-
-     dc __ | __ | ____ ; 00 <
-     dc __ | __ | _X__ ; 01
-     dc __ | __ | ____ ; 02
-     dc __ | __ | ____ ; 03 <
-     dc __ | __ | XXX_ ; 04
-     dc __ | __ | ____ ; 05
-     dc XX | __ | ____ ; 06 <
-     dc __ | __ | _X__ ; 07
-     dc __ | __ | ____ ; 08
-     dc      __ | ____ ; 09 <
-     dc      __ | ____ ; 10
-     dc      __ | ____ ; 11
-     dc      __ | ____ ; 12 <
-     dc      __ | ____ ; 13
-     dc      __ | ____ ; 14
-     dc           ____ ; 15 <
-     dc           ____ ; 16
-     dc           ____ ; 17
-     dc           ___X ; 18 <
-     dc           ____ ; 19
-     dc           ____ ; 20
-
-
-__CHAR_LAVA_2
-
-     dc __ | __ | __X_ ; 00 <
-     dc __ | __ | _XXX ; 01
-     dc __ | __ | ____ ; 02
-     dc __ | __ | __X_ ; 03 <
-     dc XX | __ | _XXX ; 04
-     dc __ | __ | ____ ; 05
-     dc __ | __ | __X_ ; 06 <
-     dc __ | __ | __X_ ; 07
-     dc __ | __ | ____ ; 08
-     dc      __ | ____ ; 09 <
-     dc      __ | ____ ; 10
-     dc      __ | ____ ; 11
-     dc      __ | ____ ; 12 <
-     dc      __ | ___X ; 13
-     dc      __ | ____ ; 14
-     dc           ____ ; 15 <
-     dc           ____ ; 16
-     dc           ____ ; 17
-     dc           ____ ; 18 <
-     dc           ____ ; 19
-     dc           ____ ; 20
-
-
-__CHAR_LAVA_3
-
-     dc __ | __ | _X__ ; 00 < <--
-     dc __ | __ | _X__ ; 01 <--
-     dc __ | __ | ____ ; 02 <-- raised small square
-     dc __ | __ | _X__ ; 03 < <--
-     dc __ | __ | _X__ ; 04 <--
-     dc __ | __ | ____ ; 05
-     dc __ | __ | ____ ; 06 <
-     dc __ | __ | ____ ; 07
-     dc __ | __ | ____ ; 08
-     dc      __ | ____ ; 09 <
-     dc      __ | __X_ ; 10
-     dc      __ | ____ ; 11
-     dc      __ | ____ ; 12 <
-     dc      __ | _XXX ; 13
-     dc      __ | ____ ; 14
-     dc           ____ ; 15 <
-     dc           _XXX ; 16
-     dc           ____ ; 17
-     dc           ____ ; 18 <
-     dc           __X_ ; 19
-     dc           ____ ; 20
-
-    ENDIF ; ENABLE_LAVA
-    
-
     IF __ENABLE_WATER
 
 __CHAR_WATER_0
@@ -2228,7 +2071,7 @@ __CHAR_WATER_3
 
 
 CHAR_BLOCK_SIZE = * - CHAR_BLOCK_START
-    echo "Char block = ", CHAR_BLOCK_START, "-", *, "(", [CHAR_BLOCK_SIZE]d, "bytes)" 
+    echo "Char block = ", CHAR_BLOCK_START, "-", *, "(", [CHAR_BLOCK_SIZE]d, "bytes)"
 ;CHARSET_END
 
 ; EOF

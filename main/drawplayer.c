@@ -151,6 +151,13 @@ void initSprites() {
 void drawPlayerSprite() {  // --> 3171 cycles
 
 
+    static int root = 0;
+    root++;
+
+    const unsigned char c[] = { 0x20, 0x30, 0x40, 0x50 };
+    int rooted = c[(root >> 3) & 3];
+
+
 
     if (cpulse) {
         if (!(--cpulse & 7)) {
@@ -195,8 +202,8 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
         int frameOffset = *(const signed char *)spr++;
         int frameYOffset = *(const signed char *)spr++;
-    
 
+        int lavaLine = (lavaSurface - (scrollY >> 16)) * 3;
         playerSpriteY = ypos - frameYOffset - 1;
 
         int pX = (xpos) * 4 + (rockfordFaceDirection * (frameOffset + frameAdjustX + autoMoveX)) + 2;
@@ -206,12 +213,13 @@ void drawPlayerSprite() {  // --> 3171 cycles
             return;
 
 
-        P0_X = pX;            
+        P0_X = pX;
         if (rockfordFaceDirection == FACE_LEFT) {
             P1_X = P0_X;
             P0_X += 8;
         } else
             P1_X = P0_X + 8;
+
 
         if (!(shapeHeight & 0x80)) {
 
@@ -220,9 +228,9 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
             unsigned char *p1Colour = p0Colour + _ARENA_SCANLINES;
             unsigned char *p1 = p0 + _ARENA_SCANLINES;
-            
+
             for (int line = 0; line < (shapeHeight & 0x7f); line++) {
-                
+
                 if (rockfordFaceDirection == FACE_RIGHT) {
                     p0[line] = *spr++;
                     p1[line] = *spr++;
@@ -238,6 +246,11 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
                 p0Colour[line] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
                 p1Colour[line] = (dynamicPlayerColours[c2] & 0xF) ^ postProcessPlayerColours[c2];
+
+                if (playerSpriteY++ >= lavaLine) {
+                    p0Colour[line] = ((p0Colour[line] & 0x0f) - 2) ^ (rooted & 0xF0);
+                    p1Colour[line] = ((p1Colour[line] & 0x0f) - 2) ^ (rooted & 0xF0);
+                }
             }
 
         }
@@ -248,7 +261,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
             unsigned char *p0 = RAM + _BUF_GRP0A + playerSpriteY;
 
             for (int line = 0; line < (shapeHeight & 0x7F); line++) {
-                
+
                 if (rockfordFaceDirection == FACE_RIGHT)
                     p0[line] = *spr++;
                 else
@@ -256,10 +269,14 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
                 int c1 = *spr++ >> 4;
                 p0Colour[line] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
+
+                if (playerSpriteY++ >= lavaLine) {
+                    p0Colour[line] = ((p0Colour[line] & 0x0f) - 2) ^ (rooted & 0xF0);
+                }
             }
         }
 
-    
+
 
 
         // p1Colour = RAM + _BUF_COLUP1 + playerSpriteY - 11;

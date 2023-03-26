@@ -66,7 +66,7 @@
 #define TRILINES (PIECE_DEPTH/3)
 
 #define SCORE_SCANLINES 21
-#define SCANLINES (_ARENA_SCANLINES /* - SCORE_SCANLINES*/) 
+#define SCANLINES (_ARENA_SCANLINES /* - SCORE_SCANLINES*/)
 
 #define WYRM_POP 10
 #define WYRM_MAX 4
@@ -184,10 +184,10 @@ extern unsigned char enableICC;
 extern unsigned int fade;
 #endif
 
-
 extern bool caveCompleted;
+extern int lavaSurface;
 
-#define RAINHAILSHINE 20
+#define RAINHAILSHINE 8
 
 extern unsigned char rainType[RAINHAILSHINE];
 extern unsigned char rainAge[RAINHAILSHINE];
@@ -201,6 +201,7 @@ extern int rainX[RAINHAILSHINE];
 
 extern int weather;
 extern int canPlay[5];
+extern int shakeTime;
 
 enum FaceDirection {
     FACE_LEFT = -1,
@@ -223,7 +224,8 @@ void reanimateDiamond(unsigned char *this);
 void handleSelectReset();
 void initNewGame();
 
-bool sphereDot(int dripX, int dripY, int type, int age, int offsetX, int offsetY);
+
+void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY, int speed);
 
 //extern int actualScore;
 

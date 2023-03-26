@@ -131,12 +131,12 @@ void initRockford() {
 // #define ANIM_COUNT (sizeof(animID)/2)
 
 //     static const char animID[] = {
-//         // ID_Blink,       200, 
+//         // ID_Blink,       200,
 // //        ID_WipeHair,    120,
-// //        ID_Impatient,   112, 
-//         ID_Turn,        117, 
-// //        ID_Look,        130, 
-//         // ID_Shades,      125, 
+// //        ID_Impatient,   112,
+//         ID_Turn,        117,
+// //        ID_Look,        130,
+//         // ID_Shades,      125,
 //         // ID_ArmsCrossed, 113,
 //     };
 
@@ -163,7 +163,7 @@ void initRockford() {
 //                 if (getRandom32() < 0x700000) {
 //                     int idle = rangeRandom(ANIM_COUNT) << 1;
 //                     if ((rndX & 0xFFF) < animID[idle + 1])
-//                         startPlayerAnimation(animID[idle]);   
+//                         startPlayerAnimation(animID[idle]);
 //                 }
 //             }
 //         }
@@ -198,7 +198,7 @@ void grabDoge(unsigned char *where) {
 
 int playerSlow = 0;
 
-bool checkHighPriorityMove(int dir, unsigned char blanker) {
+bool checkHighPriorityMove(int dir) {
 
     unsigned char joyBit = joyDirectBit[dir] << 4;
     if (usableSWCHA & joyBit)
@@ -211,7 +211,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
 
     unsigned char *thisOffset = this + dirOffset[dir];
-    unsigned char destType = CharToType[(*thisOffset) & 0x7F]; 
+    unsigned char destType = CharToType[(*thisOffset) & 0x7F];
     bool dirtFlag = false;
 
     if (!(inpt4 & 0x80)) {        // fire button
@@ -226,7 +226,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
         //     startPlayerAnimation(newSnatch[dir]);
         //     handled = true;
         // }
-        //else 
+        //else
 
         // if (Attribute[destType] & (ATT_DIRT | ATT_GRAB)) {
 
@@ -250,7 +250,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
         bool grabbed = false;
 
         if (Attribute[destType] & (ATT_BLANK | ATT_PERMEABLE | ATT_GRAB | ATT_EXIT)) {
-        
+
                 //startCharAnimation(TYPE_ROCKFORD, AnimateBase[TYPE_ROCKFORD]);
 
             pushCounter = 0;
@@ -289,8 +289,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
             rockfordY += yInc[joyDirectBit[dir]];
 
             if (grabbed)
-                for (int i = 0; i < 8; i++)
-                    sphereDot(rockfordX, rockfordY, 2, -50, 2, 4);
+                nDots(4, rockfordX, rockfordY, 2, -50, 3, 4, 0x10000);
 
 
 
@@ -313,19 +312,19 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 
 
 
-            *this = dirtFlag ? CH_DUST_0 | FLAG_THISFRAME : blanker | FLAG_THISFRAME;
+            *this = CH_DUST_0 | FLAG_THISFRAME;
 
 
             playerSlow = 0;
-            if (!autoMoveFrameCount && Attribute[destType] & ATT_DIRT) {
+            if (!autoMoveFrameCount && ((Attribute[destType] & ATT_DIRT)
+                || destType == TYPE_LAVA)) {
 
                 playerSlow = 1;
                 ADDAUDIO(SFX_DIRT);
                 dirtFlag = true;
                 startCharAnimation(TYPE_ROCKFORD, AnimateBase[TYPE_ROCKFORD]);
 
-                for (int i = 0; i < 6; i++)
-                    sphereDot(rockfordX, rockfordY, 2, -50, 2, 4);
+                nDots(6,rockfordX, rockfordY, 2, -50, 3, 4, 0x10000);
             }
 
 
@@ -363,7 +362,7 @@ bool checkHighPriorityMove(int dir, unsigned char blanker) {
 int waitForNothing;
 
 
-bool checkLowPriorityMove(int dir, int blanker) {
+bool checkLowPriorityMove(int dir) {
 
 
     unsigned char joyBit = joyDirectBit[dir] << 4;
@@ -374,26 +373,25 @@ bool checkLowPriorityMove(int dir, int blanker) {
 
     int offset = dirOffset[dir];
     unsigned char *thisOffset = this + offset;
-    unsigned char destType = CharToType[(*thisOffset) & 0x7F]; 
+    unsigned char destType = CharToType[(*thisOffset) & 0x7F];
 
     #if 1  // disable push
     if (faceDirection[dir] && (Attribute[destType] & ATT_PUSH)
         && !(Attribute[CharToType[(*(thisOffset + 40)) & 0x7F]] & ATT_BLANK)) {
 
-        
+
         if (++pushCounter > 1) {
-//            *thisOffset = CH_BOULDER_SHAKE | FLAG_THISFRAME; //((rockfordFaceDirection > 0) ? FLAG_THISFRAME : 0);
             if (playerAnimationID != ID_Push)
                 startPlayerAnimation(ID_Push);
         }
         else {
-            ADDAUDIO(SFX_SPACE);    
+            ADDAUDIO(SFX_SPACE);
 //            startPlayerAnimation(ID_Locked);          // works nicely as start of push
         }
 
         if (pushCounter > 6) {
 //            pushCounter = 2;
-            *thisOffset = Attribute[CharToType[GET(*thisOffset)]] & ATT_BOULDER_DOGE ? CH_DOGE_CONVERT : CH_DUST_0;
+            *thisOffset = Attribute[CharToType[GET(*thisOffset)]] & ATT_BOULDER_DOGE ? CH_DOGE_CONVERT | FLAG_THISFRAME : CH_DUST_0;
 
             waitForNothing = 2;
             pushCounter = 0;
@@ -496,18 +494,9 @@ void colourAdjust() {
 
 
 
-void moveRockford(unsigned char *this, unsigned char blanker) {
+void moveRockford(unsigned char *this) {
 
     handled = false;
-
-    // if (SWCHA == 0xFF) {
-    //     waitForNothing = 0;
-    //     usableSWCHA = 0xFF;
-    // }
-
-
-
-    extern int shakeTime;
 
     if (!(inpt4 & 0x80))        // fire button
         shakeTime += 10;
@@ -528,14 +517,14 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
     if (autoMoveFrameCount)
         return;
 
-    lastUsableSWCHA = usableSWCHA;        
-    
+    lastUsableSWCHA = usableSWCHA;
+
     for (int dir = 0; dir < 4; dir++ )
-        if (checkHighPriorityMove(dir, blanker))
+        if (checkHighPriorityMove(dir))
             return;
 
     for (int dir = 0; dir < 4 && !handled; dir++)
-        if (checkLowPriorityMove(dir, blanker))
+        if (checkLowPriorityMove(dir))
             return;
 
 
@@ -548,7 +537,7 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
 
         else if (playerAnimationID == ID_Walk)
             startPlayerAnimation(ID_StandLR);
-        
+
         else if (playerAnimationID == ID_WalkDown)
             startPlayerAnimation(ID_Stand);
     }
@@ -556,7 +545,7 @@ void moveRockford(unsigned char *this, unsigned char blanker) {
 
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
-    
+
     if (*(this - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME)
         || *(this - 40) == (CH_BOULDER_FALLING | FLAG_THISFRAME)) {
 //        SAY(__WORD_WATCHOUT);

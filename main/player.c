@@ -39,7 +39,7 @@ const signed char AnimationPush[] = {
 
     FRAME_PUSH2, 2,
     ACTION_SFX, SFX_PICKAXE,
-    ACTION_DOT, 3,4,
+    ACTION_DOT, 4,4,
     FRAME_PUSH, 6,
     FRAME_PUSH2, 5,
     //FRAME_HUNCH, 2,
@@ -347,7 +347,7 @@ const signed char *const AnimationVector[] = {
 
     // see (player.h) AnimationIdent
 
-    AnimationDefault,       // 00 
+    AnimationDefault,       // 00
     AnimationStandUp,       // 01
     AnimationStandLR,       // 02
     AnimationPush,          // 03
@@ -412,7 +412,7 @@ const unsigned char playerColour[] = {
     0x44,   // 5 PANT
     0x58,   // 6 BELT
     0x08,   // 5 SOLE
-    0x08,   // 8 BONE    
+    0x08,   // 8 BONE
 
     0x2C,   // 9  HMT0
     0x28,   // 10 HMT1
@@ -991,8 +991,23 @@ const unsigned char shape_FRAME_BLANK[] = {            // 00
 
 const unsigned char shape_FRAME_STAND[] = {
 
-    0x80 | 26,
-    4+0, 0,
+    0x80 | 26, //(26 + 24),
+    4+0, 0,// -12,
+
+
+
+    // SP2( ______X_, BONE), // 00
+    // SP2( ___XX___, BONE), // 01
+    // SP2( _____X__, BONE), // 02
+    // SP2( ______X_, BONE), // 03
+    // SP2( _____XX_, BONE), // 04
+    // SP2( _____X_X, BONE), // 05
+    // SP2( ____X__X, BONE), // 06
+    // SP2( ____X__X, BONE), // 07
+    // SP2( ___X____, BONE), // 08
+    // SP2( ___X____, BONE), // 09
+    // SP2( __X_____, BONE), // 10
+    // SP2( __X__X__, BONE), // 11
 
     SP2( __XXXX__, HMT0 ),     // 00
     SP2( _XXXXXX_, HMT0 ),     // 01
@@ -1020,6 +1035,21 @@ const unsigned char shape_FRAME_STAND[] = {
     SP2( __X__X__, HMT1 ),     // 23
     SP2( __X__X__, HMT2 ),     // 24
     SP2( __X__X__, HMT0 ),     // 25
+
+    // SP2( __X__X__, BONE), // 11
+    // SP2( __X_____, BONE), // 10
+    // SP2( ___X____, BONE), // 09
+    // SP2( ___X____, BONE), // 08
+    // SP2( ____X__X, BONE), // 07
+    // SP2( ____X__X, BONE), // 06
+    // SP2( _____X_X, BONE), // 05
+    // SP2( _____XX_, BONE), // 04
+    // SP2( ______X_, BONE), // 03
+    // SP2( _____X__, BONE), // 02
+    // SP2( ___XX___, BONE), // 01
+    // SP2( ______X_, BONE), // 00
+
+
 };
 
 const unsigned char shape_FRAME_ARMS_IN_AIR[] = {      // 02
@@ -1302,7 +1332,7 @@ const unsigned char shape_FRAME_WALK4[] = {            // 16
     SP2(XXXX_XXX, HMT2 ), // 21
     SP2(X_X___X_, HMT2 ), // 22
     SP2(______X_, HMT0 ), // 23
- 
+
  };
 
 const unsigned char shape_FRAME_SNATCH_DOWN[] = {      // 17
@@ -1772,8 +1802,7 @@ void processAnimationCommand() {
 
             int dotX = 2 + (*++playerAnimation) * rockfordFaceDirection;
             int dotY = *++playerAnimation;
-            for (int i = 0; i < 4; i++)
-                sphereDot(rockfordX, rockfordY, 2, -30, dotX, dotY);
+            nDots(4, rockfordX, rockfordY, 2, -30, dotX, dotY, 0x10000);
             playerAnimation++;
             break;
         }
@@ -1793,7 +1822,7 @@ void processAnimationCommand() {
 
 
 
-const unsigned short reciprocal[] = {        
+const unsigned short reciprocal[] = {
 
 #if SPEED_BASE == 2
     0x10000/3,
@@ -1850,12 +1879,12 @@ void updateAnimation() {
 void startPlayerAnimation(enum AnimationIdent animID) {
 
     playerAnimationID = animID;
-    
+
     playerAnimation =
     playerAnimationLoop = AnimationVector[animID];
 
     playerAnimationCount =
-    autoMoveDeltaX = 
+    autoMoveDeltaX =
     autoMoveDeltaY =
     frameAdjustX =
     frameAdjustY = 0;

@@ -67,16 +67,16 @@ void detectConsoleType() {
         T1TCR = 1;
         break;
 
-    
+
     case DETECT_FRAME_COUNT: {
 
         int detectedPeriod = T1TC;
-        
+
         static const struct fmt {
-        
+
             int frequency;
             unsigned char format;
-        
+
         } mapTimeToFormat[] = {
 
         // Timings from Gopher, 20220827
@@ -184,53 +184,53 @@ const unsigned char butterfly[] = {
 
     36,
 
-        _XX____X,_XX____X,________,     
-        _XXX_XXX,_XX___XX,________,     
-        _XXX_XXX,_XX___XX,__XX_XX_,     
-        _XXXXXXX,_XXXXXXX,__XX__X_,     
-        __XXXXXX,__XX_XXX,__X___X_,     
-        __XXXXX_,__XX_XX_,________,     
-        __XXXX__,__XX_X__,________,     
-        _XXXXX__,_XX_XX__,________,     
-        _XXXXX__,_XX_XX__,__X__X__,     
-        _XXXXX__,_XX_XX__,__X__X__,     
-        _XX_XX__,_XX_XX__,________,     
-        _XX_XX__,_XX_XX__,________,     
+        _XX____X,_XX____X,________,
+        _XXX_XXX,_XX___XX,________,
+        _XXX_XXX,_XX___XX,__XX_XX_,
+        _XXXXXXX,_XXXXXXX,__XX__X_,
+        __XXXXXX,__XX_XXX,__X___X_,
+        __XXXXX_,__XX_XX_,________,
+        __XXXX__,__XX_X__,________,
+        _XXXXX__,_XX_XX__,________,
+        _XXXXX__,_XX_XX__,__X__X__,
+        _XXXXX__,_XX_XX__,__X__X__,
+        _XX_XX__,_XX_XX__,________,
+        _XX_XX__,_XX_XX__,________,
 
     30,
-        ___X_XX_,___X_XX_,________, 
-        ___X_XX_,___X_XX_,___X_X__, 
-        ___XXXX_,___XXXX_,___X_X__, 
-        ___XXXX_,___X_XX_,___X_X__, 
-        ___XXX__,___X_X__,________, 
-        ___XXX__,___X_X__,________, 
-        __XXXX__,__X_XX__,________, 
-        __XXXX__,__X_XX__,__X_X___, 
-        __XXX___,__X_X___,__X_X___, 
-        __X_X___,__X_X___,________, 
+        ___X_XX_,___X_XX_,________,
+        ___X_XX_,___X_XX_,___X_X__,
+        ___XXXX_,___XXXX_,___X_X__,
+        ___XXXX_,___X_XX_,___X_X__,
+        ___XXX__,___X_X__,________,
+        ___XXX__,___X_X__,________,
+        __XXXX__,__X_XX__,________,
+        __XXXX__,__X_XX__,__X_X___,
+        __XXX___,__X_X___,__X_X___,
+        __X_X___,__X_X___,________,
 
 
     27,
 
-        __XXX___,__XXX___,________,     
-        _XXXXX__,_XX_XX__,___X____,     
-        _XXXXX__,_X___X__,__XXX___,     
-        _XXXXX__,_X___X__,__XXX___,     
-        _XXXXX__,_X___X__,__XXX___,     
-        _XXXXX__,_X___X__,__XXX___,     
-        _XXXXX__,_X___X__,__XXX___,     
-        _XXXXX__,_XX_XX__,___X____,     
-        __XXX___,__XXX___,________,     
+        __XXX___,__XXX___,________,
+        _XXXXX__,_XX_XX__,___X____,
+        _XXXXX__,_X___X__,__XXX___,
+        _XXXXX__,_X___X__,__XXX___,
+        _XXXXX__,_X___X__,__XXX___,
+        _XXXXX__,_X___X__,__XXX___,
+        _XXXXX__,_X___X__,__XXX___,
+        _XXXXX__,_XX_XX__,___X____,
+        __XXX___,__XXX___,________,
 
 
     21,
-        ________,________,________,     
-        ___X____,___X____,________,     
-        __XXX___,__XXX___,________,     
-        __X_X___,__XXX___,________,     
-        __X_X___,__XXX___,________,     
-        __XXX___,__XXX___,________,     
-        ___X____,___X____,________,     
+        ________,________,________,
+        ___X____,___X____,________,
+        __XXX___,__XXX___,________,
+        __X_X___,__XXX___,________,
+        __X_X___,__XXX___,________,
+        __XXX___,__XXX___,________,
+        ___X____,___X____,________,
 };
 
 
@@ -348,7 +348,7 @@ void doDrawBitmap(const unsigned char *shape, int x, int y) {
 
 
         int meld = bf[0] | bf[1] | bf[2];
-        // if (mirror) 
+        // if (mirror)
         //     meld = BitRev[meld];
 
         mask.mask = (meld << x) ^ 0xFFFFFFFF;
@@ -445,7 +445,7 @@ void doButterflies(int marginL, int marginR, int marginT, int marginB) {
                 butterflyY[but] = marginT;
                 bdirY[but] = 0;
             }
-            
+
             if (butterflyY[but] > marginB) {
                 butterflyY[but] = marginB;
                 bdirY[but] = 0;
@@ -455,9 +455,9 @@ void doButterflies(int marginL, int marginR, int marginT, int marginB) {
 
         int by = ((butterflyY[but]) >> 8) * 3 + but;     // force diferent colours
         int flappy = (butFlap >> 7) & 1;
- 
+
         doDrawBitmap(butterfly+butterflyOffset[flappy + bBase[but]], butterflyX[but] >> 8, by);
- 
+
     }
 }
 
@@ -469,21 +469,21 @@ void doSnow() {
     static const unsigned char snow[] = {
 
         15,
-        _X_X____,_X_X____,_X_X____,     
-        __X_____,__X_____,__X_____,     
-        XXXXX___,XXXXX___,XXXXX___,     
-        __X_____,__X_____,__X_____,     
-        _X_X____,_X_X____,_X_X____,     
+        _X_X____,_X_X____,_X_X____,
+        __X_____,__X_____,__X_____,
+        XXXXX___,XXXXX___,XXXXX___,
+        __X_____,__X_____,__X_____,
+        _X_X____,_X_X____,_X_X____,
 
 
         9,
-        __X_____,__X_____,__X_____,     
-        _XXX____,_XXX____,_XXX____,     
-        __X_____,__X_____,__X_____,     
+        __X_____,__X_____,__X_____,
+        _XXX____,_XXX____,_XXX____,
+        __X_____,__X_____,__X_____,
 
         6,
-        ________,________,________,     
-        __X_____,__X_____,__X_____,     
+        ________,________,________,
+        __X_____,__X_____,__X_____,
     };
 
     #define SNOW_SPEED 60
@@ -513,7 +513,7 @@ void doSnow() {
                 ADDAUDIO(SFX_MAGIC2);
 
             snowFrame = 0x5FF;
-            
+
             snowY = rangeRandom(yrange);
             if (KERNEL == KERNEL_MENU && snowY > 27) {
                 snowY += 7;
@@ -1149,7 +1149,7 @@ void handleMenuScreen() {
     sline++;
     if (sline >= sizeof(smallWord)/sizeof(smallWord[0]))
         sline = 0;
-    
+
     int y = sline * 24 + 93;
 
     if (flashTime2)
@@ -1299,23 +1299,22 @@ void initKernel(int kernel) {
         break;
 
     case KERNEL_STATS: {
-    
+
         mustWatchDelay = MUSTWATCH_STATS;
         caveUnpackComplete = false;
         thumbnailSpeed = -10;
 
         chooseColourScheme();
 
-#if __FADE        
+#if __FADE
         fade = 0x10000;
 #endif
 
         // initCharAnimations();
-        // AnimCount[TYPE_MAGICWALL] = 0;
 
         decodeCave(cave);
         loadPalette();
- 
+
         // static const char caveWord[] = "CAVE";
         // drawString(1, 35, caveWord, bgPalette[0] + 0x80);
         // doubleSize(2, 56, '1' + level);
@@ -1385,7 +1384,7 @@ void MenuOverscan() {
 
 
         if (!caveUnpackComplete) {
-        
+
             if (sound_volume > 5)
                 sound_volume -= 6;
 
@@ -1477,7 +1476,7 @@ void handleMenuVB() {
 #endif
 
     for (int i = 0; i < 6; i++)
-        if (!RGB[i] || !(getRandom32() & 63))
+        if (!RGB[i] || !rangeRandom(64))
             RGB[i] = (mm_tv_type == SECAM) ? (rangeRandom(7) + 1) << 1
                 : LUMINANCE_TITLE | (getRandom32() << 4);
 
@@ -1494,7 +1493,7 @@ void handleMenuVB() {
 
 
         int dir = yInc[negJoy];
-        
+
         if (dir)
             menuLine = setBounds(menuLine + dir, 2);
 
@@ -1511,11 +1510,11 @@ void handleMenuVB() {
                     break;
 
                 case 1:
-    #if !__ENABLE_TRAINER                
+    #if !__ENABLE_TRAINER
                     level = setBounds(level + dir, 4);
                     while (!(canPlay[level] & (1 << cave)))
                         cave--;
-    #endif    
+    #endif
                     break;
 
                 case OPTION_SYSTEM:

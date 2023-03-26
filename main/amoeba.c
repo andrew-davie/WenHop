@@ -10,6 +10,7 @@
 
 static int amoebaCounter;
 const signed char dirOffset[] = { -1, 1, -40, 40 };
+#if 0
 
 static bool amoebaCanGrow;
 static bool amoebaGrew;
@@ -101,7 +102,10 @@ void checkAmoeba() {
     else {
  //       FLASH(0x92, 8);
         killAudio(SFX_AMOEBA);
-    }    
+    }
 }
+
+#endif
+
 
 //EOF

@@ -100,8 +100,9 @@ const unsigned char sampleBlip[] = {
 };
 
 const unsigned char sampleAmoeba[] = {
-    0xC, 0x8, 1, 2,
-    CMD_LOOP,
+    0xC, 0x8, 1, 30,
+    CMD_STOP,
+//    CMD_LOOP,
     // 12,10,2,1,
     // CMD_LOOP,
 };
@@ -399,13 +400,13 @@ void playAudio() {
                 }
 
                 if ( (
-                    
+
                     !(AudioSamples[idx].flags & AUDIO_LOCKED) &&      // not locked, and...
                     (lowest < 0     // either we haven't found a lowest yet
                     || AudioSamples[Track[i].id].priority < AudioSamples[Track[lowest].id].priority)
-                    
+
                     // or the priority of this track is lower than the lowest found so far...
-                    
+
                     ))
 
                     lowest = i;
@@ -425,7 +426,7 @@ void playAudio() {
 
             else
                 break;          // sounds full or higher priority, ignore any more lower priority sounds
-            
+
     #endif
         }
 
@@ -444,14 +445,14 @@ void playAudio() {
 
             if (cmd == CMD_STOP)
                 track->id = 0;
-            
+
             else {
                 if (cmd == CMD_LOOP)
                     track->index = 0;
 
                 track->delay = s->sample[track->index + 3];
             }
-        }        
+        }
     }
 
 
@@ -537,7 +538,7 @@ void playAudio() {
 
             //         static int f;
             //         if (!best->index && best->delay == AudioSamples[best->id].sample[3] - 1) {
-                    
+
             //             tuneIndex++;
             //             if (beat2[tuneIndex] == 0)
             //                 tuneIndex = 0;
@@ -545,20 +546,20 @@ void playAudio() {
             //             f = getRandom32();
             //         }
 
-            //         audF = f; //getRandom32(); //beat2[tuneIndex];    
+            //         audF = f; //getRandom32(); //beat2[tuneIndex];
             //     }
             //     break;
 
             // case SFX_DEADBEAT2: {
 
             //         if (!best->index && best->delay == AudioSamples[best->id].sample[3] - 1) {
-                    
+
             //             tuneIndex++;
             //             if (beat[tuneIndex] == 0)
             //                 tuneIndex = 0;
             //         }
 
-            //         audF = beat[tuneIndex];     
+            //         audF = beat[tuneIndex];
             //     }
             //     break;
             }
@@ -573,7 +574,7 @@ void playAudio() {
 
 #if __ENABLE_DEMO
             if (!demoMode) {
-#endif                
+#endif
                 sound_volume -= 5;
                 if (sound_volume < 0)
                     sound_volume = 0;
@@ -672,7 +673,7 @@ static const unsigned char trackSimple[] = {
 // b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c5 b5 a5 g5 f5 e5 d5 c5 b4 a4 g4 f4 e4 d4 c4
 // d4 e4 f4 g4 a4 b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 a6 b6 c5 b5 a5 g5 f5 e5 d5 c5 b4 a4
 // e4 d4 c4 b3 c4 d4 e4 d4 c4 b3 c4 d4 e4 f4 e4 d4 c4 b3 c4 d4 e4 f4 g4 a4 g4 f4 e4 f4 g4 e4 f4 g4 a4 g4 f4 e4
-// b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6 
+// b4 c5 d5 e5 f5 g5 a5 b5 c6 d6 e6 f6 g6
 
 /*
 
@@ -718,11 +719,11 @@ c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
 // // c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
 
 
-// d5 d5 d5 d5  e5 f5 g5 a5 b5 c6 d6  c6 b5 a5 g5 f5 e5 d5 
-// d5 d5 d5 d5  e5 f5 g5 a5 b5 c6 d6  c6 b5 a5 g5 f5 e5 d5 
-// d5 d5 d5 d5  c5_SHARP d5 e5 f5 g5 a5 b5 c6  b5 a5 g5 f5 e5 d5 c5_SHARP 
-// d5 d5 d5 d5  c5_SHARP d5 e5 f5 g5 a5 b5 c6  b5 a5 g5 f5 e5 d5 c5_SHARP 
-// d5 c5_SHARP c5 b4  a4 g4 f4_SHARP f4  e4 d4 c4_SHARP c4  b3 a3 c3_SHARP g3 
+// d5 d5 d5 d5  e5 f5 g5 a5 b5 c6 d6  c6 b5 a5 g5 f5 e5 d5
+// d5 d5 d5 d5  e5 f5 g5 a5 b5 c6 d6  c6 b5 a5 g5 f5 e5 d5
+// d5 d5 d5 d5  c5_SHARP d5 e5 f5 g5 a5 b5 c6  b5 a5 g5 f5 e5 d5 c5_SHARP
+// d5 d5 d5 d5  c5_SHARP d5 e5 f5 g5 a5 b5 c6  b5 a5 g5 f5 e5 d5 c5_SHARP
+// d5 c5_SHARP c5 b4  a4 g4 f4_SHARP f4  e4 d4 c4_SHARP c4  b3 a3 c3_SHARP g3
 
 // music for a found harmonium
     /* the one in A major */
@@ -741,22 +742,22 @@ c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
     b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
     c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
     d5 a4 b4 a4 g4_SHARP a4 d5 a4
-    c5_SHARP a4 a4 a4 
-    //QUARTERNOTE 
+    c5_SHARP a4 a4 a4
+    //QUARTERNOTE
     a4 a4
-    // FULLNOTE 
+    // FULLNOTE
     /* previous 2 should be single quarter note */ a4 a4
     b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
     c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
     d5 a4 b4 a4 g4_SHARP a4 d5 a4
-    c5_SHARP a4 a4 a4 
+    c5_SHARP a4 a4 a4
     //QUARTERNOTE
-     a4 a4 
+     a4 a4
      //FULLNOTE
       /* previous 2 should be single quarter note */ a4 c5
 
     g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
-    g5_SHARP c5_SHARP b4 c5_SHARP b4 
+    g5_SHARP c5_SHARP b4 c5_SHARP b4
     //QUARTERNOTE
      b4 b4
      // FULLNOTE
@@ -764,7 +765,7 @@ c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
     g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
     g5_SHARP c5_SHARP b4 c5_SHARP b4
     // QUARTERNOTE
-     b4 b4 
+     b4 b4
      //FULLNOTE
       /* previous 2 should be single quarter note */ a4
 
@@ -790,9 +791,9 @@ c6 d6 e6 f#6 g6 a6 b6 c7 d7 e7 f#7 g7 a7 b7 c8 d8 e8 f#8 g8 a8 b8 c9 d9
     b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
     c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
     d5 a4 b4 a4 g4_SHARP a4 b5 a4
-    c5_SHARP a4 a4 a4 
+    c5_SHARP a4 a4 a4
     //QUARTERNOTE
-     a4 a4 
+     a4 a4
      //FULLNOTE
       /* previous 2 should be single quarter note */ a4 a4
     b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
@@ -952,4 +953,4 @@ aud0=aud0.ring
 
 #endif
 
-//EOF 
+//EOF

@@ -77,27 +77,27 @@ int secamConvert(int col) {
 
 
 int convertColour(int colour) {
- 
+
      switch (mm_tv_type) {
      case NTSC:
         break;
-     
+
      case SECAM: {
          colour = secamConvert(colour);
          break;
      }
- 
+
      case PAL:
      case PAL_60:
          colour = xlate[colour >> 4] | (colour & 0xF);
          break;
      }
-    
+
     return colour;
 }
 
 
-    
+
 void setFlash2(unsigned char col, int time) {
     ARENA_COLOUR = convertColour(col);
     flashTime = time;
@@ -116,7 +116,7 @@ void doFlash() {
 }
 
 
-#define FRANGE (0x100/22) 
+#define FRANGE (0x100/22)
 void setBackgroundPalette(unsigned char *c) {
 
     if (mm_tv_type == SECAM) {
@@ -230,11 +230,11 @@ void setPalette() {
     }
 
 
-    if (bgCol != lastBgCol) {
-        lastBgCol = bgCol;
-        for (int j = i; j < _ARENA_SCANLINES; j++)
-            bkCol[j] = bgCol;
-    }
+    // if (bgCol != lastBgCol) {
+    //     lastBgCol = bgCol;
+    //     for (int j = i; j < _ARENA_SCANLINES; j++)
+    //         bkCol[j] = bgCol;
+    // }
 
 
 //     if (
@@ -275,26 +275,67 @@ void setPalette() {
             roll = 2;
 
 
-        while (i < _ARENA_SCANLINES) {
+        static const int lavaColour[] = { 0x24, 0x34, 0x26, 0x24, 0x34 };
+        static const unsigned char lbg[] = { 0x2A, 0x46, 0x46, 0x44,
+            0x44, 0x44, 0x42,
+            0x42, 0x42, 0x42, 0x40
+        };
+
+        int lavaLine = (lavaSurface - (scrollY >> shift)) * 3;
+        int lavab = 0;
+        if (lavaLine < 0)
+            lavab = -lavaLine;
+        if (lavab >= (10 << 2))
+            lavab = (10 << 2);
+
+
+        while (i < lavaLine && i < _ARENA_SCANLINES) {
 
             pfCol[0] = rollColour[roll];
             pfCol[1] = rollColour[roll + 1];
             pfCol[2] = rollColour[roll + 2];
 
+            bkCol[0] = bgCol;
+            bkCol[1] = bgCol;
+            bkCol[2] = bgCol;
+
             pfCol += 3;
+            bkCol += 3;
 
             bgCharLine += 3;
             if (bgCharLine >= size) {
                 bgCharLine = 0;
-                rollColour[1] = rollColour[4] = bgPalette[++pfCharLine];                
+                rollColour[1] = rollColour[4] = bgPalette[++pfCharLine];
             }
 
             i += 3;
         }
 
 
+        while (i < _ARENA_SCANLINES) {
 
-        // if (displayMode != DISPLAY_OVERVIEW) {            
+
+            unsigned char lbgCol = lbg[(lavab >> 2)];
+
+            if (lavab < (10 << 2))
+                lavab += 3;
+
+            pfCol[0] = lavaColour[roll];
+            pfCol[1] = lavaColour[roll + 1];
+            pfCol[2] = lavaColour[roll + 2];
+
+            bkCol[0] = lbgCol;
+            bkCol[1] = lbgCol;
+            bkCol[2] = lbgCol;
+
+            pfCol += 3;
+            bkCol += 3;
+
+            i += 3;
+        }
+
+
+        // if (displayMode != DISPLAY_OVERVIEW) {
 
         //     int rollx = roll;
         //     static const unsigned char scoreColour[] = { 0x46, 0x98, 0xD8, 0x46, 0x98, 0x28, 0x28, 0x28 };
@@ -305,13 +346,13 @@ void setPalette() {
         //     unsigned char cc0 = convertColour(scoreColour[rollx]);
         //     unsigned char cc1 = convertColour(scoreColour[rollx + 1]);
         //     unsigned char cc2 = convertColour(scoreColour[rollx + 2]);
- 
+
         //      while (i < _ARENA_SCANLINES/*SCORE_SCANLINES*/) {
- 
+
         //          pfCol[0] = cc0;
         //          pfCol[1] = cc1;
         //          pfCol[2] = cc2;
- 
+
         //          pfCol += 3;
         //          i += 3;
         //    }
@@ -333,7 +374,7 @@ void loadPalette() {
 
     c += ((currentPalette & 15) << 2);
     setBackgroundPalette(c);
-  
+
     // ICC Colour Usage / Palette by line in char definition
 
     // 0        the soil - varies in colour down the screen ("background")
@@ -346,7 +387,7 @@ void loadPalette() {
     // charline colour line 1
     // charline colour line 2
     // charline colour line 0 (bg, 2 definitions)
-  
+
 
 // #if ENABLE_RAINBOW
 //     if (rainbow)

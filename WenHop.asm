@@ -5,14 +5,16 @@
 ; use ldx # or ldy # instead
 
         PROCESSOR 6502
-        include "vcs.h"       
+        include "vcs.h"
         include "macro.h"
         include "cdfj.h"
 
 __ENABLE_TRAINER = 0
-__ENABLE_ATARIVOX = 1       ; 415 bytes
+__ENABLE_ATARIVOX = 0       ; 415 bytes
 __ENABLE_WATER = 0
 __ENABLE_LAVA = 0
+
+__ENABLE_LAVA2 = 1
 
 
  IF __ENABLE_TRAINER == 1
@@ -21,7 +23,7 @@ __ENABLE_DEMO = 0       ; 260 bytes + joystick data (DO NOT ADJUST)
 __ENABLE_DEMO = 0;1       ; 260 bytes + joystick data (adjust this on/off as required)
 
  ENDIF
- 
+
     IF __ENABLE_ATARIVOX
         include "atarivox/speakjet.h"
     ENDIF
@@ -122,15 +124,15 @@ ARENA_BUFFER_SIZE   = 198    ; PF buffer size for largest arena
 ; in both banks of 6507 code.
 ;
 ; CHECK_ARENA_BUFFER_SIZE is used to make sure the playfield buffers are large
-; enough for the graphics. 
+; enough for the graphics.
 ;===============================================================================
 ;         MAC POSITION_OBJECT
 ;         ; sets X position of any object.  X holds which object, A holds position
 ; PosObject:              ; A holds X value
-;         sec             ; 2  
+;         sec             ; 2
 ;         sta WSYNC       ; X holds object, 0=P0, 1=P1, 2=M0, 3=M1, 4=Ball
 ; DivideLoop:
-;         sbc #15         ; 2  
+;         sbc #15         ; 2
 ;         bcs DivideLoop  ; 2  4
 ;         eor #7          ; 2  6
 ;         asl             ; 2  8
@@ -141,8 +143,8 @@ ARENA_BUFFER_SIZE   = 198    ; PF buffer size for largest arena
 ;         sta RESP0,X     ; 4 23 <- set object position
 ; SLEEP12: rts            ; 6 29
 ;         ENDM
-        
-            
+
+
         MAC CHECK_ARENA_BUFFER_SIZE
         ; trigger a compile time error if the arena buffer need to be increased
             IF {1} > ARENA_BUFFER_SIZE
@@ -150,8 +152,8 @@ ARENA_BUFFER_SIZE   = 198    ; PF buffer size for largest arena
                 err
             ENDIF
         ENDM
-        
-        
+
+
 ;===============================================================================
 ; Define Zero Page RAM Usage
 ;----------------------------------------
@@ -160,14 +162,14 @@ ARENA_BUFFER_SIZE   = 198    ; PF buffer size for largest arena
 ;===============================================================================
 
         SEG.U VARS
-        ORG $80       
-        
+        ORG $80
+
 Mode:           ds 1    ; $00 = splash, $01 = menu, $80 = game
                         ; these values allow for easy testing of Mode:
                         ;   LDA Mode
                         ;   BMI GAME_ROUTINE
                         ;   BNE MENU_ROUTINE
-                        ;   BEQ SPLASH_routine 
+                        ;   BEQ SPLASH_routine
 TimeLeftOS:     ds 1
 TimeLeftVB:     ds 1
 
@@ -190,8 +192,8 @@ offsetSK            ds 1        ; for calculating the SK slot address
 
 
         echo "----",($00FE - *) , "bytes of RAM left (space reserved for 2 byte stack)"
-             
-        
+
+
 
 ;===============================================================================
 ; Define Start of Cartridge
@@ -200,14 +202,14 @@ offsetSK            ds 1        ; for calculating the SK slot address
 ;   the ARM code that emulates the CDFJ coprocessor.
 ;===============================================================================
 
-                    SEG CODE    
+                    SEG CODE
                     ORG 0
-    
+
                     incbin "cdfdriver20190317.bin"
 
 SIZEOF_CDFJ_DRIVER = *
         echo "CDFJ driver = $0 - ", *, "(",[*]d, "bytes)"
-        
+
 ;===============================================================================
 ; ARM user code
 ; Banks 0 thru n
@@ -223,7 +225,7 @@ ARM_CODE
 SIZEOF_ARM_CODE = * - ARM_CODE
         echo "C (ARM code) =", ARM_CODE, "-", *, "(",[SIZEOF_ARM_CODE]d, "bytes)"
 
-        
+
 ;===============================================================================
 ; ARM Indirect Data
 ;----------------------------------------
@@ -261,7 +263,7 @@ END_OF_INDIRECT_DATA
 ;       2) compile C code to create ARM routines
 ;       3) assemble 6507 to create final ROM
 ;
-;   the ARM code could change size between steps 1 and 3, which would shift data 
+;   the ARM code could change size between steps 1 and 3, which would shift data
 ;   that immediately comes after it. So the data that C directly accesses needs
 ;   to be after an ORG to prevent it from moving.
 ;
@@ -293,7 +295,7 @@ END_OF_INDIRECT_DATA
 
     echo "FREE C-SPACE = ", [ARM_DIRECT_DATA - *]d, "bytes"
 
-BASE_6507_START SET ($7020)
+BASE_6507_START SET $7010+115
 #if __ENABLE_ATARIVOX
 BASE_6507_START SET BASE_6507_START - 84
 #endif
@@ -348,7 +350,7 @@ idleProcess         ; y = ARM function ID to call
 
                     ldx #0
                     stx DSPTR
-                    stx DSPTR           
+                    stx DSPTR
                     sty DSWRITE                     ; --> _RUN_FUNC (OS or VB)
 
                     ldy #$FF                        ; Run ARM code w/out digital audio interrupts
@@ -369,7 +371,7 @@ idleProcess         ; y = ARM function ID to call
 safeTimerWait       lda INTIM
                     bpl safeTimerWait
                     rts
-                    
+
 
 CallArmCode
 
@@ -377,15 +379,15 @@ CallArmCode
 
                     ldx #<_DS_TO_ARM
                     stx DSPTR
-                    stx DSPTR           
+                    stx DSPTR
 
                     sty DSWRITE                      ; --> _RUN_FUNC
                     ldx SWCHA
-                    stx DSWRITE                      ; joysticks -> _SWCHA 
+                    stx DSWRITE                      ; joysticks -> _SWCHA
                     ldx SWCHB
                     stx DSWRITE                      ; switches ->_SWCHB
                     ldx INPT4
-                    stx DSWRITE                      ; left fire ->_INPT4 
+                    stx DSWRITE                      ; left fire ->_INPT4
 ;                    ldx INPT5
 ;                    stx DSWRITE                      ; right fire ->_INPT5
 
@@ -394,7 +396,7 @@ runARM              ldx #$FF                         ; FF = Run ARM code w/out d
 
     ; EA-wait resumes here
 
-                    rts        
+                    rts
 
 
 
@@ -478,7 +480,7 @@ __DEMO_JOYSTICK
         dc {1} * 16 + {2}
     ENDM
 
-    MAC DOUBLECLICK 
+    MAC DOUBLECLICK
         M BUT+NONE,1
         M NONE,1
         M BUT+NONE,1
@@ -490,14 +492,14 @@ BUT = 0x80
 
 
  M NONE, 10
- 
+
 
  M NONE, 15
  M R,1
  M NONE, 3
  M BUT+R,5
  M D,1
- M R,2 
+ M R,2
  M D,1
  M NONE, 3
  M BUT+L,5
@@ -539,7 +541,7 @@ BUT = 0x80
  M NONE,4
  M U,1
  M NONE,6
- 
+
   M D,5
  M R,3
  M U,1
@@ -1295,7 +1297,7 @@ __DIGIT_SHAPE
        dc BXXX_X_X_
        dc BXX__X_X_
        dc B________
-        
+
 
        dc BX____XX_
        dc BXX___XX_
@@ -1650,7 +1652,7 @@ SERIAL_RDYMASK      equ     $02
                     lda #-6                 ; 2 @20
 .wasteCycles        adc #1                  ; 2         C is clear!
                     bcc .wasteCycles        ; 3(2) =5*6 - 1 = 29 loop
-                
+
                     SLEEP 6                 ; @55
 
                     txa                     ; 2 @57
@@ -1989,8 +1991,8 @@ NoSKfound
 ;    echo "regular 6502 code begins at", *
 
 
-;  .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   
-; / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ 
+;  .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.
+; / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \
 ;`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`
 
 
@@ -2008,8 +2010,8 @@ doMenuSystem
 
 
 
-;  .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   
-; / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ 
+;  .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.   .-.-.
+; / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \ / / \ \
 ;`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`-'   `-`
 
 
@@ -2053,7 +2055,7 @@ OverScan
     IF __ENABLE_ATARIVOX
          jsr speakJet
     ENDIF
-                    
+
                     ldy #_FN_GAME_OS
                     jsr idleProcess
 
@@ -2065,9 +2067,9 @@ VerticalSync:
                     sty WSYNC
 
 
-; --- start scanline 1 of Vertical Sync ---        
+; --- start scanline 1 of Vertical Sync ---
                     sty VSYNC           ; 3  3  turn on Vertical Sync signal
-                    sta TIM64T          ; 4  7        
+                    sta TIM64T          ; 4  7
 
 
 
@@ -2083,14 +2085,14 @@ VerticalSync:
 
                     ldy #<_DS_TO_ARM
                     sty DSPTR
-                    sty DSPTR           
+                    sty DSPTR
                     sty DSWRITE                     ; DUMMY
                     ldy SWCHA                       ; read state of both joysticks
-                    sty DSWRITE                     ; save in _SWCHA 
+                    sty DSWRITE                     ; save in _SWCHA
                     ldy SWCHB                       ; read state of console switches
                     sty DSWRITE                     ; save in _SWCHB
                     ldy INPT4                       ; read state of left joystick firebutton
-                    sty DSWRITE                     ; save in _INPT4 
+                    sty DSWRITE                     ; save in _INPT4
 ;                    ldy INPT5                       ; read state of right joystick firebutton
 ;                    sty DSWRITE                     ; save in _INPT5
 
@@ -2107,7 +2109,7 @@ VerticalSync:
 
 
 ;                    stx WSYNC           ; end of VerticalSync scanline 3
-;                    stx VSYNC           ; turn off Vertical Sync signal            
+;                    stx VSYNC           ; turn off Vertical Sync signal
 
 
                     ldx #1
@@ -2119,13 +2121,13 @@ VerticalSync:
 
                     sty WSYNC           ; 3 10/0
 
-; --- start scanline 2 of Vertical Sync ---        
+; --- start scanline 2 of Vertical Sync ---
         ; A BIT OF SPARE TIME HERE IF REQUIRED
 
 
 
                     sec
-                    sta WSYNC       
+                    sta WSYNC
 DivideLoop2         sbc #15
                     bcs DivideLoop2
 
@@ -2134,7 +2136,7 @@ DivideLoop2         sbc #15
                     asl
                     asl
                     asl
-                    
+
                     sta.wx HMP0,X
                     sta RESP0,X
 
@@ -2150,10 +2152,10 @@ DivideLoop2         sbc #15
 
 
                     lda #DSCOMM     ; = _P0_X
-                    
+
 
                     sec
-                    sta WSYNC       
+                    sta WSYNC
 DivideLoop3         sbc #15
                     bcs DivideLoop3
 
@@ -2190,7 +2192,7 @@ DivideLoop3         sbc #15
                     sta HMOVE
 
                     bne startAnyKernel
-        
+
 GameVB
 
     ; IF __ENABLE_ATARIVOX
@@ -2212,7 +2214,7 @@ GameVB
 InitSystem
                     cld
 
-                    
+
         ; Remarkable system clear by Omegamatrix
         ; SP=$FF, X=A=0
 
@@ -2292,7 +2294,7 @@ ARM_DIRECT_DATA_END
 
                     .WORD InitSystem
                     .WORD InitSystem
-        
+
 ;===============================================================================
 ; Display Data
 ;----------------------------------------
@@ -2425,10 +2427,10 @@ _BUFFER_BLOCK_SIZE = * - _BUFFERS
 ; ; this ORG overlaps the Menu datastreams on top of the Splash datastreams
 ; ;----------------------------------------
 
-;     ; Generic overlap variable usage 
+;     ; Generic overlap variable usage
 ;     ORG OverlapDisplayDataRam
 ;     echo "----",($1000 - *) , "Menu bytes of Example Overlap RAM left"
-    
+
 ; ;----------------------------------------
 ; ; this ORG overlaps the Game datastreams on top of the Splash and Menu datastreams
 ; ;----------------------------------------
@@ -2438,9 +2440,9 @@ _BUFFER_BLOCK_SIZE = * - _BUFFERS
 
 ;     align 4 ; need to be 4 byte aligned to use myMemsetInt
 ; _EVERY_FRAME_ZERO_COUNT=*-_EVERY_FRAME_ZERO_START   ; end of zeroed out data
-   
+
 
 
     ; modify custom.boot.lds to adjust display data RAM
 
-    echo "----",($E5F - *)d , "bytes of Display Data RAM avaialble"        
+    echo "----",($E5F - *)d , "bytes of Display Data RAM avaialble"

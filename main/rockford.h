@@ -1,7 +1,7 @@
 #ifndef __ROCKFORD_H
 #define __ROCKFORD_H
 
-void moveRockford(unsigned char *this, unsigned char blanker);
+void moveRockford(unsigned char *this);
 void initRockford();
 
 extern int frameAdjustX;

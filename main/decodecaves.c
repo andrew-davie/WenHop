@@ -3,12 +3,12 @@
        Jeff Bevis <bevis@ecn.purdue.edu>
        Peter Broadribb <peterb@perth.dialix.oz.au>
    28 Aug 1995
-   
+
    01 Oct 1995: Fixed bug in NextRandom(); I have now checked the output
    of NextRandom() against the output of the original 6510 code, and they
    appear to be generating the same numbers. However, the cave data,
    although _almost_ correct, doesn't seem exactly right. I'm puzzled. [PB]
-   
+
    */
 
 #include "defines_cdfj.h"
@@ -96,7 +96,7 @@ void decodeCave(int cave) {
     //displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
 
 
-    diamonds = theCave->diamondsRequired[level]; 
+    diamonds = theCave->diamondsRequired[level];
     time = (theCave->timeToComplete[level] << 8) + 60;
     millingTime = theCave->millingTime * 60;
 
@@ -147,7 +147,7 @@ int decodeExplicitData(bool sfx) {
                 for (int x = 1; x < 39; x++)
                     for (int object = 0; object < theCave->objectCount; object++) {
                         unsigned char *p = (&(theCave->objectData)) + object * 6;
-                        
+
                         // unsigned char *this = RAM + _BOARD + x + decodingRow * 40;
                         // if (GET(*this) == 0)
                             if ((getCaveRandom32() >> 24) < p[level + 1])
@@ -258,7 +258,7 @@ int decodeExplicitData(bool sfx) {
         }
 
         else {
- 
+
             d++;
 
             switch (cmd) {
@@ -306,7 +306,7 @@ int decodeExplicitData(bool sfx) {
             StoreObject(doorX, doorY, CH_DOORCLOSED);
         break;
 
-     
+
     default:
         break;
     }
@@ -337,20 +337,27 @@ void StoreObject(int x, int y, objectType anObject) {
         wyrmNum++;
     }
 
+    else if (CharToType[anObject] == TYPE_LAVA) {
+
+        int line = y * PIECE_DEPTH / 3;
+        if (lavaSurface > 0 && line < lavaSurface)
+            lavaSurface = line;
+    }
+
 
     *this = anObject; // | FLAG_UNCOVER;
 
     if (CharToType[GET(anObject)] == TYPE_DOGE)
         totalDiamondsPossible++;
 }
- 
+
 
 void DrawLine(objectType anObject, int x, int y, int aLength, int aDirection) {
 
     for (int counter = 0; counter < aLength; counter++) {
         StoreObject(x, y, anObject);
         x += ldxy[aDirection+2];
-        y += ldxy[aDirection];     
+        y += ldxy[aDirection];
     }
 }
 

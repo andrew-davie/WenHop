@@ -44,7 +44,7 @@ void grab(int frac, int size) {
             p2 = *Animate[type];
         img[col] = charSet[p2];
 
-    
+
         int udlr = 0;
 
         if (Attribute[CharToType[GET(p[base])]] & ATT_PAD) {
@@ -58,7 +58,7 @@ void grab(int frac, int size) {
             if (Attribute[CharToType[GET(p[base - 1])]] & ATT_CORNER)
                 udlr |= 8;
         }
-            
+
         static const unsigned char blank[] = {
             CH_BLANK,       // 00
             CH_BLANK,       // 01 U
@@ -258,7 +258,6 @@ bool drawBit(int x, int y) {
     if (line < 0 || line >= _ARENA_SCANLINES - 3) // || line < SCORE_SCANLINES)
         return false;
 
-
     int col = x - ((scrollX * 5) >> 16);
 //    int col = x - (scrollX >> 14);
     if (col < 0 || col > 39)
@@ -326,16 +325,16 @@ void rain() {
 
 #define CBLOCK ((PIECE_DEPTH/3) << 16)
 
-                if (rainY[i] > CBLOCK) {
-                    rainRow[i]++;
-                    rainY[i] -= CBLOCK;
-                }
+                // if (rainY[i] > CBLOCK) {
+                //     rainRow[i]++;
+                //     rainY[i] -= CBLOCK;
+                // }
 
-                else if (rainY[i] < 0) {
-                    rainRow[i]--;
-                    rainY[i] += CBLOCK;
+                // else if (rainY[i] < 0) {
+                //     rainRow[i]--;
+                //     rainY[i] += CBLOCK;
 
-                }
+                // }
 
                 if (rainAge[i])
                     if (!--rainAge[i]) {
@@ -343,7 +342,7 @@ void rain() {
                         continue;
                     }
 
-                if (!drawBit((rainX[i] >> 8), (rainRow[i] * CBLOCK + rainY[i]) >> 16))
+                if (!drawBit((rainX[i] >> 8), (/*rainRow[i] * CBLOCK +*/ rainY[i]) >> 16))
                     rainX[i] = -1;
             }
 

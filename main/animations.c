@@ -14,8 +14,6 @@ static const char AnimGrab[] = {
     CH_DUST_1, 6,
     CH_DUST_0, 6,
     CH_BLANK, ANIM_HALT,
-
-
 };
 
 static const char AnimConglomerateMid[] = {
@@ -34,27 +32,10 @@ static const char AnimSwitch[] = {
 };
 
 
-static const char AnimMagicWall[] = {
-
-    CH_BOULDER_DOGE, 3,
-    CH_DUST_0, 3,
-    ANIM_LOOP
-};
-
 static const char AnimFlashOut[] = {
 
     CH_DOOROPEN_0,20,
     CH_BLANK,20,
-    ANIM_LOOP
-};
-
-static const char AnimFirefly[] = {
-
-    CH_FIREFLY_0,2,
-    CH_FIREFLY_1,4,
-    CH_FIREFLY_2,5,
-    CH_FIREFLY_0,6,
-    CH_FIREFLY_2,4,
     ANIM_LOOP
 };
 
@@ -75,14 +56,6 @@ static const char AnimPulseDoge[] = {
     ANIM_LOOP
 };
 
-static const char AnimButterfly[] = {
-
-    CH_BUTTERFLY_0,6,
-    CH_BUTTERFLY_1,3,
-    CH_BUTTERFLY_2,4,
-    CH_BUTTERFLY_0,3,
-    ANIM_LOOP
-};
 
 static const char AnimRockford[] = {
 
@@ -100,7 +73,7 @@ static const char AnimRockford[] = {
 
     // @20...   see grab in rockford.c
 
-    CH_DIAMOND_WITHOUT_DIRT, 3,
+//    CH_DIAMOND_WITHOUT_DIRT, 3,
     CH_DOGE_GRAB,8,
 
     CH_ROCKFORD, ANIM_HALT,
@@ -114,7 +87,7 @@ static const char AnimRockford[] = {
 };
 
 
-const char *const AnimateBase[] = {
+const char *const AnimateBase[TYPE_MAX] = {
 
     // indexed by object TYPE (def: ObjectType in attribute.h)
     // =0 if object does not auto-animate
@@ -122,73 +95,43 @@ const char *const AnimateBase[] = {
     // Note that the type number is an ID, not ordinal. That's because the continuity may
     // be compromised by the conditional compilation. Beware.
 
-    0,                          // 00 TYPE_SPACE
-    0,                          // 01 TYPE_DIRT
-    0,                          // 02 TYPE_BRICKWALL
-    AnimMagicWall,              // 03 TYPE_MAGICWALL
-    0,                          // 04 TYPE_OUTBOX_PRE
-    AnimFlashOut,               // 05 TYPE_OUTBOX
-    0,                          // 06 TYPE_STEELWALL
-    AnimFirefly,                // 07 TYPE_FIREFLY
-    0,                          // 08 TYPE_BOULDER
-    AnimPulseDoge,              // 09 TYPE_DOGE
-    0,                          // 10 TYPE_EASTEREGG
-    0,                          // 11 TYPE_EXPLODE_DIAMOND_0
-    0,                          // 12 TYPE_EXPLODE_DIAMOND_1
-    0,                          // 13 TYPE_EXPLODE_DIAMOND_2
-    0,                          // 14 TYPE_EXPLODE_DIAMOND_3
-    0,                          // 15 TYPE_EXPLODE_DIAMOND_4
-    0,                          // 16 TYPE_ROCKFORD_PRE
-    AnimButterfly,              // 17 TYPE_BUTTERFLY
-    AnimRockford,               // 18 TYPE_ROCKFORD
-    0,                          // 19 TYPE_AMOEBA
-    AnimPulseDoge,              // 20 TYPE_DIAMOND_PULSE_0
-    AnimPulseDoge,              // 21 TYPE_DIAMOND_PULSE_1
-    AnimPulseDoge,              // 22 TYPE_DIAMOND_PULSE_2
-    AnimPulseDoge,              // 23 TYPE_DIAMOND_PULSE_3
-    AnimPulseDoge,              // 24 TYPE_DIAMOND_PULSE_4
-    AnimPulseDoge,              // 25 TYPE_DIAMOND_PULSE_5
-    AnimPulseDoge,              // 26 TYPE_DIAMOND_PULSE_6
-    AnimPulseDoge,              // 27 TYPE_DIAMOND_STATIC
-    0,                          // 28 TYPE_PEBBLE1
-    0,                          // 29 TYPE_PEBBLE2
-    0,                          // 30 TYPE_EXPLODE_BLANK_0
-    0,                          // 31 TYPE_EXPLODE_BLANK_1
-    0,                          // 32 TYPE_EXPLODE_BLANK_2
-    0,                          // 33 TYPE_EXPLODE_BLANK_3
-    0,                          // 34 TYPE_EXPLODE_BLANK_4
-    AnimGrab,                   // 35 TYPE_GRAB
-    0,                          // 36 TYPE_DUST_0
-    0,                          // 37 TYPE_DUST_1
-    0,                          // 38 TYPE_DUST_2
-    0,                          // 40 TYPE_DUST_LEFT
-    0,                          // 41 TYPE_DUST_RIGHT
-    0,                          // 42 TYPE_DOGE_FALLING
-    0,                          // 44 TYPE_BOULDER_FALLING
-    0,                          // 46 TYPE_DUST_ROCK
-    0,                          // 47 TYPE_DOGE_CONVERT
-    AnimSwitch,                 // 48 TYPE_SWITCH
-    0,                          // 49 TYPE_PUSHER
-    0,                          // 50 TYPE_PUSHER_VERT
-    0,                          // 51 TYPE_WYRM
-    // 0,                          // 52 TYPE_LIFE
-    0,                          // 53 TYPE_BOULDER_DOGE_FALLING
-    0,                          // 53 TYPE_BOULDER_FALLING
-    AnimConglomerateMid,        // 54 TYPE_BOULDER_DOGE_DRITICAL
-
-#if __ENABLE_LAVA    
-    0,                          // 47 TYPE_LAVA
-#endif
-
-#if __ENABLE_WATER    
-    0,                          // 48 TYPE_WATER
-#endif
+    0,                          // 00 TYPE_SPACE,
+    0,                          // 01 TYPE_DIRT,
+    0,                          // 02 TYPE_BRICKWALL,
+    0,                          // 03 TYPE_OUTBOX_PRE,
+    AnimFlashOut,               // 04 TYPE_OUTBOX,
+    0,                          // 05 TYPE_STEELWALL,
+    0,                          // 06 TYPE_BOULDER,
+    AnimPulseDoge,              // 07 TYPE_DOGE,
+    0,                          // 08 TYPE_ROCKFORD_PRE,
+    AnimRockford,               // 09 TYPE_ROCKFORD,
+    0,                          // 10 TYPE_PEBBLE1,
+    0,                          // 11 TYPE_PEBBLE2,
+    AnimGrab,                   // 12 TYPE_GRAB,
+    0,                          // 13 TYPE_DUST_0,
+    // 0,                          // 14 TYPE_DUST_1,
+    // 0,                          // 15 TYPE_DUST_2,
+    0,                          // 16 TYPE_DUST_LEFT,
+    0,                          // 17 TYPE_DUST_RIGHT,
+    0,                          // 18 TYPE_DOGE_FALLING,
+    0,                          // 19 TYPE_BOULDER_FALLING,
+    0,                          // 20 TYPE_DUST_ROCK,
+    0,                          // 21 TYPE_DOGE_CONVERT,
+    AnimSwitch,                 // 22 TYPE_SWITCH,
+    0,                          // 23 TYPE_PUSHER,
+    0,                          // 24 TYPE_PUSHER_VERT,
+    0,                          // 25 TYPE_WYRM,
+    0,                          // 26 TYPE_BOULDER_DOGE,
+    0,                          // 27 TYPE_BOULDER_DOGE_FALLING,
+    AnimConglomerateMid,        // 28 TYPE_BOULDER_DOGE_CRITICAL,
+    0,                          // 29 TYPE_LAVA,
+    0,                          // 30 TYPE_PEBBLE_BOULDER,
 };
 
 
 
 void initCharAnimations() {
-    
+
     for (int type = 0; type < TYPE_MAX; type++)
         startCharAnimation(type, AnimateBase[type]);
 }
