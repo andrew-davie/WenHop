@@ -90,8 +90,8 @@ const unsigned char joyDirectBit[] = {
 const signed char faceDirection[] = {
     FACE_LEFT,
     FACE_RIGHT,
-    0,
-    0,
+    FACE_UP,
+    FACE_DOWN,
 };
 
 const signed char animDeltaX[] = {
@@ -362,6 +362,14 @@ bool checkHighPriorityMove(int dir) {
 int waitForNothing;
 
 
+const unsigned char mineAnimation[4] = {
+    ID_Push,
+    ID_Push,
+    ID_MineUp,
+    ID_MineDown,
+};
+
+
 bool checkLowPriorityMove(int dir) {
 
 
@@ -373,16 +381,14 @@ bool checkLowPriorityMove(int dir) {
 
     int offset = dirOffset[dir];
     unsigned char *thisOffset = this + offset;
-    unsigned char destType = CharToType[(*thisOffset) & 0x7F];
+    unsigned char destType = CharToType[GET(*thisOffset)];
 
     #if 1  // disable push
-    if (faceDirection[dir] && (Attribute[destType] & ATT_PUSH)
-        && !(Attribute[CharToType[(*(thisOffset + 40)) & 0x7F]] & ATT_BLANK)) {
-
+    if (faceDirection[dir] && (Attribute[destType] & ATT_PUSH)) {
 
         if (++pushCounter > 1) {
-            if (playerAnimationID != ID_Push)
-                startPlayerAnimation(ID_Push);
+            if (playerAnimationID != mineAnimation[dir])
+                startPlayerAnimation(mineAnimation[dir]);
         }
         else {
             ADDAUDIO(SFX_SPACE);
@@ -532,13 +538,13 @@ void moveRockford(unsigned char *this) {
 
     if (!autoMoveFrameCount) {
 
-        if (playerAnimationID == ID_WalkUp)
+        if (playerAnimationID == ID_WalkUp || playerAnimationID == ID_MineUp)
             startPlayerAnimation(ID_StandUp);
 
-        else if (playerAnimationID == ID_Walk)
+        else if (playerAnimationID == ID_Walk || playerAnimationID == ID_Push)
             startPlayerAnimation(ID_StandLR);
 
-        else if (playerAnimationID == ID_WalkDown)
+        else if (playerAnimationID == ID_WalkDown || playerAnimationID == ID_MineDown)
             startPlayerAnimation(ID_Stand);
     }
 

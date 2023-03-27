@@ -37,7 +37,7 @@ enum FRAME {
 
     FRAME_ARMSCROSSED,      // 25
 
-//#if ENABLE_SHAKE    
+//#if ENABLE_SHAKE
 //    FRAME_SHAKE,            // 28
 //    FRAME_SHAKE2,           // 29
 //    FRAME_SHAKE3,           // 30
@@ -55,7 +55,10 @@ enum FRAME {
     FRAME_WALKDOWN2,
     FRAME_WALKDOWN3,
 
-
+    FRAME_MINE_UP_0,
+    FRAME_MINE_UP_1,
+    FRAME_MINE_DOWN_0,
+    FRAME_MINE_DOWN_1,
 
 
     // actions start after frames
@@ -83,11 +86,11 @@ enum AnimationIdent {
     ID_Die,             // 05
     ID_Walk,            // 06
     ID_Skeleton,        // 07
-    // ID_Skeleton2,       // 08
-    ID_Locked,          // 09
-    ID_WalkUp,          // 10
-    ID_WalkDown,        // 11
-
+    ID_Locked,          // 08
+    ID_WalkUp,          // 09
+    ID_WalkDown,        // 10
+    ID_MineUp,          // 11
+    ID_MineDown,        // 12
 };
 
 extern int autoMoveX;
