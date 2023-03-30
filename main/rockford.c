@@ -214,10 +214,10 @@ bool checkHighPriorityMove(int dir) {
     unsigned char destType = CharToType[(*thisOffset) & 0x7F];
     bool dirtFlag = false;
 
-    if (!(inpt4 & 0x80)) {        // fire button
+    if (!waitRelease && !(inpt4 & 0x80)) {        // fire button
 
-    extern int shakeTime;
-        shakeTime += 10;
+    // extern int shakeTime;
+    //     shakeTime += 10;
 
         triggerPressCounter = 999;
 
@@ -265,13 +265,17 @@ bool checkHighPriorityMove(int dir) {
                 exitMode = 151;
                 waitRelease = true;
                 canPlay[level] |= 1 << (cave + 1);
-
-
             }
 
             else if (destType == TYPE_SWITCH) {
                 switchOn = !switchOn;
             }
+
+            else if (destType == TYPE_FLIP_GRAVITY) {
+                nextGravity = -gravity;
+                FLASH(0xC5,1);
+            }
+
 
             // else if (destType == TYPE_EASTEREGG) {
             //     FLASH(0x8, 10);
@@ -282,7 +286,6 @@ bool checkHighPriorityMove(int dir) {
             else if (Attribute[destType] & ATT_GRAB) {
                 grabDoge(thisOffset);
                 grabbed = true;
-
             }
 
             rockfordX += xInc[joyDirectBit[dir]];
@@ -387,8 +390,12 @@ bool checkLowPriorityMove(int dir) {
     if (faceDirection[dir] && (Attribute[destType] & ATT_PUSH)) {
 
         if (++pushCounter > 1) {
-            if (playerAnimationID != mineAnimation[dir])
-                startPlayerAnimation(mineAnimation[dir]);
+            int anim = mineAnimation[dir];
+            if (dir > 1 && gravity < 0)
+                anim ^= ID_MineDown ^ ID_MineUp;
+
+            if (playerAnimationID != anim)
+                startPlayerAnimation(anim);
         }
         else {
             ADDAUDIO(SFX_SPACE);
@@ -504,9 +511,13 @@ void moveRockford(unsigned char *this) {
 
     handled = false;
 
-    if (!(inpt4 & 0x80))        // fire button
-        shakeTime += 10;
+    if (!(inpt4 & 0x80)) {        // fire button
+        // shakeTime += 10;
 
+        if (Attribute[CharToType[GET(*(this + 1))]] & ATT_BLANK)
+            *(this + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
+
+    }
 
 
     static unsigned char lastUsableSWCHA = 0;

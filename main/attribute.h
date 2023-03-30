@@ -42,6 +42,11 @@ enum ObjectType {
     TYPE_BOULDER_DOGE_CRITICAL, // 28
     TYPE_LAVA,                  // 29
     TYPE_PEBBLE_BOULDER,        // 30
+    TYPE_FLIP_GRAVITY,          // 31
+    TYPE_ZAP,                   // 32
+    TYPE_BLOCK,                 // 33
+    TYPE_PACMAN_DOT,            // 34
+    TYPE_AIRHOSE,               // 35
 
     TYPE_MAX
 };
@@ -154,6 +159,15 @@ enum ChName {
     CH_CONGLOMERATE_MID,            // 093
     CH_BOULDER_DOGE,                // 094
     CH_BOULDER_DOGE_FALLING,        // 095
+    CH_FLIP_GRAVITY_0,              // 096
+    CH_FLIP_GRAVITY_1,              // 097
+    CH_FLIP_GRAVITY_2,              // 098
+    CH_HORIZ_ZAP_0,                 // 099
+    CH_HORIZ_ZAP_1,                 // 100
+    CH_HORIZ_ZAP_2,                 // 101
+    CH_BLOCK,                       // 102
+    CH_PACMAN_DOT,                  // 103
+    CH_HORIZ_ZAP_3,                 // 104
 
 // 127 is limit
 
@@ -186,5 +200,7 @@ enum ChName {
 #define ATT_BOULDER_DOGE (1 << 27)
 #define ATT_MELTS (1 << 26)
 #define ATT_DISSOLVES (1 << 25)
+#define ATT_PULL (1 << 24)
+
 
 #endif

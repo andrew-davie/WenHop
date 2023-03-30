@@ -197,7 +197,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
         int shapeHeight = *spr++;
 
-        ypos += 30 - (shapeHeight & 0x7f);
+        ypos += 30 - (shapeHeight & 0x3f);
 
 
         int frameOffset = *(const signed char *)spr++;
@@ -221,7 +221,13 @@ void drawPlayerSprite() {  // --> 3171 cycles
             P1_X = P0_X + 8;
 
 
-        if (!(shapeHeight & 0x80)) {
+        extern int gravity;
+        int destLine = -1;
+
+        if (gravity < 0)
+            destLine = (shapeHeight & 0x3F) - 4;
+
+        if (shapeHeight & SPRITE_DOUBLE) {
 
             unsigned char *p0Colour = RAM + _BUF_COLUP0 + playerSpriteY + 1;
             unsigned char *p0 = RAM + _BUF_GRP0A + playerSpriteY;
@@ -229,29 +235,41 @@ void drawPlayerSprite() {  // --> 3171 cycles
             unsigned char *p1Colour = p0Colour + _ARENA_SCANLINES;
             unsigned char *p1 = p0 + _ARENA_SCANLINES;
 
-            for (int line = 0; line < (shapeHeight & 0x7f); line++) {
+            for (int line = 0; line < (shapeHeight & 0x3f); line++) {
 
                 if (rockfordFaceDirection == FACE_RIGHT) {
-                    p0[line] = *spr++;
-                    p1[line] = *spr++;
+                    p0[destLine] = *spr++;
+                    p1[destLine] = *spr++;
                 }
 
                 else {
-                    p0[line] = BitRev[(unsigned char) *spr++];
-                    p1[line] = BitRev[(unsigned char) *spr++];
+                    p0[destLine] = BitRev[(unsigned char) *spr++];
+                    p1[destLine] = BitRev[(unsigned char) *spr++];
                 }
 
                 int c1 = *spr >> 4;
                 int c2 = *spr++ & 0xF;
 
-                p0Colour[line] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
-                p1Colour[line] = (dynamicPlayerColours[c2] & 0xF) ^ postProcessPlayerColours[c2];
-
-                if (playerSpriteY++ >= lavaLine) {
-                    p0Colour[line] = ((p0Colour[line] & 0x0f) - 2) ^ (rooted & 0xF0);
-                    p1Colour[line] = ((p1Colour[line] & 0x0f) - 2) ^ (rooted & 0xF0);
+                if (shapeHeight & SPRITE_ABSCOLOUR) {
+                    p0Colour[destLine] = c1;
+                    p1Colour[destLine] = c2;
                 }
+
+                else {
+
+
+                    p0Colour[destLine] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
+                    p1Colour[destLine] = (dynamicPlayerColours[c2] & 0xF) ^ postProcessPlayerColours[c2];
+
+                    if (playerSpriteY++ >= lavaLine) {
+                        p0Colour[destLine] = ((p0Colour[destLine] & 0x0f) - 2) ^ (rooted & 0xF0);
+                        p1Colour[destLine] = ((p1Colour[destLine] & 0x0f) - 2) ^ (rooted & 0xF0);
+                    }
+                }
+
+                destLine += gravity;
             }
+
 
         }
 
@@ -260,19 +278,29 @@ void drawPlayerSprite() {  // --> 3171 cycles
             unsigned char *p0Colour = RAM + _BUF_COLUP0 + playerSpriteY + 1;
             unsigned char *p0 = RAM + _BUF_GRP0A + playerSpriteY;
 
-            for (int line = 0; line < (shapeHeight & 0x7F); line++) {
+
+            for (int line = 0; line < (shapeHeight & 0x3F); line++) {
 
                 if (rockfordFaceDirection == FACE_RIGHT)
-                    p0[line] = *spr++;
+                    p0[destLine] = *spr++;
                 else
-                    p0[line] = BitRev[(unsigned char) *spr++];
+                    p0[destLine] = BitRev[(unsigned char) *spr++];
 
                 int c1 = *spr++ >> 4;
-                p0Colour[line] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
 
-                if (playerSpriteY++ >= lavaLine) {
-                    p0Colour[line] = ((p0Colour[line] & 0x0f) - 2) ^ (rooted & 0xF0);
+                if (shapeHeight & SPRITE_ABSCOLOUR)
+                    p0Colour[destLine] = c1;
+
+                else {
+
+                    p0Colour[destLine] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
+
+                    if (playerSpriteY++ >= lavaLine) {
+                        p0Colour[destLine] = ((p0Colour[destLine] & 0x0f) - 2) ^ (rooted & 0xF0);
+                    }
                 }
+
+                destLine += gravity;
             }
         }
 

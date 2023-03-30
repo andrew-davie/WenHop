@@ -59,6 +59,8 @@ int lavaSurface;
 static int boardRow;
 int boardCol;
 
+int gravity;
+int nextGravity;
 
 int canPlay[5];
 
@@ -312,8 +314,13 @@ int sphereDot(int dripX, int dripY, int type, int age, int speed) {
 
 
 void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY, int speed) {
+
+    int y = offsetY;
+    if (gravity < 0) {
+        y = PIECE_DEPTH / 3 - y;
+    }
     for (int i = 0; i < count; i++)
-        sphereDot((dripX * 5 + offsetX) << 8, (dripY * (PIECE_DEPTH / 3) + offsetY) << 16, type, age, speed);
+        sphereDot((dripX * 5 + offsetX) << 8, (dripY * (PIECE_DEPTH / 3) + y) << 16, type, age, speed);
 }
 
 
@@ -572,6 +579,7 @@ void initNextLife() {
     triggerPressCounter = 0;
     triggerOffCounter = 0;
     // expandSpeed = 0;
+    nextGravity = 1;
 
     dogeBlockCount = 0;
     cumulativeBlockCount = 0;
@@ -1410,7 +1418,7 @@ void setupBoard() {
     if (frameCounter > gameSpeed) {
 
         if (lavaSurface && !rangeRandom(6)) {
-            --lavaSurface;
+            lavaSurface -= gravity;
 
             // if (!rangeRandom(20)) {
             //     shakeTime += 10;
@@ -1425,12 +1433,21 @@ void setupBoard() {
 
         frameCounter = 0;
         gameFrame++;
+        gravity = nextGravity;
 
         usableSWCHA = bufferedSWCHA;
         bufferedSWCHA = 0xFF;
 
-        boardCol = -1;
-        boardRow = 0;
+        if (boardRow < 0) {
+            boardRow = 21;
+            boardCol = 39;
+        }
+
+        else {
+            boardCol = -1;
+            boardRow = 0;
+        }
+
         //dogeBlockCount = 0;
         //cumulativeBlockCount = 0;
 
@@ -1634,8 +1651,9 @@ void genericPush(int offsetX, int offsetY) {
 
             if (Attribute[CharToType[GET(*(pushPosFurther))]] & (ATT_BLANK | ATT_GRAB)) {
 
-                *pushPosFurther = *pushPos | ((pushPosFurther > this) ? FLAG_THISFRAME : 0);
-                *pushPos = CH_BLANK | ((pushPos > this) ? FLAG_THISFRAME : 0);
+                // Note we may have a lagging flag clear until next frame but who cares
+                *pushPosFurther = *pushPos | FLAG_THISFRAME;
+                *pushPos = CH_BLANK | FLAG_THISFRAME; //((pushPos > this) ? FLAG_THISFRAME : 0);
                 autoMoveY = 0;
                 autoMoveY = 0;
                 autoMoveFrameCount = 0;
@@ -1653,7 +1671,7 @@ void genericPush(int offsetX, int offsetY) {
                 nDots(3, boardCol + offsetX, boardRow + offsetY, 3, -150, 2, 4, 0x10000);
 
 
-            *pushPos = *this | ((pushPos > this) ? FLAG_THISFRAME : 0);
+            *pushPos = *this | FLAG_THISFRAME; //((pushPos > this) ? FLAG_THISFRAME : 0);
             *this = offsetX? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
 
             // dots for a solid impact on NEXT move
@@ -1682,7 +1700,7 @@ void genericPushReverse(int offsetX, int offsetY) {
         int type = CharToType[GET(*pushPos)];
 
         if (type == TYPE_PUSHER) {
-            *pushPos = *this | ((pushPos > this) ? FLAG_THISFRAME : 0);
+            *pushPos = *this | FLAG_THISFRAME; //((pushPos > this) ? FLAG_THISFRAME : 0);
             *this = CH_BLANK | FLAG_THISFRAME;
         }
         else
@@ -1721,16 +1739,24 @@ void processBoardSquares() {
         int lastBoardCol = boardCol;
 
 
-        boardCol++;
-        if (boardCol > 39) {
+        boardCol += gravity;
+        if (boardCol > 39 || boardCol < 0) {
 
             // lastCreature = 0;
 
-            boardCol = 0;
-            boardRow++;
+            if (boardCol < 0) {
+                boardCol = 39;
+                boardRow--;
+            }
+
+            else {
+                boardCol = 0;
+                boardRow++;
+            }
 
 
-            if (boardRow > 21) {
+
+            if (boardRow > 21 || boardRow < 0) {
 
                 awyrm();
                 randomPebble();
@@ -1858,8 +1884,8 @@ void processBoardSquares() {
 //        worstEverCreature = creature;
 #endif
 
-        unsigned char *prev = this - 40;
-        unsigned char *next = this + 40;
+        unsigned char *prev = this - 40 * gravity;
+        unsigned char *next = this + 40 * gravity;
 
 
     #if __ENABLE_WATER
@@ -2064,6 +2090,38 @@ void processBoardSquares() {
 
                     switch (creature) {
 
+
+                    case CH_HORIZ_ZAP_0: {
+
+                        int att = Attribute[CharToType[GET(*(this + 1))]];
+                        if (/*!(gameFrame & 3) &&*/ att & ATT_BLANK) {
+                            *(this + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
+                            *(this) = CH_HORIZ_ZAP_1 | FLAG_THISFRAME;
+                        }
+                        else {
+                            if (att & ATT_PULL) {
+                                *this = *(this + 1) | FLAG_THISFRAME;
+                                *(this + 1) = CH_BLANK | FLAG_THISFRAME;
+
+                                if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
+                                    *(this - 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
+                            }
+                            else {
+                                *this = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
+                            }
+                        }
+                        conglomerate();
+                        break;
+                    }
+
+                    case CH_HORIZ_ZAP_2: {
+                        *this = CH_BLANK | FLAG_THISFRAME;
+                        if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
+                            *(this - 1) = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
+                        break;
+                    }
+
+
                     case CH_PEBBLE_BOULDER:
                         *this = CH_BOULDER_DOGE | FLAG_THISFRAME;
                         break;
@@ -2173,6 +2231,18 @@ void processBoardSquares() {
 
                         break;
                     }
+
+
+                    case CH_BLOCK: {
+
+                        unsigned char typeDown = CharToType[GET(*next)];
+                        if (Attribute[typeDown] & ATT_BLANK) {
+                            *next = CH_BLOCK | FLAG_THISFRAME;
+                            *this = CH_DUST_0 | FLAG_THISFRAME;
+                        }
+                        break;
+                    }
+
 
                     case CH_CONGLOMERATE:
                     case CH_CONGLOMERATE_1:
@@ -2344,10 +2414,10 @@ void processBoardSquares() {
                         break;
                     }
 
-                    // case CH_DOORCLOSED:
-                    //     if (!diamonds)
-                    //         *this = CH_DOOROPEN_0;
-                    //     break;
+                    case CH_DOORCLOSED:
+                        if (!diamonds)
+                            *this = CH_DOOROPEN_0;
+                        break;
 
                     case CH_ROCKFORD_BIRTH:
 
@@ -2392,7 +2462,7 @@ void processBoardSquares() {
 
     // Clear any "scanned this frame" objects on the previous line
     // note: we need to also do the last row ... or do we? if it's steel wall, no
-    if (boardRow > 1)
+    if ((gravity > 0 && boardRow > 1) || (gravity < 0 && boardRow < 21))
         *prev &= ~FLAG_THISFRAME;
 
     #if WORST_TIMING

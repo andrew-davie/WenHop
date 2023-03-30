@@ -103,6 +103,15 @@ const unsigned char CharToType[CH_MAX]= {
     TYPE_BOULDER,                   // 093 CH_CONGLOMERATE_MID,
     TYPE_BOULDER_DOGE,              // 094 CH_BOULDER_DOGE,
     TYPE_BOULDER_DOGE_FALLING,      // 095 CH_BOULDER_DOGE_FALLING,
+    TYPE_FLIP_GRAVITY,              // 096 CH_FLIP_GRAVITY_0,
+    TYPE_FLIP_GRAVITY,              // 097 CH_FLIP_GRAVITY_1,
+    TYPE_FLIP_GRAVITY,              // 098 CH_FLIP_GRAVITY_2,
+    TYPE_ZAP,                       // 099 CH_HORIZ_ZAP_0,
+    TYPE_ZAP,                       // 100 CH_HORIZ_ZAP_1,
+    TYPE_ZAP,                       // 101 CH_HORIZ_ZAP_2,
+    TYPE_BLOCK,                     // 102 CH_BLOCK,
+    TYPE_PACMAN_DOT,                // 103 CH_PACMAN_DOT,
+    TYPE_AIRHOSE,                   // 104 CH_HORIZ_ZAP_3,
 };
 
 
@@ -137,6 +146,7 @@ const int Attribute[TYPE_MAX] = {
 #define DGE ATT_BOULDER_DOGE
 #define MLT ATT_MELTS
 #define DIS ATT_DISSOLVES
+#define PUL ATT_PULL
 
 //  LAV =   Object immediately turns into lava bubbles when below lava line
 //  QUI =   Quiet object. No noise genrate when things fall onto it
@@ -148,7 +158,7 @@ const int Attribute[TYPE_MAX] = {
 //  PAD =   do the corner padding for this creature type
 //  SHV =   the pushers can push this object if next square blank
 //  MLT =   melts when in lava -> CH_LAVA_00
-//                                                                                                                          e           k
+//  PUL =   object pulled by lassoo                                                                                                                        e           k
 //                                                                                                                         s           n                       e
 //                                                                                                    y       k           i           a                   e   l
 //                                                                                                   d       n           o           l       s           l   b   y
@@ -160,7 +170,7 @@ const int Attribute[TYPE_MAX] = {
 //                                                                                     I   r   o   u   e   a   a   o   x   a   q   c   x   r   l   e   x   i   o
 //                                                                                    D   D   R   P   S   W   L   N   E   H   S   A   E   G   B   P   E   K   R
 //                                                                                    |   |   |   |   |x  |x  |x  |   |   |   |   |   |   |   |   |   |   |   |
-// CNR PAD SHV BOU DGE MLT DIS                                                       --- DRP RKF PSH SSP WTR LAV QUI XIT HRD SQB ACT BNG GRB SPC PER XPD FLY ROL
+// CNR PAD SHV BOU DGE MLT DIS PUL                                                   --- DRP RKF PSH SSP WTR LAV QUI XIT HRD SQB ACT BNG GRB SPC PER XPD FLY ROL
 
     _ |PAD| _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ |WTR|LAV|QUI| _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 00 TYPE_SPACE,
    CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |   DRT|DRP| _ | _ | _ |WTR|LAV| _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 01 TYPE_DIRT,
@@ -168,8 +178,8 @@ const int Attribute[TYPE_MAX] = {
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 03 TYPE_OUTBOX_PRE,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ |XIT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 04 TYPE_OUTBOX,
    CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _  , // 05 TYPE_STEELWALL,
-    _ |PAD|SHV|BOU| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 06 TYPE_BOULDER,
-    _ |PAD|SHV| _ | _ |MLT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG|GRB| _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
+    _ |PAD|SHV|BOU| _ | _ | _ |PUL| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 06 TYPE_BOULDER,
+    _ |PAD|SHV| _ | _ |MLT| _ |PUL| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG|GRB| _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 08 TYPE_ROCKFORD_PRE,
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ |SQB|ACT| _ | _ | _ | _ |XPD|FLY| _  , // 09 TYPE_ROCKFORD,
    CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |   DRT|DRP| _ | _ | _ |WTR|LAV| _ | _ | _ | _ |ACT| _ | _ | _ |PER|XPD| _ | _  , // 10 TYPE_PEBBLE1,
@@ -188,11 +198,16 @@ const int Attribute[TYPE_MAX] = {
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ |ROL , // 23 TYPE_PUSHER,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 24 TYPE_PUSHER_VERT,
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 25 TYPE_WYRM,
-    _ |PAD|SHV|BOU|DGE|MLT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 26 TYPE_BOULDER_DOGE,
+    _ |PAD|SHV|BOU|DGE|MLT| _ |PUL| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 26 TYPE_BOULDER_DOGE,
     _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 27 TYPE_BOULDER_DOGE_FALLING,
     _ |PAD|SHV|BOU|DGE| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 28 TYPE_BOULDER_DOGE_CRITICAL,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ |SPC| _ |XPD| _ | _  , // 29 TYPE_LAVA,
-    _ | _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ |PER|XPD| _ | _  , // 30 TYPE_PEBBLE_BOULDER,
+    _ |PAD| _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ |PER|XPD| _ | _  , // 30 TYPE_PEBBLE_BOULDER,
+    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ |PER|XPD| _ | _  , // 31 TYPE_FLIP_GRAVITY
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 32 TYPE_ZAP
+    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 33 TYPE_BLOCK
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 34 TYPE_PACMAN_DOT
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 35 TYPE_AIRHOSE
 
 
 

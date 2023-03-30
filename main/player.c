@@ -422,7 +422,6 @@ unsigned int playerAnimationCount = 0;
 #define BDY1 14
 #define BDY2 15
 
-
 const unsigned char redirect[] = { 0, 1, 1, 2};
 const unsigned char playerColour[] = {
 
@@ -2171,8 +2170,8 @@ const unsigned char shape_FRAME_BLANK[] = {            // 00
 
 const unsigned char shape_FRAME_STAND[] = {
 
-    0x80 | 26, //(26 + 24),
-    4+0, 0,// -12,
+    26,
+    4+0, 0,
 
     SP2( __XXXX__, HMT0 ),     // 00
     SP2( _XXXXXX_, HMT0 ),     // 01
@@ -2201,25 +2200,11 @@ const unsigned char shape_FRAME_STAND[] = {
     SP2( __X__X__, HMT2 ),     // 24
     SP2( __X__X__, HMT0 ),     // 25
 
-    // SP2( __X__X__, BONE), // 11
-    // SP2( __X_____, BONE), // 10
-    // SP2( ___X____, BONE), // 09
-    // SP2( ___X____, BONE), // 08
-    // SP2( ____X__X, BONE), // 07
-    // SP2( ____X__X, BONE), // 06
-    // SP2( _____X_X, BONE), // 05
-    // SP2( _____XX_, BONE), // 04
-    // SP2( ______X_, BONE), // 03
-    // SP2( _____X__, BONE), // 02
-    // SP2( ___XX___, BONE), // 01
-    // SP2( ______X_, BONE), // 00
-
-
 };
 
 const unsigned char shape_FRAME_ARMS_IN_AIR[] = {      // 02
 
-    24,
+    SPRITE_DOUBLE | 24,
     2, 5,
 
     SP(__X_____,_X______, HMT0, BONE), // 00
@@ -2250,7 +2235,7 @@ const unsigned char shape_FRAME_ARMS_IN_AIR[] = {      // 02
 
 const unsigned char shape_FRAME_HUNCH[] = {            // 03
 
-    0x80 | 26,
+    26,
     4+0, 0,
 
     SP2( ___XXX__, HMT0 ), // 00
@@ -2285,7 +2270,7 @@ const unsigned char shape_FRAME_HUNCH[] = {            // 03
 
 const unsigned char shape_FRAME_PUSH[] = {             // 04
 
-    25,
+    SPRITE_DOUBLE | 25,
     4, 0,
 
     SP( ___XXXX_, ________, HMT0, BONE), // 00
@@ -2317,7 +2302,7 @@ const unsigned char shape_FRAME_PUSH[] = {             // 04
 
 const unsigned char shape_FRAME_PUSH2[] = {            // 05
 
-    26,
+    SPRITE_DOUBLE | 26,
     4, 0,
 
     SP( ________,_XX_____, BONE, BONE), // 00
@@ -2371,7 +2356,7 @@ const unsigned char shape_FRAME_BLINK[] = {            // 12
 
 const unsigned char shape_FRAME_WALK1[] = {            // 13
 
-    0x80 | 26,
+    26,
     5, 0,
 
     SP2( __XXXX__, HMT0 ), // 00
@@ -2405,7 +2390,7 @@ const unsigned char shape_FRAME_WALK1[] = {            // 13
 
 const unsigned char shape_FRAME_WALK2[] = {            // 14
 
-    0x80 | 24,
+    24,
     3, 3,
 
     SP2( ___XXX__, HMT0 ), // 00
@@ -2437,7 +2422,7 @@ const unsigned char shape_FRAME_WALK2[] = {            // 14
 
 const unsigned char shape_FRAME_WALK3[] = {            // 15
 
-    0x80 | 26,
+    26,
     4, 0,
 
     SP2( __XXXX__, HMT0 ), // 00
@@ -2471,7 +2456,7 @@ const unsigned char shape_FRAME_WALK3[] = {            // 15
 
 const unsigned char shape_FRAME_WALK4[] = {            // 16
 
-    0x80 | 24,
+    24,
     3, 3,
 
     SP2( ___XXX__, HMT0 ), // 00
@@ -2506,7 +2491,7 @@ const unsigned char shape_FRAME_SNATCH_DOWN[] = {      // 17
 
 const unsigned char shape_FRAME_SKELETON1[] = {         // 18
 
-    20,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20,
     0,0,
 
     SP( _____XXX,X_______, BONE, BONE ),     // 00
@@ -2534,7 +2519,7 @@ const unsigned char shape_FRAME_SKELETON1[] = {         // 18
 
 const unsigned char shape_FRAME_SKELETON2[] = {        // 21
 
-    20,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20,
     1, 0,
 
     SP( ____XXXX,________, BONE, BONE ),     // 00
@@ -2563,7 +2548,7 @@ const unsigned char shape_FRAME_SKELETON2[] = {        // 21
 
 const unsigned char shape_FRAME_SKELETON3[] = {        // 20
 
-    16,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 16,
     0, 0,
 
     SP( _______X,XXX_____, BONE, BONE ),     // 00
@@ -2587,7 +2572,7 @@ const unsigned char shape_FRAME_SKELETON3[] = {        // 20
 
 const unsigned char shape_FRAME_SKELETON4[] = {        // 19
 
-    12,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 12,
     -1,0,
 
     SP( ________,XXXX____, BONE, BONE ),     // 00
@@ -2607,7 +2592,7 @@ const unsigned char shape_FRAME_SKELETON4[] = {        // 19
 
 const unsigned char shape_FRAME_SKELETON5[] = {        // 22
 
-    0x80 | 3,
+    3,
     6, 0,
 
     SP2( _XXXXXX_, BONE ),     // 00
@@ -2623,7 +2608,7 @@ const unsigned char shape_FRAME_TALK[] = {             // 24
 
 const unsigned char shape_FRAME_WALKUP0[] = {          // 25
 
-    0x80 | 26,
+    26,
     3, 0,
 
     SP2( __XXXX__, HMT0 ), // 00
@@ -2656,7 +2641,7 @@ const unsigned char shape_FRAME_WALKUP0[] = {          // 25
 
 const unsigned char shape_FRAME_WALKUP1[] = {          // 26
 
-    0x80 | 25,
+    25,
     3, 2,
 
     SP2( ___XXX__, HMT0 ), // 00
@@ -2688,7 +2673,7 @@ const unsigned char shape_FRAME_WALKUP1[] = {          // 26
 
 const unsigned char shape_FRAME_WALKUP2[] = {          // 27
 
-    0x80 | 26,
+    26,
     3, 0,
 
     SP2( __XXXX__, HMT0 ), // 00
@@ -2721,7 +2706,7 @@ const unsigned char shape_FRAME_WALKUP2[] = {          // 27
 
 const unsigned char shape_FRAME_WALKUP3[] = {          // 28
 
-    0x80 | 25,
+    25,
     3, 2,
 
     SP2( __XXX___, HMT0 ), // 00
@@ -2754,7 +2739,7 @@ const unsigned char shape_FRAME_WALKUP3[] = {          // 28
 
 const unsigned char shape_FRAME_WALKDOWN0[] = {        // 29
 
-    0x80 | 26,
+    26,
     3, 0,
 
     SP2( __XXXX__, HMT0 ), // 00
@@ -2787,7 +2772,7 @@ const unsigned char shape_FRAME_WALKDOWN0[] = {        // 29
 
 const unsigned char shape_FRAME_WALKDOWN1[] = {        // 30
 
-    0x80 | 25,
+    25,
     3, 3,
 
     SP2( __XXX___, HMT0 ), // 00
@@ -2819,7 +2804,7 @@ const unsigned char shape_FRAME_WALKDOWN1[] = {        // 30
 
 const unsigned char shape_FRAME_WALKDOWN2[] = {        // 31
 
-    0x80 | 26,
+    26,
     3, 3,
 
     SP2( __XXXX__, HMT0 ), // 00
@@ -2852,7 +2837,7 @@ const unsigned char shape_FRAME_WALKDOWN2[] = {        // 31
 
 const unsigned char shape_FRAME_WALKDOWN3[] = {        // 32
 
-    0x80 | 25,
+    25,
     3, 3,
 
     SP2( ___XXX__, HMT0 ), // 00
@@ -2885,7 +2870,7 @@ const unsigned char shape_FRAME_WALKDOWN3[] = {        // 32
 
 const unsigned char shape_FRAME_MINE_UP_0[] = {        // 31
 
-    31,
+    SPRITE_DOUBLE | 31,
     0, 0,
 
     SP( ________, XX______, BONE,BONE ), // 00
@@ -2923,7 +2908,7 @@ const unsigned char shape_FRAME_MINE_UP_0[] = {        // 31
 
 const unsigned char shape_FRAME_MINE_UP_1[] = {        // 32
 
-    24,
+    SPRITE_DOUBLE | 24,
     -5, 0,
 
     SP( _______X, __XXXX__, BONE,HMT0 ), // 00
@@ -2993,7 +2978,7 @@ ________, ________
 
 const unsigned char shape_FRAME_MINE_DOWN_0[] = {        // 31
 
-    27,
+    SPRITE_DOUBLE | 27,
     3, -4,
 
     SP( __XXXX__, ________, HMT0,BONE ), // 00
@@ -3027,7 +3012,7 @@ const unsigned char shape_FRAME_MINE_DOWN_0[] = {        // 31
 
 const unsigned char shape_FRAME_MINE_DOWN_1[] = {        // 32
 
-    29,
+    SPRITE_DOUBLE | 29,
     3, 0,
 
     SP( __XXXX__, ________, HMT0,HMT0 ), // 00

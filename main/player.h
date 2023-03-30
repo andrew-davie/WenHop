@@ -5,6 +5,10 @@
 #define FRAMEDELAY_RANDOM 254
 
 
+#define SPRITE_DOUBLE 0x80
+#define SPRITE_ABSCOLOUR 0x40
+
+
 enum FRAME {
 
     // see (player.c) -> create a frame shape_* and add to spriteShape[] table

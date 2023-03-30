@@ -116,6 +116,8 @@ extern unsigned char mm_tv_type;
 
 extern int level;
 extern int cave;
+extern int gravity;
+extern int nextGravity;
 
 enum SCHEDULE {
     SCHEDULE_START,

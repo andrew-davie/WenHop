@@ -7,6 +7,31 @@
 const char *Animate[TYPE_MAX];
 char AnimCount[TYPE_MAX];
 
+
+static const char AnimateZap[] = {
+    CH_HORIZ_ZAP_0, 8,
+    CH_HORIZ_ZAP_1, 8,
+    CH_HORIZ_ZAP_2, 8,
+    CH_HORIZ_ZAP_1, 8,
+    CH_HORIZ_ZAP_2, 8,
+    CH_HORIZ_ZAP_1, 8,
+    CH_HORIZ_ZAP_0, 8,
+    CH_HORIZ_ZAP_2, 8,
+    CH_HORIZ_ZAP_1, 8,
+    CH_HORIZ_ZAP_2, 8,
+    ANIM_LOOP,
+};
+
+
+static const char AnimateGravity[] = {
+
+    CH_FLIP_GRAVITY_2, 30,
+    CH_FLIP_GRAVITY_1, 4,
+    CH_FLIP_GRAVITY_0, 4,
+    CH_FLIP_GRAVITY_1, 4,
+    ANIM_LOOP,
+};
+
 static const char AnimGrab[] = {
 
     CH_DOGE_GRAB,8,
@@ -126,6 +151,12 @@ const char *const AnimateBase[TYPE_MAX] = {
     AnimConglomerateMid,        // 28 TYPE_BOULDER_DOGE_CRITICAL,
     0,                          // 29 TYPE_LAVA,
     0,                          // 30 TYPE_PEBBLE_BOULDER,
+    AnimateGravity,             // 31 TYPE_FLIP_GRAVITY,
+    AnimateZap,                 // 32 TYPE_ZAP
+    0,                          // 33 TYPE_BLOCK
+    0,                          // 34 TYPE_PACMAN_DOT
+    0,                          // 35 TYPE_AIRHOSE
+
 };
 
 
@@ -141,6 +172,7 @@ void initCharAnimations() {
 void startCharAnimation(int type, const char *idx) {
 
     if (idx) {
+
 
         if ((*idx)  == ANIM_LOOP)
             idx = AnimateBase[type];

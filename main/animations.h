@@ -8,6 +8,7 @@ extern const char *const AnimateBase[TYPE_MAX];
 #define ANIM_HALT 0
 #define ANIM_LOOP 255
 #define ANIM_RNDSPEED 254
+#define ANIM_ZAP 253
 
 #define DRIP_SPLASH 12
 #define DRIP_FALL 10

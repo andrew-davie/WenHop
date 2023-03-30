@@ -70,10 +70,11 @@ const unsigned char caveA[]= {
     CAVEDEF_PARALLAX,
     STEEL,DIRT,
 
-    4,  CH_BLANK,       60, 255,   0, 255,  10,
+    5,  CH_BLANK,       60, 255,   0, 255,  10,
         CH_PEBBLE1,     50,   0, 240,   0,  20,
         CH_PEBBLE2,     50,   0, 240,   0,  20,
         CH_BOULDER,     10,   0, 240,   0,  20,
+        CH_FLIP_GRAVITY_0,   10, 10, 10, 10, 10,
 
 //        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
 
@@ -153,6 +154,10 @@ const unsigned char caveA[]= {
 
     0xFE, CH_DOORCLOSED,38,16,
     0xFE, CH_ROCKFORD_BIRTH,3,10,
+
+    0xFE, CH_HORIZ_ZAP_3, 3,7,
+    0xFE, CH_HORIZ_ZAP_3, 3,8,
+    0xFE, CH_HORIZ_ZAP_3, 3,9,
 
     LINER(CH_LAVA_0, 1,20,10,R)
 
@@ -248,12 +253,12 @@ const unsigned char caveA3[]= {
 
 
     20,       // milling
-    10,15,  // diamond $
+    1,15,  // diamond $
     5, //              ,          // rain
 
     10,11,50,56,8,       // randomiser[level]
-    25,12,12,12,12,
-    200,200,200,200,200,
+    1,1,1,1,1,
+    20,200,200,200,200,
     //70,65,60,55,50,
 
 
@@ -263,7 +268,26 @@ const unsigned char caveA3[]= {
     0,
 
 
-    0x80+ CH_STEELWALL,10,5,20,9,CH_DIRT,
+    0x80+ CH_STEELWALL,10,5,20,5,CH_BLANK,
+
+
+//    LINER(CH_HORIZ_ZAP_0, 13,7,10,R)
+    LINER(CH_BOULDER, 13,8,10,R)
+//    0xFE, CH_FLIP_GRAVITY_0, 16,6,
+    0xFE, CH_FLIP_GRAVITY_0, 22,8,
+    0xFE, CH_FLIP_GRAVITY_0, 11,8,
+    0xFE, CH_DOGE_00, 16,8,
+    0xFE, CH_BOULDER, 11,6,
+    0xFE, CH_STEELWALL, 12,7,
+
+//    0xFE, CH_FLIP_GRAVITY_0, 15,8,
+    0xFE, CH_FLIP_GRAVITY_0, 17,8,
+    0xFE, CH_FLIP_GRAVITY_0, 12,6,
+
+    // 0xFE, CH_STEELWALL, 16,7,
+    0xFE, CH_DOORCLOSED, 16,5,
+
+
 
     // LINER(CH_PUSH_DOWN,11,6,18,R)
     // LINER(CH_PUSH_UP,11,11,18,R)
@@ -289,7 +313,7 @@ const unsigned char caveA3[]= {
 */
 
 //    0xFE, CH_DOORCLOSED,38,16,
-    0xFE, CH_ROCKFORD_BIRTH,19,9,
+    0xFE, CH_ROCKFORD_BIRTH,11,7,
 
 //    0xFE, CH_WYRM_HEAD_U, 16, 9,
 
