@@ -13,6 +13,7 @@
 #include "rockford.h"
 #include "random.h"
 #include "score.h"
+#include "scroll.h"
 #include "sound.h"
 
 
@@ -184,7 +185,7 @@ void grabDoge(unsigned char *where) {
     totalDiamondsPossible--;
 
     // if (diamonds > 0)
-        addScore(theCave->diamondValue);
+        addScore(100); //theCave->diamondValue);
 
     if (!--diamonds) {
         exitTrigger = true;
@@ -273,7 +274,9 @@ bool checkHighPriorityMove(int dir) {
 
             else if (destType == TYPE_FLIP_GRAVITY) {
                 nextGravity = -gravity;
-                FLASH(0xC5,1);
+                FLASH(0xC5,3);
+                shakeTime = 20;
+                ADDAUDIO(SFX_SCORE);
             }
 
 
@@ -338,12 +341,17 @@ bool checkHighPriorityMove(int dir) {
                     ID_WalkDown,    // D
                 };
 
-                if (playerAnimationID != WalkAnimation[dir])
-                    startPlayerAnimation(WalkAnimation[dir]);
+                int dir2 = dir;
+                if (gravity < 0 && dir2 > 1)
+                    dir2 ^= 1;
+
+                if (playerAnimationID != WalkAnimation[dir2])
+                    startPlayerAnimation(WalkAnimation[dir2]);
 
             if (!autoMoveFrameCount) {
 
-                autoMoveFrameCount = gameSpeed << playerSlow;
+
+                autoMoveFrameCount = ((gameSpeed * 2) << playerSlow);
 
                 autoMoveX = autoMoveDeltaX = animDeltaX[dir] >> playerSlow;
                 autoMoveY = autoMoveDeltaY = animDeltaY[dir] >> playerSlow;
@@ -387,7 +395,7 @@ bool checkLowPriorityMove(int dir) {
     unsigned char destType = CharToType[GET(*thisOffset)];
 
     #if 1  // disable push
-    if (faceDirection[dir] && (Attribute[destType] & ATT_PUSH)) {
+    if (faceDirection[dir] && (Attribute[destType] & ATT_MINE)) {
 
         if (++pushCounter > 1) {
             int anim = mineAnimation[dir];
@@ -505,6 +513,19 @@ void colourAdjust() {
 }
 #endif
 
+#define DOTY 0x10000
+
+void bubbles(int count, int dripX, int dripY, int age, int speed) {
+    for (int i = 0; i < count; i++) {
+        int idx = sphereDot(dripX << 8, dripY << 16, 1, age, speed);
+        if (idx >= 0) {
+            rainSpeedY[idx] = -0x2800 - rangeRandom(0x2800); //- ((0x4000 + ((int)(rangeRandom(DOTY >> 1))) * 0x8000) >> 16);
+            rainSpeedX[idx] >>= 2;
+//            rainX[idx] += rangeRandom(3) - 1;
+        }
+    }
+}
+
 
 
 void moveRockford(unsigned char *this) {
@@ -518,6 +539,18 @@ void moveRockford(unsigned char *this) {
             *(this + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
 
     }
+
+    // breath bubbles
+    static int breath;
+    if (rockfordY * PIECE_DEPTH / 3 > lavaSurface) {
+        breath++;
+        if (!(breath & 35) && (breath & 63) < 21) {
+            int x = (rockfordX * 5) + 3;
+            int y = (rockfordY * (PIECE_DEPTH / 3)) + 4;
+            bubbles(4, x, y, 200, 0x80000);
+        }
+    }
+
 
 
     static unsigned char lastUsableSWCHA = 0;

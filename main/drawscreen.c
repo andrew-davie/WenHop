@@ -301,6 +301,7 @@ int rainY[RAINHAILSHINE], /*rainSpeed[RAINHAILSHINE],*/ rainSpeedX[RAINHAILSHINE
 int rainSpeedY[RAINHAILSHINE];
 char rainRow[RAINHAILSHINE];
 
+#define RAINTYPE_BUBBLE 1
 
 void rain() {
 
@@ -309,7 +310,7 @@ void rain() {
 
 
 // 0 fire
-// 1 death
+// 1 death(reused for bubbles)
 // 2 boulder
 
             if (rainType[i] < 3) {     //bullet
@@ -342,8 +343,23 @@ void rain() {
                         continue;
                     }
 
-                if (!drawBit((rainX[i] >> 8), (/*rainRow[i] * CBLOCK +*/ rainY[i]) >> 16))
+                // kill bubbles above surface
+                if (rainType[i] == RAINTYPE_BUBBLE && (rainY[i] >> 16) < lavaSurface) {
                     rainX[i] = -1;
+                    continue;
+                }
+
+                int y = (((/*rainRow[i] * CBLOCK +*/ rainY[i]) >> 16));
+                int x = (rainX[i] >> 8);
+
+                if (rainType[i] == RAINTYPE_BUBBLE) {
+                    x += rangeRandom(2) - 1;
+                    rainSpeedX[i] = (rainSpeedX[i] * 3) >> 2;
+                }
+
+//                if ((getRandom32() & 3) || rainType[i] != RAINTYPE_BUBBLE)
+                    if (!drawBit(x, y))
+                        rainX[i] = -1;
             }
 
 

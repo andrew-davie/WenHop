@@ -41,7 +41,7 @@ int cpulse;
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURABLE UX
 
-#define DEAD_RESTART        20     /* # frames to hold trigger after loss of life, to start next life */
+#define DEAD_RESTART        1 //20     /* # frames to hold trigger after loss of life, to start next life */
 #define MAX_PEBBLES        400     /* # random pebbles to put in dirt */
 
     // Delays on RESET and SELECT are to allow non-ambiguous press of SELECT+RESET for suicide
@@ -54,7 +54,8 @@ int cpulse;
 ////////////////////////////////////////////////////////////////////////////////
 
 int lavaSurface;
-
+bool showWater;
+bool showLava;
 
 static int boardRow;
 int boardCol;
@@ -70,6 +71,7 @@ int explodeCount;
 bool rainbow;
 #endif
 
+
 bool lockDisplay;
 bool rageQuit;
 unsigned char *this;
@@ -83,6 +85,8 @@ int level;
 bool waitRelease;
 bool switchOn;
 
+
+
 unsigned char mm_tv_type;  // 0 = NTSC, 1 = PAL, 2 = PAL-60, 3 = SECAM... start @ NTSC always
 //unsigned char autoTVType;
 bool exitTrigger;
@@ -91,12 +95,13 @@ unsigned int sparkleTimer;
 bool showingWords;
 
 int exitMode;
-static int frameCounter;
+int frameCounter;
+int selectorCounter;
+
 
 unsigned char enableParallax;
 
 unsigned int availableIdleTime;
-int uncoverTimer;
 unsigned int uncoverCount;
 bool invincible;
 
@@ -325,6 +330,9 @@ void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int 
 
 
 void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed) {
+
+    return; //tmp
+
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX << 8, dripY << 16, 2, age, speed);
         if (idx >= 0)
@@ -593,15 +601,12 @@ void initNextLife() {
     #endif
 
     lavaSurface = 10000; //0x1C2/3; //22 * PIECE_DEPTH - 1;
+    showLava = false;
+    showWater = false;
 
 #if __FADE
     fade = 0;
 #endif
-
-    uncoverTimer = 25;
-//    ADDAUDIO(SFX_UNCOVER);
-
-    uncoverCount = 880;
 
     // lastDisplayMode = DISPLAY_NONE;
     switchOn = true;
@@ -620,10 +625,14 @@ void initNextLife() {
     };
 
 
-    gameSpeed = SPEED_BASE + (((5 - level) * speedo[mm_tv_type]) >> 17);
-
+    #if SCHEDULER == 0
+        gameSpeed = 4;
+    #else
+        gamespeed = 6;
+    #endif
 
     frameCounter = gameSpeed;               // force initial
+    selectorCounter = 0;
 
     for (int wyrm = 0; wyrm < WYRM_POP; wyrm++) {
         wyrmHead[wyrm] = -1;
@@ -873,6 +882,7 @@ void drawOverscanThings() {
 
             // createParallaxCharset();
             drawScreen(0);
+            drawScreen(1);
             drawScore();
 
             drawPlayerSprite();
@@ -1316,26 +1326,13 @@ extern void colourAdjust();
         colourAdjust();
 #endif
 
+    #if SCHEDULER == 0
     frameCounter++;
+    #endif
 
     if (gameSchedule != SCHEDULE_UNPACK_CAVE) {
 
-        // if (uncoverTimer > 0) {
-        //     for (int i = 0; i < 6; i++)
-        //         for (int scan = 0; scan < 10; scan++) {
-        //             unsigned char *c = RAM + _BOARD + rangeRandom(880);
-        //             if (*c & FLAG_UNCOVER) {
-        //                 *c &= ~FLAG_UNCOVER;
-        //                 uncoverCount--;
-        //                 break;
-        //             }
-        //         }
-        // }
-
-        // else
-            handleCaveCompletion();
-
-
+        handleCaveCompletion();
 
         if (
 #if CIRCLE
@@ -1345,8 +1342,7 @@ extern void colourAdjust();
 
         #if !COLSELECT
 
-            if (uncoverTimer <= 0)
-                time--;
+            time--;
 
             if ((time & 0xFF) == 0xFF) {
 
@@ -1360,7 +1356,8 @@ extern void colourAdjust();
         }
 
         // if (displayMode == DISPLAY_NORMAL)
-            drawScreen(1);
+            // drawScreen(1);
+            drawScore();
             rain();
 
 
@@ -1415,23 +1412,40 @@ void conglomerate() {
 
 void setupBoard() {
 
-    if (frameCounter > gameSpeed) {
+//#if SCHEDULER==0
+    if (frameCounter >= gameSpeed) {
+//#endif
 
-        if (lavaSurface && !rangeRandom(6)) {
-            lavaSurface -= gravity;
+        selectorCounter++;
+        selectorCounter &= 3;
 
-            // if (!rangeRandom(20)) {
-            //     shakeTime += 10;
-            //     FLASH(0x42,10);
-            // }
+        // if (++frameCounter >= gameSpeed)
+            frameCounter = 0;
+
+        if (true || showLava) {
+
+            if (lavaSurface && !(gameFrame & 15))
+                lavaSurface -= gravity;
+
+            if (!rangeRandom(3)) {
+                int posX = ((scrollX * 5) >> 16) + rangeRandom(40);
+                nDotsAtPixel(4, posX, lavaSurface + 1, 40, 0x10000);
+            }
         }
 
-        if (!rangeRandom(3)) {
-            int posX = ((scrollX * 5) >> 16) + rangeRandom(40);
-            nDotsAtPixel(4, posX, lavaSurface + 1, 40, 0x10000);
+
+        if (showWater) {
+
+    extern void bubbles(int count, int dripX, int dripY, int age, int speed);
+
+            for (int i = 0; i < 4; i++) {
+                int posX = ((scrollX * 5) >> 16) + rangeRandom(40);
+                int deep = lavaSurface + rangeRandom(21 * PIECE_DEPTH - lavaSurface);
+                if (deep > 0 && deep < _ARENA_SCANLINES)
+                    bubbles(1, posX, deep, 2240, 0x8000);
+            }
         }
 
-        frameCounter = 0;
         gameFrame++;
         gravity = nextGravity;
 
@@ -1448,12 +1462,6 @@ void setupBoard() {
             boardRow = 0;
         }
 
-        //dogeBlockCount = 0;
-        //cumulativeBlockCount = 0;
-
-        // if (uncoverTimer <= 0)
-        //     checkAmoeba();
-
         gameSchedule = SCHEDULE_PROCESSBOARD;
 
 
@@ -1465,7 +1473,10 @@ void setupBoard() {
 
         processBoardSquares();
 
+//#if SCHEDULER==0
     }
+//#endif
+
 }
 
 
@@ -1606,7 +1617,7 @@ void chainReactDoge() {
 
         if (Attribute[type] & ATT_BOULDER_DOGE) {
 
-            *(this + dir[i]) = CH_DOGE_CONVERT | FLAG_THISFRAME; //((dir > 0) ? FLAG_THISFRAME : 0);
+            *(this + dir[i]) = CH_DOGE_CONVERT | ((dir > 0) ? FLAG_THISFRAME : 0);
             ADDAUDIO(SFX_UNCOVER);
             dogeBlockCount++;
             cumulativeBlockCount++;
@@ -1645,7 +1656,10 @@ void genericPush(int offsetX, int offsetY) {
         unsigned char *pushPos = this + adjustOffset;
 
         if (rockfordPos == pushPos && (!(*rockfordPos & FLAG_THISFRAME))) {
-            cpulse = 20;
+
+                cpulse = 20;
+                shakeTime = 3;
+                ADDAUDIO(SFX_EXPLODE_QUIET);
 
             unsigned char *pushPosFurther = pushPos + adjustOffset;
 
@@ -1659,7 +1673,10 @@ void genericPush(int offsetX, int offsetY) {
                 autoMoveFrameCount = 0;
                 rockfordX += offsetX;
                 rockfordY += offsetY;
-                nDots(3, boardCol + offsetX, boardRow + offsetY, 2, -150, 3, 4, 0x10000);
+
+                nDots(RAINHAILSHINE/2, boardCol + offsetX, boardRow + offsetY, 2, -150, 3, 4, 0x10000);
+
+
             }
         }
 
@@ -1759,7 +1776,7 @@ void processBoardSquares() {
             if (boardRow > 21 || boardRow < 0) {
 
                 awyrm();
-                randomPebble();
+//                randomPebble();
 
                 int lastCumulative = cumulativeBlockCount;
                 if (!dogeBlockCount && cumulativeBlockCount) {
@@ -1782,17 +1799,6 @@ void processBoardSquares() {
 
                 if (!cumulativeBlockCount && lastCumulative) {
                     killAudio(SFX_UNCOVER);
-                }
-
-
-                if (uncoverTimer >= 0)
-                    uncoverTimer--;
-
-                if (!uncoverTimer || uncoverCount < 30) {
-
-                    uncoverCount = 9999;
-                    killAudio(SFX_UNCOVER);
-                    ADDAUDIO(SFX_UNCOVERED);
                 }
 
                 gameSchedule = SCHEDULE_START;
@@ -1888,184 +1894,187 @@ void processBoardSquares() {
         unsigned char *next = this + 40 * gravity;
 
 
-    #if __ENABLE_WATER
-        if (water)
-            if (Attribute[cType] & ATT_WATER)
-                if (boardRowPD - 22  > water && boardRow > 2 && boardRow < 21) {
-                    *this = CH_WATER | FLAG_THISFRAME;
-                    continue;
-                }
-    #endif
+        if (!(creature & FLAG_THISFRAME)) {
+
+            int type = CharToType[creature];
 
 
-    // #if ENABLE_SHAKE
-    //     if (shakeTime)
-    //         if (CharToType[GET(*this)] == TYPE_DIRT
-    //             && (rndX & 0xFF) < 2) {
-    //             *this = CH_DUST_0;
-    //             rndX >>= 1;
-    //             continue;
-    //         }
-    // #endif
+//    #if SCHEDULER==1
 
-    #if __ENABLE_LAVA
-        if (lava)
-            if (boardRowPD - 22 > lava) {
-                if (cType != TYPE_LAVA) {
-                    if (Attribute[cType] & ATT_EXPLODES) {
-    //                  if (Attribute[cType] & ATT_EXPLODABLE)
-                            if ((rndX & 0x1FF) < 3) {
-                                Explode(this, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
-                                FLASH(0x42, 0x62, 0x04, 8);
-                //                shakeTime += 100;
-                        }
-                    }
+            static const int isActive[] = {
 
-                    else if (!(Attribute[cType] & ATT_HARD))
-                        *this = CH_LAVA_0 | FLAG_THISFRAME;
+                PH1 | PH2                      , // 0
+                PH1 |       PH4                , // 1
+                PH1 | PH2                      , // 2
+                PH1                            , // 3
+            };
 
-                }
-            rndX >>= 1;
-        }
-    #endif // ENABLE_LAVA
+            if (Attribute[type] & isActive[selectorCounter]) {
+                switch (type) {
 
+                case TYPE_PEBBLE1:
+                case TYPE_PEBBLE2: {
 
-//        if (uncoverTimer <= 0) {
-
-//            *this &= ~FLAG_UNCOVER;
-
-            if (!(creature & FLAG_THISFRAME)) {
-
-                unsigned char type = CharToType[creature];
-
-                if (Attribute[type] & ATT_ACTIVE) {
-                    switch (type) {
-
-                    case TYPE_PEBBLE1:
-                    case TYPE_PEBBLE2: {
-
-                        if (!rangeRandom((200))) {
-                            *this = CH_PEBBLE_BOULDER;
-                            nDots(10, boardCol, boardRow, 2, 50, 3, 5, 0x10000);
-                        }
-
+                    // don't form above player
+                    if (boardCol == rockfordX && boardRow < rockfordY)
                         break;
+
+                    const int offset[] = { -40, 40, -1, 1 };
+                    static int chance;
+                    bool nearPlayer = false;
+                    for (int i = 0; i < 4; i++) {
+                        if (CharToType[GET(*(this + offset[i]))] == TYPE_ROCKFORD) {
+                            nearPlayer = true;
+                            break;
+                        }
                     }
 
+#define DECHANCE 5
+
+                    if (nearPlayer) {
+                        if (chance >= DECHANCE)
+                            chance -= DECHANCE;
+                    }
+                    else {
+                        chance = 50;
+                    }
+
+                    if (!rangeRandom((chance))) {
+                        *this = CH_PEBBLE_BOULDER;
+                        nDots(10, boardCol, boardRow, 2, 50, 3, 5, 0x10000);
+                    }
+
+                    break;
+                }
 
 
-                    case TYPE_LAVA: {
+                case TYPE_WATER: {
 
-                        if (rangeRandom(24))
-                            *this = CH_LAVA_2;
+                    static int dir[] = { 1, -1, -40, 40 };
+                    static int xdir[] = { 1, -1, 0, 0};
+                    static int ydir[] = { 0, 0, -1, 1};
 
-                        else {
+                    if (boardRow * PIECE_DEPTH/3 - PIECE_DEPTH/3 >= lavaSurface) {
 
-                            if (*this == CH_LAVA_2)
-                                nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50, 3, 4, 0x8000);
+                        for (int i = 0; i < 4; i++) {
 
-                            *this = rangeRandom(4) + CH_LAVA_0;
+                            unsigned char *neighbour = this + dir[i];
 
-                            // if (!rangeRandom(31))
-                            //     ADDAUDIO(SFX_AMOEBA);
-                        }
+                            if (!(*neighbour & FLAG_THISFRAME)) {
 
-                        rndX >>= 1;
+                                int type = CharToType[*neighbour];
+                                int att = Attribute[type];
 
-
-
-                        static int dir[] = { 1, -1, -40, 40 };
-                        static int xdir[] = { 1, -1, 0, 0};
-                        static int ydir[] = { 0, 0, -1, 1};
-
-                        if (boardRow * PIECE_DEPTH/3 - PIECE_DEPTH/3 >= lavaSurface) {
-
-                            for (int i = 0; i < 4; i++) {
-
-                                unsigned char *neighbour = this + dir[i];
-
-                                if (!(*neighbour & FLAG_THISFRAME)) {
-
-                                    int type = CharToType[*neighbour];
-                                    int att = Attribute[type];
-
-                                    if (att & ATT_DISSOLVES) {
-                                        *neighbour = CH_LAVA_0;
-                                        break;
-                                    }
-
-                                    else if (!rangeRandom(100)) {
-
-                                        if ((att & ATT_MELTS)) {
-                                            *neighbour = CH_DUST_0;
-                                            nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4, 0x10000);
-    //                                        nDots(8,boardCol + xdir[i], boardRow + ydir[i], 2, 120, 3, 4, 130);
-                                            break;
-                                        }
-                                    }
-
-    //                                 else if (type == TYPE_BOULDER || type == TYPE_BOULDER_DOGE || type == TYPE_DOGE) {
-    // //                                    if (!rangeRandom(50)) {
-    //                                         shakeTime++;
-    //                                         doRoll(neighbour, *neighbour);
-    //                                         shakeTime--;
-    //   //                                  }
-    //                                 }
-
-                                    // else if (type == TYPE_BOULDER_DOGE) {
-                                    //     if (!rangeRandom(10))
-                                    //         *neighbour = CH_DOGE_00;
-                                    // }
-                                    // }
+                                if (att & ATT_DISSOLVES) {
+                                    *neighbour = CH_DUST_0;
+                                    break;
                                 }
                             }
                         }
-
-                        break;
                     }
 
 
-        #if __ENABLE_LAVA
-        #endif
-
-        #if __ENABLE_WATER
-                    case TYPE_WATER: {
-
-                        // if ((toggler & 1) == 0) {
-
-                            unsigned char *where = this-1;
-                            unsigned char newCh = (rndX & 3) + CH_WATER;
-
-                            // don't allow side-by-side sameness
-                            if (!(rndX & 0x300) || *this == *where)
-                                *this = newCh;
-
-                            if (lastWater && CharToType[*lastWater & 0x7F] == TYPE_WATER)
-                                *lastWater = *this;
-                            lastWater = this;
-
-                            rndX >>= 2;
-
-                        // }
-
-                    }
                     break;
-        #endif
+                }
 
-                    // case TYPE_BUTTERFLY: {
-                    //     handleFly(this, CH_BUTTERFLY_0, 1, CH_EXPLODETODIAMOND_0 | FLAG_THISFRAME);
-                    //     break;
+
+                case TYPE_LAVA: {
+
+                    if (rangeRandom(6))
+                        *this = CH_LAVA_2;
+
+                    else {
+
+                        if (*this == CH_LAVA_2)
+                            nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50, 3, 4, 0x8000);
+
+                        *this = rangeRandom(4) + CH_LAVA_0;
+
+                        // if (!rangeRandom(31))
+                        //     ADDAUDIO(SFX_AMOEBA);
+                    }
+
+                    rndX >>= 1;
+
+
+
+                    static int dir[] = { 1, -1, -40, 40 };
+                    static int xdir[] = { 1, -1, 0, 0};
+                    static int ydir[] = { 0, 0, -1, 1};
+
+                    if (boardRow * PIECE_DEPTH/3 - PIECE_DEPTH/3 >= lavaSurface) {
+
+                        for (int i = 0; i < 4; i++) {
+
+                            unsigned char *neighbour = this + dir[i];
+
+                            if (!(*neighbour & FLAG_THISFRAME)) {
+
+                                int type = CharToType[*neighbour];
+                                int att = Attribute[type];
+
+                                if (att & ATT_DISSOLVES) {
+                                    *neighbour = CH_LAVA_0;
+                                    break;
+                                }
+
+                                else if (!rangeRandom(10)) {
+
+                                    if ((att & ATT_MELTS)) {
+                                        *neighbour = CH_DUST_0;
+                                        nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4, 0x10000);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                }
+
+
+    #if __ENABLE_LAVA
+    #endif
+
+    #if __ENABLE_WATER
+                case TYPE_WATER: {
+
+                    // if ((toggler & 1) == 0) {
+
+                        unsigned char *where = this-1;
+                        unsigned char newCh = (rndX & 3) + CH_WATER;
+
+                        // don't allow side-by-side sameness
+                        if (!(rndX & 0x300) || *this == *where)
+                            *this = newCh;
+
+                        if (lastWater && CharToType[*lastWater & 0x7F] == TYPE_WATER)
+                            *lastWater = *this;
+                        lastWater = this;
+
+                        rndX >>= 2;
+
                     // }
 
-                    // case TYPE_FIREFLY: {
-                    //     handleFly(this, CH_FIREFLY_0, -1, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
-                    //     break;
-                    // }
+                }
+                break;
+    #endif
 
-                    case TYPE_ROCKFORD:
+                // case TYPE_BUTTERFLY: {
+                //     handleFly(this, CH_BUTTERFLY_0, 1, CH_EXPLODETODIAMOND_0 | FLAG_THISFRAME);
+                //     break;
+                // }
 
-                        if (!exitMode)
-                            moveRockford(this);
+                // case TYPE_FIREFLY: {
+                //     handleFly(this, CH_FIREFLY_0, -1, CH_EXPLODETOBLANK_0 | FLAG_THISFRAME);
+                //     break;
+                // }
+
+                case TYPE_ROCKFORD:
+
+                    if (!exitMode)
+                        moveRockford(this);
 
 //                         if (selectResetDelay > DEAD_RESTART_COUCH
 //                             || (selectResetDelay > DEAD_RESTART && GAME_RESET_PRESSED && GAME_SELECT_PRESSED)
@@ -2080,383 +2089,404 @@ void processBoardSquares() {
 // //                            *this = CH_BLANK;
 //                         }
 
-                        break;
+                    break;
 
 
-                    default:
-                        break;
+                default:
+                    break;
 
+                }
+
+
+
+                switch (creature) {
+
+                case CH_HORIZ_ZAP_0: {
+
+                    int att = Attribute[CharToType[GET(*(this + 1))]];
+                    if (/*!(gameFrame & 3) &&*/ att & ATT_BLANK) {
+                        *(this + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
+                        *(this) = CH_HORIZ_ZAP_1 | FLAG_THISFRAME;
                     }
+                    else {
+                        if (att & ATT_PULL) {
+                            *this = *(this + 1) | FLAG_THISFRAME;
+                            *(this + 1) = CH_BLANK | FLAG_THISFRAME;
 
-                    switch (creature) {
-
-
-                    case CH_HORIZ_ZAP_0: {
-
-                        int att = Attribute[CharToType[GET(*(this + 1))]];
-                        if (/*!(gameFrame & 3) &&*/ att & ATT_BLANK) {
-                            *(this + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
-                            *(this) = CH_HORIZ_ZAP_1 | FLAG_THISFRAME;
+                            if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
+                                *(this - 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
                         }
                         else {
-                            if (att & ATT_PULL) {
-                                *this = *(this + 1) | FLAG_THISFRAME;
-                                *(this + 1) = CH_BLANK | FLAG_THISFRAME;
-
-                                if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
-                                    *(this - 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
-                            }
-                            else {
-                                *this = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
-                            }
+                            *this = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
                         }
-                        conglomerate();
+                    }
+                    conglomerate();
+                    break;
+                }
+
+                case CH_HORIZ_ZAP_2: {
+                    *this = CH_BLANK | FLAG_THISFRAME;
+                    if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
+                        *(this - 1) = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
+                    break;
+                }
+
+
+                case CH_PEBBLE_BOULDER:
+                    *this = CH_BOULDER_DOGE | FLAG_THISFRAME;
+                    break;
+
+                case CH_PUSH_LEFT:
+                    genericPush(-1, 0);
+                    break;
+
+                case CH_PUSH_LEFT_REVERSE:
+                    genericPushReverse(1, 0);
+                    break;
+
+                case CH_PUSH_RIGHT:
+                    genericPush(1, 0);
+                    break;
+
+                case CH_PUSH_RIGHT_REVERSE:
+                    genericPushReverse(-1, 0);
+                    break;
+
+                case CH_PUSH_UP:
+                    genericPush(0, -1);
+                    break;
+
+                case CH_PUSH_UP_REVERSE:
+                    genericPushReverse(0, 1);
+                    break;
+
+                case CH_PUSH_DOWN:
+                    genericPush(0, 1);
+                    break;
+
+                case CH_PUSH_DOWN_REVERSE:
+                    genericPushReverse(0, -1);
+                    break;
+
+
+
+                // case CH_BOULDER_BROKEN:
+                //     if (*Animate[TYPE_BOULDER_FALLING] == CH_DUST_ROCK_2) {
+                //         *this = CH_DUST_ROCK_2;
+                //     }
+                //     break;
+
+
+                case CH_DUST_ROCK_2:
+                    *this = CH_DOGE_00;
+                    ADDAUDIO(SFX_UNCOVER);
+                    break;
+
+                case CH_DUST_0:
+                case CH_DUST_1:
+                case CH_DUST_ROCK_0:
+                case CH_DUST_ROCK_1:
+                    (*this)++;
+                    break;
+
+                case CH_EXPLODETOBLANK_0:
+                case CH_EXPLODETOBLANK_1:
+                case CH_EXPLODETOBLANK_2:
+                case CH_EXPLODETOBLANK_3:
+                    *this = (creature + 1) | FLAG_THISFRAME;
+                    break;
+
+                case CH_EXPLODETOBLANK_4:
+                    *this = CH_BLANK | FLAG_THISFRAME;
+                    break;
+
+
+                case CH_DOGE_CONVERT:
+
+                    chainReactDoge();
+                    *this = CH_DOGE_00;
+
+                case CH_DOGE_00:
+                case CH_DOGE_01:
+                case CH_DOGE_02:
+                case CH_DOGE_03:
+                case CH_DOGE_04:
+                case CH_DOGE_05:
+                {
+
+                    if (creature == CH_DOGE_00)
+                        convertDogeToBoulder();
+
+
+                    // if (CharToType[GET(*(this - 40))] != TYPE_DOGE && !(getRandom32() & 0xFFF)) {
+                    //     *this = CH_DUST_0 | FLAG_THISFRAME;
+                    //     nDots(8, boardCol, boardRow, 2, 50, 3, 0, 0x10000);
+                    //     break;
+                    // }
+
+
+                    int attrNext = Attribute[CharToType[GET(*next)]];
+
+                    if (attrNext & ATT_BLANK) {
+                        *this = CH_DUST_0 | FLAG_THISFRAME;
+                        *next = CH_DOGE_FALLING | FLAG_THISFRAME;
                         break;
                     }
 
-                    case CH_HORIZ_ZAP_2: {
-                        *this = CH_BLANK | FLAG_THISFRAME;
-                        if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
-                            *(this - 1) = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
-                        break;
+                    if (attrNext & ATT_ROLL)
+                        doRoll(this, CH_DOGE_FALLING);
+
+                    // conglomerate();
+
+                    break;
+                }
+
+
+                case CH_FLIP_GRAVITY_0:
+                case CH_FLIP_GRAVITY_2:
+                case CH_FLIP_GRAVITY_1:
+
+                case CH_BLOCK: {
+
+                    unsigned char typeDown = CharToType[GET(*next)];
+                    if (Attribute[typeDown] & ATT_BLANK) {
+                        *next = *this | FLAG_THISFRAME;
+                        *this = CH_DUST_0 | FLAG_THISFRAME;
+                    }
+                    break;
+                }
+
+
+                case CH_CONGLOMERATE:
+                case CH_CONGLOMERATE_1:
+                case CH_CONGLOMERATE_2:
+                case CH_CONGLOMERATE_3:
+                case CH_CONGLOMERATE_4:
+                case CH_CONGLOMERATE_5:
+                case CH_CONGLOMERATE_6:
+                case CH_CONGLOMERATE_7:
+                case CH_CONGLOMERATE_8:
+                case CH_CONGLOMERATE_9:
+                case CH_CONGLOMERATE_10:
+                case CH_CONGLOMERATE_11:
+                case CH_CONGLOMERATE_12:
+                case CH_CONGLOMERATE_13:
+                case CH_CONGLOMERATE_14:
+                case CH_CONGLOMERATE_15:
+
+                case CH_BOULDER:
+
+                case CH_BOULDER_DOGE:
+                {
+
+
+                    if (GET(*this) == CH_CONGLOMERATE_15
+                        && *Animate[TYPE_BOULDER_DOGE_CRITICAL] == CH_CONGLOMERATE_15
+                        && !rangeRandom(4)) {
+
+                        bool close = ((boardCol - rockfordX) * (boardCol - rockfordX)
+                                + (boardRow - rockfordY) * (boardRow - rockfordY) < 7);
+
+                        int pulse = 3 + rangeRandom(RAINHAILSHINE/2);
+                        if (pulse && close) {
+                            cpulse += 32;
+                            FLASH(0x42, 10);
+                        }
+
+                        nDots(pulse, boardCol, boardRow, 2, 50, 3, 4, 0x30000);
+
                     }
 
+                    unsigned char typeDown = CharToType[GET(*next)];
 
-                    case CH_PEBBLE_BOULDER:
-                        *this = CH_BOULDER_DOGE | FLAG_THISFRAME;
-                        break;
+                    if (Attribute[typeDown] & ATT_BLANK) {
 
-                    case CH_PUSH_LEFT:
-                        genericPush(-1, 0);
-                        break;
+                        if (Attribute[CharToType[GET(*this)]] & ATT_BOULDER_DOGE)
+                            *next = CH_BOULDER_DOGE_FALLING | FLAG_THISFRAME;
+                        else
+                            *next = CH_BOULDER_FALLING | FLAG_THISFRAME;
 
-                    case CH_PUSH_LEFT_REVERSE:
-                        genericPushReverse(1, 0);
-                        break;
+                        *this = CH_DUST_0 | FLAG_THISFRAME;
 
-                    case CH_PUSH_RIGHT:
-                        genericPush(1, 0);
-                        break;
+                        // int att = Attribute[CharToType[GET(*(next + 40))]];
+                        // if (!(att & ATT_NOROCKNOISE))
+                        //     ADDAUDIO(att & ATT_HARD ? SFX_ROCK : SFX_ROCK2);
+                    }
 
-                    case CH_PUSH_RIGHT_REVERSE:
-                        genericPushReverse(-1, 0);
-                        break;
+                    else if (Attribute[typeDown] & ATT_ROLL) {
 
-                    case CH_PUSH_UP:
-                        genericPush(0, -1);
-                        break;
+                        if (Attribute[CharToType[GET(*this)]] & ATT_BOULDER_DOGE)
+                            doRoll(this, CH_BOULDER_DOGE_FALLING);
+                        else
+                            doRoll(this, CH_BOULDER_FALLING);
+                    }
 
-                    case CH_PUSH_UP_REVERSE:
-                        genericPushReverse(0, 1);
-                        break;
+                    conglomerate();
 
-                    case CH_PUSH_DOWN:
-                        genericPush(0, 1);
-                        break;
+                    break;
+                }
 
-                    case CH_PUSH_DOWN_REVERSE:
-                        genericPushReverse(0, -1);
-                        break;
+                case CH_DOGE_FALLING:
+                case CH_BOULDER_FALLING:
+                case CH_BOULDER_DOGE_FALLING: {
 
-
-
-                    // case CH_BOULDER_BROKEN:
-                    //     if (*Animate[TYPE_BOULDER_FALLING] == CH_DUST_ROCK_2) {
-                    //         *this = CH_DUST_ROCK_2;
-                    //     }
+                    // slow falling underwater/lava
+                    // if ((gameFrame & 3) && boardRow * PIECE_DEPTH / 3 >= lavaSurface)
                     //     break;
 
+                    unsigned char typeDown = CharToType[GET(*next)];
+                    if (Attribute[typeDown] & ATT_BLANK) {
 
-                    case CH_DUST_ROCK_2:
-                        *this = CH_DOGE_00;
-                        ADDAUDIO(SFX_UNCOVER);
-                        break;
+                        *this =  CH_DUST_0 | FLAG_THISFRAME;
 
-                    case CH_DUST_0:
-                    case CH_DUST_1:
-                    case CH_DUST_ROCK_0:
-                    case CH_DUST_ROCK_1:
-                        (*this)++;
-                        break;
+                        *next = creature | FLAG_THISFRAME;
 
-                    case CH_EXPLODETOBLANK_0:
-                    case CH_EXPLODETOBLANK_1:
-                    case CH_EXPLODETOBLANK_2:
-                    case CH_EXPLODETOBLANK_3:
-                        *this = (creature + 1) | FLAG_THISFRAME;
-                        break;
+                        unsigned char *nextNext = next + 40;
+                        unsigned char downCh = GET(*nextNext);
+                        typeDown = CharToType[downCh];
+                        int attNextNext = Attribute[typeDown];
 
-                    case CH_EXPLODETOBLANK_4:
-                        *this = CH_BLANK | FLAG_THISFRAME;
-                        break;
+                        if (downCh != CH_BOULDER_FALLING && downCh != CH_DOGE_FALLING
+                            && downCh != CH_BOULDER_DOGE_FALLING) {
 
+                            int sfx = 0;
 
-                    case CH_DOGE_CONVERT:
+                            // if (!(attNextNext & ATT_NOROCKNOISE)) {
 
-                        chainReactDoge();
-                        *this = CH_DOGE_00;
+                            //     if (creature == CH_BOULDER_FALLING)
+                            //         sfx = attNextNext & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
+                            //     else
+                            //         sfx = SFX_DIAMOND;
+                            // }
 
+                            if (attNextNext & ATT_HARD) {
+                                if (creature == CH_BOULDER_FALLING
+                                    || creature == CH_BOULDER_DOGE_FALLING) {
 
-                    case CH_DOGE_00:
-                    case CH_DOGE_01:
-                    case CH_DOGE_02:
-                    case CH_DOGE_03:
-                    case CH_DOGE_04:
-                    case CH_DOGE_05:
-                    {
+                                    sfx = SFX_ROCK;
 
-                        if (creature == CH_DOGE_00)
-                            convertDogeToBoulder();
+                                    unsigned char *dL = this + 40 - 1;
+                                    unsigned char *dR = dL + 2;
 
-
-                        if (CharToType[GET(*(this - 40))] != TYPE_DOGE && !(getRandom32() & 0xFFF)) {
-                            *this = CH_DUST_0 | FLAG_THISFRAME;
-                            nDots(8, boardCol, boardRow, 2, 50, 3, 0, 0x10000);
-                            break;
-                        }
-
-
-                        int attrNext = Attribute[CharToType[GET(*next)]];
-
-                        if (attrNext & ATT_BLANK) {
-                            *this = CH_DUST_0 | FLAG_THISFRAME;
-                            *next = CH_DOGE_FALLING | FLAG_THISFRAME;
-                            break;
-                        }
-
-                        if (attrNext & ATT_ROLL)
-                            doRoll(this, CH_DOGE_FALLING);
-
-                        // conglomerate();
-
-                        break;
-                    }
-
-
-                    case CH_BLOCK: {
-
-                        unsigned char typeDown = CharToType[GET(*next)];
-                        if (Attribute[typeDown] & ATT_BLANK) {
-                            *next = CH_BLOCK | FLAG_THISFRAME;
-                            *this = CH_DUST_0 | FLAG_THISFRAME;
-                        }
-                        break;
-                    }
-
-
-                    case CH_CONGLOMERATE:
-                    case CH_CONGLOMERATE_1:
-                    case CH_CONGLOMERATE_2:
-                    case CH_CONGLOMERATE_3:
-                    case CH_CONGLOMERATE_4:
-                    case CH_CONGLOMERATE_5:
-                    case CH_CONGLOMERATE_6:
-                    case CH_CONGLOMERATE_7:
-                    case CH_CONGLOMERATE_8:
-                    case CH_CONGLOMERATE_9:
-                    case CH_CONGLOMERATE_10:
-                    case CH_CONGLOMERATE_11:
-                    case CH_CONGLOMERATE_12:
-                    case CH_CONGLOMERATE_13:
-                    case CH_CONGLOMERATE_14:
-                    case CH_CONGLOMERATE_15:
-
-                    case CH_BOULDER:
-
-                    case CH_BOULDER_DOGE:
-                    {
-                        if (GET(*this) == CH_CONGLOMERATE_15
-                            && *Animate[TYPE_BOULDER_DOGE_CRITICAL] == CH_CONGLOMERATE_15
-                            && !rangeRandom(4)) {
-
-                            bool close = ((boardCol - rockfordX) * (boardCol - rockfordX)
-                                    + (boardRow - rockfordY) * (boardRow - rockfordY) < 7);
-
-                            int pulse = 3 + rangeRandom(RAINHAILSHINE/2);
-                            if (pulse && close) {
-                                cpulse += 32;
-                                FLASH(0x42, 10);
-                            }
-
-                            nDots(pulse, boardCol, boardRow, 2, 50, 3, 4, 0x30000);
-
-                        }
-
-                        unsigned char typeDown = CharToType[GET(*next)];
-
-                        if (Attribute[typeDown] & ATT_BLANK) {
-
-                            if (Attribute[CharToType[GET(*this)]] & ATT_BOULDER_DOGE)
-                                *next = CH_BOULDER_DOGE_FALLING | FLAG_THISFRAME;
-                            else
-                                *next = CH_BOULDER_FALLING | FLAG_THISFRAME;
-
-                            *this = CH_DUST_0 | FLAG_THISFRAME;
-
-                            // int att = Attribute[CharToType[GET(*(next + 40))]];
-                            // if (!(att & ATT_NOROCKNOISE))
-                            //     ADDAUDIO(att & ATT_HARD ? SFX_ROCK : SFX_ROCK2);
-                        }
-
-                        else if (Attribute[typeDown] & ATT_ROLL) {
-
-                            if (Attribute[CharToType[GET(*this)]] & ATT_BOULDER_DOGE)
-                                doRoll(this, CH_BOULDER_DOGE_FALLING);
-                            else
-                                doRoll(this, CH_BOULDER_FALLING);
-
-                        }
-
-                        conglomerate();
-
-                        break;
-                    }
-
-                    case CH_DOGE_FALLING:
-                    case CH_BOULDER_FALLING:
-                    case CH_BOULDER_DOGE_FALLING: {
-
-                        unsigned char typeDown = CharToType[GET(*next)];
-                        if (Attribute[typeDown] & ATT_BLANK) {
-
-                            *this =  CH_DUST_0 | FLAG_THISFRAME;
-;
-                            *next = creature | FLAG_THISFRAME;
-
-                            unsigned char *nextNext = next + 40;
-                            unsigned char downCh = GET(*nextNext);
-                            typeDown = CharToType[downCh];
-                            int attNextNext = Attribute[typeDown];
-
-                            if (downCh != CH_BOULDER_FALLING && downCh != CH_DOGE_FALLING
-                                && downCh != CH_BOULDER_DOGE_FALLING) {
-
-                                int sfx = 0;
-
-                                // if (!(attNextNext & ATT_NOROCKNOISE)) {
-
-                                //     if (creature == CH_BOULDER_FALLING)
-                                //         sfx = attNextNext & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
-                                //     else
-                                //         sfx = SFX_DIAMOND;
-                                // }
-
-                                if (attNextNext & ATT_HARD) {
-                                    if (creature == CH_BOULDER_FALLING
-                                        || creature == CH_BOULDER_DOGE_FALLING) {
-
-                                        sfx = SFX_ROCK;
-
-                                        unsigned char *dL = this + 40 - 1;
-                                        unsigned char *dR = dL + 2;
-
-                                        if (!CharToType[GET(*dR)]) {
-                                            nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
-                                        }
-
-                                        if (!CharToType[GET(*dL)]) {
-                                            nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
-                                        }
+                                    if (!CharToType[GET(*dR)]) {
+                                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
                                     }
-                                    // else
-                                    //     sfx = SFX_DIAMOND;
+
+                                    if (!CharToType[GET(*dL)]) {
+                                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
+                                    }
                                 }
-
-
-                                if (sfx)
-                                    ADDAUDIO(sfx);
-                            }
-                        }
-
-                        else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
-                             Explode(next, CH_DUST_0 | FLAG_THISFRAME);
-
-                        // else if (typeDown == TYPE_BUTTERFLY)
-                        //     Explode(next, CH_EXPLODETODIAMOND_0 | FLAG_THISFRAME);
-
-                        else {
-
-                            // stop falling
-                            unsigned char sfx = 0;
-                            int att = Attribute[CharToType[GET(*(next))]];
-
-                            switch (creature) {
-                            case CH_BOULDER_FALLING: {
-                                *this = CH_BOULDER;
-                                sfx = att & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
-                                break;
+                                // else
+                                //     sfx = SFX_DIAMOND;
                             }
 
-                            case CH_BOULDER_DOGE_FALLING: {
-                                *this = CH_BOULDER_DOGE;
-                                break;
-                            }
 
-                            case CH_DOGE_FALLING: {
-                                *this = CH_DOGE_00;
-                                sfx = SFX_DIAMOND;
-                                break;
-                            }
-                            }
-
-                            if (creature != CH_DOGE_FALLING)
-                                nDots(4, boardCol, boardRow, 2, 40, getRandom32() & 3, 10, 0x10000);
-
-                            if (att & ATT_ROLL)
-                                doRoll(this, creature);
-
-                            if (sfx && !(att & ATT_NOROCKNOISE))
+                            if (sfx)
                                 ADDAUDIO(sfx);
                         }
-
-
-                        //conglomerate();
-                        break;
                     }
 
-                    case CH_DOORCLOSED:
-                        if (!diamonds)
-                            *this = CH_DOOROPEN_0;
-                        break;
+                    else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
+                            Explode(next, CH_DUST_0 | FLAG_THISFRAME);
 
-                    case CH_ROCKFORD_BIRTH:
+                    // else if (typeDown == TYPE_BUTTERFLY)
+                    //     Explode(next, CH_EXPLODETODIAMOND_0 | FLAG_THISFRAME);
 
-                        // rockfordX = boardCol;
-                        // rockfordY = boardRow;
+                    else {
 
-                        if (
-    #if CIRCLE
-                            checkSwipeFinished()
-        #if ENABLE_OVERLAY
-                            && fSpeed == -1
-        #endif
-        //                        && (displayMode == DISPLAY_OVERVIEW
+                        // stop falling
+                        unsigned char sfx = 0;
+                        int att = Attribute[CharToType[GET(*(next))]];
 
-                    ||
-    #endif
-                                (!isScrolling())) {
-
-                            //SAY(__WORD_LETSGOBABY);
-
-                            // ADDAUDIO(SFX_PUSH);
-                            // startPlayerAnimation(ID_Shades); //(ID_Startup);
-                            *this = CH_ROCKFORD; // | FLAG_THISFRAME;
+                        switch (creature) {
+                        case CH_BOULDER_FALLING: {
+                            *this = CH_BOULDER;
+                            sfx = att & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
+                            break;
                         }
-                        break;
 
+                        case CH_BOULDER_DOGE_FALLING: {
+                            *this = CH_BOULDER_DOGE;
+                            break;
+                        }
 
-                    case CH_DOGE_GRAB:
-                        if (*Animate[TYPE_GRAB] == CH_BLANK)
-                             *this = CH_BLANK;
-                        break;
+                        case CH_DOGE_FALLING: {
+                            *this = CH_DOGE_00;
+                            sfx = SFX_DIAMOND;
+                            break;
+                        }
+                        }
 
-                    case CH_DUST_2:
-                        *this = CH_BLANK;
-                        break;
+                        if (creature != CH_DOGE_FALLING)
+                            nDots(4, boardCol, boardRow, 2, 40, getRandom32() & 3, 10, 0x10000);
 
-                    default:
-                        break;
+                        if (att & ATT_ROLL)
+                            doRoll(this, creature);
+
+                        if (sfx && !(att & ATT_NOROCKNOISE))
+                            ADDAUDIO(sfx);
                     }
+
+
+                    //conglomerate();
+                    break;
+                }
+
+                case CH_DOORCLOSED:
+                    if (!diamonds) {
+                        *this = CH_DOOROPEN_0;
+                        FLASH(0x28,10);
+                    }
+                    break;
+
+                case CH_ROCKFORD_BIRTH:
+
+                    // rockfordX = boardCol;
+                    // rockfordY = boardRow;
+
+                    if (
+#if CIRCLE
+                        checkSwipeFinished()
+    #if ENABLE_OVERLAY
+                        && fSpeed == -1
+    #endif
+    //                        && (displayMode == DISPLAY_OVERVIEW
+
+                ||
+#endif
+                            (!isScrolling())) {
+
+                        //SAY(__WORD_LETSGOBABY);
+
+                        // ADDAUDIO(SFX_PUSH);
+                        // startPlayerAnimation(ID_Shades); //(ID_Startup);
+                        *this = CH_ROCKFORD; // | FLAG_THISFRAME;
+                    }
+                    break;
+
+
+                case CH_DOGE_GRAB:
+                    if (*Animate[TYPE_GRAB] == CH_BLANK)
+                            *this = CH_BLANK;
+                    break;
+
+                case CH_DUST_2:
+                    *this = CH_BLANK;
+                    break;
+
+                default:
+                    break;
+                }
+        }
+
+
+        // Any blanks/dissolves underwater/lava gets transformed to water/lava chars
+        if (!(*this & FLAG_THISFRAME))
+            if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES) && boardRow * PIECE_DEPTH / 3 >= lavaSurface) {
+                if (type != TYPE_WATER || !rangeRandom(4)) {
+                    int rr = getRandom32() & 3;
+                    *this = showLava ? CH_LAVA_0 + rr : CH_WATER_0 + rr;
+                }
             }
     }
 

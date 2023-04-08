@@ -11,7 +11,7 @@
 #include "random.h"
 #include "rockford.h"
 #include "scroll.h"
-
+#include "sound.h"
 
 static int playerSpriteY;
 
@@ -154,7 +154,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
     static int root = 0;
     root++;
 
-    const unsigned char c[] = { 0x20, 0x30, 0x40, 0x50 };
+    const unsigned char c[] = { 0x90, 0x90, 0x90, 0x90 }; //0x20, 0x30, 0x40, 0x50 };
     int rooted = c[(root >> 3) & 3];
 
 
@@ -184,7 +184,7 @@ void drawPlayerSprite() {  // --> 3171 cycles
 
 #endif
 
-    int ypos = (rockfordY  + 1) * PIECE_DEPTH - y * 3 - frameAdjustY - 8 + autoMoveY - SCORE_SCANLINES;
+    int ypos = (rockfordY  + 1) * PIECE_DEPTH - y * 3 - frameAdjustY * gravity - 8 + autoMoveY - SCORE_SCANLINES;
     int xpos = rockfordX * 5 - x;
 
 
@@ -211,6 +211,11 @@ void drawPlayerSprite() {  // --> 3171 cycles
         if (playerSpriteY < 0 || playerSpriteY >= _ARENA_SCANLINES - SPRITE_DEPTH
             || pX > 159)
             return;
+
+        if (playerSpriteY >= lavaLine)
+            ADDAUDIO(SFX_AMOEBA);
+        else
+            killAudio(SFX_AMOEBA);
 
 
         P0_X = pX;

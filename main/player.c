@@ -3173,13 +3173,19 @@ const unsigned short reciprocal[] = {
     0x10000/6,
 #endif
 
-    0x10000/7,
-    0x10000/8,
-    0x10000/9,
-    0x10000/10,
-    0x10000/11,
-    0x10000/12,
-    0x10000/13,
+#if SCHEDULER == 1
+    0x10000/3,
+#endif
+
+//    0x10000/5,
+//    0x10000/6,
+//    0x10000/7,
+     0x10000/7,
+    // 0x10000/9,
+    // 0x10000/10,
+    // 0x10000/11,
+    // 0x10000/12,
+    // 0x10000/13,
 
 #if SPEED_BASE == 6
     0x10000/11,
@@ -3193,8 +3199,8 @@ void updateAnimation() {
     if (autoMoveFrameCount)
         autoMoveFrameCount--;
 
-    autoMoveX = ((autoMoveFrameCount * autoMoveDeltaX * (int)reciprocal[gameSpeed - SPEED_BASE]) >> 16);
-    autoMoveY = ((autoMoveFrameCount * autoMoveDeltaY * (int)reciprocal[gameSpeed - SPEED_BASE]) >> 16);
+    autoMoveX = ((autoMoveFrameCount * autoMoveDeltaX * (int)reciprocal[0]) >> 16);
+    autoMoveY = ((autoMoveFrameCount * autoMoveDeltaY * (int)reciprocal[0]) >> 16);
 
     if (playerAnimationCount != 255) {
 

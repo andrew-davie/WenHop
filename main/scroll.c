@@ -60,15 +60,13 @@ void Scroll() {
 
     else {
 
-        int recip = reciprocal[gameSpeed - SPEED_BASE];
-        int rockx = rockfordX * PIXELS_PER_CHAR + (PIXELS_PER_CHAR >> 1);
+#define PIXELS_PER_CHAR2 4
+
+        int recip = reciprocal[0];; //gameSpeed - SPEED_BASE];
+        int rockx = rockfordX * PIXELS_PER_CHAR2 + (PIXELS_PER_CHAR2 >> 1);
         int rocky = rockfordY * TRILINES + (TRILINES >> 1);
 
         int max = (SCROLLSPEED_MAXIMUM_X * recip) >> 8;
-
-        if (uncoverTimer > 0)
-            max >>= 1;
-
 
         int halfwayPix = (scrollX >> 14) + HALFWAYX;
         int triggerEdgePix = SCROLL_TRIGGEREDGE_HORIZONTAL;
@@ -92,9 +90,6 @@ void Scroll() {
 
         halfwayPix = (scrollY >> 16) + HALFWAYY;
         max = (SCROLLSPEED_MAXIMUM_Y * recip) >> 8;
-        if (uncoverTimer > 0)
-            max >>= 1;
-
 
         triggerEdgePix = SCROLL_TRIGGEREDGE_VERTICAL;
 
@@ -204,7 +199,7 @@ void Scroll() {
         scrollSpeedX = 0;
         targetScrollSpeed = 0;
     }
-    
+
     if (scrollY > maxY) {
         scrollY = maxY;
         scrollSpeedY = 0;
@@ -221,9 +216,6 @@ void Scroll() {
 
 
 void resetTracking() {
-
-    if (uncoverTimer > 0)
-        return;
 
     // if (displayMode == DISPLAY_NORMAL)
         scrollX = (rockfordX - (HALFWAYX /5)) << 16;

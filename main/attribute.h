@@ -25,28 +25,26 @@ enum ObjectType {
     TYPE_PEBBLE2,               // 11
     TYPE_GRAB,                  // 12
     TYPE_DUST_0,                // 13
-    // TYPE_DUST_1,                // 14
-    // TYPE_DUST_2,                // 15
-    TYPE_DUST_LEFT,             // 16
-    TYPE_DUST_RIGHT,            // 17
-    TYPE_DOGE_FALLING,          // 18
-    TYPE_BOULDER_FALLING,       // 19
-    TYPE_DUST_ROCK,             // 20
-    TYPE_DOGE_CONVERT,          // 21
-    TYPE_SWITCH,                // 22
-    TYPE_PUSHER,                // 23
-    TYPE_PUSHER_VERT,           // 24
-    TYPE_WYRM,                  // 25
-    TYPE_BOULDER_DOGE,          // 26
-    TYPE_BOULDER_DOGE_FALLING,  // 27
-    TYPE_BOULDER_DOGE_CRITICAL, // 28
-    TYPE_LAVA,                  // 29
-    TYPE_PEBBLE_BOULDER,        // 30
-    TYPE_FLIP_GRAVITY,          // 31
-    TYPE_ZAP,                   // 32
-    TYPE_BLOCK,                 // 33
-    TYPE_PACMAN_DOT,            // 34
-    TYPE_AIRHOSE,               // 35
+    TYPE_DOGE_FALLING,          // 14
+    TYPE_BOULDER_FALLING,       // 15
+    TYPE_DUST_ROCK,             // 16
+    TYPE_DOGE_CONVERT,          // 17
+    TYPE_SWITCH,                // 18
+    TYPE_PUSHER,                // 19
+    TYPE_PUSHER_VERT,           // 20
+    TYPE_WYRM,                  // 21
+    TYPE_BOULDER_DOGE,          // 22
+    TYPE_BOULDER_DOGE_FALLING,  // 23
+    TYPE_BOULDER_DOGE_CRITICAL, // 24
+    TYPE_LAVA,                  // 25
+    TYPE_PEBBLE_BOULDER,        // 26
+    TYPE_FLIP_GRAVITY,          // 27
+    TYPE_ZAP,                   // 28
+    TYPE_BLOCK,                 // 29
+    TYPE_PACMAN_DOT,            // 30
+    TYPE_AIRHOSE,               // 31
+    TYPE_HUB,                   // 32
+    TYPE_WATER,                 // 33
 
     TYPE_MAX
 };
@@ -168,6 +166,11 @@ enum ChName {
     CH_BLOCK,                       // 102
     CH_PACMAN_DOT,                  // 103
     CH_HORIZ_ZAP_3,                 // 104
+    CH_HUB,                         // 105
+    CH_WATER_0,                     // 106
+    CH_WATER_1,                     // 107
+    CH_WATER_2,                     // 108
+    CH_WATER_3,                     // 109
 
 // 127 is limit
 
@@ -177,22 +180,22 @@ enum ChName {
 
 
 #define ATT_ROLL                    1  /*  falling objects roll off this object */
-#define ATT_KILLS_FLY               2  /*  firefly/butterfly object touching this is deadly */
+///
 #define ATT_EXPLODABLE              4  /*  object can be destroyed by explosion */
 #define ATT_PERMEABLE               8  /*  amoeba can grow here */
 #define ATT_BLANK                  16  /*  blank square */
 #define ATT_DIRT                   32
 #define ATT_GRAB                   64  /*  grabbable object */
 #define ATT_EXPLODES              128  /*  object explodes if killed */
-#define ATT_ACTIVE                256  /*  object requires checking/AI DISABLED!!!*/
+// #define ATT_ACTIVE                256  /*  object requires checking/AI DISABLED!!!*/
 #define ATT_SQUASHABLE_TO_BLANKS  512
-#define ATT_HARD                 1024
-#define ATT_EXIT                 2048
-#define ATT_NOROCKNOISE          4096
-#define ATT_PUSH                 8192
-#define ATT_ROCKFORDYBLANK      16384
-#define ATT_DRIP                32768
-
+#define ATT_HARD                 1024 //10
+#define ATT_EXIT                 2048 //11
+#define ATT_NOROCKNOISE          4096 //12
+#define ATT_LAVA                 8192 //13
+#define ATT_ROCKFORDYBLANK      16384 //14
+#define ATT_DRIP                32768 //15
+#define ATT_MINE  (1 << 16)
 #define ATT_CORNER (1 << 31)
 #define ATT_PAD (1 << 30)
 #define ATT_SHOVE (1<<29)
@@ -201,6 +204,41 @@ enum ChName {
 #define ATT_MELTS (1 << 26)
 #define ATT_DISSOLVES (1 << 25)
 #define ATT_PULL (1 << 24)
+
+#define ATT_PHASE1 (1 << 23)
+#define ATT_PHASE2 (1 << 22)
+#define ATT_PHASE4 (1 << 21)
+
+#define RKF ATT_ROCKFORDYBLANK
+#define MIN ATT_MINE
+#define WTR 0 /*ATT_WATER*/
+#define LAV 0 /*ATT_LAVA*/
+#define QUI ATT_NOROCKNOISE
+#define XIT ATT_EXIT
+#define HRD ATT_HARD
+#define SQB ATT_SQUASHABLE_TO_BLANKS
+#define ACT ATT_ACTIVE
+#define BNG ATT_EXPLODES
+#define GRB ATT_GRAB
+#define SPC ATT_BLANK
+#define PER ATT_PERMEABLE
+#define XPD ATT_EXPLODABLE
+#define FLY ATT_KILLS_FLY
+#define ROL ATT_ROLL
+#define DRP ATT_DRIP
+#define DRT ATT_DIRT
+#define CNR ATT_CORNER
+#define PAD ATT_PAD
+#define SHV ATT_SHOVE
+#define BOU ATT_BOULDER
+#define DGE ATT_BOULDER_DOGE
+#define MLT ATT_MELTS
+#define DIS ATT_DISSOLVES
+#define PUL ATT_PULL
+
+#define PH1 ATT_PHASE1
+#define PH2 ATT_PHASE2
+#define PH4 ATT_PHASE4
 
 
 #endif

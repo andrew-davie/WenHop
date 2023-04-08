@@ -100,7 +100,7 @@ const unsigned char sampleBlip[] = {
 };
 
 const unsigned char sampleAmoeba[] = {
-    0xC, 0x8, 1, 30,
+    0xE, 0x8, 5, 30,
     CMD_STOP,
 //    CMD_LOOP,
     // 12,10,2,1,
@@ -493,7 +493,11 @@ void playAudio() {
                 // if (!best->index && best->delay == AudioSamples[best->id].sample[3])
                 //     amoebaF = (getRandom32() & 0xF) | 8;
                 // audF = amoebaF;
-                audF = getRandom32() & 0xF;
+
+                static int amFreq = 0;
+                // if (!rangeRandom(4))
+                    amFreq = getRandom32() & 0x3;
+                audF = amFreq;
                 break;
             }
 

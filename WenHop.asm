@@ -15,7 +15,7 @@ __ENABLE_WATER = 0
 __ENABLE_LAVA = 0
 
 __ENABLE_LAVA2 = 1
-
+__ENABLE_WATER2 = 1
 
  IF __ENABLE_TRAINER == 1
 __ENABLE_DEMO = 0       ; 260 bytes + joystick data (DO NOT ADJUST)

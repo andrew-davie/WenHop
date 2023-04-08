@@ -40,6 +40,7 @@ static unsigned char scoreLineNew[10];
 static unsigned char scoreLineColour[10];
 
 static int toggle = 0;
+int scorePulse = 0;
 
 
 
@@ -59,6 +60,8 @@ void addScore(int score) {
         ADDAUDIO(SFX_EXTRA);
         setScoreCycle(SCORELINE_LIVES);
     }
+
+    scorePulse = 200;
 }
 
 
@@ -217,7 +220,7 @@ void doubleSizeScore(int x, int y, int letter, int col) {
     unsigned char *sample = charAtoZ + (letter + 26) * 10;
 
     for (int line = 0; line < 5; line++)
-        fillBit(line, sample[line]);      
+        fillBit(line, sample[line]);
 
     drawBigDigit(0x80, x, y, 0x80 | col, false);
     drawBigDigit(0x81, x + 1, y, 0x80 | col, false);
@@ -246,7 +249,7 @@ unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer,
 
         if (forced || !digit) {
             *buffer++ = displayDigit;
-            
+
             if (colour_buffer)
                 *colour_buffer++ = colour;
         }
@@ -283,7 +286,7 @@ void drawSpeedRun() {
 
     static int speedCycle;
     speedCycle -= 12;
-    for (int i = 0; i < 8; i++) {    
+    for (int i = 0; i < 8; i++) {
         scoreLineNew[i + 1] = LETTER("SPEEDRUN"[i]);
         scoreLineColour[i + 1] = ((speedCycle + i * 0x30) >> 8) & 7;
     }
@@ -335,10 +338,10 @@ void drawTheScore(int score) {
 
         notLeadingZero |= displayDigit;
 
-        if (!digit || notLeadingZero) {
+       if (!digit || notLeadingZero) {
             scoreLineNew[9 - digit] = displayDigit;
             scoreLineColour[9 - digit] = RGB_YELLOW; // digit + 1;
-        }
+       }
     }
 }
 
@@ -368,7 +371,7 @@ void drawc(int start, int v) {
         scoreLineNew[start+1] = d;
     }
 }
- 
+
 
 
 void drawColours() {
@@ -387,7 +390,7 @@ void drawColours() {
 
     short type = 0;
     switch (mm_tv_type) {
-        case NTSC: 
+        case NTSC:
             type = DIGIT_N;
             break;
         case PAL:
@@ -444,7 +447,7 @@ void drawScore() {
     case SCORELINE_TIME:
     case SCORELINE_SCORE:
 //        drawDiamond();
-        drawTime();
+//        drawTime();
 //        break;
         drawTheScore(actualScore);
         break;
@@ -466,11 +469,18 @@ void drawScore() {
         break;
     }
 
-    // static int colr = 0;
-    // colr++;
+
+    static int scoreColour;
+    if (scorePulse > 0) {
+        scorePulse--;
+        scoreColour++;
+    }
+
+    else scoreColour = 6 << 4;
+
 
     for (int i = 0; i < 10; i++)
-        drawBigDigit(scoreLineNew[i], 9 - i, 9, 7 /*scoreLineColour[i]*/, false);
+        drawBigDigit(scoreLineNew[i], 9 - i, 9, (scoreColour >> 4) & 7, false);
 
 }
 

@@ -38,6 +38,7 @@
 #define SPRITE_DEPTH 30
 #define HALF_DEPTH 15
 
+#define SCHEDULER 0
 
 #define MAXIMUM_AMOEBA_SIZE 200
 
@@ -49,7 +50,7 @@
 #define RAIN_DEAD (RAIN_RESET_AFTER_IMPACT + RAIN_IMPACT_DURATION)
 
 
-#define SPEED_BASE 7
+#define SPEED_BASE 8 /*7*/
 
 
 #if __ENABLE_LAVA
@@ -60,7 +61,7 @@
 #define WATER_SPEED 1
 #endif
 
-#define PIXELS_PER_CHAR 4
+#define PIXELS_PER_CHAR 5
 #define HALFWAYX 20
 #define HALFWAYY 32
 #define TRILINES (PIECE_DEPTH/3)
@@ -105,7 +106,6 @@ struct Animation {
 #define setPointer(fetcher, offset) QPTR[fetcher] = (offset) << 20;
 
 #define FLAG_THISFRAME 0x80
-//#define FLAG_UNCOVER 0x40
 
 #define DEAD_RESTART_COUCH  200
 
@@ -188,6 +188,7 @@ extern unsigned int fade;
 
 extern bool caveCompleted;
 extern int lavaSurface;
+extern bool showLava, showWater;
 
 #define RAINHAILSHINE 8
 
@@ -215,8 +216,7 @@ enum FaceDirection {
 extern unsigned int currentPalette;
 //extern int mirrorFlipper;
 //extern int easterEggColour;
-extern int uncoverTimer;
-extern unsigned int uncoverCount;
+
 extern unsigned int availableIdleTime;
 extern int cpulse;
 
@@ -228,6 +228,8 @@ void initNewGame();
 
 
 void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY, int speed);
+void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed);
+int sphereDot(int dripX, int dripY, int type, int age, int speed);
 
 //extern int actualScore;
 

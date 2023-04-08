@@ -339,6 +339,15 @@ void StoreObject(int x, int y, objectType anObject) {
 
     else if (CharToType[anObject] == TYPE_LAVA) {
 
+        showLava = true;
+        int line = y * PIECE_DEPTH / 3;
+        if (lavaSurface > 0 && line < lavaSurface)
+            lavaSurface = line;
+    }
+
+    else if (CharToType[anObject] == TYPE_WATER) {
+
+        showWater = true;
         int line = y * PIECE_DEPTH / 3;
         if (lavaSurface > 0 && line < lavaSurface)
             lavaSurface = line;

@@ -112,6 +112,11 @@ const unsigned char CharToType[CH_MAX]= {
     TYPE_BLOCK,                     // 102 CH_BLOCK,
     TYPE_PACMAN_DOT,                // 103 CH_PACMAN_DOT,
     TYPE_AIRHOSE,                   // 104 CH_HORIZ_ZAP_3,
+    TYPE_HUB,                       // 105 CH_HUB,
+    TYPE_WATER,                     // 106 CH_WATER_0
+    TYPE_WATER,                     // 107 CH_WATER_1
+    TYPE_WATER,                     // 108 CH_WATER_2
+    TYPE_WATER,                     // 109 CH_WATER_3
 };
 
 
@@ -121,32 +126,6 @@ const int Attribute[TYPE_MAX] = {
 
 #define _ 0
 
-#define RKF ATT_ROCKFORDYBLANK
-#define PSH ATT_PUSH
-#define WTR 0 /*ATT_WATER*/
-#define LAV 0 /*ATT_LAVA*/
-#define QUI ATT_NOROCKNOISE
-#define XIT ATT_EXIT
-#define HRD ATT_HARD
-#define SQB ATT_SQUASHABLE_TO_BLANKS
-#define ACT ATT_ACTIVE
-#define BNG ATT_EXPLODES
-#define GRB ATT_GRAB
-#define SPC ATT_BLANK
-#define PER ATT_PERMEABLE
-#define XPD ATT_EXPLODABLE
-#define FLY ATT_KILLS_FLY
-#define ROL ATT_ROLL
-#define DRP ATT_DRIP
-#define DRT ATT_DIRT
-#define CNR ATT_CORNER
-#define PAD ATT_PAD
-#define SHV ATT_SHOVE
-#define BOU ATT_BOULDER
-#define DGE ATT_BOULDER_DOGE
-#define MLT ATT_MELTS
-#define DIS ATT_DISSOLVES
-#define PUL ATT_PULL
 
 //  LAV =   Object immediately turns into lava bubbles when below lava line
 //  QUI =   Quiet object. No noise genrate when things fall onto it
@@ -158,81 +137,52 @@ const int Attribute[TYPE_MAX] = {
 //  PAD =   do the corner padding for this creature type
 //  SHV =   the pushers can push this object if next square blank
 //  MLT =   melts when in lava -> CH_LAVA_00
-//  PUL =   object pulled by lassoo                                                                                                                        e           k
-//                                                                                                                         s           n                       e
-//                                                                                                    y       k           i           a                   e   l
-//                                                                                                   d       n           o           l       s           l   b   y
-//                                                                                                  r       a           n           B       e           b   a   l
-//                                                                                                 o       l           k           h   e   d           a   d   F
-//                                                                                                f       b   r       c           s   v   o       k   e   o   s
-//                                                                                       T   p   k   h   i   e   a   o   t   d   a   i   l   b   n   m   l   l   1
-//                                                                                      R   i   c   s   m   t   v   R   i   r   u   t   p   a   a   r   p   l   l
-//                                                                                     I   r   o   u   e   a   a   o   x   a   q   c   x   r   l   e   x   i   o
-//                                                                                    D   D   R   P   S   W   L   N   E   H   S   A   E   G   B   P   E   K   R
-//                                                                                    |   |   |   |   |x  |x  |x  |   |   |   |   |   |   |   |   |   |   |   |
-// CNR PAD SHV BOU DGE MLT DIS PUL                                                   --- DRP RKF PSH SSP WTR LAV QUI XIT HRD SQB ACT BNG GRB SPC PER XPD FLY ROL
+//  PUL =   object pulled by lassoo
+//
+//  PH1     every nth frame processes...
+//  PH2
+//  PH4
+//                                    21
+//                                   22
+//  31  30  29  28  27  26  25  24  23  20  19  18  17  16  15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0
+// CNR PAD SHV BOU DGE MLT DIS PUL PH*                 MIN DRP RKF LAV QUI XIT HRD SQB     BNG GRB DRT SPC PER XPD     ROL
+// ---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+    _ |PAD| _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ |RKF|LAV|QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 00 TYPE_SPACE,
+   CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ |DRP| _ |LAV| _ | _ | _ | _ | _ | _ | _ |DRT| _ |PER|XPD| _ | _  , // 01 TYPE_DIRT,
+    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 02 TYPE_BRICKWALL,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 03 TYPE_OUTBOX_PRE,
+    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |XIT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 04 TYPE_OUTBOX,
+   CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 05 TYPE_STEELWALL,
+    _ |PAD|SHV|BOU| _ | _ | _ |PUL|PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 06 TYPE_BOULDER,
+    _ |PAD|SHV| _ | _ |MLT| _ |PUL|PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG|GRB| _ | _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 08 TYPE_ROCKFORD_PRE,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ |SQB| _ | _ | _ | _ | _ | _ |XPD| _ | _  , // 09 TYPE_ROCKFORD,
+   CNR| _ | _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ |DRP| _ |LAV| _ | _ | _ | _ | _ | _ | _ |DRT| _ |PER|XPD| _ | _  , // 10 TYPE_PEBBLE1,
+   CNR| _ | _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ |DRP| _ |LAV| _ | _ | _ | _ | _ | _ | _ |DRT| _ |PER|XPD| _ | _  , // 11 TYPE_PEBBLE2,
+    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |RKF|LAV|QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 12 TYPE_GRAB,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 13 TYPE_DUST_0,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 14 TYPE_DOGE_FALLING,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ | _  , // 15 TYPE_BOULDER_FALLING,
+    _ |PAD| _ | _ | _ |MLT| _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ | _  , // 16 TYPE_DUST_ROCK,
+    _ |PAD| _ | _ | _ |MLT| _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 17 TYPE_DOGE_CONVERT,
+    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |GRB| _ | _ | _ | _ | _ | _  , // 18 TYPE_SWITCH,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 19 TYPE_PUSHER,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 20 TYPE_PUSHER_VERT,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 21 TYPE_WYRM,
+    _ |PAD|SHV|BOU|DGE|MLT| _ |PUL|PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 22 TYPE_BOULDER_DOGE,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ | _  , // 23 TYPE_BOULDER_DOGE_FALLING,
+    _ |PAD|SHV|BOU|DGE| _ | _ | _ |PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 24 TYPE_BOULDER_DOGE_CRITICAL,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC| _ |XPD| _ | _  , // 25 TYPE_LAVA,
+    _ |PAD| _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ |PER|XPD| _ | _  , // 26 TYPE_PEBBLE_BOULDER,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ |DRT| _ |PER|XPD| _ | _  , // 27 TYPE_FLIP_GRAVITY
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 28 TYPE_ZAP
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 29 TYPE_BLOCK
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 30 TYPE_BLOCK
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 31 TYPE_AIRHOSE
+   CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 32 TYPE_HUB
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC| _ |XPD| _ | _  , // 33 TYPE_WATER
+// ---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 
-    _ |PAD| _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ |WTR|LAV|QUI| _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 00 TYPE_SPACE,
-   CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |   DRT|DRP| _ | _ | _ |WTR|LAV| _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 01 TYPE_DIRT,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ |XPD| _ |ROL , // 02 TYPE_BRICKWALL,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 03 TYPE_OUTBOX_PRE,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ |XIT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 04 TYPE_OUTBOX,
-   CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _  , // 05 TYPE_STEELWALL,
-    _ |PAD|SHV|BOU| _ | _ | _ |PUL| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 06 TYPE_BOULDER,
-    _ |PAD|SHV| _ | _ |MLT| _ |PUL| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG|GRB| _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 08 TYPE_ROCKFORD_PRE,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ |SQB|ACT| _ | _ | _ | _ |XPD|FLY| _  , // 09 TYPE_ROCKFORD,
-   CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |   DRT|DRP| _ | _ | _ |WTR|LAV| _ | _ | _ | _ |ACT| _ | _ | _ |PER|XPD| _ | _  , // 10 TYPE_PEBBLE1,
-   CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |   DRT|DRP| _ | _ | _ |WTR|LAV| _ | _ | _ | _ |ACT| _ | _ | _ |PER|XPD| _ | _  , // 11 TYPE_PEBBLE2,
-    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ |WTR|LAV|QUI| _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 12 TYPE_GRAB,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 13 TYPE_DUST_0,
-    // _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 14 TYPE_DUST_1,
-    // _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 15 TYPE_DUST_2,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 16 TYPE_DUST_LEFT,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 17 TYPE_DUST_RIGHT,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 18 TYPE_DOGE_FALLING,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 19 TYPE_BOULDER_FALLING,
-    _ |PAD| _ | _ | _ |MLT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 20 TYPE_DUST_ROCK,
-    _ |PAD| _ | _ | _ |MLT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 21 TYPE_DOGE_CONVERT,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ |GRB| _ | _ | _ | _ | _  , // 22 TYPE_SWITCH,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ |ROL , // 23 TYPE_PUSHER,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 24 TYPE_PUSHER_VERT,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 25 TYPE_WYRM,
-    _ |PAD|SHV|BOU|DGE|MLT| _ |PUL| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 26 TYPE_BOULDER_DOGE,
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ | _  , // 27 TYPE_BOULDER_DOGE_FALLING,
-    _ |PAD|SHV|BOU|DGE| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ |PSH| _ | _ | _ | _ | _ |HRD| _ |ACT|BNG| _ | _ | _ |XPD| _ |ROL , // 28 TYPE_BOULDER_DOGE_CRITICAL,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ |SPC| _ |XPD| _ | _  , // 29 TYPE_LAVA,
-    _ |PAD| _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ |PER|XPD| _ | _  , // 30 TYPE_PEBBLE_BOULDER,
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT|BNG| _ | _ |PER|XPD| _ | _  , // 31 TYPE_FLIP_GRAVITY
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ |DRP| _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 32 TYPE_ZAP
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |ACT| _ | _ | _ | _ | _ | _ | _  , // 33 TYPE_BLOCK
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 34 TYPE_PACMAN_DOT
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _    |    _ | _ |RKF| _ | _ | _ | _ |QUI| _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 35 TYPE_AIRHOSE
-
-
-
-
-#if __ENABLE_LAVA
-     , // 47 LAVA
-#endif
-
-#if __ENABLE_WATER
-     _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ |ACT| _ | _ |SPC|PER|XPD| _ | _  , // 48 WATER
-#endif
-
-//  --- DRP RKF PSH SSP WTR LAV QUI XIT HRD SQB ACT BNG GRB SPC PER XPD FLY ROL
-//   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-//   D   D   R   P   S   W   L   N   E   H   S   A   E   G   B   P   E   K   R
-//    I   r   o   u   e   a   a   o   x   a   q   c   x   r   l   e   x   i   o
-//     R   i   c   s   m   t   v   R   i   r   u   t   p   a   a   r   p   l   l
-//      T   p   k   h   i   e   a   o   t   d   a   i   l   b   n   m   l   l   1
-//               f       b   r       c           s   v   o       k   e   o   s
-//                o       l           k           h   e   d               a   d   F
-//                 r       a           n           B       e               b   a   l
-//                  d       n           o           l       s               l   b   y
-//                   y       k           i           a                       e   l
-//                                        s           n                           e
-//                                         e           k
 
 };
 

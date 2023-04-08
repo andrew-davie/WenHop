@@ -275,10 +275,12 @@ void setPalette() {
             roll = 2;
 
 
-        static const int lavaColour[] = { 0x24, 0x34, 0x26, 0x24, 0x34 };
-        static const unsigned char lbg[] = { 0x2A, 0x46, 0x46, 0x44,
-            0x44, 0x44, 0x42,
-            0x42, 0x42, 0x42, 0x40
+        // static const int lavaColour[] = { 0x24, 0x34, 0x26, 0x24, 0x34 };
+        static const int lavaColour[] = { 0x94, 0xB4, 0x84, 0x94, 0xB4 };
+
+        static const unsigned char lbg[] = { 0x96, 0x96, 0x96, 0x94,
+            0x94, 0x94, 0x92,
+            0x92, 0x90, 0x90, 0x90
         };
 
         int lavaLine = (lavaSurface - (scrollY >> shift)) * 3;
@@ -313,7 +315,6 @@ void setPalette() {
 
 
         while (i < _ARENA_SCANLINES) {
-
 
             unsigned char lbgCol = lbg[(lavab >> 2)];
 

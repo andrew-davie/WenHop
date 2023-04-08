@@ -89,6 +89,7 @@
 #define __ENABLE_LAVA2            0x0001
 #define __ENABLE_TRAINER          0x0000
 #define __ENABLE_WATER            0x0000
+#define __ENABLE_WATER2           0x0001
 #define __PALETTE_COUNT           0x0010
 #define __TITLE_SCREEN            0x7aa2
 #define __WORD_COUNT              0x0000

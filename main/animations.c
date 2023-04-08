@@ -134,28 +134,26 @@ const char *const AnimateBase[TYPE_MAX] = {
     0,                          // 11 TYPE_PEBBLE2,
     AnimGrab,                   // 12 TYPE_GRAB,
     0,                          // 13 TYPE_DUST_0,
-    // 0,                          // 14 TYPE_DUST_1,
-    // 0,                          // 15 TYPE_DUST_2,
-    0,                          // 16 TYPE_DUST_LEFT,
-    0,                          // 17 TYPE_DUST_RIGHT,
-    0,                          // 18 TYPE_DOGE_FALLING,
-    0,                          // 19 TYPE_BOULDER_FALLING,
-    0,                          // 20 TYPE_DUST_ROCK,
-    0,                          // 21 TYPE_DOGE_CONVERT,
-    AnimSwitch,                 // 22 TYPE_SWITCH,
-    0,                          // 23 TYPE_PUSHER,
-    0,                          // 24 TYPE_PUSHER_VERT,
-    0,                          // 25 TYPE_WYRM,
-    0,                          // 26 TYPE_BOULDER_DOGE,
-    0,                          // 27 TYPE_BOULDER_DOGE_FALLING,
-    AnimConglomerateMid,        // 28 TYPE_BOULDER_DOGE_CRITICAL,
-    0,                          // 29 TYPE_LAVA,
-    0,                          // 30 TYPE_PEBBLE_BOULDER,
-    AnimateGravity,             // 31 TYPE_FLIP_GRAVITY,
-    AnimateZap,                 // 32 TYPE_ZAP
-    0,                          // 33 TYPE_BLOCK
-    0,                          // 34 TYPE_PACMAN_DOT
-    0,                          // 35 TYPE_AIRHOSE
+    0,                          // 14 TYPE_DOGE_FALLING,
+    0,                          // 15 TYPE_BOULDER_FALLING,
+    0,                          // 16 TYPE_DUST_ROCK,
+    0,                          // 17 TYPE_DOGE_CONVERT,
+    AnimSwitch,                 // 18 TYPE_SWITCH,
+    0,                          // 19 TYPE_PUSHER,
+    0,                          // 20 TYPE_PUSHER_VERT,
+    0,                          // 21 TYPE_WYRM,
+    0,                          // 22 TYPE_BOULDER_DOGE,
+    0,                          // 23 TYPE_BOULDER_DOGE_FALLING,
+    AnimConglomerateMid,        // 24 TYPE_BOULDER_DOGE_CRITICAL,
+    0,                          // 25 TYPE_LAVA,
+    0,                          // 26 TYPE_PEBBLE_BOULDER,
+    AnimateGravity,             // 27 TYPE_FLIP_GRAVITY,
+    AnimateZap,                 // 28 TYPE_ZAP
+    0,                          // 29 TYPE_BLOCK
+    0,                          // 30 TYPE_PACMAN_DOT
+    0,                          // 31 TYPE_AIRHOSE
+    0,                          // 32 TYPE_HUB
+    0,                          // 33 TYPE_WATER
 
 };
 
