@@ -1,15 +1,3 @@
-/* decodeCaves.c
-   Original program written by:
-       Jeff Bevis <bevis@ecn.purdue.edu>
-       Peter Broadribb <peterb@perth.dialix.oz.au>
-   28 Aug 1995
-
-   01 Oct 1995: Fixed bug in NextRandom(); I have now checked the output
-   of NextRandom() against the output of the original 6510 code, and they
-   appear to be generating the same numbers. However, the cave data,
-   although _almost_ correct, doesn't seem exactly right. I'm puzzled. [PB]
-
-   */
 
 #include "defines_cdfj.h"
 
