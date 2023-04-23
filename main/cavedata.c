@@ -64,25 +64,25 @@ const unsigned char caveA[] = {
     CH_PEBBLE1, 150, 0, 240, 0, 20,
     CH_PEBBLE2, 150, 0, 240, 0, 20,
     CH_BOULDER, 10, 0, 240, 0, 20,
-// CH_FLIP_GRAVITY_0,   100, 10, 10, 10, 10,
-// CH_BOULDER_DOGE, 80, 80, 80, 80, 80,
-//        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
+    // CH_FLIP_GRAVITY_0,   100, 10, 10, 10, 10,
+    // CH_BOULDER_DOGE, 80, 80, 80, 80, 80,
+    //        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
 
-// CH_PUSH_LEFT,    0,  10,   5,   0,  20,
-// CH_PUSH_RIGHT,   0,  10,   5,   0,  20,
-// CH_PUSH_UP,      0,  10,   5,   0,  20,
-// CH_PUSH_DOWN,    0,  10,   5,   0,  20,
+    // CH_PUSH_LEFT,    0,  10,   5,   0,  20,
+    // CH_PUSH_RIGHT,   0,  10,   5,   0,  20,
+    // CH_PUSH_UP,      0,  10,   5,   0,  20,
+    // CH_PUSH_DOWN,    0,  10,   5,   0,  20,
 
-// DIAMOND,    9,9,9,9,200,
+    // DIAMOND,    9,9,9,9,200,
 
-// CH_DOGE_00, 4, 2,
+    // CH_DOGE_00, 4, 2,
 
-// LINE + CH_LADDER_0, 4,2,4,10,
+    // LINE + CH_LADDER_0, 4,2,4,10,
 
-// FILLRECT+CH_BOULDER,5,5,21,10,CH_DIRT,
+    // FILLRECT+CH_BOULDER,5,5,21,10,CH_DIRT,
 
-#define VS 3
-#define HS 3
+    // #define VS 3
+    // #define HS 3
 
     //     0xFE,CH_PUSH_DOWN,6,9,
     // //    0xFE,CH_PUSH_DOWN,7,1,

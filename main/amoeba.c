@@ -34,13 +34,13 @@ void initAmoeba() {
 void handleAmoeba() {
 
     if (!lastAmoebaCanGrow) {
-        *this = CH_DOGE_00;
+        *thiss = CH_DOGE_00;
         totalDiamondsPossible++;
         return;
     }
 
     if (changeAmoebaToBoulder > MAXIMUM_AMOEBA_SIZE) {
-        *this = CH_BOULDER;
+        *thiss = CH_BOULDER;
         return;
     }
 
@@ -48,7 +48,7 @@ void handleAmoeba() {
 
 
     if (!(rndX & 0x10))
-        *this = (rndX & 3) + CH_AMOEBA_0;
+        *thiss = (rndX & 3) + CH_AMOEBA_0;
 
     // if (amoebaGrew)
     //     return;
@@ -58,7 +58,7 @@ void handleAmoeba() {
     int base = rndX;
     for (int i = 0; i < 4; i++) {
 
-        unsigned char *where = this + dirOffset[(i + base) & 3];
+        unsigned char *where = thiss + dirOffset[(i + base) & 3];
         if (Attribute[CharToType[GET(*where)]] & ATT_PERMEABLE) {
 
             rndX = /*(rndX >> 30) | (rndX << 1); //*/getRandom32();

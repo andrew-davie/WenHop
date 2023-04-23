@@ -1409,7 +1409,7 @@ void initCopyrightScreen() {
 }
 
 void chooseColourScheme() {
-    unsigned char *c = (unsigned char *)__COLOUR_POOL;
+    //    unsigned char *c = (unsigned char *)__COLOUR_POOL;
     //    do {
     currentPalette = rangeRandom(__PALETTE_COUNT);
     // } while (((int)caveList[cave]) & CAVE_REQUIRES_AMOEBA_PALETTE &&

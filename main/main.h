@@ -1,8 +1,9 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#include "defines_from_dasm_for_c.h"
 #include <stdbool.h>
+
+#include "defines_from_dasm_for_c.h"
 
 #define ENABLE_OVERLAY 0
 #define ENABLE_SOUND 1
@@ -76,9 +77,9 @@ void InitializeNewGame();
 // void doFlash();
 // void setFlash(unsigned char colourNTSC, unsigned char colourPAL, unsigned char colourSECAM, int time);
 void updateAnimation();
-void pulseDiamond(unsigned char *this);
+void pulseDiamond(unsigned char *thiss);
 void drawWord(const unsigned char *string, int y);
-void conglomerate(unsigned char *this, int att);
+void conglomerate(unsigned char *thiss, int att);
 
 // enum DisplayMode {
 //     DISPLAY_NORMAL,
@@ -159,7 +160,7 @@ extern bool exitTrigger;
 // extern int extraDiamondValue;
 
 // extern int selectResetDelay;
-extern unsigned char *this;
+extern unsigned char *thiss;
 
 extern int boardCol;
 
@@ -198,13 +199,6 @@ extern int canPlay[5];
 extern int shakeTime;
 extern int wyrmNum;
 
-enum FaceDirectionX {
-    FACE_LEFT = -1,
-    FACE_RIGHT = 1,
-    FACE_UP = -1,
-    FACE_DOWN = 1,
-};
-
 extern const signed char dirOffset[];
 
 extern unsigned int currentPalette;
@@ -216,7 +210,7 @@ extern int cpulse;
 
 void Scheduler();
 void processBoardSquares();
-void reanimateDiamond(unsigned char *this);
+void reanimateDiamond(unsigned char *thiss);
 void handleSelectReset();
 void initNewGame();
 

@@ -207,8 +207,8 @@ bool checkHighPriorityMove(int dir) {
         faceDirection = faceDirectionDef[dir];
     }
 
-    unsigned char *thisOffset = this + dirOffset[dir];
-    unsigned char destType = CharToType[GET(*thisOffset)];
+    unsigned char *thissOffset = thiss + dirOffset[dir];
+    unsigned char destType = CharToType[GET(*thissOffset)];
     // bool dirtFlag = false;
 
     //    if (!waitRelease && !(inpt4 & 0x80)) {        // fire button
@@ -232,7 +232,7 @@ bool checkHighPriorityMove(int dir) {
 
     //     else {
     //         ADDAUDIO(SFX_DIRT);
-    //         *thisOffset = CH_DUST_0 | FLAG_THISFRAME;
+    //         *thissOffset = CH_DUST_0 | FLAG_THISFRAME;
     //     }
 
     //     startPlayerAnimation(newSnatch[dir]);
@@ -246,19 +246,19 @@ bool checkHighPriorityMove(int dir) {
     { // no fire button
 
         bool grabbed = false;
-        int type = CharToType[GET(*thisOffset)];
+        int type = CharToType[GET(*thissOffset)];
 
         // turn on/off a tap
         if (type == TYPE_TAP) {
-            *thisOffset = *thisOffset ^ (CH_TAP_1 ^ CH_TAP_0);
-            if (*thisOffset == CH_TAP_1) {
+            *thissOffset = *thissOffset ^ (CH_TAP_1 ^ CH_TAP_0);
+            if (*thissOffset == CH_TAP_1) {
                 showWater = true;
                 if (21 * PIECE_DEPTH / 3 < lavaSurface)
                     lavaSurface = 21 * PIECE_DEPTH / 3;
             }
 
-            *(thisOffset + 40) =
-                (GET(*(thisOffset + 40)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
+            *(thissOffset + 40) =
+                (GET(*(thissOffset + 40)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
             startPlayerAnimation(ID_Push);
             handled = true;
         }
@@ -280,7 +280,7 @@ bool checkHighPriorityMove(int dir) {
                 ADDAUDIO(SFX_SPACE);
 
             else if (destType == TYPE_OUTBOX) {
-                *thisOffset = CH_EXITBLANK;
+                *thissOffset = CH_EXITBLANK;
                 ADDAUDIO(SFX_WHOOSH);
                 exitMode = 151;
                 waitRelease = true;
@@ -305,7 +305,7 @@ bool checkHighPriorityMove(int dir) {
             // }
 
             else if (Attribute[destType] & ATT_GRAB) {
-                grabDoge(thisOffset);
+                grabDoge(thissOffset);
                 grabbed = true;
             }
 
@@ -318,7 +318,7 @@ bool checkHighPriorityMove(int dir) {
             frameAdjustX = frameAdjustY = 0;
 
             if (!exitMode) {
-                *thisOffset = CH_MELLON_HUSK | FLAG_THISFRAME;
+                *thissOffset = CH_MELLON_HUSK | FLAG_THISFRAME;
 
                 if (Attribute[destType] & ATT_DIRT)
                     startCharAnimation(TYPE_MELLON_HUSK,
@@ -365,21 +365,21 @@ bool checkHighPriorityMove(int dir) {
                 };
 
                 for (int d = 0; d < 4; d++) {
-                    if ((ATTRIBUTE_BIT(*(this + off[d]), ATT_PIPE)) ||
-                        GET(*(this + off[d])) == CH_MELLON_HUSK)
+                    if ((ATTRIBUTE_BIT(*(thiss + off[d]), ATT_PIPE)) ||
+                        GET(*(thiss + off[d])) == CH_MELLON_HUSK)
                         udlr |= 1 << d;
                 }
 
-                *this = udlrChar[udlr];
+                *thiss = udlrChar[udlr];
 
-                if (*this == CH_HUB_1 &&
-                    Attribute[CharToType[GET(*(this - 40))]] & ATT_BLANK)
-                    *(this - 40) = CH_TAP_0;
+                if (*thiss == CH_HUB_1 &&
+                    Attribute[CharToType[GET(*(thiss - 40))]] & ATT_BLANK)
+                    *(thiss - 40) = CH_TAP_0;
 
             }
 
             else
-                *this = CH_DUST_0 | FLAG_THISFRAME;
+                *thiss = CH_DUST_0 | FLAG_THISFRAME;
 
             playerSlow = 0;
             if (!autoMoveFrameCount &&
@@ -446,8 +446,8 @@ bool checkLowPriorityMove(int dir) {
     }
 
     int offset = dirOffset[dir];
-    unsigned char *thisOffset = this + offset;
-    unsigned char destType = CharToType[GET(*thisOffset)];
+    unsigned char *thissOffset = thiss + offset;
+    unsigned char destType = CharToType[GET(*thissOffset)];
 
 #if 1 // disable push
     if (faceDirectionDef[dir] && (Attribute[destType] & ATT_MINE)) {
@@ -467,9 +467,9 @@ bool checkLowPriorityMove(int dir) {
 
         if (pushCounter > 6) {
             //            pushCounter = 2;
-            *thisOffset = ATTRIBUTE_BIT(*thisOffset, ATT_BOULDER_DOGE)
-                              ? CH_DOGE_CONVERT | FLAG_THISFRAME
-                              : CH_DUST_0;
+            *thissOffset = ATTRIBUTE_BIT(*thissOffset, ATT_BOULDER_DOGE)
+                               ? CH_DOGE_CONVERT | FLAG_THISFRAME
+                               : CH_DUST_0;
 
             waitForNothing = 2;
             pushCounter = 0;
@@ -480,14 +480,14 @@ bool checkLowPriorityMove(int dir) {
             cumulativeBlockCount++;
 
             if (faceDirection > 0) {
-                this += 2;
+                thiss += 2;
                 boardCol += 2; // SKIP processing it!
             }
 
             ADDAUDIO(SFX_PUSH);
 
             for (int i = 0; i < 4; i++)
-                conglomerate(thisOffset + dirOffset[i],
+                conglomerate(thissOffset + dirOffset[i],
                              (ATT_BOULDER_DOGE | ATT_GRAB));
         }
 
@@ -587,7 +587,7 @@ void bubbles(int count, int dripX, int dripY, int age, int speed) {
     }
 }
 
-void movePlayer(unsigned char *this) {
+void movePlayer(unsigned char *thiss) {
 
     handled = false;
 
@@ -595,8 +595,8 @@ void movePlayer(unsigned char *this) {
     // if (!(inpt4 & 0x80)) {        // fire button
     //     // shakeTime += 10;
 
-    //     if (Attribute[CharToType[GET(*(this + 1))]] & ATT_BLANK)
-    //         *(this + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
+    //     if (Attribute[CharToType[GET(*(thiss + 1))]] & ATT_BLANK)
+    //         *(thiss + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
 
     // }
 
@@ -659,8 +659,8 @@ void movePlayer(unsigned char *this) {
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
 
-    if (*(this - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
-        *(this - 40) == (CH_BOULDER_FALLING | FLAG_THISFRAME)) {
+    if (*(thiss - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
+        *(thiss - 40) == (CH_BOULDER_FALLING | FLAG_THISFRAME)) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

@@ -1,7 +1,7 @@
 #ifndef __MELLON_H
 #define __MELLON_H
 
-void movePlayer(unsigned char *this);
+void movePlayer(unsigned char *thisss);
 void initPlayer();
 
 extern int frameAdjustX;
@@ -9,6 +9,13 @@ extern int frameAdjustY;
 
 extern unsigned int pushCounter;
 // extern int suppressDiamondSound;
+
+enum FaceDirectionX {
+    FACE_LEFT = -1,
+    FACE_RIGHT = 1,
+    FACE_UP = -1,
+    FACE_DOWN = 1,
+};
 
 extern enum FaceDirectionX faceDirection;
 extern int playerX, playerY;

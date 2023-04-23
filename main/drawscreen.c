@@ -184,7 +184,7 @@ int rainSpeedY[RAINHAILSHINE];
 char rainRow[RAINHAILSHINE];
 
 #define RAINTYPE_BUBBLE 1
-#define RAINTYPE_DOT 2
+// #define RAINTYPE_DOT 2
 
 void rain() {
 

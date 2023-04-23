@@ -139,8 +139,8 @@ int decodeExplicitData(int sfx) {
                     for (int object = 0; object < theCave->objectCount; object++) {
                         unsigned char *p = (&(theCave->objectData)) + object * 6;
 
-                        // unsigned char *this = RAM + _BOARD + x + decodingRow * 40;
-                        // if (GET(*this) == 0)
+                        // unsigned char *thiss = RAM + _BOARD + x + decodingRow * 40;
+                        // if (GET(*thiss) == 0)
                         if ((getCaveRandom32() >> 24) < p[level + 1])
                             StoreObject(x, decodingRow, p[0]);
                     }
@@ -309,10 +309,10 @@ int decodeExplicitData(int sfx) {
 
 void StoreObject(int x, int y, objectType anObject) {
 
-    unsigned char *this = RAM + _BOARD + x + y * 40;
+    unsigned char *thiss = RAM + _BOARD + x + y * 40;
     unsigned char type = TYPEOF(anObject);
 
-    if (TYPEOF(*this) == TYPE_DOGE)
+    if (TYPEOF(*thiss) == TYPE_DOGE)
         totalDiamondsPossible--;
 
     switch (type) {
@@ -352,7 +352,7 @@ void StoreObject(int x, int y, objectType anObject) {
         break;
     }
 
-    *this = anObject;
+    *thiss = anObject;
 }
 
 void DrawLine(objectType anObject, int x, int y, int aLength, int aDirection) {
