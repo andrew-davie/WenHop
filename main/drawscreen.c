@@ -88,8 +88,8 @@ static unsigned char rollDirect[3][PIECE_DEPTH] = {
 void drawScreen(int side) { // --> cycles 44743 (@20221216)
 
     static unsigned char *const arenas[] = {
-        RAM + _BUF_PF0_LEFT,  // + SCORE_SCANLINES,
-        RAM + _BUF_PF0_RIGHT, // + SCORE_SCANLINES,
+        RAM + _BUF_PF0_LEFT,
+        RAM + _BUF_PF0_RIGHT,
     };
 
     extern int shakeX, shakeY;
@@ -139,11 +139,10 @@ void drawScreen(int side) { // --> cycles 44743 (@20221216)
 bool drawBit(int x, int y) {
 
     int line = (y - ((scrollY) >> 16)) * 3;
-    if (line < 0 || line >= _ARENA_SCANLINES - 3) // || line < SCORE_SCANLINES)
+    if (line < 0 || line >= _ARENA_SCANLINES - 3)
         return false;
 
     int col = x - ((scrollX * 5) >> 16);
-    //    int col = x - (scrollX >> 14);
     if (col < 0 || col > 39)
         return false;
 

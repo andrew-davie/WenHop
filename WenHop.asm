@@ -2340,7 +2340,10 @@ _BUF_JUMP1          ds _ARENA_SCANLINES * 2         ; long-word align!!
 _BUF_JUMP1_EXIT     ds 2
 
 
-_BOARD              ds 22*40 + 4    ; extra for grab+1 in drawscreen "bug"
+_BOARD_COLS = 40
+_BOARD_ROWS = 22
+
+_BOARD              ds _BOARD_COLS * _BOARD_ROWS + 4    ; extra for grab+1 in drawscreen "bug"
 
 
 

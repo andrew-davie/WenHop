@@ -165,7 +165,7 @@ void Scroll() {
     // }
     // else {
     maxX = SCROLL_MAXIMUM_X;
-    maxY = (16 * PIECE_DEPTH / 3 - 6) << 16;
+    maxY = (16 * TRILINES - 6) << 16;
     // }
 
     if (scrollX >= maxX) {

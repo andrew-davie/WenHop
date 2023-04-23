@@ -20,7 +20,6 @@
 #include "joystick.h"
 #include "mellon.h"
 #include "menu.h"
-#include "overlay.h"
 #include "player.h"
 #include "random.h"
 #include "score.h"
@@ -306,11 +305,11 @@ void nDots(int count, int dripX, int dripY, int type, int age, int offsetX,
 
     int y = offsetY;
     if (gravity < 0) {
-        y = PIECE_DEPTH / 3 - y;
+        y = TRILINES - y;
     }
     for (int i = 0; i < count; i++)
         sphereDot((dripX * 5 + offsetX) << 8,
-                  (dripY * (PIECE_DEPTH / 3) + y) << 16, type, age, speed);
+                  (dripY * TRILINES + y) << 16, type, age, speed);
 }
 
 void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed) {
@@ -387,20 +386,8 @@ void awyrm() {
         if (gameFrame & 1)
             return;
 
-        // if (y * (PIECE_DEPTH / 3) < lavaSurface) {
-
-        //     if (gameFrame & 1) {
-        //         return;
-        //     }
-
-        // }
-
-        // unsigned char *head = RAM + _BOARD + y * 40 + x;
-
         int offsetX[] = {0, 1, 0, -1, 0};
         int offsetY[] = {-1, 0, 1, 0, 0};
-
-        // bool mustTurn = false;
 
         int candidateX = x + offsetX[wyrmDir[wyrm]];
         int candidateY = y + offsetY[wyrmDir[wyrm]];
@@ -523,7 +510,7 @@ void awyrm() {
             //              : (getRandom32() & 63) ? CH_DUST_0
             //                                     : CH_DOGE_00;
 
-            if (wyrmY[wyrm][0] * (PIECE_DEPTH / 3) > lavaSurface) {
+            if (wyrmY[wyrm][0] * TRILINES > lavaSurface) {
                 if (!rangeRandom(50)) {
                     newWyrm(wyrmX[wyrm][0], wyrmY[wyrm][0]);
                 }
@@ -1883,7 +1870,7 @@ void processBoardSquares() {
 
                 case TYPE_WATER: {
 
-                    if ((boardRow - 1) * (PIECE_DEPTH / 3) >= lavaSurface) {
+                    if ((boardRow - 1) * TRILINES >= lavaSurface) {
 
                         for (int i = 0; i < 4; i++) {
                             unsigned char *neighbour = thiss + dir[i];
@@ -1916,7 +1903,7 @@ void processBoardSquares() {
                                   3, 4, 0x8000);
                     }
 
-                    if ((boardRow - 1) * (PIECE_DEPTH / 3) >= lavaSurface) {
+                    if ((boardRow - 1) * TRILINES >= lavaSurface) {
 
                         for (int i = 0; i < 4; i++) {
                             unsigned char *neighbour = thiss + dir[i];
@@ -2038,7 +2025,7 @@ void processBoardSquares() {
 
                 case CH_HUB:
 
-                    if ((boardRow + 2) * (PIECE_DEPTH / 3) <= lavaSurface) {
+                    if ((boardRow + 2) * TRILINES <= lavaSurface) {
 
                         if (GET(*(thiss + 80)) != CH_WATERFLOW_0)
                             *(thiss + 80) = CH_WATERFLOW_0 | FLAG_THISFRAME;
@@ -2058,7 +2045,7 @@ void processBoardSquares() {
 
                     if (!(gameFrame & 7)) {
 
-                        int line = (boardRow) * (PIECE_DEPTH / 3);
+                        int line = (boardRow)*TRILINES;
                         if (boardRow < 20 && line < lavaSurface)
                             *(thiss + 40) = CH_WATERFLOW_0;
 
@@ -2297,11 +2284,6 @@ void processBoardSquares() {
                 case CH_ROCK_FALLING:
                 case CH_ROCK_DOGE_FALLING: {
 
-                    // slow falling underwater/lava
-                    // if ((gameFrame & 3) && boardRow * PIECE_DEPTH / 3 >=
-                    // lavaSurface)
-                    //     break;
-
                     unsigned char typeDown = CharToType[GET(*next)];
                     if (Attribute[typeDown] & ATT_BLANK) {
 
@@ -2450,7 +2432,7 @@ void processBoardSquares() {
             // Any blanks/dissolves underwater/lava gets transformed to
             // water/lava chars
 
-            if (boardRow * (PIECE_DEPTH / 3) >= lavaSurface) {
+            if (boardRow * TRILINES >= lavaSurface) {
                 if (!(*thiss & FLAG_THISFRAME)) {
                     if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES)) {
                         if (!rangeRandom(4)) {
@@ -2465,7 +2447,7 @@ void processBoardSquares() {
         // Clear any "scanned this frame" objects on the previous line
         // note: we need to also do the last row ... or do we? if it's steel
         // wall, no
-        if ((gravity > 0 && boardRow > 1) || (gravity < 0 && boardRow < 21))
+        if ((gravity > 0 && boardRow > 1) || (gravity < 0 && boardRow < _BOARD_ROWS - 1))
             *prev &= ~FLAG_THISFRAME;
 
 #if WORST_TIMING

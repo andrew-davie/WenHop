@@ -11,13 +11,10 @@
 #include "score.h"
 #include "scroll.h"
 
-unsigned char bgPalette[22];
+unsigned char bgPalette[_BOARD_ROWS];
 unsigned char fgPalette[2];
 static int flashTime;
 
-#if ENABLE_RAINBOW
-static int lastRainbowIndex;
-#endif
 static int lastBgCol;
 static int lastPfCharLine;
 static int lastBgCharLine;
@@ -25,12 +22,9 @@ static int lastBgCharLine;
 int roller;
 
 void initColours() {
-#if ENABLE_RAINBOW
-    lastRainbowIndex = -1;
-#endif
+
     lastBgCol = 0xFF;
     lastPfCharLine = -1;
-    //    lastDisplayMode = DISPLAY_NONE;
     roller = 0;
 }
 
@@ -98,12 +92,12 @@ void doFlash() {
     }
 }
 
-#define FRANGE (0x100 / 22)
+#define FRANGE (0x100 / _BOARD_ROWS)
 void setBackgroundPalette(unsigned char *c) {
 
     if (mm_tv_type == SECAM) {
         int colour = convertColour(c[2]);
-        for (int bgLine = 0; bgLine < 22; bgLine++)
+        for (int bgLine = 0; bgLine < _BOARD_ROWS; bgLine++)
             bgPalette[bgLine] = colour;
     }
 
@@ -133,56 +127,11 @@ void setBackgroundPalette(unsigned char *c) {
     fgPalette[1] = convertColour(c[1]);
 }
 
-#if ENABLE_RAINBOW
-
-int rainbowIndex;
-
-void doRainbowBackground() {
-
-    if (rainbow) {
-
-        if (rainbowIndex != lastRainbowIndex) {
-
-            int rbi = rainbowIndex;
-            for (int col = 0; col < 22; col++) {
-                if (rbi >= 16)
-                    rbi = 2;
-                if (mm_tv_type == NTSC)
-                    bgPalette[col] = (rbi << 4) | 4;
-                else
-                    bgPalette[col] = xlate[rbi] | 4;
-                rbi++;
-            }
-        }
-
-        lastRainbowIndex = rainbowIndex;
-    }
-}
-
-void rollRainbow() {
-
-    static int slower;
-    if (++slower > 5) {
-        slower = 0;
-        if (++rainbowIndex >= 16)
-            rainbowIndex = 2;
-    }
-}
-
-#endif
-
 void setPalette() {
 
-    //    static const int shiftMode[] = { 16, 17, 31 };
-    //    static const int rowSize[] = { PIECE_DEPTH, 15, 9 };
+    int size = PIECE_DEPTH;
 
-    int size = PIECE_DEPTH; // rowSize[displayMode];
-
-    int shift = 16; // shiftMode[displayMode];
-
-#if ENABLE_RAINBOW
-    rollRainbow();
-#endif
+    int shift = 16;
 
     interleaveColour();
 
@@ -195,42 +144,14 @@ void setPalette() {
     int bgCharLine = (scrollY >> shift) * 3;
     int pfCharLine = 0;
 
-    while (bgCharLine >= PIECE_DEPTH) { // rowSize[displayMode]) {
+    while (bgCharLine >= PIECE_DEPTH) {
         bgCharLine -= size;
         pfCharLine++;
     }
 
-    // if (bgCol != lastBgCol) {
-    //     lastBgCol = bgCol;
-    //     for (int j = i; j < _ARENA_SCANLINES; j++)
-    //         bkCol[j] = bgCol;
-    // }
-
-    //     if (
-    // #if COLSELECT
-    //          LEFT_DIFFICULTY_A
-    //         ||
-    // #endif
-    // //tmp    true
-    // #if ENABLE_RAINBOW
-    //         || lastRainbowIndex != rainbowIndex
-    // #endif
-    //          lastPfCharLine != pfCharLine
-    //         || lastBgCharLine != bgCharLine
-    //         || lastDisplayMode != displayMode
-
-    // #if ENABLE_RAINBOW
-    // //        || rainbow //tmp
-    // #endif
-    //         ) {
-
     lastBgCharLine = bgCharLine;
     lastPfCharLine = pfCharLine;
-    //        lastDisplayMode = displayMode;
 
-#if ENABLE_RAINBOW
-    doRainbowBackground();
-#endif
     unsigned char rollColour[5];
 
     rollColour[0] = rollColour[3] = fgPalette[1];
@@ -303,69 +224,14 @@ void setPalette() {
 
         i += 3;
     }
-
-    // if (displayMode != DISPLAY_OVERVIEW) {
-
-    //     int rollx = roll;
-    //     static const unsigned char scoreColour[] = { 0x46, 0x98, 0xD8, 0x46, 0x98, 0x28, 0x28, 0x28 };
-
-    //     if (enableICC != LEFT_DIFFICULTY_A)
-    //         rollx = 5;
-
-    //     unsigned char cc0 = convertColour(scoreColour[rollx]);
-    //     unsigned char cc1 = convertColour(scoreColour[rollx + 1]);
-    //     unsigned char cc2 = convertColour(scoreColour[rollx + 2]);
-
-    //      while (i < _ARENA_SCANLINES/*SCORE_SCANLINES*/) {
-
-    //          pfCol[0] = cc0;
-    //          pfCol[1] = cc1;
-    //          pfCol[2] = cc2;
-
-    //          pfCol += 3;
-    //          i += 3;
-    //    }
-    // }
-    // }
 }
 
 void loadPalette() {
 
     unsigned char *c = (unsigned char *)__COLOUR_POOL;
-    //    currentPalette = getRandom32() & 15; //(cave ^ prng_a) & 15; // ^ prng_b; //rangeRandom(__PALETTE_COUNT);
-
-    // if (((int)caveList[cave]) & CAVE_REQUIRES_COMPATIBLE_PALETTE)
-    //     while (!(c[currentPalette << 2] & __COMPATIBLE_PALETTE))
-    //         currentPalette = rangeRandom(__PALETTE_COUNT);
 
     c += ((currentPalette & 15) << 2);
     setBackgroundPalette(c);
-
-    // ICC Colour Usage / Palette by line in char definition
-
-    // 0        the soil - varies in colour down the screen ("background")
-    // 1        ***
-    // 2        the brickwork "mortar"
-
-    //--------------
-    // format...
-    // charline colour line 1
-    // charline colour line 2
-    // charline colour line 0 (bg, 2 definitions)
-
-    // #if ENABLE_RAINBOW
-    //     if (rainbow)
-    //         doRainbowBackground();
-    // #endif
-
-#if COLSELECT
-    extern unsigned char colr[5];
-    colr[0] = c[0];
-    colr[1] = c[1];
-    colr[2] = c[2];
-    colr[3] = c[3];
-    // colr[4] = rndX & 0xF;     // which palette #
-#endif
 }
 
 // EOF

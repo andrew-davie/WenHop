@@ -252,8 +252,8 @@ bool checkHighPriorityMove(int dir) {
             *thissOffset = *thissOffset ^ (CH_TAP_1 ^ CH_TAP_0);
             if (*thissOffset == CH_TAP_1) {
                 showWater = true;
-                if (21 * PIECE_DEPTH / 3 < lavaSurface)
-                    lavaSurface = 21 * PIECE_DEPTH / 3;
+                if (21 * TRILINES < lavaSurface)
+                    lavaSurface = 21 * TRILINES;
             }
 
             *(thissOffset + 40) =
@@ -601,14 +601,14 @@ void movePlayer(unsigned char *thiss) {
 
     // breath bubbles
     static int breath;
-    if (showWater && playerY * PIECE_DEPTH / 3 > lavaSurface) {
+    if (showWater && playerY * TRILINES > lavaSurface) {
 
         ADDAUDIO(SFX_BUBBLER);
 
         breath++;
         if (!(breath & 35) && (breath & 63) < 21) {
             int x = (playerX * 5) + 3;
-            int y = (playerY * (PIECE_DEPTH / 3)) + 4;
+            int y = (playerY * TRILINES) + 4;
             bubbles(4, x, y, 200, 0x80000);
         }
     }

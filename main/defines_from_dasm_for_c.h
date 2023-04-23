@@ -100,6 +100,8 @@
 #define _ARENA_COLOUR             0x0008
 #define _ARENA_SCANLINES          0x00c6
 #define _BOARD                    0x01a2
+#define _BOARD_COLS               0x0028
+#define _BOARD_ROWS               0x0016
 #define _BUF_AUDC                 0x000b
 #define _BUF_AUDF                 0x000d
 #define _BUF_AUDV                 0x0009

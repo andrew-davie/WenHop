@@ -114,11 +114,11 @@ int decodeExplicitData(int sfx) {
         if (sfx)
             ADDAUDIO(SFX_SCORE);
 
-        if (decodingRow < 22) {
+        if (decodingRow < _BOARD_ROWS) {
 
             DrawLine(theCave->borderCharacter, 0, decodingRow + 1, 40, 2);
 
-            if (decodingRow > 0 && decodingRow < 21) {
+            if (decodingRow > 0 && decodingRow < _BOARD_ROWS - 1) {
 
                 DrawLine(theCave->interiorCharacter /*| FLAG_UNCOVER*/, 1, decodingRow, 38, 2);
 
@@ -210,7 +210,7 @@ int decodeExplicitData(int sfx) {
                     // else if (displayMode == DISPLAY_HALF)
                     //     scrollX = (playerX - (HALFWAYX >> 1)) << 16;
 
-                    scrollY = ((6 * PIECE_DEPTH / 3 - 3) << 16);
+                    scrollY = ((6 * TRILINES - 3) << 16);
                 }
 
                 thumbnailSpeed = -1;
@@ -312,7 +312,7 @@ void StoreObject(int x, int y, objectType anObject) {
     case TYPE_LAVA: {
 
         showLava = true;
-        int line = y * PIECE_DEPTH / 3;
+        int line = y * TRILINES;
         if (lavaSurface > 0 && line < lavaSurface)
             lavaSurface = line;
 
@@ -322,7 +322,7 @@ void StoreObject(int x, int y, objectType anObject) {
     case TYPE_WATER: {
 
         showWater = true;
-        int line = y * PIECE_DEPTH / 3;
+        int line = y * TRILINES;
         if (lavaSurface > 0 && line < lavaSurface)
             lavaSurface = line;
 

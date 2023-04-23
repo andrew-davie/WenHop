@@ -16,7 +16,6 @@
 #include "drawscreen.h"
 #include "joystick.h"
 #include "mellon.h"
-#include "overlay.h"
 #include "player.h"
 #include "random.h"
 #include "score.h"
