@@ -11,4 +11,4 @@ unsigned int getCaveRandom32();
 unsigned int rangeRandom(int range);
 
 #endif
-//EOF
+// EOF

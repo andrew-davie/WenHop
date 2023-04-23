@@ -1,16 +1,13 @@
-#include <stdbool.h>
-#include "defines_from_dasm_for_c.h"
-#include "defines_cdfj.h"
 #include "colour.h"
+#include "defines_cdfj.h"
+#include "defines_from_dasm_for_c.h"
 #include "main.h"
-
+#include <stdbool.h>
 
 #if __ENABLE_ATARIVOX
 
 static int speakWord = 0;
 static int spk = 0;
-
-
 
 void sayWord(int word) {
 
@@ -18,20 +15,18 @@ void sayWord(int word) {
     spk = 0;
 }
 
-
-
 void processSpeech() {
 
-    static const unsigned short *const sp = (const unsigned short *)__SPEECH_ADDRESS;
-    const unsigned char *const s = (const unsigned char *)(int) sp[speakWord];
+    static const unsigned short *const sp =
+        (const unsigned short *)__SPEECH_ADDRESS;
+    const unsigned char *const s = (const unsigned char *)(int)sp[speakWord];
 
     if ((RAM[_BUF_SPEECH] = s[spk]) != 0xFF) {
-//        FLASH(0x42,10);
+        //        FLASH(0x42,10);
         spk++;
     }
-
 }
 
 #endif
 
-//EOF
+// EOF

@@ -13,5 +13,4 @@ void initSprites();
 
 extern unsigned char postProcessPlayerColours[16];
 
-
 #endif

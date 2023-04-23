@@ -7,7 +7,6 @@ unsigned int cave_random_a, cave_random_b;
 
 unsigned int rndX;
 
-
 void initRandom() {
 
     prng_a = *(unsigned int *)(0x40001FB4);
@@ -15,10 +14,7 @@ void initRandom() {
 
     cave_random_a = prng_a;
     cave_random_b = prng_b;
-
 }
-
-
 
 unsigned int getRandom32() {
     prng_b = 36969 * (prng_b & 65535) + (prng_b >> 16);
@@ -32,11 +28,8 @@ unsigned int getCaveRandom32() {
     return (cave_random_b << 16) + cave_random_a;
 }
 
-
-
 unsigned int rangeRandom(int range) {
     return ((getRandom32() >> 16) * range) >> 16;
 }
 
-
-//EOF
+// EOF

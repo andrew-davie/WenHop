@@ -7,12 +7,12 @@ struct CAVE_DEFINITION {
     unsigned char diamondValue;
     unsigned char extraDiamondValue;
     unsigned char weather;
-    
+
     unsigned char randomInit[5];
     unsigned char diamondsRequired[5];
     unsigned char timeToComplete[5];
-    
-    unsigned char flags;            // CAVEDEF_...
+
+    unsigned char flags; // CAVEDEF_...
 
     unsigned char borderCharacter;
     unsigned char interiorCharacter;
@@ -20,14 +20,14 @@ struct CAVE_DEFINITION {
     unsigned char objectCount;
     unsigned char objectData;
 
-//    unsigned char extraObjectType[4];
-//    unsigned char extraObjectProbability[5][4];
+    //    unsigned char extraObjectType[4];
+    //    unsigned char extraObjectProbability[5][4];
 };
 
 extern struct CAVE_DEFINITION *theCave;
 
 void decodeCave(int cave);
-int decodeExplicitData(bool sfx);
+int decodeExplicitData(int sfx);
 
 enum DECODE_STATE {
     DECODE_NONE,
@@ -41,7 +41,5 @@ extern int decodingRow;
 extern const unsigned char *theCaveData;
 extern int totalDiamondsPossible;
 
-
-
 #endif
-//EOF
+// EOF

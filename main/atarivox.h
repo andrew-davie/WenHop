@@ -4,7 +4,7 @@
 #if __ENABLE_ATARIVOX
 
 extern void sayWord(int word);
-extern void processSpeech() ;
+extern void processSpeech();
 
 #define SAY(word) sayWord(word)
 
@@ -15,5 +15,3 @@ extern void processSpeech() ;
 #endif
 
 #endif
-
-

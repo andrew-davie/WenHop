@@ -1,24 +1,47 @@
-#include "attribute.h"
-#include "main.h"
 #include "animations.h"
+#include "attribute.h"
+#include "colour.h"
+#include "main.h"
 #include "random.h"
-
 
 const char *Animate[TYPE_MAX];
 char AnimCount[TYPE_MAX];
 
+// clang-format off
 
-static const char AnimateZap[] = {
-    CH_HORIZ_ZAP_0, 8,
-    CH_HORIZ_ZAP_1, 8,
-    CH_HORIZ_ZAP_2, 8,
-    CH_HORIZ_ZAP_1, 8,
-    CH_HORIZ_ZAP_2, 8,
-    CH_HORIZ_ZAP_1, 8,
-    CH_HORIZ_ZAP_0, 8,
-    CH_HORIZ_ZAP_2, 8,
-    CH_HORIZ_ZAP_1, 8,
-    CH_HORIZ_ZAP_2, 8,
+static const char AnimateBelt[] = {
+    CH_BELT_0, 12,
+    CH_BELT_1, 12,
+    ANIM_LOOP,
+};
+
+static const char AnimateBelt1[] = {
+    CH_BELT_1, 12,
+    CH_BELT_0, 12,
+    ANIM_LOOP,
+};
+
+static const char AnimateWaterFlow[] = {
+
+    CH_WATERFLOW_4, 3,
+    CH_WATERFLOW_3, 3,
+    CH_WATERFLOW_2, 3,
+    CH_WATERFLOW_1, 3,
+    CH_WATERFLOW_0, 3,
+    ANIM_LOOP,
+};
+
+static const char AnimateGrinder[] = {
+
+    CH_GRINDER_0, 12,
+    CH_GRINDER_1, 12,
+    ANIM_LOOP,
+};
+
+static const char AnimateGrinder1[] = {
+
+    CH_GRINDER_1, 12,
+    CH_GRINDER_0, 12,
     ANIM_LOOP,
 };
 
@@ -82,7 +105,7 @@ static const char AnimPulseDoge[] = {
 };
 
 
-static const char AnimRockford[] = {
+static const char AnimMellonHusk[] = {
 
 
     // CH_BLANK, 50,
@@ -94,23 +117,24 @@ static const char AnimRockford[] = {
     // CH_DUST_0, 8,
     // CH_DUST_1, 8,
     //CH_BLANK, 1,
-    CH_ROCKFORD, ANIM_HALT,
+    CH_MELLON_HUSK, ANIM_HALT,
 
-    // @20...   see grab in rockford.c
+    // @20...   see grab in mellon.c
 
 //    CH_DIAMOND_WITHOUT_DIRT, 3,
     CH_DOGE_GRAB,8,
 
-    CH_ROCKFORD, ANIM_HALT,
+    CH_MELLON_HUSK, ANIM_HALT,
 
     CH_DUST_0, 6,
     CH_DUST_1, 6,
     CH_DUST_2, 6,
 
-    CH_ROCKFORD, ANIM_HALT,
+    CH_MELLON_HUSK, ANIM_HALT,
 
 };
 
+// clang-format on
 
 const char *const AnimateBase[TYPE_MAX] = {
 
@@ -120,44 +144,46 @@ const char *const AnimateBase[TYPE_MAX] = {
     // Note that the type number is an ID, not ordinal. That's because the continuity may
     // be compromised by the conditional compilation. Beware.
 
-    0,                          // 00 TYPE_SPACE,
-    0,                          // 01 TYPE_DIRT,
-    0,                          // 02 TYPE_BRICKWALL,
-    0,                          // 03 TYPE_OUTBOX_PRE,
-    AnimFlashOut,               // 04 TYPE_OUTBOX,
-    0,                          // 05 TYPE_STEELWALL,
-    0,                          // 06 TYPE_BOULDER,
-    AnimPulseDoge,              // 07 TYPE_DOGE,
-    0,                          // 08 TYPE_ROCKFORD_PRE,
-    AnimRockford,               // 09 TYPE_ROCKFORD,
-    0,                          // 10 TYPE_PEBBLE1,
-    0,                          // 11 TYPE_PEBBLE2,
-    AnimGrab,                   // 12 TYPE_GRAB,
-    0,                          // 13 TYPE_DUST_0,
-    0,                          // 14 TYPE_DOGE_FALLING,
-    0,                          // 15 TYPE_BOULDER_FALLING,
-    0,                          // 16 TYPE_DUST_ROCK,
-    0,                          // 17 TYPE_DOGE_CONVERT,
-    AnimSwitch,                 // 18 TYPE_SWITCH,
-    0,                          // 19 TYPE_PUSHER,
-    0,                          // 20 TYPE_PUSHER_VERT,
-    0,                          // 21 TYPE_WYRM,
-    0,                          // 22 TYPE_BOULDER_DOGE,
-    0,                          // 23 TYPE_BOULDER_DOGE_FALLING,
-    AnimConglomerateMid,        // 24 TYPE_BOULDER_DOGE_CRITICAL,
-    0,                          // 25 TYPE_LAVA,
-    0,                          // 26 TYPE_PEBBLE_BOULDER,
-    AnimateGravity,             // 27 TYPE_FLIP_GRAVITY,
-    AnimateZap,                 // 28 TYPE_ZAP
-    0,                          // 29 TYPE_BLOCK
-    0,                          // 30 TYPE_PACMAN_DOT
-    0,                          // 31 TYPE_AIRHOSE
-    0,                          // 32 TYPE_HUB
-    0,                          // 33 TYPE_WATER
-
+    0,                   // 00 TYPE_SPACE,
+    0,                   // 01 TYPE_DIRT,
+    0,                   // 02 TYPE_BRICKWALL,
+    0,                   // 03 TYPE_OUTBOX_PRE,
+    AnimFlashOut,        // 04 TYPE_OUTBOX,
+    0,                   // 05 TYPE_STEELWALL,
+    0,                   // 06 TYPE_BOULDER,
+    AnimPulseDoge,       // 07 TYPE_DOGE,
+    0,                   // 08 TYPE_MELLON_HUSK_PRE,
+    AnimMellonHusk,      // 09 TYPE_MELLON_HUSK,
+    0,                   // 10 TYPE_PEBBLE1,
+    0,                   // 11 TYPE_PEBBLE2,
+    AnimGrab,            // 12 TYPE_GRAB,
+    0,                   // 13 TYPE_DUST_0,
+    0,                   // 14 TYPE_DOGE_FALLING,
+    0,                   // 15 TYPE_BOULDER_FALLING,
+    0,                   // 16 TYPE_DUST_ROCK,
+    0,                   // 17 TYPE_DOGE_CONVERT,
+    AnimSwitch,          // 18 TYPE_SWITCH,
+    0,                   // 19 TYPE_PUSHER,
+    0,                   // 20 TYPE_PUSHER_VERT,
+    0,                   // 21 TYPE_WYRM,
+    0,                   // 22 TYPE_BOULDER_DOGE,
+    0,                   // 23 TYPE_BOULDER_DOGE_FALLING,
+    AnimConglomerateMid, // 24 TYPE_BOULDER_DOGE_CRITICAL,
+    0,                   // 25 TYPE_LAVA,
+    0,                   // 26 TYPE_PEBBLE_BOULDER,
+    AnimateGravity,      // 27 TYPE_FLIP_GRAVITY,
+    0,                   // 28 TYPE_BLOCK
+    0,                   // 29 TYPE_PACMAN_DOT
+    AnimateGrinder,      // 30 TYPE_GRINDER
+    0,                   // 31 TYPE_HUB
+    0,                   // 32 TYPE_WATER
+    AnimateWaterFlow,    // 33 TYPE_WATERFLOW
+    0,                   // 34 TYPE_TAP
+    0,                   // 35 TYPE_OUTLET
+    AnimateGrinder1,     // 36 TYPE_GRINDER1
+    AnimateBelt,         // 37 TYPE_BELT
+    AnimateBelt1,        // 38 TYPE_BELT1
 };
-
-
 
 void initCharAnimations() {
 
@@ -165,14 +191,11 @@ void initCharAnimations() {
         startCharAnimation(type, AnimateBase[type]);
 }
 
-
-
 void startCharAnimation(int type, const char *idx) {
 
     if (idx) {
 
-
-        if ((*idx)  == ANIM_LOOP)
+        if ((int)(*idx) == ANIM_LOOP)
             idx = AnimateBase[type];
 
         Animate[type] = idx++;
@@ -185,9 +208,9 @@ void startCharAnimation(int type, const char *idx) {
     }
 }
 
+void processCharAnimations()
 
-
-void processCharAnimations() {
+{
 
     for (int type = 0; type < TYPE_MAX; type++)
         if (AnimateBase[type] && AnimCount[type] != ANIM_HALT)
@@ -195,4 +218,4 @@ void processCharAnimations() {
                 startCharAnimation(type, Animate[type] + 2);
 }
 
-//EOF
+// EOF

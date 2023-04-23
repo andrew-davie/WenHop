@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 #define AUDIO_LOCKED 0x80
 #define AUDIO_SINGLETON 0x40
 #define AUDIO_KILL 0x20
@@ -22,46 +21,42 @@ enum AudioID {
 
     // Ordered by priority; see AudioSamples[]
 
-    SFX_NULL,               // 0
+    SFX_NULL, // 0
 
-    SFX_UNCOVERED,          // 1
-    SFX_COUNTDOWN2,         // 2   time expiring
-    SFX_PICKAXE,            // 
-    SFX_DIAMOND2,           // 3
-    SFX_WHOOSH,             // 4
-    SFX_BLIP,               // 5
-    SFX_EXTRA,              // 6
-    SFX_EXIT,               // 7
-    SFX_EXPLODE,            // 8
-    SFX_EXPLODE_QUIET,      // 23
-    SFX_MAGIC,              // 9
-    SFX_MAGIC2,             // 10
-    SFX_ROCK,               // 11
-    SFX_ROCK2,              // 12
-    SFX_SCORE,              // 13
-    SFX_DIAMOND,            // 14
-    SFX_DIAMOND3,           // 15
-    SFX_DIRT,               // 16
-    SFX_PUSH,               // 17
-    SFX_SPACE,              // 18
-    SFX_DRIP,               // 19
-    SFX_AMOEBA,             // 20
-    SFX_DRIP2,              // 21
-    SFX_UNCOVER,            // 22
-    // SFX_TICK,               // 24
+    SFX_UNCOVERED,     // 1
+    SFX_COUNTDOWN2,    // 2   time expiring
+    SFX_PICKAXE,       //
+    SFX_DIAMOND2,      // 3
+    SFX_WHOOSH,        // 4
+    SFX_BLIP,          // 5
+    SFX_EXTRA,         // 6
+    SFX_EXIT,          // 7
+    SFX_EXPLODE,       // 8
+    SFX_EXPLODE_QUIET, // 23
+    SFX_MAGIC,         // 9
+    SFX_MAGIC2,        // 10
+    SFX_ROCK,          // 11
+    SFX_ROCK2,         // 12
+    SFX_SCORE,         // 13
+    SFX_DIAMOND,       // 14
+    SFX_DIAMOND3,      // 15
+    SFX_DIRT,          // 16
+    SFX_PUSH,          // 17
+    SFX_SPACE,         // 18
+    SFX_DRIP,          // 19
+    SFX_AMOEBA,        // 20
+    SFX_DRIP2,         // 21
+    SFX_UNCOVER,       // 22
+// SFX_TICK,               // 24
 
 #if __ENABLE_LAVA
-    SFX_LAVA,               // 20
+    SFX_LAVA, // 20
 #endif
 
-    SFX_MAX,                // size only; not a sound
+    SFX_MAX, // size only; not a sound
 };
 
-
 extern bool audioRequest[SFX_MAX];
-
-
-
 
 struct Audio {
     unsigned char id;
@@ -81,21 +76,18 @@ struct trackInfo {
     unsigned char frequency;
     int volume;
     int noteDurationMultiplier;
-    //int speed;
+    // int speed;
 };
-
 
 #define TRACK_MAX 2
 #define VOLUME_NONPLAYING 312
 #define VOLUME_PLAYING 384
 #define VOLUME_MAX 1024
 
-
 extern struct trackInfo track[TRACK_MAX];
 
 extern int sound_volume;
 extern int sound_max_volume;
-
 
 void playAudio();
 bool addAudio(enum AudioID id);

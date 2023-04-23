@@ -1,5 +1,5 @@
-#include <stdbool.h>
 #include "defines_from_dasm_for_c.h"
+#include <stdbool.h>
 
 #include "main.h"
 #include "player.h"
@@ -7,9 +7,8 @@
 #include "atarivox.h"
 #include "bitpatterns.h"
 #include "colour.h"
-#include "rockford.h"
+#include "mellon.h"
 #include "sound.h"
-
 
 int autoMoveX;
 int autoMoveY;
@@ -17,60 +16,78 @@ int autoMoveDeltaX;
 int autoMoveDeltaY;
 int autoMoveFrameCount;
 
-
 const signed char AnimationDefault[] = {
 
-   FRAME_STAND, 255,
+    FRAME_STAND,
+    255,
 };
 
 const signed char AnimationStandUp[] = {
 
-    FRAME_WALKUP0,20,
-    FRAME_WALK3, 6,
-    FRAME_STAND, 255,
+    FRAME_WALKUP0,
+    20,
+    FRAME_WALK3,
+    6,
+    FRAME_STAND,
+    255,
 };
 
 const signed char AnimationStandLR[] = {
-//    FRAME_WALK3, ,
-    FRAME_STAND, 255,
+    //    FRAME_WALK3, ,
+    FRAME_STAND,
+    255,
 };
-
 
 const signed char AnimationPush[] = {
 
-    ACTION_SFX, SFX_PICKAXE,
-    ACTION_DOT, 4,4,
-    FRAME_PUSH, 8,
-    FRAME_PUSH2, 5,
-    FRAME_STAND,5,
+    ACTION_SFX,
+    SFX_PICKAXE,
+    ACTION_DOT,
+    4,
+    4,
+    FRAME_PUSH,
+    8,
+    FRAME_PUSH2,
+    5,
+    FRAME_STAND,
+    5,
     ACTION_LOOP,
 };
-
 
 const signed char AnimationMineUp[] = {
 
-    ACTION_SFX, SFX_PICKAXE,
-    ACTION_DOT, 0,0,
-    FRAME_MINE_UP_1, 12,
-    FRAME_MINE_UP_0, 8,
+    ACTION_SFX,
+    SFX_PICKAXE,
+    ACTION_DOT,
+    0,
+    0,
+    FRAME_MINE_UP_1,
+    12,
+    FRAME_MINE_UP_0,
+    8,
     ACTION_LOOP,
 };
-
 
 const signed char AnimationMineDown[] = {
 
-//    FRAME_MINE_DOWN_0, 2,
-    ACTION_SFX, SFX_PICKAXE,
-    ACTION_DOT, 1,12,
-    FRAME_MINE_DOWN_1, 8,
-    FRAME_MINE_DOWN_0, 5,
-    FRAME_STAND, 5,
+    //    FRAME_MINE_DOWN_0, 2,
+    ACTION_SFX,
+    SFX_PICKAXE,
+    ACTION_DOT,
+    1,
+    12,
+    FRAME_MINE_DOWN_1,
+    8,
+    FRAME_MINE_DOWN_0,
+    5,
+    FRAME_STAND,
+    5,
     ACTION_LOOP,
 };
 
-
 const signed char AnimationLocked[] = {
-    FRAME_HUNCH, 12,
+    FRAME_HUNCH,
+    12,
     ACTION_STOP,
 };
 
@@ -130,7 +147,6 @@ const signed char AnimationLocked[] = {
 //     ACTION_STOP,
 // };
 
-
 // const signed char AnimationLook[] = {
 //     ACTION_POSITION, -1,0,
 //     FRAME_LOOK1, 5,
@@ -162,8 +178,10 @@ const signed char AnimationLocked[] = {
 // };
 
 const signed char AnimationTurn[] = {
-    FRAME_LOOK1, 4,
-    FRAME_LOOK2, 4,
+    FRAME_LOOK1,
+    4,
+    FRAME_LOOK2,
+    4,
     ACTION_FLIP,
     ACTION_STOP,
 };
@@ -177,12 +195,12 @@ const signed char AnimationTurn[] = {
 // };
 
 const signed char AnimationDie[] = {
-// #if ENABLE_SHAKE
-//     FRAME_SHAKE,6,
-// #endif
+    // #if ENABLE_SHAKE
+    //     FRAME_SHAKE,6,
+    // #endif
 
-//    FRAME_ARMS_IN_AIR,10,
-    //FRAME_HUNCH,100,
+    //    FRAME_ARMS_IN_AIR,10,
+    // FRAME_HUNCH,100,
     ACTION_STOP,
 };
 
@@ -193,7 +211,7 @@ const signed char AnimationWalk[] = {
     FRAME_WALK3, 6,
     FRAME_WALK4, 6,
     ACTION_LOOP,
-//    ACTION_STOP,
+    //    ACTION_STOP,
 };
 
 const signed char AnimationWalkUp[] = {
@@ -203,7 +221,7 @@ const signed char AnimationWalkUp[] = {
     FRAME_WALKUP2, 6,
     FRAME_WALKUP3, 6,
     ACTION_LOOP,
-//    ACTION_STOP,
+    //    ACTION_STOP,
 };
 
 const signed char AnimationWalkDown[] = {
@@ -213,10 +231,8 @@ const signed char AnimationWalkDown[] = {
     FRAME_WALKDOWN2, 6,
     FRAME_WALKDOWN3, 6,
     ACTION_LOOP,
-//    ACTION_STOP,
+    //    ACTION_STOP,
 };
-
-
 
 // const signed char AnimationSnatch[] = {
 //     ACTION_POSITION, 5,0,
@@ -243,7 +259,6 @@ const signed char AnimationWalkDown[] = {
 //     ACTION_STOP,
 // };
 
-
 // const signed char AnimationSkeleton2[] = {
 //     FRAME_SKELETON4, 8,
 //     FRAME_SKELETON, 8,
@@ -260,17 +275,17 @@ const signed char AnimationSkeleton[] = {
     FRAME_SKELETON5, 8,
 
     FRAME_BLANK, 255,
-//    ACTION_LOOP,
-//    ACTION_STOP,
+    //    ACTION_LOOP,
+    //    ACTION_STOP,
 };
 
-//const signed char AnimationStartup[] = {
-//     FRAME_SKELETON5, 8,
-//     FRAME_SKELETON2, 8,
-//     FRAME_SKELETON3, 8,
-//     FRAME_SKELETON, 15,
+// const signed char AnimationStartup[] = {
+//      FRAME_SKELETON5, 8,
+//      FRAME_SKELETON2, 8,
+//      FRAME_SKELETON3, 8,
+//      FRAME_SKELETON, 15,
 
-//#define DX 4
+// #define DX 4
 
 //     FRAME_STAND,DX,
 //     FRAME_SKELETON, DX,
@@ -281,36 +296,35 @@ const signed char AnimationSkeleton[] = {
 //     FRAME_STAND,DX,
 //     FRAME_SKELETON, DX,
 
-    // FRAME_BLANK, 90,
-    // FRAME_STAND, DX,
-    // FRAME_BLANK, DX,
-    // FRAME_STAND, DX,
-    // FRAME_BLANK, DX,
-    // FRAME_STAND, DX,
-    // FRAME_BLANK, DX,
-    // FRAME_STAND, DX,
-    // FRAME_BLANK, DX,
+// FRAME_BLANK, 90,
+// FRAME_STAND, DX,
+// FRAME_BLANK, DX,
+// FRAME_STAND, DX,
+// FRAME_BLANK, DX,
+// FRAME_STAND, DX,
+// FRAME_BLANK, DX,
+// FRAME_STAND, DX,
+// FRAME_BLANK, DX,
 
-    // FRAME_STAND, 1,
-    // ACTION_STOP
+// FRAME_STAND, 1,
+// ACTION_STOP
 
+// FRAME_STAND,10,
 
-
-    // FRAME_STAND,10,
-
-    // ACTION_POSITION, -1,0,
-    // FRAME_LOOK1, 5,
-    // ACTION_POSITION, -1,0,
-    // FRAME_LOOK2, 20,
-    // ACTION_POSITION, -1,0,
-    // FRAME_LOOK1, 5,
-    // ACTION_POSITION, 0,0,
+// ACTION_POSITION, -1,0,
+// FRAME_LOOK1, 5,
+// ACTION_POSITION, -1,0,
+// FRAME_LOOK2, 20,
+// ACTION_POSITION, -1,0,
+// FRAME_LOOK1, 5,
+// ACTION_POSITION, 0,0,
 //    FRAME_STAND, 255,
 //    ACTION_STOP,
 // };
 
 const signed char AnimationArmsCrossed[] = {
-    FRAME_ARMSCROSSED, 80,
+    FRAME_ARMSCROSSED,
+    80,
     ACTION_STOP,
 };
 
@@ -334,9 +348,7 @@ const signed char AnimationArmsCrossed[] = {
 //     ACTION_STOP,
 // };
 
-
-
-//#if __ENABLE_DRIP
+// #if __ENABLE_DRIP
 
 // const signed char AnimationDrip[] = {
 //     FRAME_IMPATIENT,25,
@@ -362,36 +374,31 @@ const signed char AnimationArmsCrossed[] = {
 //     ACTION_STOP,
 // };
 
-//#endif // ENABLE_DRIP
-
+// #endif // ENABLE_DRIP
 
 const signed char *const AnimationVector[] = {
 
     // see (player.h) AnimationIdent
 
-    AnimationDefault,       // 00
-    AnimationStandUp,       // 01
-    AnimationStandLR,       // 02
-    AnimationPush,          // 03
-    AnimationTurn,          // 04
-    AnimationDie,           // 05
-    AnimationWalk,          // 06
-    AnimationSkeleton,      // 07
-    AnimationLocked,        // 08
-    AnimationWalkUp,        // 09
-    AnimationWalkDown,      // 10
-    AnimationMineUp,        // 11
-    AnimationMineDown,      // 12
+    AnimationDefault,  // 00
+    AnimationStandUp,  // 01
+    AnimationStandLR,  // 02
+    AnimationPush,     // 03
+    AnimationTurn,     // 04
+    AnimationDie,      // 05
+    AnimationWalk,     // 06
+    AnimationSkeleton, // 07
+    AnimationLocked,   // 08
+    AnimationWalkUp,   // 09
+    AnimationWalkDown, // 10
+    AnimationMineUp,   // 11
+    AnimationMineDown, // 12
 };
-
-
 
 enum AnimationIdent playerAnimationID = ID_Stand;
 const signed char *playerAnimation = AnimationDefault;
 const signed char *playerAnimationLoop = AnimationDefault;
 unsigned int playerAnimationCount = 0;
-
-
 
 // #define HAIR 0x28
 // #define SKIN 0x46
@@ -403,14 +410,14 @@ unsigned int playerAnimationCount = 0;
 // #define SOLE 0x08
 // #define BONE 0x08
 
-#define HAIR 0
-#define SKIN 1
-#define TOP1 2
-#define TOP2 3
-#define BOOT 4
-#define PANT 5
-#define BELT 6
-#define SOLE 7
+// #define HAIR 0
+// #define SKIN 1
+// #define TOP1 2
+// #define TOP2 3
+// #define BOOT 4
+// #define PANT 5
+// #define BELT 6
+// #define SOLE 7
 #define BONE 8
 
 #define HMT0 9
@@ -422,43 +429,39 @@ unsigned int playerAnimationCount = 0;
 #define BDY1 14
 #define BDY2 15
 
-const unsigned char redirect[] = { 0, 1, 1, 2};
+const unsigned char redirect[] = {0, 1, 1, 2};
 const unsigned char playerColour[] = {
 
-    //NTSC  PAL  PAL_60 SECAM
+    // NTSC  PAL  PAL_60 SECAM
 
-    0x28,   // 0 HAIR
-    0x34,   // 1 SKIN
-    0x06,   // 2 TOP1
-    0x06,   // 3 TOP 2
-    0x44,   // 4 BOOT
-    0x44,   // 5 PANT
-    0x58,   // 6 BELT
-    0x08,   // 5 SOLE
-    0x08,   // 8 BONE
+    0x28, // 0 HAIR
+    0x34, // 1 SKIN
+    0x06, // 2 TOP1
+    0x06, // 3 TOP 2
+    0x44, // 4 BOOT
+    0x44, // 5 PANT
+    0x58, // 6 BELT
+    0x08, // 5 SOLE
+    0x08, // 8 BONE
 
-    0x2C,   // 9  HMT0
-    0x28,   // 10 HMT1
-    0x26,   // 11 HMT2
-    0x22,   // 12 HMT3
+    0x2C, // 9  HMT0
+    0x28, // 10 HMT1
+    0x26, // 11 HMT2
+    0x22, // 12 HMT3
 
-    0x4A,   // 13  BDY0
-    0x46,   // 14 BDY1
-    0x44,   // 15 BDY2
+    0x4A, // 13  BDY0
+    0x46, // 14 BDY1
+    0x44, // 15 BDY2
 
 };
 
-
-
-
-#define SP(a,b,c,d) \
+#define SP(a, b, c, d) \
     a, b, (c << 4) + d
 
-#define SP2(a,b) \
+#define SP2(a, b) \
     a, (b << 4)
 
-//#define PNT2 0x04
-
+// #define PNT2 0x04
 
 /* V6
 
@@ -2131,810 +2134,834 @@ ________, ________
 
 */
 
-const unsigned char shape_FRAME_BLANK[] = {            // 00
+const unsigned char shape_FRAME_BLANK[] = {
+    // 00
 
     0,
-    0,0,
+    0, 0,
 
-    SP2( ________, ____  ),     //00
-    SP2( ________, ____  ),     //01
-    SP2( ________, ____  ),     //02
-    SP2( ________, ____  ),     //03
-    SP2( ________, ____  ),     //04
-    SP2( ________, ____  ),     //05
-    SP2( ________, ____  ),     //06
-    SP2( ________, ____  ),     //07
-    SP2( ________, ____  ),     //08
-    SP2( ________, ____  ),     //09
-    SP2( ________, ____  ),     //10
-    SP2( ________, ____  ),     //11
-    SP2( ________, ____  ),     //12
-    SP2( ________, ____  ),     //13
-    SP2( ________, ____  ),     //14
-    SP2( ________, ____  ),     //15
-    SP2( ________, ____  ),     //16
-    SP2( ________, ____  ),     //17
-    SP2( ________, ____  ),     //18
-    SP2( ________, ____  ),     //19
-    SP2( ________, ____  ),     //20
-    SP2( ________, ____  ),     //21
-    SP2( ________, ____  ),     //22
-    SP2( ________, ____  ),     //23
-    SP2( ________, ____  ),     //24
-    SP2( ________, ____  ),     //25
-    SP2( ________, ____  ),     //26
-    SP2( ________, ____  ),     //27
-    SP2( ________, ____  ),     //28
-    SP2( ________, ____  ),     //29
+    SP2(________, ____), // 00
+    SP2(________, ____), // 01
+    SP2(________, ____), // 02
+    SP2(________, ____), // 03
+    SP2(________, ____), // 04
+    SP2(________, ____), // 05
+    SP2(________, ____), // 06
+    SP2(________, ____), // 07
+    SP2(________, ____), // 08
+    SP2(________, ____), // 09
+    SP2(________, ____), // 10
+    SP2(________, ____), // 11
+    SP2(________, ____), // 12
+    SP2(________, ____), // 13
+    SP2(________, ____), // 14
+    SP2(________, ____), // 15
+    SP2(________, ____), // 16
+    SP2(________, ____), // 17
+    SP2(________, ____), // 18
+    SP2(________, ____), // 19
+    SP2(________, ____), // 20
+    SP2(________, ____), // 21
+    SP2(________, ____), // 22
+    SP2(________, ____), // 23
+    SP2(________, ____), // 24
+    SP2(________, ____), // 25
+    SP2(________, ____), // 26
+    SP2(________, ____), // 27
+    SP2(________, ____), // 28
+    SP2(________, ____), // 29
 };
 
 const unsigned char shape_FRAME_STAND[] = {
 
     26,
-    4+0, 0,
+    4 + 0, 0,
 
-    SP2( __XXXX__, HMT0 ),     // 00
-    SP2( _XXXXXX_, HMT0 ),     // 01
-    SP2( _XXXXXX_, HMT0 ),     // 02
-    SP2( XXX__XXX, HMT1 ),     // 03
-    SP2( XX_X__XX, HMT1 ),     // 04
-    SP2( XXX___XX, HMT1 ),     // 05
-    SP2( X_X____X, HMT1 ),     // 06
-    SP2( X______X, HMT2 ),     // 07
-    SP2( X______X, HMT2 ),     // 08
-    SP2( X______X, HMT2 ),     // 09
-    SP2( _X____X_, HMT3 ),     // 10
-    SP2( _XX__XX_, HMT3 ),     // 11
-    SP2( __XXXX__, HMT3 ),     // 12
-    SP2( _X____X_, BDY1 ),     // 13
-    SP2( _XXXXXX_, BDY0 ),     // 14
-    SP2( XX_XX_XX, BDY1 ),     // 15
-    SP2( XX_XX_XX, BDY1 ),     // 16
-    SP2( XXXXXXXX, BDY2 ),     // 17
-    SP2( X_XXXX_X, BDY2 ),     // 18
-    SP2( X_X__X_X, BDY2 ),     // 19
-    SP2( X__XX__X, HMT1 ),     // 20
-    SP2( __XXXX__, HMT1 ),     // 21
-    SP2( ___XX___, HMT1 ),     // 22
-    SP2( __X__X__, HMT1 ),     // 23
-    SP2( __X__X__, HMT2 ),     // 24
-    SP2( __X__X__, HMT0 ),     // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXX__XXX, HMT1), // 03
+    SP2(XX_X__XX, HMT1), // 04
+    SP2(XXX___XX, HMT1), // 05
+    SP2(X_X____X, HMT1), // 06
+    SP2(X______X, HMT2), // 07
+    SP2(X______X, HMT2), // 08
+    SP2(X______X, HMT2), // 09
+    SP2(_X____X_, HMT3), // 10
+    SP2(_XX__XX_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(_X____X_, BDY1), // 13
+    SP2(_XXXXXX_, BDY0), // 14
+    SP2(XX_XX_XX, BDY1), // 15
+    SP2(XX_XX_XX, BDY1), // 16
+    SP2(XXXXXXXX, BDY2), // 17
+    SP2(X_XXXX_X, BDY2), // 18
+    SP2(X_X__X_X, BDY2), // 19
+    SP2(X__XX__X, HMT1), // 20
+    SP2(__XXXX__, HMT1), // 21
+    SP2(___XX___, HMT1), // 22
+    SP2(__X__X__, HMT1), // 23
+    SP2(__X__X__, HMT2), // 24
+    SP2(__X__X__, HMT0), // 25
 
 };
 
-const unsigned char shape_FRAME_ARMS_IN_AIR[] = {      // 02
+const unsigned char shape_FRAME_ARMS_IN_AIR[] = {
+    // 02
 
     SPRITE_DOUBLE | 24,
     2, 5,
 
-    SP(__X_____,_X______, HMT0, BONE), // 00
-    SP(__X_XXXX,_X______, HMT0, BONE), // 01
-    SP(_X_XXXXX,X_X_____, HMT0, BONE), // 02
-    SP(_X_X____,X_X_____, HMT1, BONE), // 03
-    SP(_XXX_X__,XXX_____, HMT1, BONE), // 04
-    SP(_XX_X___,_XX_____, HMT1, BONE), // 05
-    SP(_XX_X___,_XX_____, HMT1, BONE), // 06
-    SP(_XX_____,_XX_____, HMT2, BONE), // 07
-    SP(_XX_____,_XX_____, HMT2, BONE), // 08
-    SP(_XXX____,XXX_____, HMT2, BONE), // 09
-    SP(_XX_XXXX,_XX_____, HMT3, BONE), // 10
-    SP(__X_XXXX,_X______, HMT3, BONE), // 11
-    SP(__XX____,XX______, HMT3, BONE), // 12
-    SP(__XXXXXX,XX______, BDY1, BONE), // 13
-    SP(__XX_XX_,X_______, BDY0, BONE), // 14
-    SP(___X_XX_,X_______, BDY1, BONE), // 15
-    SP(____XXXX,________, BDY2, BONE), // 16
-    SP(____XXXX,________, BDY2, BONE), // 17
-    SP(_____XX_,________, BDY2, BONE), // 18
-    SP(____X__X,________, BDY2, BONE), // 19
-    SP(___XXXXX,X_______, HMT1, BONE), // 20
-    SP(___X_XX_,X_______, HMT1, BONE), // 21
-    SP(__XX____,XX______, HMT2, BONE), // 22
-    SP(__X_____,_X______, HMT0, BONE), // 23
+    SP(__X_____, _X______, HMT0, BONE), // 00
+    SP(__X_XXXX, _X______, HMT0, BONE), // 01
+    SP(_X_XXXXX, X_X_____, HMT0, BONE), // 02
+    SP(_X_X____, X_X_____, HMT1, BONE), // 03
+    SP(_XXX_X__, XXX_____, HMT1, BONE), // 04
+    SP(_XX_X___, _XX_____, HMT1, BONE), // 05
+    SP(_XX_X___, _XX_____, HMT1, BONE), // 06
+    SP(_XX_____, _XX_____, HMT2, BONE), // 07
+    SP(_XX_____, _XX_____, HMT2, BONE), // 08
+    SP(_XXX____, XXX_____, HMT2, BONE), // 09
+    SP(_XX_XXXX, _XX_____, HMT3, BONE), // 10
+    SP(__X_XXXX, _X______, HMT3, BONE), // 11
+    SP(__XX____, XX______, HMT3, BONE), // 12
+    SP(__XXXXXX, XX______, BDY1, BONE), // 13
+    SP(__XX_XX_, X_______, BDY0, BONE), // 14
+    SP(___X_XX_, X_______, BDY1, BONE), // 15
+    SP(____XXXX, ________, BDY2, BONE), // 16
+    SP(____XXXX, ________, BDY2, BONE), // 17
+    SP(_____XX_, ________, BDY2, BONE), // 18
+    SP(____X__X, ________, BDY2, BONE), // 19
+    SP(___XXXXX, X_______, HMT1, BONE), // 20
+    SP(___X_XX_, X_______, HMT1, BONE), // 21
+    SP(__XX____, XX______, HMT2, BONE), // 22
+    SP(__X_____, _X______, HMT0, BONE), // 23
 };
 
-const unsigned char shape_FRAME_HUNCH[] = {            // 03
+const unsigned char shape_FRAME_HUNCH[] = {
+    // 03
 
     26,
-    4+0, 0,
+    4 + 0, 0,
 
-    SP2( ___XXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXX__XX, HMT1 ), // 03
-    SP2( XXX__X_X, HMT1 ), // 04
-    SP2( X_X_X__X, HMT1 ), // 05
-    SP2( X_X_X__X, HMT1 ), // 06
-    SP2( X_X____X, HMT2 ), // 07
-    SP2( XXX____X, HMT2 ), // 08
-    SP2( XXX____X, HMT2 ), // 09
-    SP2( _XXX__X_, HMT3 ), // 10
-    SP2( _XXX__X_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( _X____X_, BDY1 ), // 13
-    SP2( XXXXXXXX, BDY0 ), // 14
-    SP2( XX_XX_XX, BDY1 ), // 15
-    SP2( X_XXXX_X, BDY2 ), // 16
-    SP2( X_XXXX_X, BDY2 ), // 17
-    SP2( _X_XX_X_, BDY2 ), // 18
-    SP2( _X____X_, BDY2 ), // 19
-    SP2( ___XX___, HMT1 ), // 20
-    SP2( __XXXX__, HMT2 ), // 21
-    SP2( ___XX___, HMT2 ), // 22
-    SP2( __X__X__, HMT2 ), // 23
-    SP2( __X__XX_, HMT2 ), // 24
-    SP2( __X__X__, HMT0 ), // 25
+    SP2(___XXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXX__XX, HMT1), // 03
+    SP2(XXX__X_X, HMT1), // 04
+    SP2(X_X_X__X, HMT1), // 05
+    SP2(X_X_X__X, HMT1), // 06
+    SP2(X_X____X, HMT2), // 07
+    SP2(XXX____X, HMT2), // 08
+    SP2(XXX____X, HMT2), // 09
+    SP2(_XXX__X_, HMT3), // 10
+    SP2(_XXX__X_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(_X____X_, BDY1), // 13
+    SP2(XXXXXXXX, BDY0), // 14
+    SP2(XX_XX_XX, BDY1), // 15
+    SP2(X_XXXX_X, BDY2), // 16
+    SP2(X_XXXX_X, BDY2), // 17
+    SP2(_X_XX_X_, BDY2), // 18
+    SP2(_X____X_, BDY2), // 19
+    SP2(___XX___, HMT1), // 20
+    SP2(__XXXX__, HMT2), // 21
+    SP2(___XX___, HMT2), // 22
+    SP2(__X__X__, HMT2), // 23
+    SP2(__X__XX_, HMT2), // 24
+    SP2(__X__X__, HMT0), // 25
 
 };
 
-
-const unsigned char shape_FRAME_PUSH[] = {             // 04
+const unsigned char shape_FRAME_PUSH[] = {
+    // 04
 
     SPRITE_DOUBLE | 25,
     4, 0,
 
-    SP( ___XXXX_, ________, HMT0, BONE), // 00
-    SP( __XXXXXX, ___XX___, HMT0, BONE), // 01
-    SP( __XXXXXX, _____X__, HMT0, BONE), // 02
-    SP( _XXXXX_X, X_____X_, HMT1, BONE), // 03
-    SP( _XXXX___, X____XX_, HMT1, BONE), // 04
-    SP( _XX_X_X_, X____X_X, HMT1, BONE), // 05
-    SP( _XX_X_X_, X___X__X, HMT1, BONE), // 06
-    SP( _XX_X___, X___X__X, HMT2, BONE), // 07
-    SP( _XXXX___, X__X____, HMT2, BONE), // 08
-    SP( _XXXX___, X__X____, HMT2, BONE), // 09
-    SP( __XXXX_X, __X_____, HMT3, BONE), // 10
-    SP( __XXXX_X, __X_____, HMT3, BONE), // 11
-    SP( _X_XXXX_, ________, HMT3, BONE), // 12
-    SP( _XX____X, X_______, BDY1, BONE), // 13
-    SP( _X_XX_XX, X_______, BDY0, BONE), // 14
-    SP( _X_XX_XX, ________, BDY1, BONE), // 15
-    SP( _XXXX_X_, ________, BDY2, BONE), // 16
-    SP( _X_XXX__, ________, BDY2, BONE), // 17
-    SP( _X_XX_X_, ________, BDY2, BONE), // 18
-    SP( _X__XX__, ________, HMT1, BONE), // 19
-    SP( ____XX__, ________, HMT2, BONE), // 20
-    SP( ____XX__, ________, HMT2, BONE), // 21
-    SP( ___XX___, ________, HMT2, BONE), // 22
-    SP( ___XX___, ________, HMT2, BONE), // 23
-    SP( ____XX__, ________, HMT0, BONE), // 24
+    SP(___XXXX_, ________, HMT0, BONE), // 00
+    SP(__XXXXXX, ___XX___, HMT0, BONE), // 01
+    SP(__XXXXXX, _____X__, HMT0, BONE), // 02
+    SP(_XXXXX_X, X_____X_, HMT1, BONE), // 03
+    SP(_XXXX___, X____XX_, HMT1, BONE), // 04
+    SP(_XX_X_X_, X____X_X, HMT1, BONE), // 05
+    SP(_XX_X_X_, X___X__X, HMT1, BONE), // 06
+    SP(_XX_X___, X___X__X, HMT2, BONE), // 07
+    SP(_XXXX___, X__X____, HMT2, BONE), // 08
+    SP(_XXXX___, X__X____, HMT2, BONE), // 09
+    SP(__XXXX_X, __X_____, HMT3, BONE), // 10
+    SP(__XXXX_X, __X_____, HMT3, BONE), // 11
+    SP(_X_XXXX_, ________, HMT3, BONE), // 12
+    SP(_XX____X, X_______, BDY1, BONE), // 13
+    SP(_X_XX_XX, X_______, BDY0, BONE), // 14
+    SP(_X_XX_XX, ________, BDY1, BONE), // 15
+    SP(_XXXX_X_, ________, BDY2, BONE), // 16
+    SP(_X_XXX__, ________, BDY2, BONE), // 17
+    SP(_X_XX_X_, ________, BDY2, BONE), // 18
+    SP(_X__XX__, ________, HMT1, BONE), // 19
+    SP(____XX__, ________, HMT2, BONE), // 20
+    SP(____XX__, ________, HMT2, BONE), // 21
+    SP(___XX___, ________, HMT2, BONE), // 22
+    SP(___XX___, ________, HMT2, BONE), // 23
+    SP(____XX__, ________, HMT0, BONE), // 24
 };
 
-const unsigned char shape_FRAME_PUSH2[] = {            // 05
+const unsigned char shape_FRAME_PUSH2[] = {
+    // 05
 
     SPRITE_DOUBLE | 26,
     4, 0,
 
-    SP( ________,_XX_____, BONE, BONE), // 00
-    SP( _______X,X_______, BONE, BONE), // 01
-    SP( __XXXX_X,________, HMT0, BONE), // 02
-    SP( _XXXXXX_,X_______, HMT0, BONE), // 03
-    SP( _XXXXXX_,X_______, HMT0, BONE), // 04
-    SP( XXXX__X_,X_______, HMT1, BONE), // 05
-    SP( XXX__X_X,_X______, HMT1, BONE), // 06
-    SP( X_X_X__X,_X______, HMT1, BONE), // 07
-    SP( X_X_X__X,_X______, HMT1, BONE), // 08
-    SP( X_X____X,_X______, HMT2, BONE), // 09
-    SP( XXX____X,________, HMT2, BONE), // 10
-    SP( XXX____X,_X______, HMT2, BONE), // 11
-    SP( _XXX__X_,_X______, HMT3, BONE), // 12
-    SP( _XXX_X_X,________, HMT3, BONE), // 13
-    SP( X_XXXXXX,________, HMT3, BONE), // 14
-    SP( XX____XX,________, BDY1, BONE), // 15
-    SP( X_XX_XX_,________, BDY0, BONE), // 16
-    SP( X_XX_XX_,________, BDY1, BONE), // 17
-    SP( _XXXX___,________, BDY2, BONE), // 18
-    SP( _X_XX_X_,________, BDY2, BONE), // 19
-    SP( _X_XX_X_,________, HMT1, BONE), // 20
-    SP( _X__XX__,________, HMT2, BONE), // 21
-    SP( ____XX__,________, HMT2, BONE), // 22
-    SP( ____XX__,________, HMT2, BONE), // 23
-    SP( ___XX___,________, HMT2, BONE), // 24
-    SP( ___XXX__,________, HMT0, BONE), // 25
+    SP(________, _XX_____, BONE, BONE), // 00
+    SP(_______X, X_______, BONE, BONE), // 01
+    SP(__XXXX_X, ________, HMT0, BONE), // 02
+    SP(_XXXXXX_, X_______, HMT0, BONE), // 03
+    SP(_XXXXXX_, X_______, HMT0, BONE), // 04
+    SP(XXXX__X_, X_______, HMT1, BONE), // 05
+    SP(XXX__X_X, _X______, HMT1, BONE), // 06
+    SP(X_X_X__X, _X______, HMT1, BONE), // 07
+    SP(X_X_X__X, _X______, HMT1, BONE), // 08
+    SP(X_X____X, _X______, HMT2, BONE), // 09
+    SP(XXX____X, ________, HMT2, BONE), // 10
+    SP(XXX____X, _X______, HMT2, BONE), // 11
+    SP(_XXX__X_, _X______, HMT3, BONE), // 12
+    SP(_XXX_X_X, ________, HMT3, BONE), // 13
+    SP(X_XXXXXX, ________, HMT3, BONE), // 14
+    SP(XX____XX, ________, BDY1, BONE), // 15
+    SP(X_XX_XX_, ________, BDY0, BONE), // 16
+    SP(X_XX_XX_, ________, BDY1, BONE), // 17
+    SP(_XXXX___, ________, BDY2, BONE), // 18
+    SP(_X_XX_X_, ________, BDY2, BONE), // 19
+    SP(_X_XX_X_, ________, HMT1, BONE), // 20
+    SP(_X__XX__, ________, HMT2, BONE), // 21
+    SP(____XX__, ________, HMT2, BONE), // 22
+    SP(____XX__, ________, HMT2, BONE), // 23
+    SP(___XX___, ________, HMT2, BONE), // 24
+    SP(___XXX__, ________, HMT0, BONE), // 25
 };
 
-const unsigned char shape_FRAME_IMPATIENT[] = {        // 06
+const unsigned char shape_FRAME_IMPATIENT[] = {
+    // 06
 };
 
-const unsigned char shape_FRAME_IMPATIENT2[] = {       // 07
+const unsigned char shape_FRAME_IMPATIENT2[] = {
+    // 07
 };
 
-const unsigned char shape_FRAME_LOOK1[] = {            // 08
+const unsigned char shape_FRAME_LOOK1[] = {
+    // 08
 };
 
-const unsigned char shape_FRAME_LOOK2[] = {            // 09
+const unsigned char shape_FRAME_LOOK2[] = {
+    // 09
 };
 
-const unsigned char shape_FRAME_SHADES[] = {           // 10
+const unsigned char shape_FRAME_SHADES[] = {
+    // 10
 };
 
-const unsigned char shape_FRAME_SHADES_ARM[] = {       // 11
+const unsigned char shape_FRAME_SHADES_ARM[] = {
+    // 11
 };
 
-const unsigned char shape_FRAME_BLINK[] = {            // 12
+const unsigned char shape_FRAME_BLINK[] = {
+    // 12
 };
 
-const unsigned char shape_FRAME_WALK1[] = {            // 13
+const unsigned char shape_FRAME_WALK1[] = {
+    // 13
 
     26,
     5, 0,
 
-    SP2( __XXXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXX_XX, HMT1 ), // 03
-    SP2( XXXX___X, HMT1 ), // 04
-    SP2( XX_X_X_X, HMT1 ), // 05
-    SP2( XX_X_X_X, HMT1 ), // 06
-    SP2( XX_X___X, HMT2 ), // 07
-    SP2( XXXX___X, HMT2 ), // 08
-    SP2( XXXX___X, HMT2 ), // 09
-    SP2( _XXXX_X_, HMT3 ), // 10
-    SP2( _XXXX_X_, HMT3 ), // 11
-    SP2( X_XXXX__, HMT3 ), // 12
-    SP2( XX______, BDY0 ), // 13
-    SP2( X_XX_X__, BDY1 ), // 14
-    SP2( X_XX_X__, BDY2 ), // 15
-    SP2( XXXX_X__, BDY2 ), // 16
-    SP2( X_XX____, BDY2 ), // 17
-    SP2( X_XX_X__, BDY2 ), // 18
-    SP2( X_XX_X__, HMT2 ), // 19
-    SP2( X_X_X___, HMT2 ), // 20
-    SP2( ___XX___, HMT2 ), // 21
-    SP2( ___XX___, HMT2 ), // 22
-    SP2( __XX____, HMT2 ), // 23
-    SP2( __XX____, HMT2 ), // 24
-    SP2( __XXX___, HMT0 ), // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXX_XX, HMT1), // 03
+    SP2(XXXX___X, HMT1), // 04
+    SP2(XX_X_X_X, HMT1), // 05
+    SP2(XX_X_X_X, HMT1), // 06
+    SP2(XX_X___X, HMT2), // 07
+    SP2(XXXX___X, HMT2), // 08
+    SP2(XXXX___X, HMT2), // 09
+    SP2(_XXXX_X_, HMT3), // 10
+    SP2(_XXXX_X_, HMT3), // 11
+    SP2(X_XXXX__, HMT3), // 12
+    SP2(XX______, BDY0), // 13
+    SP2(X_XX_X__, BDY1), // 14
+    SP2(X_XX_X__, BDY2), // 15
+    SP2(XXXX_X__, BDY2), // 16
+    SP2(X_XX____, BDY2), // 17
+    SP2(X_XX_X__, BDY2), // 18
+    SP2(X_XX_X__, HMT2), // 19
+    SP2(X_X_X___, HMT2), // 20
+    SP2(___XX___, HMT2), // 21
+    SP2(___XX___, HMT2), // 22
+    SP2(__XX____, HMT2), // 23
+    SP2(__XX____, HMT2), // 24
+    SP2(__XXX___, HMT0), // 25
 };
 
-
-const unsigned char shape_FRAME_WALK2[] = {            // 14
+const unsigned char shape_FRAME_WALK2[] = {
+    // 14
 
     24,
     3, 3,
 
-    SP2( ___XXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXX_XX, HMT1 ), // 03
-    SP2( XXXXX__X, HMT1 ), // 04
-    SP2( XXX_X_XX, HMT1 ), // 05
-    SP2( XXX_X_XX, HMT1 ), // 06
-    SP2( XXX_X__X, HMT2 ), // 07
-    SP2( XXXXX__X, HMT2 ), // 08
-    SP2( XXXXX__X, HMT2 ), // 09
-    SP2( _XXXX_X_, HMT3 ), // 10
-    SP2( _XXXX_X_, HMT3 ), // 11
-    SP2( __X_XX__, HMT3 ), // 12
-    SP2( XX___XX_, BDY1 ), // 13
-    SP2( XX_XXXX_, BDY0 ), // 14
-    SP2( XX_XXXX_, BDY1 ), // 15
-    SP2( XXX_XX__, BDY2 ), // 16
-    SP2( X_XX____, BDY2 ), // 17
-    SP2( _X______, BDY2 ), // 18
-    SP2( _X_XXX_X, HMT1 ), // 19
-    SP2( XXXX_XXX, HMT2 ), // 20
-    SP2( XXX__XXX, HMT2 ), // 21
-    SP2( X_X___X_, HMT2 ), // 22
-    SP2( ______X_, HMT0 ), // 23
+    SP2(___XXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXX_XX, HMT1), // 03
+    SP2(XXXXX__X, HMT1), // 04
+    SP2(XXX_X_XX, HMT1), // 05
+    SP2(XXX_X_XX, HMT1), // 06
+    SP2(XXX_X__X, HMT2), // 07
+    SP2(XXXXX__X, HMT2), // 08
+    SP2(XXXXX__X, HMT2), // 09
+    SP2(_XXXX_X_, HMT3), // 10
+    SP2(_XXXX_X_, HMT3), // 11
+    SP2(__X_XX__, HMT3), // 12
+    SP2(XX___XX_, BDY1), // 13
+    SP2(XX_XXXX_, BDY0), // 14
+    SP2(XX_XXXX_, BDY1), // 15
+    SP2(XXX_XX__, BDY2), // 16
+    SP2(X_XX____, BDY2), // 17
+    SP2(_X______, BDY2), // 18
+    SP2(_X_XXX_X, HMT1), // 19
+    SP2(XXXX_XXX, HMT2), // 20
+    SP2(XXX__XXX, HMT2), // 21
+    SP2(X_X___X_, HMT2), // 22
+    SP2(______X_, HMT0), // 23
 };
 
-
-const unsigned char shape_FRAME_WALK3[] = {            // 15
+const unsigned char shape_FRAME_WALK3[] = {
+    // 15
 
     26,
     4, 0,
 
-    SP2( __XXXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXX_XX, HMT1 ), // 03
-    SP2( XXXX___X, HMT1 ), // 04
-    SP2( XX_X_X_X, HMT1 ), // 05
-    SP2( XX_X_X_X, HMT1 ), // 06
-    SP2( XX_X___X, HMT2 ), // 07
-    SP2( XXXX___X, HMT2 ), // 08
-    SP2( XXXX___X, HMT2 ), // 09
-    SP2( _XXXX_X_, HMT3 ), // 10
-    SP2( _XXXX_X_, HMT3 ), // 11
-    SP2( X_XXXX__, HMT3 ), // 12
-    SP2( XX______, BDY1 ), // 13
-    SP2( X_XX_X__, BDY0 ), // 14
-    SP2( X_XX_X__, BDY1 ), // 15
-    SP2( XXXX_X__, BDY2 ), // 16
-    SP2( X_XX____, BDY2 ), // 17
-    SP2( X_XX_X__, BDY2 ), // 18
-    SP2( X_XX_X__, BDY2 ), // 19
-    SP2( X_X_X___, HMT1 ), // 20
-    SP2( ___XX___, HMT2 ), // 21
-    SP2( ___XX___, HMT2 ), // 22
-    SP2( __XX____, HMT2 ), // 23
-    SP2( __XX____, HMT2 ), // 24
-    SP2( __XXX___, HMT0 ), // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXX_XX, HMT1), // 03
+    SP2(XXXX___X, HMT1), // 04
+    SP2(XX_X_X_X, HMT1), // 05
+    SP2(XX_X_X_X, HMT1), // 06
+    SP2(XX_X___X, HMT2), // 07
+    SP2(XXXX___X, HMT2), // 08
+    SP2(XXXX___X, HMT2), // 09
+    SP2(_XXXX_X_, HMT3), // 10
+    SP2(_XXXX_X_, HMT3), // 11
+    SP2(X_XXXX__, HMT3), // 12
+    SP2(XX______, BDY1), // 13
+    SP2(X_XX_X__, BDY0), // 14
+    SP2(X_XX_X__, BDY1), // 15
+    SP2(XXXX_X__, BDY2), // 16
+    SP2(X_XX____, BDY2), // 17
+    SP2(X_XX_X__, BDY2), // 18
+    SP2(X_XX_X__, BDY2), // 19
+    SP2(X_X_X___, HMT1), // 20
+    SP2(___XX___, HMT2), // 21
+    SP2(___XX___, HMT2), // 22
+    SP2(__XX____, HMT2), // 23
+    SP2(__XX____, HMT2), // 24
+    SP2(__XXX___, HMT0), // 25
 };
 
-
-const unsigned char shape_FRAME_WALK4[] = {            // 16
+const unsigned char shape_FRAME_WALK4[] = {
+    // 16
 
     24,
     3, 3,
 
-    SP2( ___XXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXX__XX, HMT1 ), // 03
-    SP2( XXX__X_X, HMT1 ), // 04
-    SP2( X_X_X__X, HMT1 ), // 05
-    SP2( X_X_X__X, HMT1 ), // 06
-    SP2( X_X____X, HMT2 ), // 07
-    SP2( XXX____X, HMT2 ), // 08
-    SP2( XXX____X, HMT2 ), // 09
-    SP2( _XXX__X_, HMT3 ), // 10
-    SP2( _XXX__X_, HMT3 ), // 11
-    SP2( X_XXXX__, HMT3 ), // 12
-    SP2( XX_____X, BDY1 ), // 13
-    SP2( _XXX_X_X, BDY0 ), // 14
-    SP2( XXXX_X_X, BDY1 ), // 15
-    SP2( XXXX_X__, BDY2 ), // 16
-    SP2( _XX_____, BDY2 ), // 17
-    SP2( _____X__, HMT1 ), // 18
-    SP2( _X_X_X_X, HMT2 ), // 19
-    SP2( XXXXXXXX, HMT2 ), // 20
-    SP2( XXXX_XXX, HMT2 ), // 21
-    SP2( X_X___X_, HMT2 ), // 22
-    SP2( ______X_, HMT0 ), // 23
+    SP2(___XXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXX__XX, HMT1), // 03
+    SP2(XXX__X_X, HMT1), // 04
+    SP2(X_X_X__X, HMT1), // 05
+    SP2(X_X_X__X, HMT1), // 06
+    SP2(X_X____X, HMT2), // 07
+    SP2(XXX____X, HMT2), // 08
+    SP2(XXX____X, HMT2), // 09
+    SP2(_XXX__X_, HMT3), // 10
+    SP2(_XXX__X_, HMT3), // 11
+    SP2(X_XXXX__, HMT3), // 12
+    SP2(XX_____X, BDY1), // 13
+    SP2(_XXX_X_X, BDY0), // 14
+    SP2(XXXX_X_X, BDY1), // 15
+    SP2(XXXX_X__, BDY2), // 16
+    SP2(_XX_____, BDY2), // 17
+    SP2(_____X__, HMT1), // 18
+    SP2(_X_X_X_X, HMT2), // 19
+    SP2(XXXXXXXX, HMT2), // 20
+    SP2(XXXX_XXX, HMT2), // 21
+    SP2(X_X___X_, HMT2), // 22
+    SP2(______X_, HMT0), // 23
 
- };
-
-const unsigned char shape_FRAME_SNATCH_DOWN[] = {      // 17
 };
 
-const unsigned char shape_FRAME_SKELETON1[] = {         // 18
+const unsigned char shape_FRAME_SNATCH_DOWN[] = {
+    // 17
+};
+
+const unsigned char shape_FRAME_SKELETON1[] = {
+    // 18
 
     SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20,
-    0,0,
+    0, 0,
 
-    SP( _____XXX,X_______, BONE, BONE ),     // 00
-    SP( ____XXXX,XX______, BONE, BONE ),     // 01
-    SP( ____X__X,__X_____, BONE, BONE ),     // 02
-    SP( ____X__X,__X_____, BONE, BONE ),     // 03
-    SP( ____XXXX,XX______, BONE, BONE ),     // 04
-    SP( _____X_X,_X______, BONE, BONE ),     // 05
-    SP( ______X_,X_______, BONE, BONE ),     // 06
-    SP( _______X,________, BONE, BONE ),     // 07
-    SP( ____XXXX,XX______, BONE, BONE ),     // 08
-    SP( ___X___X,__X_____, BONE, BONE ),     // 09
-    SP( __XX_XXX,X_XX____, BONE, BONE ),     // 10
-    SP( __X____X,___X____, BONE, BONE ),     // 11
-    SP( _____XXX,XX______, BONE, BONE ),     // 12
-    SP( __XX__XX,X_XX____, BONE, BONE ),     // 13
-    SP( _X___X_X,_X__X___, BONE, BONE ),     // 14
-    SP( _____X__,_X______, BONE, BONE ),     // 15
-    SP( ____XX__,_XX_____, BONE, BONE ),     // 16
-    SP( _____X__,_X______, BONE, BONE ),     // 17
-    SP( ________,________, BONE, BONE ),     // 18
-    SP( ____XXX_,XXX_____, BONE, BONE ),     // 19
+    SP(_____XXX, X_______, BONE, BONE), // 00
+    SP(____XXXX, XX______, BONE, BONE), // 01
+    SP(____X__X, __X_____, BONE, BONE), // 02
+    SP(____X__X, __X_____, BONE, BONE), // 03
+    SP(____XXXX, XX______, BONE, BONE), // 04
+    SP(_____X_X, _X______, BONE, BONE), // 05
+    SP(______X_, X_______, BONE, BONE), // 06
+    SP(_______X, ________, BONE, BONE), // 07
+    SP(____XXXX, XX______, BONE, BONE), // 08
+    SP(___X___X, __X_____, BONE, BONE), // 09
+    SP(__XX_XXX, X_XX____, BONE, BONE), // 10
+    SP(__X____X, ___X____, BONE, BONE), // 11
+    SP(_____XXX, XX______, BONE, BONE), // 12
+    SP(__XX__XX, X_XX____, BONE, BONE), // 13
+    SP(_X___X_X, _X__X___, BONE, BONE), // 14
+    SP(_____X__, _X______, BONE, BONE), // 15
+    SP(____XX__, _XX_____, BONE, BONE), // 16
+    SP(_____X__, _X______, BONE, BONE), // 17
+    SP(________, ________, BONE, BONE), // 18
+    SP(____XXX_, XXX_____, BONE, BONE), // 19
 };
 
-
-const unsigned char shape_FRAME_SKELETON2[] = {        // 21
+const unsigned char shape_FRAME_SKELETON2[] = {
+    // 21
 
     SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20,
     1, 0,
 
-    SP( ____XXXX,________, BONE, BONE ),     // 00
-    SP( ___XXXXX,X_______, BONE, BONE ),     // 01
-    SP( __X__X__,X_______, BONE, BONE ),     // 02
-    SP( __X__X__,X_______, BONE, BONE ),     // 03
-    SP( __XXXXXX,X_______, BONE, BONE ),     // 04
-    SP( ___X_X_X,________, BONE, BONE ),     // 05
-    SP( ____X_X_,________, BONE, BONE ),     // 06
-    SP( _______X,________, BONE, BONE ),     // 07
-    SP( ___XXXXX,X_______, BONE, BONE ),     // 08
-    SP( __X___X_,_X______, BONE, BONE ),     // 09
-    SP( _XX_XXXX,_XX_____, BONE, BONE ),     // 10
-    SP( _X____X_,__X_____, BONE, BONE ),     // 11
-    SP( ____XXXX,X_______, BONE, BONE ),     // 12
-    SP( _XX__XXX,_XX_____, BONE, BONE ),     // 13
-    SP( X___X_X_,X__X____, BONE, BONE ),     // 14
-    SP( ____X___,X_______, BONE, BONE ),     // 15
-    SP( ___XX___,XX______, BONE, BONE ),     // 16
-    SP( ____X___,X_______, BONE, BONE ),     // 17
-    SP( ________,________, BONE, BONE ),     // 18
-    SP( ___XXX_X,XX______, BONE, BONE ),     // 19
+    SP(____XXXX, ________, BONE, BONE), // 00
+    SP(___XXXXX, X_______, BONE, BONE), // 01
+    SP(__X__X__, X_______, BONE, BONE), // 02
+    SP(__X__X__, X_______, BONE, BONE), // 03
+    SP(__XXXXXX, X_______, BONE, BONE), // 04
+    SP(___X_X_X, ________, BONE, BONE), // 05
+    SP(____X_X_, ________, BONE, BONE), // 06
+    SP(_______X, ________, BONE, BONE), // 07
+    SP(___XXXXX, X_______, BONE, BONE), // 08
+    SP(__X___X_, _X______, BONE, BONE), // 09
+    SP(_XX_XXXX, _XX_____, BONE, BONE), // 10
+    SP(_X____X_, __X_____, BONE, BONE), // 11
+    SP(____XXXX, X_______, BONE, BONE), // 12
+    SP(_XX__XXX, _XX_____, BONE, BONE), // 13
+    SP(X___X_X_, X__X____, BONE, BONE), // 14
+    SP(____X___, X_______, BONE, BONE), // 15
+    SP(___XX___, XX______, BONE, BONE), // 16
+    SP(____X___, X_______, BONE, BONE), // 17
+    SP(________, ________, BONE, BONE), // 18
+    SP(___XXX_X, XX______, BONE, BONE), // 19
 
 };
 
-
-const unsigned char shape_FRAME_SKELETON3[] = {        // 20
+const unsigned char shape_FRAME_SKELETON3[] = {
+    // 20
 
     SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 16,
     0, 0,
 
-    SP( _______X,XXX_____, BONE, BONE ),     // 00
-    SP( ______XX,XXXX____, BONE, BONE ),     // 01
-    SP( ______X_,_X__X___, BONE, BONE ),     // 02
-    SP( ______X_,_X__X___, BONE, BONE ),     // 03
-    SP( ______XX,XXXX____, BONE, BONE ),     // 04
-    SP( _______X,_X_X____, BONE, BONE ),     // 05
-    SP( ________,X_X_____, BONE, BONE ),     // 06
-    SP( __X_XXX_,XXX_____, BONE, BONE ),     // 07
-    SP( _X____X_,________, BONE, BONE ),     // 08
-    SP( _X__XXXX,___X____, BONE, BONE ),     // 09
-    SP( ______XX,__XX____, BONE, BONE ),     // 10
-    SP( _X__X_X_,X_______, BONE, BONE ),     // 11
-    SP( _X__X___,X___XX__, BONE, BONE ),     // 12
-    SP( _X__X___,X___X___, BONE, BONE ),     // 13
-    SP( X_______,________, BONE, BONE ),     // 14
-    SP( ___XXX_X,XX______, BONE, BONE ),     // 15
+    SP(_______X, XXX_____, BONE, BONE), // 00
+    SP(______XX, XXXX____, BONE, BONE), // 01
+    SP(______X_, _X__X___, BONE, BONE), // 02
+    SP(______X_, _X__X___, BONE, BONE), // 03
+    SP(______XX, XXXX____, BONE, BONE), // 04
+    SP(_______X, _X_X____, BONE, BONE), // 05
+    SP(________, X_X_____, BONE, BONE), // 06
+    SP(__X_XXX_, XXX_____, BONE, BONE), // 07
+    SP(_X____X_, ________, BONE, BONE), // 08
+    SP(_X__XXXX, ___X____, BONE, BONE), // 09
+    SP(______XX, __XX____, BONE, BONE), // 10
+    SP(_X__X_X_, X_______, BONE, BONE), // 11
+    SP(_X__X___, X___XX__, BONE, BONE), // 12
+    SP(_X__X___, X___X___, BONE, BONE), // 13
+    SP(X_______, ________, BONE, BONE), // 14
+    SP(___XXX_X, XX______, BONE, BONE), // 15
 };
 
-
-const unsigned char shape_FRAME_SKELETON4[] = {        // 19
+const unsigned char shape_FRAME_SKELETON4[] = {
+    // 19
 
     SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 12,
-    -1,0,
+    -1, 0,
 
-    SP( ________,XXXX____, BONE, BONE ),     // 00
-    SP( _______X,XXXXX___, BONE, BONE ),     // 01
-    SP( _______X,__X__X__, BONE, BONE ),     // 02
-    SP( _______X,__X__X__, BONE, BONE ),     // 03
-    SP( _______X,XXXXX___, BONE, BONE ),     // 04
-    SP( ________,X_X_X___, BONE, BONE ),     // 05
-    SP( ________,_X_X____, BONE, BONE ),     // 06
-    SP( _____X__,XXXX____, BONE, BONE ),     // 07
-    SP( ___X___X,________, BONE, BONE ),     // 08
-    SP( _______X,XX______, BONE, BONE ),     // 09
-    SP( ___X__X_,______X_, BONE, BONE ),     // 10
-    SP( __XX__XX,X_XXX__X, BONE, BONE ),     // 11
+    SP(________, XXXX____, BONE, BONE), // 00
+    SP(_______X, XXXXX___, BONE, BONE), // 01
+    SP(_______X, __X__X__, BONE, BONE), // 02
+    SP(_______X, __X__X__, BONE, BONE), // 03
+    SP(_______X, XXXXX___, BONE, BONE), // 04
+    SP(________, X_X_X___, BONE, BONE), // 05
+    SP(________, _X_X____, BONE, BONE), // 06
+    SP(_____X__, XXXX____, BONE, BONE), // 07
+    SP(___X___X, ________, BONE, BONE), // 08
+    SP(_______X, XX______, BONE, BONE), // 09
+    SP(___X__X_, ______X_, BONE, BONE), // 10
+    SP(__XX__XX, X_XXX__X, BONE, BONE), // 11
 };
 
-
-const unsigned char shape_FRAME_SKELETON5[] = {        // 22
+const unsigned char shape_FRAME_SKELETON5[] = {
+    // 22
 
     3,
     6, 0,
 
-    SP2( _XXXXXX_, BONE ),     // 00
-    SP2( X__X__XX, BONE ),     // 01
-    SP2( XX_XX__X, BONE ),     // 02
+    SP2(_XXXXXX_, BONE), // 00
+    SP2(X__X__XX, BONE), // 01
+    SP2(XX_XX__X, BONE), // 02
 };
 
-const unsigned char shape_FRAME_ARMSCROSSED[] = {      // 23
+const unsigned char shape_FRAME_ARMSCROSSED[] = {
+    // 23
 };
 
-const unsigned char shape_FRAME_TALK[] = {             // 24
+const unsigned char shape_FRAME_TALK[] = {
+    // 24
 };
 
-const unsigned char shape_FRAME_WALKUP0[] = {          // 25
+const unsigned char shape_FRAME_WALKUP0[] = {
+    // 25
 
     26,
     3, 0,
 
-    SP2( __XXXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( X_XXXX_X, HMT1 ), // 05
-    SP2( X_XXXX_X, HMT1 ), // 06
-    SP2( X_XXXX_X, HMT2 ), // 07
-    SP2( XXXXXXXX, HMT2 ), // 08
-    SP2( XXXXXXXX, HMT2 ), // 09
-    SP2( _XXXXXX_, HMT3 ), // 10
-    SP2( _X____X_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( __XXXX__, BDY1 ), // 13
-    SP2( _X____X_, BDY0 ), // 14
-    SP2( X_XXXX_X, BDY1 ), // 15
-    SP2( XXXXXXXX, BDY2 ), // 16
-    SP2( XX____XX, BDY2 ), // 17
-    SP2( X_XXXX_X, BDY2 ), // 18
-    SP2( X_XXXX_X, BDY2 ), // 19
-    SP2( X______X, BDY2 ), // 20
-    SP2( __XXXX__, HMT1 ), // 21
-    SP2( ___XX___, HMT2 ), // 22
-    SP2( __X__X__, HMT2 ), // 23
-    SP2( __X__X__, HMT2 ), // 24
-    SP2( __X__X__, HMT0 ), // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(X_XXXX_X, HMT1), // 05
+    SP2(X_XXXX_X, HMT1), // 06
+    SP2(X_XXXX_X, HMT2), // 07
+    SP2(XXXXXXXX, HMT2), // 08
+    SP2(XXXXXXXX, HMT2), // 09
+    SP2(_XXXXXX_, HMT3), // 10
+    SP2(_X____X_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(__XXXX__, BDY1), // 13
+    SP2(_X____X_, BDY0), // 14
+    SP2(X_XXXX_X, BDY1), // 15
+    SP2(XXXXXXXX, BDY2), // 16
+    SP2(XX____XX, BDY2), // 17
+    SP2(X_XXXX_X, BDY2), // 18
+    SP2(X_XXXX_X, BDY2), // 19
+    SP2(X______X, BDY2), // 20
+    SP2(__XXXX__, HMT1), // 21
+    SP2(___XX___, HMT2), // 22
+    SP2(__X__X__, HMT2), // 23
+    SP2(__X__X__, HMT2), // 24
+    SP2(__X__X__, HMT0), // 25
 };
 
-const unsigned char shape_FRAME_WALKUP1[] = {          // 26
+const unsigned char shape_FRAME_WALKUP1[] = {
+    // 26
 
     25,
     3, 2,
 
-    SP2( ___XXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( _XXXX_XX, HMT1 ), // 05
-    SP2( _XXXX_XX, HMT1 ), // 06
-    SP2( _XXXX_XX, HMT2 ), // 07
-    SP2( XXXXXXXX, HMT2 ), // 08
-    SP2( XXXXXXXX, HMT2 ), // 09
-    SP2( _____XXX, HMT3 ), // 10
-    SP2( _XXXX_X_, HMT3 ), // 11
-    SP2( _XXXXX__, HMT3 ), // 12
-    SP2( X____X__, BDY1 ), // 13
-    SP2( XXXXX___, BDY0 ), // 14
-    SP2( XXXXX_X_, BDY1 ), // 15
-    SP2( ______X_, BDY2 ), // 16
-    SP2( _XXXX_X_, BDY2 ), // 17
-    SP2( _XXXXX__, BDY2 ), // 18
-    SP2( ___X____, BDY2 ), // 19
-    SP2( __X_X___, HMT1 ), // 20
-    SP2( _XXX_X__, HMT2 ), // 21
-    SP2( _XX__X__, HMT2 ), // 22
-    SP2( _XX_____, HMT2 ), // 23
-    SP2( __X_____, HMT0 ), // 24
+    SP2(___XXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(_XXXX_XX, HMT1), // 05
+    SP2(_XXXX_XX, HMT1), // 06
+    SP2(_XXXX_XX, HMT2), // 07
+    SP2(XXXXXXXX, HMT2), // 08
+    SP2(XXXXXXXX, HMT2), // 09
+    SP2(_____XXX, HMT3), // 10
+    SP2(_XXXX_X_, HMT3), // 11
+    SP2(_XXXXX__, HMT3), // 12
+    SP2(X____X__, BDY1), // 13
+    SP2(XXXXX___, BDY0), // 14
+    SP2(XXXXX_X_, BDY1), // 15
+    SP2(______X_, BDY2), // 16
+    SP2(_XXXX_X_, BDY2), // 17
+    SP2(_XXXXX__, BDY2), // 18
+    SP2(___X____, BDY2), // 19
+    SP2(__X_X___, HMT1), // 20
+    SP2(_XXX_X__, HMT2), // 21
+    SP2(_XX__X__, HMT2), // 22
+    SP2(_XX_____, HMT2), // 23
+    SP2(__X_____, HMT0), // 24
 };
 
-const unsigned char shape_FRAME_WALKUP2[] = {          // 27
+const unsigned char shape_FRAME_WALKUP2[] = {
+    // 27
 
     26,
     3, 0,
 
-    SP2( __XXXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( X_XXXX_X, HMT1 ), // 05
-    SP2( X_XXXX_X, HMT1 ), // 06
-    SP2( X_XXXX_X, HMT2 ), // 07
-    SP2( XXXXXXXX, HMT2 ), // 08
-    SP2( XXXXXXXX, HMT2 ), // 09
-    SP2( _XXXXXX_, HMT3 ), // 10
-    SP2( _X____X_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( __XXXX__, BDY1 ), // 13
-    SP2( _X____X_, BDY0 ), // 14
-    SP2( X_XXXX_X, BDY1 ), // 15
-    SP2( XXXXXXXX, BDY2 ), // 16
-    SP2( XX____XX, BDY2 ), // 17
-    SP2( X_XXXX_X, BDY2 ), // 18
-    SP2( X_XXXX_X, BDY2 ), // 19
-    SP2( X______X, BDY2 ), // 20
-    SP2( __XXXX__, HMT1 ), // 21
-    SP2( ___XX___, HMT2 ), // 22
-    SP2( __X__X__, HMT2 ), // 23
-    SP2( __X__X__, HMT2 ), // 24
-    SP2( __X__X__, HMT0 ), // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(X_XXXX_X, HMT1), // 05
+    SP2(X_XXXX_X, HMT1), // 06
+    SP2(X_XXXX_X, HMT2), // 07
+    SP2(XXXXXXXX, HMT2), // 08
+    SP2(XXXXXXXX, HMT2), // 09
+    SP2(_XXXXXX_, HMT3), // 10
+    SP2(_X____X_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(__XXXX__, BDY1), // 13
+    SP2(_X____X_, BDY0), // 14
+    SP2(X_XXXX_X, BDY1), // 15
+    SP2(XXXXXXXX, BDY2), // 16
+    SP2(XX____XX, BDY2), // 17
+    SP2(X_XXXX_X, BDY2), // 18
+    SP2(X_XXXX_X, BDY2), // 19
+    SP2(X______X, BDY2), // 20
+    SP2(__XXXX__, HMT1), // 21
+    SP2(___XX___, HMT2), // 22
+    SP2(__X__X__, HMT2), // 23
+    SP2(__X__X__, HMT2), // 24
+    SP2(__X__X__, HMT0), // 25
 };
 
-const unsigned char shape_FRAME_WALKUP3[] = {          // 28
+const unsigned char shape_FRAME_WALKUP3[] = {
+    // 28
 
     25,
     3, 2,
 
-    SP2( __XXX___, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( XX_XXXX_, HMT1 ), // 05
-    SP2( XX_XXXX_, HMT1 ), // 06
-    SP2( XX_XXXX_, HMT2 ), // 07
-    SP2( XXXXXXXX, HMT2 ), // 08
-    SP2( XXXXXXXX, HMT2 ), // 09
-    SP2( XXX_____, HMT3 ), // 10
-    SP2( _X_XXXX_, HMT3 ), // 11
-    SP2( __XXXXX_, HMT3 ), // 12
-    SP2( __X____X, BDY1 ), // 13
-    SP2( ___XXXXX, BDY0 ), // 14
-    SP2( _X_XXXXX, BDY1 ), // 15
-    SP2( _X______, BDY2 ), // 16
-    SP2( _X_XXXX_, BDY2 ), // 17
-    SP2( __XXXXX_, BDY2 ), // 18
-    SP2( ____X___, BDY2 ), // 19
-    SP2( ___X_X__, HMT1 ), // 20
-    SP2( __X_XXX_, HMT2 ), // 21
-    SP2( __X__XX_, HMT2 ), // 22
-    SP2( _____XX_, HMT2 ), // 23
-    SP2( _____X__, HMT0 ), // 24
+    SP2(__XXX___, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(XX_XXXX_, HMT1), // 05
+    SP2(XX_XXXX_, HMT1), // 06
+    SP2(XX_XXXX_, HMT2), // 07
+    SP2(XXXXXXXX, HMT2), // 08
+    SP2(XXXXXXXX, HMT2), // 09
+    SP2(XXX_____, HMT3), // 10
+    SP2(_X_XXXX_, HMT3), // 11
+    SP2(__XXXXX_, HMT3), // 12
+    SP2(__X____X, BDY1), // 13
+    SP2(___XXXXX, BDY0), // 14
+    SP2(_X_XXXXX, BDY1), // 15
+    SP2(_X______, BDY2), // 16
+    SP2(_X_XXXX_, BDY2), // 17
+    SP2(__XXXXX_, BDY2), // 18
+    SP2(____X___, BDY2), // 19
+    SP2(___X_X__, HMT1), // 20
+    SP2(__X_XXX_, HMT2), // 21
+    SP2(__X__XX_, HMT2), // 22
+    SP2(_____XX_, HMT2), // 23
+    SP2(_____X__, HMT0), // 24
 };
 
-
-const unsigned char shape_FRAME_WALKDOWN0[] = {        // 29
+const unsigned char shape_FRAME_WALKDOWN0[] = {
+    // 29
 
     26,
     3, 0,
 
-    SP2( __XXXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( XX_X__XX, HMT1 ), // 05
-    SP2( XXX___XX, HMT1 ), // 06
-    SP2( X_X____X, HMT2 ), // 07
-    SP2( X______X, HMT2 ), // 08
-    SP2( X______X, HMT2 ), // 09
-    SP2( _X____X_, HMT3 ), // 10
-    SP2( _X____X_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( _X____X_, BDY1 ), // 13
-    SP2( _XXXXXX_, BDY0 ), // 14
-    SP2( XX_XX_XX, BDY2 ), // 15
-    SP2( XX_XX_XX, BDY2 ), // 16
-    SP2( XXXXXXXX, BDY2 ), // 17
-    SP2( X_XXXX_X, BDY2 ), // 18
-    SP2( X_X__X_X, BDY2 ), // 19
-    SP2( X__XX__X, BDY2 ), // 20
-    SP2( __XXXX__, BDY2 ), // 21
-    SP2( ___XX___, BDY2 ), // 22
-    SP2( __X__X__, HMT1 ), // 23
-    SP2( __X__X__, HMT2 ), // 24
-    SP2( __X__X__, HMT0 ), // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(XX_X__XX, HMT1), // 05
+    SP2(XXX___XX, HMT1), // 06
+    SP2(X_X____X, HMT2), // 07
+    SP2(X______X, HMT2), // 08
+    SP2(X______X, HMT2), // 09
+    SP2(_X____X_, HMT3), // 10
+    SP2(_X____X_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(_X____X_, BDY1), // 13
+    SP2(_XXXXXX_, BDY0), // 14
+    SP2(XX_XX_XX, BDY2), // 15
+    SP2(XX_XX_XX, BDY2), // 16
+    SP2(XXXXXXXX, BDY2), // 17
+    SP2(X_XXXX_X, BDY2), // 18
+    SP2(X_X__X_X, BDY2), // 19
+    SP2(X__XX__X, BDY2), // 20
+    SP2(__XXXX__, BDY2), // 21
+    SP2(___XX___, BDY2), // 22
+    SP2(__X__X__, HMT1), // 23
+    SP2(__X__X__, HMT2), // 24
+    SP2(__X__X__, HMT0), // 25
 };
 
-const unsigned char shape_FRAME_WALKDOWN1[] = {        // 30
+const unsigned char shape_FRAME_WALKDOWN1[] = {
+    // 30
 
     25,
     3, 3,
 
-    SP2( __XXX___, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( XX___XXX, HMT1 ), // 05
-    SP2( X_X__XXX, HMT1 ), // 06
-    SP2( X_X___XX, HMT2 ), // 07
-    SP2( X_____XX, HMT2 ), // 08
-    SP2( X_____XX, HMT2 ), // 09
-    SP2( _X___XX_, HMT3 ), // 10
-    SP2( _X___XX_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( ______X_, BDY1 ), // 13
-    SP2( _XXXXXXX, BDY1 ), // 14
-    SP2( XX_XX_XX, BDY0 ), // 15
-    SP2( XX_X_X_X, BDY1 ), // 16
-    SP2( X_XX_XXX, BDY2 ), // 17
-    SP2( __XX_XX_, BDY2 ), // 18
-    SP2( ___X_XX_, BDY2 ), // 19
-    SP2( __X_X___, BDY2 ), // 20
-    SP2( _XXX_X__, HMT1 ), // 21
-    SP2( _XX__X__, HMT2 ), // 22
-    SP2( _XX_____, HMT2 ), // 23
-    SP2( __X_____, HMT0 ), // 24
+    SP2(__XXX___, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(XX___XXX, HMT1), // 05
+    SP2(X_X__XXX, HMT1), // 06
+    SP2(X_X___XX, HMT2), // 07
+    SP2(X_____XX, HMT2), // 08
+    SP2(X_____XX, HMT2), // 09
+    SP2(_X___XX_, HMT3), // 10
+    SP2(_X___XX_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(______X_, BDY1), // 13
+    SP2(_XXXXXXX, BDY1), // 14
+    SP2(XX_XX_XX, BDY0), // 15
+    SP2(XX_X_X_X, BDY1), // 16
+    SP2(X_XX_XXX, BDY2), // 17
+    SP2(__XX_XX_, BDY2), // 18
+    SP2(___X_XX_, BDY2), // 19
+    SP2(__X_X___, BDY2), // 20
+    SP2(_XXX_X__, HMT1), // 21
+    SP2(_XX__X__, HMT2), // 22
+    SP2(_XX_____, HMT2), // 23
+    SP2(__X_____, HMT0), // 24
 };
 
-const unsigned char shape_FRAME_WALKDOWN2[] = {        // 31
+const unsigned char shape_FRAME_WALKDOWN2[] = {
+    // 31
 
     26,
     3, 3,
 
-    SP2( __XXXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( XX_X__XX, HMT1 ), // 05
-    SP2( XXX___XX, HMT1 ), // 06
-    SP2( X_X____X, HMT2 ), // 07
-    SP2( X______X, HMT2 ), // 08
-    SP2( X______X, HMT2 ), // 09
-    SP2( _X____X_, HMT3 ), // 10
-    SP2( _X____X_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( _X____X_, BDY1 ), // 13
-    SP2( _XXXXXX_, BDY0 ), // 14
-    SP2( XX_XX_XX, BDY1 ), // 15
-    SP2( XX_XX_XX, BDY2 ), // 16
-    SP2( XXXXXXXX, BDY2 ), // 17
-    SP2( X_XXXX_X, BDY2 ), // 18
-    SP2( X_X__X_X, BDY2 ), // 19
-    SP2( X__XX__X, BDY2 ), // 20
-    SP2( __XXXX__, BDY2 ), // 21
-    SP2( ___XX___, BDY2 ), // 22
-    SP2( __X__X__, HMT1 ), // 23
-    SP2( __X__X__, HMT2 ), // 24
-    SP2( __X__X__, HMT0 ), // 25
+    SP2(__XXXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(XX_X__XX, HMT1), // 05
+    SP2(XXX___XX, HMT1), // 06
+    SP2(X_X____X, HMT2), // 07
+    SP2(X______X, HMT2), // 08
+    SP2(X______X, HMT2), // 09
+    SP2(_X____X_, HMT3), // 10
+    SP2(_X____X_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(_X____X_, BDY1), // 13
+    SP2(_XXXXXX_, BDY0), // 14
+    SP2(XX_XX_XX, BDY1), // 15
+    SP2(XX_XX_XX, BDY2), // 16
+    SP2(XXXXXXXX, BDY2), // 17
+    SP2(X_XXXX_X, BDY2), // 18
+    SP2(X_X__X_X, BDY2), // 19
+    SP2(X__XX__X, BDY2), // 20
+    SP2(__XXXX__, BDY2), // 21
+    SP2(___XX___, BDY2), // 22
+    SP2(__X__X__, HMT1), // 23
+    SP2(__X__X__, HMT2), // 24
+    SP2(__X__X__, HMT0), // 25
 };
 
-const unsigned char shape_FRAME_WALKDOWN3[] = {        // 32
+const unsigned char shape_FRAME_WALKDOWN3[] = {
+    // 32
 
     25,
     3, 3,
 
-    SP2( ___XXX__, HMT0 ), // 00
-    SP2( _XXXXXX_, HMT0 ), // 01
-    SP2( _XXXXXX_, HMT0 ), // 02
-    SP2( XXXXXXXX, HMT1 ), // 03
-    SP2( XXXXXXXX, HMT1 ), // 04
-    SP2( XXX___XX, HMT1 ), // 05
-    SP2( XXXX___X, HMT1 ), // 06
-    SP2( XX_X___X, HMT2 ), // 07
-    SP2( XX_____X, HMT2 ), // 08
-    SP2( XX_____X, HMT2 ), // 09
-    SP2( _XX___X_, HMT3 ), // 10
-    SP2( _XX___X_, HMT3 ), // 11
-    SP2( __XXXX__, HMT3 ), // 12
-    SP2( _X______, BDY1 ), // 13
-    SP2( XXXXXXX_, BDY0 ), // 14
-    SP2( XX_XX_XX, BDY1 ), // 15
-    SP2( X_X_X_XX, BDY2 ), // 16
-    SP2( XXX_XX_X, BDY2 ), // 17
-    SP2( _XX_XX__, BDY2 ), // 18
-    SP2( _XX_X___, BDY2 ), // 19
-    SP2( ___X_X__, BDY2 ), // 20
-    SP2( __X_XXX_, HMT1 ), // 21
-    SP2( __X__XX_, HMT2 ), // 22
-    SP2( _____XX_, HMT2 ), // 23
-    SP2( _____X__, HMT0 ), // 24
+    SP2(___XXX__, HMT0), // 00
+    SP2(_XXXXXX_, HMT0), // 01
+    SP2(_XXXXXX_, HMT0), // 02
+    SP2(XXXXXXXX, HMT1), // 03
+    SP2(XXXXXXXX, HMT1), // 04
+    SP2(XXX___XX, HMT1), // 05
+    SP2(XXXX___X, HMT1), // 06
+    SP2(XX_X___X, HMT2), // 07
+    SP2(XX_____X, HMT2), // 08
+    SP2(XX_____X, HMT2), // 09
+    SP2(_XX___X_, HMT3), // 10
+    SP2(_XX___X_, HMT3), // 11
+    SP2(__XXXX__, HMT3), // 12
+    SP2(_X______, BDY1), // 13
+    SP2(XXXXXXX_, BDY0), // 14
+    SP2(XX_XX_XX, BDY1), // 15
+    SP2(X_X_X_XX, BDY2), // 16
+    SP2(XXX_XX_X, BDY2), // 17
+    SP2(_XX_XX__, BDY2), // 18
+    SP2(_XX_X___, BDY2), // 19
+    SP2(___X_X__, BDY2), // 20
+    SP2(__X_XXX_, HMT1), // 21
+    SP2(__X__XX_, HMT2), // 22
+    SP2(_____XX_, HMT2), // 23
+    SP2(_____X__, HMT0), // 24
 };
 
-
-const unsigned char shape_FRAME_MINE_UP_0[] = {        // 31
+const unsigned char shape_FRAME_MINE_UP_0[] = {
+    // 31
 
     SPRITE_DOUBLE | 31,
     0, 0,
 
-    SP( ________, XX______, BONE,BONE ), // 00
-    SP( _______X, X_______, BONE,BONE ), // 00
-    SP( ______XX, X_______, BONE,BONE ), // 01
-    SP( _____X_X, X_______, BONE,BONE ), // 02
-    SP( ________, X_______, BONE,BONE ), // 03
-    SP( ________, X_______, BONE,BONE ), // 04
-    SP( ______XX, XX______, HMT0,HMT0 ), // 05
-    SP( _____XXX, XXX_____, HMT0,HMT0 ), // 06
-    SP( _____XXX, XXX_____, HMT0,HMT0 ), // 07
-    SP( ____XXXX, XXXX____, HMT1,HMT1 ), // 08
-    SP( ____XXXX, XXXX____, HMT1,HMT1 ), // 09
-    SP( ____X_XX, XX_X____, HMT1,HMT1 ), // 10
-    SP( ____X_XX, XX_X____, HMT2,HMT2 ), // 11
-    SP( ____X_XX, XX_X____, HMT2,HMT2 ), // 12
-    SP( ____XXXX, XXXX____, HMT2,HMT2 ), // 13
-    SP( ____XXXX, XXXX____, HMT3,HMT3 ), // 14
-    SP( _____XXX, XXX_____, HMT3,HMT3 ), // 15
-    SP( ____XX__, __X_____, BDY0,BDY1 ), // 16
-    SP( ____XXXX, X_______, BDY0,BDY1 ), // 17
-    SP( ____XXXX, X_______, BDY1,BDY1 ), // 18
-    SP( ____X___, __X_____, BDY1,BDY1 ), // 19
-    SP( ____XXXX, X_______, BDY2,BDY2 ), // 20
-    SP( _____XXX, X_X_____, BDY2,BDY2 ), // 21
-    SP( ________, __X_____, BDY2,BDY2 ), // 22
-    SP( _____XXX, X_______, HMT1,HMT1 ), // 23
-    SP( ________, ________, HMT2,HMT2 ), // 24
-    SP( ______XX, XX______, HMT0,HMT0 ), // 25
-    SP( _______X, X_______, HMT0,HMT0 ), // 26
-    SP( ______X_, _X______, HMT0,HMT0 ), // 27
-    SP( ______X_, _X______, HMT0,HMT0 ), // 28
-    SP( ______X_, _X______, HMT0,HMT0 ), // 29
+    SP(________, XX______, BONE, BONE), // 00
+    SP(_______X, X_______, BONE, BONE), // 00
+    SP(______XX, X_______, BONE, BONE), // 01
+    SP(_____X_X, X_______, BONE, BONE), // 02
+    SP(________, X_______, BONE, BONE), // 03
+    SP(________, X_______, BONE, BONE), // 04
+    SP(______XX, XX______, HMT0, HMT0), // 05
+    SP(_____XXX, XXX_____, HMT0, HMT0), // 06
+    SP(_____XXX, XXX_____, HMT0, HMT0), // 07
+    SP(____XXXX, XXXX____, HMT1, HMT1), // 08
+    SP(____XXXX, XXXX____, HMT1, HMT1), // 09
+    SP(____X_XX, XX_X____, HMT1, HMT1), // 10
+    SP(____X_XX, XX_X____, HMT2, HMT2), // 11
+    SP(____X_XX, XX_X____, HMT2, HMT2), // 12
+    SP(____XXXX, XXXX____, HMT2, HMT2), // 13
+    SP(____XXXX, XXXX____, HMT3, HMT3), // 14
+    SP(_____XXX, XXX_____, HMT3, HMT3), // 15
+    SP(____XX__, __X_____, BDY0, BDY1), // 16
+    SP(____XXXX, X_______, BDY0, BDY1), // 17
+    SP(____XXXX, X_______, BDY1, BDY1), // 18
+    SP(____X___, __X_____, BDY1, BDY1), // 19
+    SP(____XXXX, X_______, BDY2, BDY2), // 20
+    SP(_____XXX, X_X_____, BDY2, BDY2), // 21
+    SP(________, __X_____, BDY2, BDY2), // 22
+    SP(_____XXX, X_______, HMT1, HMT1), // 23
+    SP(________, ________, HMT2, HMT2), // 24
+    SP(______XX, XX______, HMT0, HMT0), // 25
+    SP(_______X, X_______, HMT0, HMT0), // 26
+    SP(______X_, _X______, HMT0, HMT0), // 27
+    SP(______X_, _X______, HMT0, HMT0), // 28
+    SP(______X_, _X______, HMT0, HMT0), // 29
 };
 
-const unsigned char shape_FRAME_MINE_UP_1[] = {        // 32
+const unsigned char shape_FRAME_MINE_UP_1[] = {
+    // 32
 
     SPRITE_DOUBLE | 24,
     -5, 0,
 
-    SP( _______X, __XXXX__, BONE,HMT0 ), // 00
-    SP( ______X_, _XXXXXX_, BONE,HMT0 ), // 01
-    SP( _____X__, _XXXXXX_, BONE,HMT0 ), // 02
-    SP( _____XX_, XXXXXXXX, BONE,HMT1 ), // 03
-    SP( ____X_X_, XXXXXXXX, BONE,HMT1 ), // 04
-    SP( ____X__X, XX_XXXX_, BONE,HMT1 ), // 05
-    SP( ____X__X, XX_XXXX_, BONE,HMT1 ), // 06
-    SP( ____X___, XX_XXXX_, BONE,HMT2 ), // 07
-    SP( ________, XXXXXXXX, HMT2,HMT2 ), // 08
-    SP( ________, XXXXXXXX, HMT2,HMT2 ), // 09
-    SP( ________, XXX_____, BDY0,BDY1 ), // 10
-    SP( ________, _X_XXXX_, BDY0,BDY1 ), // 11
-    SP( ________, X_XXXXX_, BDY1,BDY1 ), // 12
-    SP( ________, X_X____X, BDY1,BDY1 ), // 13
-    SP( ________, XX_XXXXX, BDY0,BDY2 ), // 14
-    SP( ________, _X_XXXXX, BDY1,BDY2 ), // 15
-    SP( ________, _X______, BDY2,BDY2 ), // 16
-    SP( ________, ___XXXX_, BDY2,BDY2 ), // 17
-    SP( ________, ___XXXX_, BDY2,BDY2 ), // 18
-    SP( ________, __X__X__, BDY2,BDY2 ), // 19
-    SP( ________, _XXXXX__, BDY2,BDY2 ), // 20
-    SP( ________, _X_XXX__, HMT1,HMT1 ), // 21
-    SP( ________, _X___X__, HMT2,HMT2 ), // 22
-    SP( ________, _____X__, HMT2,HMT2 ), // 23
+    SP(_______X, __XXXX__, BONE, HMT0), // 00
+    SP(______X_, _XXXXXX_, BONE, HMT0), // 01
+    SP(_____X__, _XXXXXX_, BONE, HMT0), // 02
+    SP(_____XX_, XXXXXXXX, BONE, HMT1), // 03
+    SP(____X_X_, XXXXXXXX, BONE, HMT1), // 04
+    SP(____X__X, XX_XXXX_, BONE, HMT1), // 05
+    SP(____X__X, XX_XXXX_, BONE, HMT1), // 06
+    SP(____X___, XX_XXXX_, BONE, HMT2), // 07
+    SP(________, XXXXXXXX, HMT2, HMT2), // 08
+    SP(________, XXXXXXXX, HMT2, HMT2), // 09
+    SP(________, XXX_____, BDY0, BDY1), // 10
+    SP(________, _X_XXXX_, BDY0, BDY1), // 11
+    SP(________, X_XXXXX_, BDY1, BDY1), // 12
+    SP(________, X_X____X, BDY1, BDY1), // 13
+    SP(________, XX_XXXXX, BDY0, BDY2), // 14
+    SP(________, _X_XXXXX, BDY1, BDY2), // 15
+    SP(________, _X______, BDY2, BDY2), // 16
+    SP(________, ___XXXX_, BDY2, BDY2), // 17
+    SP(________, ___XXXX_, BDY2, BDY2), // 18
+    SP(________, __X__X__, BDY2, BDY2), // 19
+    SP(________, _XXXXX__, BDY2, BDY2), // 20
+    SP(________, _X_XXX__, HMT1, HMT1), // 21
+    SP(________, _X___X__, HMT2, HMT2), // 22
+    SP(________, _____X__, HMT2, HMT2), // 23
 };
 
 /*
@@ -2975,120 +3002,118 @@ ________, ________
 
 */
 
-
-const unsigned char shape_FRAME_MINE_DOWN_0[] = {        // 31
+const unsigned char shape_FRAME_MINE_DOWN_0[] = {
+    // 31
 
     SPRITE_DOUBLE | 27,
     3, -4,
 
-    SP( __XXXX__, ________, HMT0,BONE ), // 00
-    SP( _XXXXXX_, ________, HMT0,BONE ), // 01
-    SP( _XXXXXX_, ________, HMT0,BONE ), // 02
-    SP( XXXXXXXX, ________, HMT0,BONE ), // 03
-    SP( XXXXXXXX, ________, HMT1,BONE ), // 04
-    SP( XXX___XX, ________, HMT1,BONE ), // 05
-    SP( XXXX___X, ________, HMT1,HMT0 ), // 06
-    SP( XX_X___X, ________, HMT1,HMT0 ), // 07
-    SP( XX_____X, ________, HMT2,HMT0 ), // 08
-    SP( XX_____X, ________, HMT2,HMT1 ), // 09
-    SP( _XX___X_, ________, HMT2,HMT1 ), // 10
-    SP( _XX___X_, ________, HMT3,HMT1 ), // 11
-    SP( __XXXX__, ________, HMT3,HMT2 ), // 12
-    SP( ______X_, ________, BDY0,HMT2 ), // 13
-    SP( _XXXXXX_, ________, BDY0,HMT2 ), // 14
-    SP( _XXX__XX, ________, BDY1,HMT3 ), // 15
-    SP( _X_XX__X, ________, BDY1,HMT3 ), // 16
-    SP( __X_XXXX, ________, BDY1,BDY1 ), // 17
-    SP( ___X_XX_, ________, BDY2,BDY1 ), // 18
-    SP( __X____X, ___X____, HMT1,BONE ), // 19
-    SP( _XXXXXXX, X__XX___, HMT1,BONE ), // 20
-    SP( XX_XXX_X, X__XX___, HMT2,BONE ), // 21
-    SP( _X______, _X_X____, HMT2,BONE ), // 22
-    SP( ________, _XX_____, BDY2,BONE ), // 23
-    SP( ________, __X_____, HMT1,BONE ), // 24
-    SP( ________, _X______, HMT2,BONE ), // 25
-    SP( ________, X_______, HMT0,BONE ), // 26
+    SP(__XXXX__, ________, HMT0, BONE), // 00
+    SP(_XXXXXX_, ________, HMT0, BONE), // 01
+    SP(_XXXXXX_, ________, HMT0, BONE), // 02
+    SP(XXXXXXXX, ________, HMT0, BONE), // 03
+    SP(XXXXXXXX, ________, HMT1, BONE), // 04
+    SP(XXX___XX, ________, HMT1, BONE), // 05
+    SP(XXXX___X, ________, HMT1, HMT0), // 06
+    SP(XX_X___X, ________, HMT1, HMT0), // 07
+    SP(XX_____X, ________, HMT2, HMT0), // 08
+    SP(XX_____X, ________, HMT2, HMT1), // 09
+    SP(_XX___X_, ________, HMT2, HMT1), // 10
+    SP(_XX___X_, ________, HMT3, HMT1), // 11
+    SP(__XXXX__, ________, HMT3, HMT2), // 12
+    SP(______X_, ________, BDY0, HMT2), // 13
+    SP(_XXXXXX_, ________, BDY0, HMT2), // 14
+    SP(_XXX__XX, ________, BDY1, HMT3), // 15
+    SP(_X_XX__X, ________, BDY1, HMT3), // 16
+    SP(__X_XXXX, ________, BDY1, BDY1), // 17
+    SP(___X_XX_, ________, BDY2, BDY1), // 18
+    SP(__X____X, ___X____, HMT1, BONE), // 19
+    SP(_XXXXXXX, X__XX___, HMT1, BONE), // 20
+    SP(XX_XXX_X, X__XX___, HMT2, BONE), // 21
+    SP(_X______, _X_X____, HMT2, BONE), // 22
+    SP(________, _XX_____, BDY2, BONE), // 23
+    SP(________, __X_____, HMT1, BONE), // 24
+    SP(________, _X______, HMT2, BONE), // 25
+    SP(________, X_______, HMT0, BONE), // 26
 };
 
-const unsigned char shape_FRAME_MINE_DOWN_1[] = {        // 32
+const unsigned char shape_FRAME_MINE_DOWN_1[] = {
+    // 32
 
     SPRITE_DOUBLE | 29,
     3, 0,
 
-    SP( __XXXX__, ________, HMT0,HMT0 ), // 00
-    SP( _XXXXXX_, ________, HMT0,HMT0 ), // 01
-    SP( _XXXXXX_, ________, HMT0,HMT0 ), // 02
-    SP( _XXXXXX_, ________, HMT1,HMT1 ), // 03
-    SP( XXXXXXXX, ________, HMT1,HMT1 ), // 04
-    SP( XX_X__XX, ________, HMT1,HMT1 ), // 05
-    SP( XXX___XX, ________, HMT1,HMT1 ), // 06
-    SP( X_X____X, ________, HMT1,HMT2 ), // 07
-    SP( X______X, ________, HMT1,HMT2 ), // 08
-    SP( X______X, ________, HMT2,HMT2 ), // 09
-    SP( _X____X_, ________, HMT2,BDY1 ), // 10
-    SP( _X____X_, ________, HMT2,BDY1 ), // 11
-    SP( __XXXX__, ________, HMT2,BDY1 ), // 12
-    SP( ________, ________, BDY1,BDY1 ), // 13
-    SP( _XXXXXX_, ________, BDY0,BDY2 ), // 14
-    SP( _XX___X_, ________, BDY1,BDY2 ), // 15
-    SP( __XX_XX_, ________, BDY2,BDY2 ), // 16
-    SP( __XX_XX_, ________, BDY2,BDY2 ), // 17
-    SP( ___X_X__, ________, BDY2,BDY2 ), // 18
-    SP( __X_X_X_, ________, BDY2,BDY2 ), // 19
-    SP( _XXX_XXX, ________, BDY2,BDY2 ), // 20
-    SP( XX_X_X_X, X_______, HMT1,HMT1 ), // 21
-    SP( _X_____X, ________, HMT2,HMT2 ), // 22
-    SP( ____X___, ________, BONE,BONE ), // 23
-    SP( ____X___, ________, BONE,BONE ), // 24
-    SP( ____X___, ________, BONE,BONE ), // 25
-    SP( ____XX_X, ________, BONE,BONE ), // 26
-    SP( ____XXX_, ________, BONE,BONE ), // 27
-    SP( ___XX___, ________, BONE,BONE ), // 28
+    SP(__XXXX__, ________, HMT0, HMT0), // 00
+    SP(_XXXXXX_, ________, HMT0, HMT0), // 01
+    SP(_XXXXXX_, ________, HMT0, HMT0), // 02
+    SP(_XXXXXX_, ________, HMT1, HMT1), // 03
+    SP(XXXXXXXX, ________, HMT1, HMT1), // 04
+    SP(XX_X__XX, ________, HMT1, HMT1), // 05
+    SP(XXX___XX, ________, HMT1, HMT1), // 06
+    SP(X_X____X, ________, HMT1, HMT2), // 07
+    SP(X______X, ________, HMT1, HMT2), // 08
+    SP(X______X, ________, HMT2, HMT2), // 09
+    SP(_X____X_, ________, HMT2, BDY1), // 10
+    SP(_X____X_, ________, HMT2, BDY1), // 11
+    SP(__XXXX__, ________, HMT2, BDY1), // 12
+    SP(________, ________, BDY1, BDY1), // 13
+    SP(_XXXXXX_, ________, BDY0, BDY2), // 14
+    SP(_XX___X_, ________, BDY1, BDY2), // 15
+    SP(__XX_XX_, ________, BDY2, BDY2), // 16
+    SP(__XX_XX_, ________, BDY2, BDY2), // 17
+    SP(___X_X__, ________, BDY2, BDY2), // 18
+    SP(__X_X_X_, ________, BDY2, BDY2), // 19
+    SP(_XXX_XXX, ________, BDY2, BDY2), // 20
+    SP(XX_X_X_X, X_______, HMT1, HMT1), // 21
+    SP(_X_____X, ________, HMT2, HMT2), // 22
+    SP(____X___, ________, BONE, BONE), // 23
+    SP(____X___, ________, BONE, BONE), // 24
+    SP(____X___, ________, BONE, BONE), // 25
+    SP(____XX_X, ________, BONE, BONE), // 26
+    SP(____XXX_, ________, BONE, BONE), // 27
+    SP(___XX___, ________, BONE, BONE), // 28
 };
-
 
 const unsigned char *const spriteShape[] = {
 
-    shape_FRAME_BLANK,                  // 00
-    shape_FRAME_STAND,                  // 01
-    0, //shape_FRAME_ARMS_IN_AIR,       // 02
-    shape_FRAME_HUNCH,                  // 03
-    shape_FRAME_PUSH,                   // 04
-    shape_FRAME_PUSH2,                  // 05
-    0, //shape_FRAME_IMPATIENT,         // 06
-    0, //shape_FRAME_IMPATIENT2,        // 07
-    0, //shape_FRAME_LOOK1,             // 08
-    0, //shape_FRAME_LOOK2,             // 09
-    0, //shape_FRAME_SHADES,            // 10
-    0, //shape_FRAME_SHADES_ARM,        // 11
-    0, //shape_FRAME_BLINK,             // 12
-    shape_FRAME_WALK1,                  // 13
-    shape_FRAME_WALK2,                  // 14
-    shape_FRAME_WALK3,                  // 15
-    shape_FRAME_WALK4,                  // 16
-    0, //shape_FRAME_SNATCH_DOWN,       // 17
-    shape_FRAME_SKELETON1,              // 18
-    shape_FRAME_SKELETON2,              // 19
-    shape_FRAME_SKELETON3,              // 20
-    shape_FRAME_SKELETON4,              // 21
-    shape_FRAME_SKELETON5,              // 22
-    0, //shape_FRAME_ARMSCROSSED,       // 23
-    0, //shape_FRAME_TALK,              // 24
-    shape_FRAME_WALKUP0,                // 25
-    shape_FRAME_WALKUP1,                // 26
-    shape_FRAME_WALKUP2,                // 27
-    shape_FRAME_WALKUP3,                // 28
-    shape_FRAME_WALKDOWN0,              // 29
-    shape_FRAME_WALKDOWN1,              // 30
-    shape_FRAME_WALKDOWN2,              // 31
-    shape_FRAME_WALKDOWN3,              // 32
-    shape_FRAME_MINE_UP_0,              // 33
-    shape_FRAME_MINE_UP_1,              // 34
-    shape_FRAME_MINE_DOWN_0,            // 35
-    shape_FRAME_MINE_DOWN_1,            // 36
+    shape_FRAME_BLANK,       // 00
+    shape_FRAME_STAND,       // 01
+    0,                       // shape_FRAME_ARMS_IN_AIR,       // 02
+    shape_FRAME_HUNCH,       // 03
+    shape_FRAME_PUSH,        // 04
+    shape_FRAME_PUSH2,       // 05
+    0,                       // shape_FRAME_IMPATIENT,         // 06
+    0,                       // shape_FRAME_IMPATIENT2,        // 07
+    0,                       // shape_FRAME_LOOK1,             // 08
+    0,                       // shape_FRAME_LOOK2,             // 09
+    0,                       // shape_FRAME_SHADES,            // 10
+    0,                       // shape_FRAME_SHADES_ARM,        // 11
+    0,                       // shape_FRAME_BLINK,             // 12
+    shape_FRAME_WALK1,       // 13
+    shape_FRAME_WALK2,       // 14
+    shape_FRAME_WALK3,       // 15
+    shape_FRAME_WALK4,       // 16
+    0,                       // shape_FRAME_SNATCH_DOWN,       // 17
+    shape_FRAME_SKELETON1,   // 18
+    shape_FRAME_SKELETON2,   // 19
+    shape_FRAME_SKELETON3,   // 20
+    shape_FRAME_SKELETON4,   // 21
+    shape_FRAME_SKELETON5,   // 22
+    0,                       // shape_FRAME_ARMSCROSSED,       // 23
+    0,                       // shape_FRAME_TALK,              // 24
+    shape_FRAME_WALKUP0,     // 25
+    shape_FRAME_WALKUP1,     // 26
+    shape_FRAME_WALKUP2,     // 27
+    shape_FRAME_WALKUP3,     // 28
+    shape_FRAME_WALKDOWN0,   // 29
+    shape_FRAME_WALKDOWN1,   // 30
+    shape_FRAME_WALKDOWN2,   // 31
+    shape_FRAME_WALKDOWN3,   // 32
+    shape_FRAME_MINE_UP_0,   // 33
+    shape_FRAME_MINE_UP_1,   // 34
+    shape_FRAME_MINE_DOWN_0, // 35
+    shape_FRAME_MINE_DOWN_1, // 36
 };
-
-
 
 void processAnimationCommand() {
 
@@ -3101,12 +3126,12 @@ void processAnimationCommand() {
             break;
 
         case ACTION_FLIP:
-            rockfordFaceDirection = -rockfordFaceDirection;
+            faceDirection = -faceDirection;
             playerAnimation++;
             break;
 
         case ACTION_LOOP:
-            if (rockfordDead)
+            if (playerDead)
                 startPlayerAnimation(ID_Skeleton);
 
             // else if (exitMode)
@@ -3121,7 +3146,7 @@ void processAnimationCommand() {
             break;
 
         case ACTION_STOP:
-            startPlayerAnimation(rockfordDead? ID_Skeleton : ID_Stand);
+            startPlayerAnimation(playerDead ? ID_Skeleton : ID_Stand);
             break;
 
         case ACTION_POSITION: {
@@ -3133,9 +3158,9 @@ void processAnimationCommand() {
 
         case ACTION_DOT: {
 
-            int dotX = 2 + (*++playerAnimation) * rockfordFaceDirection;
+            int dotX = 2 + (*++playerAnimation) * faceDirection;
             int dotY = *++playerAnimation;
-            nDots(4, rockfordX, rockfordY, 2, -30, dotX, dotY, 0x10000);
+            nDots(4, playerX, playerY, 2, -30, dotX, dotY, 0x10000);
             playerAnimation++;
             break;
         }
@@ -3153,46 +3178,42 @@ void processAnimationCommand() {
         }
 }
 
-
-
 const unsigned short reciprocal[] = {
 
 #if SPEED_BASE == 2
-    0x10000/3,
+    0x10000 / 3,
 #endif
 
 #if SPEED_BASE == 3
-    0x10000/4,
+    0x10000 / 4,
 #endif
 
 #if SPEED_BASE == 4
-    0x10000/5,
+    0x10000 / 5,
 #endif
 
 #if SPEED_BASE == 5
-    0x10000/6,
+    0x10000 / 6,
 #endif
 
 #if SCHEDULER == 1
-    0x10000/3,
+    0x10000 / 3,
 #endif
 
-//    0x10000/5,
-//    0x10000/6,
-//    0x10000/7,
-     0x10000/7,
-    // 0x10000/9,
-    // 0x10000/10,
-    // 0x10000/11,
-    // 0x10000/12,
-    // 0x10000/13,
+    //    0x10000/5,
+    //    0x10000/6,
+    //    0x10000/7,
+    0x10000 / 7,
+// 0x10000/9,
+// 0x10000/10,
+// 0x10000/11,
+// 0x10000/12,
+// 0x10000/13,
 
 #if SPEED_BASE == 6
-    0x10000/11,
+    0x10000 / 11,
 #endif
 };
-
-
 
 void updateAnimation() {
 
@@ -3213,23 +3234,20 @@ void updateAnimation() {
     }
 }
 
-
-
 void startPlayerAnimation(enum AnimationIdent animID) {
 
     playerAnimationID = animID;
 
     playerAnimation =
-    playerAnimationLoop = AnimationVector[animID];
+        playerAnimationLoop = AnimationVector[animID];
 
     playerAnimationCount =
-    autoMoveDeltaX =
-    autoMoveDeltaY =
-    frameAdjustX =
-    frameAdjustY = 0;
+        autoMoveDeltaX =
+            autoMoveDeltaY =
+                frameAdjustX =
+                    frameAdjustY = 0;
 
     processAnimationCommand();
 }
 
-
-//EOF
+// EOF

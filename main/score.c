@@ -1,34 +1,32 @@
-#include <stdbool.h>
 #include "defines.h"
 #include "defines_cdfj.h"
 #include "main.h"
+#include <stdbool.h>
 
-#include "amoeba.h"
+// #include "amoeba.h"
 #include "bitpatterns.h"
 #include "cavedata.h"
 #include "colour.h"
 #include "decodecaves.h"
 
+#include "mellon.h"
 #include "menu.h"
 #include "player.h"
 #include "random.h"
-#include "rockford.h"
 #include "score.h"
 #include "sound.h"
 #include "swipeCircle.h"
 
+// #define RGB_BLACK       0
+#define RGB_RED 1
+#define RGB_BLUE 2
+// #define RGB_PURPLE      3
+#define RGB_GREEN 4
+#define RGB_YELLOW 5
+#define RGB_AQUA 6
+// #define RGB_WHITE       7
 
-//#define RGB_BLACK       0
-#define RGB_RED         1
-#define RGB_BLUE        2
-//#define RGB_PURPLE      3
-#define RGB_GREEN       4
-#define RGB_YELLOW      5
-#define RGB_AQUA        6
-//#define RGB_WHITE       7
-
-
-#define SPARKLE            180     /* # frames to sparkle BG on extra life */
+#define SPARKLE 180 /* # frames to sparkle BG on extra life */
 
 int actualScore;
 int partialScore;
@@ -42,20 +40,18 @@ static unsigned char scoreLineColour[10];
 static int toggle = 0;
 int scorePulse = 0;
 
-
-
 void addScore(int score) {
 
     actualScore += score;
 
-//    ADDAUDIO(SFX_SCORE);
+    //    ADDAUDIO(SFX_SCORE);
 
     partialScore += score;
 
     while (partialScore >= 500) {
         partialScore -= 500;
         lives++;
-//        FLASH(0x86,6);
+        //        FLASH(0x86,6);
         sparkleTimer = SPARKLE;
         ADDAUDIO(SFX_EXTRA);
         setScoreCycle(SCORELINE_LIVES);
@@ -64,20 +60,40 @@ void addScore(int score) {
     scorePulse = 200;
 }
 
-
 const int pwr[] = {
-    1,10,100,1000,10000,100000,
+    1,
+    10,
+    100,
+    1000,
+    10000,
+    100000,
 };
 
 // right-to-left, least-significant first digit position
 const unsigned char mask[] = {
-    0x0F, 0xF0, 0xF0, 0x0F, 0x0F,
-    0x0F, 0xF0, 0xF0, 0x0F, 0x0F,
+    0x0F,
+    0xF0,
+    0xF0,
+    0x0F,
+    0x0F,
+    0x0F,
+    0xF0,
+    0xF0,
+    0x0F,
+    0x0F,
 };
 
 const bool mirror[] = {
-    1,1,0,0,1,
-    1,1,0,0,1,
+    1,
+    1,
+    0,
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    1,
 };
 
 const int base[] = {
@@ -93,15 +109,12 @@ const int base[] = {
     _BUF_PF0_LEFT,
 };
 
-
 void setScoreCycle(enum SCORE_MODE cycle) {
     scoreCycle = cycle;
     forceScoreDraw = SCOREVISIBLETIME;
 }
 
-
 static unsigned char bigDigitBuffer[DIGIT_SIZE];
-
 
 void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackground) {
 
@@ -122,19 +135,17 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
 
     int shift2 = pmask == 0x0F ? 0 : 4;
 
-    //pmask = ~pmask;
-    //if (blackBackground) {
-        // if (mirror[pos])
-        //     pmask = (pmask >> 1);
-        // else
-        //     pmask |= (pmask << 1);
+    // pmask = ~pmask;
+    // if (blackBackground) {
+    //  if (mirror[pos])
+    //      pmask = (pmask >> 1);
+    //  else
+    //      pmask |= (pmask << 1);
     //}
-    //pmask = ~pmask;
+    // pmask = ~pmask;
 
     // if (digit & 0x80)
     //     pmask = 0xFF;
-
-
 
     if (colour && enableICC != LEFT_DIFFICULTY_A)
         colour |= 7;
@@ -151,13 +162,12 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
 
     dbase = 1 << dbase;
 
-    if (offset && blackBackground && !(colour & 0x40)) { //offset && (!digit & 0x40)) {
+    if (offset && blackBackground && !(colour & 0x40)) { // offset && (!digit & 0x40)) {
         p[0] &= pmask;
         p[1] &= pmask;
         p[2] &= pmask;
         p += 3;
     }
-
 
     unsigned char *dig;
     if (!(digit & 0x40))
@@ -178,8 +188,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
             dbase = (dbase << 1) | (dbase >> 2);
             p[line] = (p[line] & BitRev[rdl]) | BitRev[rdl2];
         }
-    }
-    else {
+    } else {
         for (int line = 0; line < DIGIT_SIZE; line++) {
 
             rdl2 = ((dig[line] >> shift) & 0xF) << shift2;
@@ -193,8 +202,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
         }
     }
 
-
-    if (offset && blackBackground  && !(colour & 0x80)) { //offset && !(digit & 0x40)) {
+    if (offset && blackBackground && !(colour & 0x80)) { // offset && !(digit & 0x40)) {
         p += DIGIT_SIZE;
         p[0] &= pmask;
         p[1] &= pmask;
@@ -202,17 +210,13 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
     }
 }
 
-
-
 void fillBit(int line, unsigned char b) {
     unsigned char *bdp = bigDigitBuffer + (line << 2);
     bdp[0] =
-    bdp[1] =
-    bdp[2] =
-    bdp[3] = b;
+        bdp[1] =
+            bdp[2] =
+                bdp[3] = b;
 }
-
-
 
 void doubleSizeScore(int x, int y, int letter, int col) {
 
@@ -231,8 +235,6 @@ void doubleSizeScore(int x, int y, int letter, int col) {
     drawBigDigit(0x80, x, y + DIGIT_SIZE, 0x40 | col, false);
     drawBigDigit(0x81, x + 1, y + DIGIT_SIZE, 0x40 | col, false);
 }
-
-
 
 unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer, unsigned int colour, int cvt) {
 
@@ -258,9 +260,7 @@ unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer,
     return buffer;
 }
 
-
-
-void drawCaveLevel(){
+void drawCaveLevel() {
 
     scoreLineNew[1] = LETTER('P');
     scoreLineNew[2] = LETTER('L');
@@ -269,18 +269,17 @@ void drawCaveLevel(){
     scoreLineNew[5] = LETTER('E');
     scoreLineNew[6] = LETTER('T');
 
-//    scoreLineNew[7] = LETTER('A' + cave);
+    //    scoreLineNew[7] = LETTER('A' + cave);
     scoreLineNew[8] = level + 1;
 
     scoreLineColour[2] =
-    scoreLineColour[3] =
-    scoreLineColour[4] =
-    scoreLineColour[5] = RGB_YELLOW;
+        scoreLineColour[3] =
+            scoreLineColour[4] =
+                scoreLineColour[5] = RGB_YELLOW;
 
     scoreLineColour[7] =
-    scoreLineColour[8] = RGB_AQUA;
+        scoreLineColour[8] = RGB_AQUA;
 }
-
 
 void drawSpeedRun() {
 
@@ -292,19 +291,17 @@ void drawSpeedRun() {
     }
 }
 
-
 void drawDiamond() {
 
     scoreLineNew[1] = DIGIT_PLUS;
     scoreLineNew[0] = DIGIT_DIAMOND;
     scoreLineColour[1] = scoreLineColour[0] = RGB_GREEN;
-    drawDecimal2(scoreLineNew + 2, scoreLineColour + 2, RGB_YELLOW, diamonds < 0 ? - diamonds : diamonds);
+    drawDecimal2(scoreLineNew + 2, scoreLineColour + 2, RGB_YELLOW, diamonds < 0 ? -diamonds : diamonds);
 }
-
 
 void drawTime() {
 
-    int tPos = 0; //time >= 0xA00 ? time >= 0x6400 ? 5 : 6 : 7;
+    int tPos = 0; // time >= 0xA00 ? time >= 0x6400 ? 5 : 6 : 7;
 
     scoreLineNew[tPos] = LETTER('T');
     scoreLineColour[tPos++] = RGB_BLUE;
@@ -313,8 +310,6 @@ void drawTime() {
         drawDecimal2(scoreLineNew + tPos, scoreLineColour + tPos, time < 0xA00 ? RGB_RED : RGB_AQUA, time >> 8);
 }
 
-
-
 void drawLives() {
 
     scoreLineNew[1] = LETTER('L');
@@ -322,8 +317,6 @@ void drawLives() {
 
     drawDecimal2(scoreLineNew + 2, scoreLineColour + 2, RGB_YELLOW, lives);
 }
-
-
 
 void drawTheScore(int score) {
 
@@ -338,27 +331,24 @@ void drawTheScore(int score) {
 
         notLeadingZero |= displayDigit;
 
-       if (!digit || notLeadingZero) {
+        if (!digit || notLeadingZero) {
             scoreLineNew[9 - digit] = displayDigit;
             scoreLineColour[9 - digit] = RGB_YELLOW; // digit + 1;
-       }
+        }
     }
 }
-
-
 
 #if COLSELECT
 extern int colourn;
 unsigned char colr[5];
 static int tog = 0;
 
-
 void drawc(int start, int v) {
 
     scoreLineNew[start] = DIGIT_SPACE;
     scoreLineNew[start + 1] = DIGIT_SPACE;
 
-    if (!(7- start == colourn * 2) ||  (tog & 0b1000)) {
+    if (!(7 - start == colourn * 2) || (tog & 0b1000)) {
 
         int d = (v >> 4) & 0xF;
         if (d >= 10)
@@ -368,11 +358,9 @@ void drawc(int start, int v) {
         d = v & 0xF;
         if (d >= 10)
             d += DIGIT_A - 10;
-        scoreLineNew[start+1] = d;
+        scoreLineNew[start + 1] = d;
     }
 }
-
-
 
 void drawColours() {
 
@@ -382,42 +370,38 @@ void drawColours() {
     if (colourn != 4 || (tog & 0b1000))
         scoreLineNew[9] = colr[4] + ((colr[4] > 9) ? DIGIT_A - 10 : 0);
 
-
-    drawc(7,colr[0]);
-    drawc(5,colr[1]);
-    drawc(3,colr[2]);
-    drawc(1,colr[3]);
+    drawc(7, colr[0]);
+    drawc(5, colr[1]);
+    drawc(3, colr[2]);
+    drawc(1, colr[3]);
 
     short type = 0;
     switch (mm_tv_type) {
-        case NTSC:
-            type = DIGIT_N;
-            break;
-        case PAL:
-        case PAL_60:
-            type = DIGIT_P;
-            break;
+    case NTSC:
+        type = DIGIT_N;
+        break;
+    case PAL:
+    case PAL_60:
+        type = DIGIT_P;
+        break;
     }
 
     scoreLineNew[0] = type;
 }
 #endif
 
-
 void drawScore() {
-
 
     static int scc = 0;
     scc++;
 
-
     if (!--forceScoreDraw) {
         forceScoreDraw = SCOREVISIBLETIME;
         if (++scoreCycle >= SCORELINE_END)
-            scoreCycle = rockfordDead ? SCORELINE_LIVES : SCORELINE_START;
+            scoreCycle = playerDead ? SCORELINE_LIVES : SCORELINE_START;
     }
 
-    if (!exitMode && !rockfordDead && time < 0xA00)
+    if (!exitMode && !playerDead && time < 0xA00)
         setScoreCycle(SCORELINE_TIME);
 
     else {
@@ -429,9 +413,9 @@ void drawScore() {
         }
     }
 
-// #if COLSELECT > 0
-//     displayedScoreCycle = SCORELINE_COLOUREDIT;
-// #endif
+    // #if COLSELECT > 0
+    //     displayedScoreCycle = SCORELINE_COLOUREDIT;
+    // #endif
 
     for (int i = 0; i < 10; i++)
         scoreLineNew[i] = DIGIT_SPACE;
@@ -442,33 +426,31 @@ void drawScore() {
     } else
 #endif
 
+        switch (scoreCycle) {
+        case SCORELINE_TIME:
+        case SCORELINE_SCORE:
+            //        drawDiamond();
+            //        drawTime();
+            //        break;
+            drawTheScore(actualScore);
+            break;
+        case SCORELINE_LIVES:
+            //        drawTime();
+            drawLives();
+            break;
+        case SCORELINE_CAVELEVEL:
+            drawCaveLevel();
+            break;
+        case SCORELINE_SPEEDRUN:
+            if (!theCave->diamondsRequired[level] && !playerDead)
+                drawSpeedRun();
+            else
+                setScoreCycle(SCORELINE_LIVES);
+            break;
 
-    switch (scoreCycle) {
-    case SCORELINE_TIME:
-    case SCORELINE_SCORE:
-//        drawDiamond();
-//        drawTime();
-//        break;
-        drawTheScore(actualScore);
-        break;
-    case SCORELINE_LIVES:
-//        drawTime();
-        drawLives();
-        break;
-    case SCORELINE_CAVELEVEL:
-        drawCaveLevel();
-        break;
-    case SCORELINE_SPEEDRUN:
-        if (!theCave->diamondsRequired[level] && !rockfordDead)
-            drawSpeedRun();
-        else
-            setScoreCycle(SCORELINE_LIVES);
-        break;
-
-    default:
-        break;
-    }
-
+        default:
+            break;
+        }
 
     static int scoreColour;
     if (scorePulse > 0) {
@@ -476,14 +458,11 @@ void drawScore() {
         scoreColour++;
     }
 
-    else scoreColour = 6 << 4;
-
+    else
+        scoreColour = 6 << 4;
 
     for (int i = 0; i < 10; i++)
         drawBigDigit(scoreLineNew[i], 9 - i, 9, (scoreColour >> 4) & 7, false);
-
 }
 
-
-
-//EOF
+// EOF

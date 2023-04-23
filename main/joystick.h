@@ -4,8 +4,8 @@
 void getJoystick();
 
 #if __ENABLE_DEMO
-void initDemoMode(bool mode);
-void checkDemoFinished();
+// void initDemoMode(bool mode);
+// void checkDemoFinished();
 
 extern bool demoMode;
 #endif

@@ -1,15 +1,12 @@
 #ifndef __SCROLL_H
 #define __SCROLL_H
 
-
 extern int scrollX;
 extern int scrollY;
 
-
 void Scroll();
 void resetTracking();
-bool isScrolling();
-
+int isScrolling();
 
 #define SCROLLSPEED_MAXIMUM_X (256)
 #define SCROLL_MAXIMUM_X ((32 << 16))
@@ -19,8 +16,5 @@ bool isScrolling();
 #define SCROLL_TRIGGEREDGE_HORIZONTAL 2
 #define SCROLL_TRIGGEREDGE_VERTICAL 10
 
-
-
-
 #endif
-//EOF
+// EOF

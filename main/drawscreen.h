@@ -6,7 +6,7 @@ void drawScreen();
 // void drawOverviewScreen(int startRow, int endRow);
 void drawIconScreen(int startRow, int endRow);
 void initIconPalette();
+void rain();
 
 #endif
-//EOF
-
+// EOF

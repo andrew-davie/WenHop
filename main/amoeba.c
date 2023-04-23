@@ -1,6 +1,6 @@
 #include "main.h"
 
-#include "amoeba.h"
+// #include "amoeba.h"
 #include "atarivox.h"
 #include "attribute.h"
 #include "colour.h"
@@ -8,8 +8,7 @@
 #include "random.h"
 #include "sound.h"
 
-static int amoebaCounter;
-const signed char dirOffset[] = { -1, 1, -40, 40 };
+// static int amoebaCounter;
 #if 0
 
 static bool amoebaCanGrow;
@@ -107,5 +106,4 @@ void checkAmoeba() {
 
 #endif
 
-
-//EOF
+// EOF

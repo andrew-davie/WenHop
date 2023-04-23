@@ -1,13 +1,12 @@
 #include "defines_cdfj.h"
 
-#include "main.h"
-#include "joystick.h"
 #include "colour.h"
 #include "defines.h"
+#include "joystick.h"
+#include "main.h"
 #include "menu.h"
 #include "random.h"
 #include "swipeCircle.h"
-
 
 #if __ENABLE_DEMO
 bool demoMode = true;
@@ -22,25 +21,23 @@ const unsigned char *joyRecording = (const unsigned char *)__DEMO_JOYSTICK;
 static int demoFrameBase;
 #endif
 
-void initDemoMode(bool mode) {
+// void initDemoMode(bool mode) {
 
-    cave = 0;
-    level = 0;
+//     cave = 0;
+//     level = 0;
 
-    #if __ENABLE_DEMO
-    demoMode = mode;
-    demoJoy = 0;
-    demoFrameBase = 0;
-    #endif
+//     #if __ENABLE_DEMO
+//     demoMode = mode;
+//     demoJoy = 0;
+//     demoFrameBase = 0;
+//     #endif
 
-    #if CIRCLE
-    #if __ENABLE_DEMO
-    demoCircleTriggered = false;
-    #endif
-    #endif
-}
-
-
+//     #if CIRCLE
+//     #if __ENABLE_DEMO
+//     demoCircleTriggered = false;
+//     #endif
+//     #endif
+// }
 
 void getJoystick() {
 
@@ -48,10 +45,9 @@ void getJoystick() {
     if (!demoMode) {
 #endif
 
-
-        #if COLSELECT
+#if COLSELECT
         if (!LEFT_DIFFICULTY_A)
-        #endif
+#endif
         {
             swcha = SWCHA;
             inpt4 = INPT4;
@@ -68,18 +64,18 @@ void getJoystick() {
 
         static const unsigned char rework[] = {
 
-            (255-0x80),
-            (255-0x40),
-            (255-0x10),
-            (255-0x20),
+            (255 - 0x80),
+            (255 - 0x40),
+            (255 - 0x10),
+            (255 - 0x20),
             255,
         };
 
-        if (!joyRecording[demoJoy] || SWCHA !=0xFF || !(INPT4 & 0x80)
+        if (!joyRecording[demoJoy] || SWCHA != 0xFF || !(INPT4 & 0x80)
 #if CIRCLE
-         || demoCircleTriggered
+            || demoCircleTriggered
 #endif
-         ) {
+        ) {
 
             swcha = 0xFF;
 
@@ -91,8 +87,7 @@ void getJoystick() {
 #endif
 
             caveCompleted = true;
-        }
-        else {
+        } else {
 
             if (uncoverTimer < 0)
                 while (joyRecording[demoJoy] && gameFrame > demoFrameBase + (joyRecording[demoJoy] & 0x0F))
@@ -102,19 +97,16 @@ void getJoystick() {
             inpt4 = joyRecording[demoJoy] ^ 0x80;
         }
     }
-#endif    
+#endif
 }
-
 
 #if __ENABLE_DEMO
 void checkDemoFinished() {
 
 #if CIRCLE
-    if (demoCircleTriggered
-     && checkSwipeFinished()
-    )
+    if (demoCircleTriggered && checkSwipeFinished())
 #endif
         initKernel(KERNEL_MENU);
 }
 #endif
-//EOF
+// EOF

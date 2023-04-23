@@ -18,6 +18,7 @@ void initKernel(int krn);
 void clearBuffer(int *buffer, int size);
 void initMenuDatastreams();
 
+void doDrawBitmap(const unsigned short *shape, int y);
 
 extern int menuLineTVType;
 extern int mhz;
@@ -29,7 +30,5 @@ extern const unsigned char *menuCharSet[];
 #if DEBUG_TIMER
 extern unsigned int debugDelay;
 #endif
-
-
 
 #endif

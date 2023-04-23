@@ -13,7 +13,6 @@ extern const char *const AnimateBase[TYPE_MAX];
 #define DRIP_SPLASH 12
 #define DRIP_FALL 10
 
-
 extern const char *Animate[TYPE_MAX];
 extern char AnimCount[TYPE_MAX];
 

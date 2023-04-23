@@ -9,7 +9,7 @@
 PROJECT=WenHop
 DASM_TO_C=defines_from_dasm_for_c.h
 
-# If desired, the following color values can be changed.   
+# If desired, the following color values can be changed.
 # 30=black  31=red      32=green    33=yellow
 # 34=blue   35=purple   36=cyan     37=white
 INFO_COLOR='\033[1;34m'     #default 34=blue
@@ -39,17 +39,17 @@ SRC = $(BASE)/custom
 BIN = $(BASE)/bin
 
 SRCS =  amoeba.c	characterset.c	joystick.c	random.c	swipeCircle.c \
-		animations.c	colour.c	main.c		rockford.c \
+		animations.c	colour.c	main.c		mellon.c \
 		atarivox.c	decodecaves.c	menu.c		score.c \
 		attribute.c	drawplayer.c	overlay.c	scroll.c \
 		cavedata.c	drawscreen.c		sound.c player.c
 
-		
+
 # C Compiler flags
 OPTIMIZATION =  -Os
 CFLAGS = -g3 -gdwarf-4 -gstrict-dwarf -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
-CFLAGS += -Wall -Wextra -Wunused-macros -ffunction-sections # -save-temps #-mlong-calls 
-CFLAGS += $(OPTIMIZATION) $(INCLUDES) 
+CFLAGS += -Wall -Wextra -Wunused-macros -ffunction-sections # -save-temps #-mlong-calls
+CFLAGS += $(OPTIMIZATION) $(INCLUDES)
 CFLAGS += -Wl,--print-memory-usage,--build-id=none -flto -mno-thumb-interwork -fextended-identifiers
 
 
@@ -88,16 +88,16 @@ armcode_defines: gfx $(asmSrcs)
 	#echo $(SERIAL_DATE) > main/serial_date.txt
 	#echo $(SERIAL_TIME) > main/serial_time.txt
 	@printf $(INFO_COLOR)
-	@echo "Step 1/3 - Create $(DASM_TO_C)"  
+	@echo "Step 1/3 - Create $(DASM_TO_C)"
 	@printf $(OPTION_COLOR)
 	$(DASM) $(PROJECT).asm -p100 -f3 -v0 -s$(PROJECT).sym -l$(PROJECT).lst -o$(PROJECT).bin
 	@echo "// Do not change this file. It is auto-generated during the make process" > main/$(DASM_TO_C)
 	awk '$$0 ~ /^_/ {printf "#define %-25s 0x%s\n", $$1, $$2}' $(PROJECT).sym >> main/$(DASM_TO_C)
-	
+
 	@printf $(INFO_COLOR)
 	@echo "Step 2/3 - Create ARM BIN"
 	@printf $(OPTION_COLOR)
-	
+
 armcode_atari:
 	$(DASM) $(PROJECT).asm -p100 -f3 -v0 -s$(PROJECT).sym -l$(PROJECT).lst -o$(PROJECT).bin
 	@cp $(PROJECT).bin ROMs/$(TARGET).bin
@@ -109,7 +109,7 @@ armcode_list:
 	@printf $(OPTION_COLOR)
 	$(DASM) $(PROJECT).asm -p100 -f3 -v0 -o$(PROJECT).bin -l$(PROJECT).lst -s$(PROJECT).sym
 	@printf $(DEFAULT_COLOR)
-	
+
 armcode: killEmulator armcode_defines armcode_arm armcode_list armcode_atari
 
 
@@ -131,7 +131,7 @@ CUSTOMMAP = $(BIN)/$(CUSTOMNAME).map
 CUSTOMLST = $(BIN)/$(CUSTOMNAME).lst
 CUSTOMLINK = $(SRC)/custom.boot.lds
 CUSTOMOBJS = main.o sound.o custom.o attribute.o amoeba.o random.o \
-	decodecaves.o characterset.o rockford.o cavedata.o drawplayer.o \
+	decodecaves.o characterset.o mellon.o cavedata.o drawplayer.o \
 	player.o overlay.o drawscreen.o colour.o swipeCircle.o score.o \
 	scroll.o animations.o menu.o atarivox.o joystick.o
 CUSTOMDEPENDS = sound.h main.h attribute.h
@@ -152,7 +152,7 @@ armcode_arm: $(CUSTOMTARGETS)
 $(CUSTOMELF): $(asmSrcs) $(CUSTOMOBJS) $(CUSTOMDEPENDS) Makefile
 	$(CC) $(CFLAGS) -o $(CUSTOMELF) $(CUSTOMOBJS) -T $(CUSTOMLINK) -nostartfiles -Wl,-Map=$(CUSTOMMAP)
 	$(TOOLCHAIN)-objdump -Sdrl $(CUSTOMELF) > $(BIN)/$(CUSTOMNAME).obj
-#	,--gc-sections 
+#	,--gc-sections
 $(CUSTOMBIN): $(CUSTOMELF)
 	$(OBJCOPY) -O binary -S $(CUSTOMELF) $(CUSTOMBIN)
 	$(SIZE) $(CUSTOMOBJS) $(CUSTOMELF)
@@ -186,32 +186,32 @@ colour.o: main/cavedata.h main/colour.h main/score.h main/scroll.h
 main.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
 main.o: main/animations.h main/attribute.h main/atarivox.h main/bitpatterns.h main/cavedata.h
 main.o: main/characterset.h main/colour.h main/decodecaves.h main/drawplayer.h main/drawscreen.h
-main.o: main/joystick.h main/menu.h main/overlay.h main/player.h main/random.h main/rockford.h main/score.h
+main.o: main/joystick.h main/menu.h main/overlay.h main/player.h main/random.h main/mellon.h main/score.h
 main.o: main/scroll.h main/sound.h main/swipeCircle.h
-rockford.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
-rockford.o: main/animations.h main/attribute.h main/atarivox.h main/player.h main/rockford.h main/random.h
-rockford.o: main/score.h main/sound.h
+mellon.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
+mellon.o: main/animations.h main/attribute.h main/atarivox.h main/player.h main/mellon.h main/random.h
+mellon.o: main/score.h main/sound.h
 atarivox.o: main/defines_from_dasm_for_c.h main/defines_cdfj.h main/main.h
 decodecaves.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/decodecaves.h
-decodecaves.o: main/amoeba.h main/attribute.h main/characterset.h main/random.h main/rockford.h
+decodecaves.o: main/amoeba.h main/attribute.h main/characterset.h main/random.h main/mellon.h
 decodecaves.o: main/scroll.h
 menu.o: main/defines.h main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/menu.h
 menu.o: main/atarivox.h main/bitpatterns.h main/cavedata.h main/colour.h main/joystick.h main/overlay.h
 menu.o: main/player.h main/random.h main/sound.h
 score.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
-score.o: main/bitpatterns.h main/rockford.h main/score.h main/sound.h main/swipeCircle.h
+score.o: main/bitpatterns.h main/mellon.h main/score.h main/sound.h main/swipeCircle.h
 attribute.o: main/attribute.h main/main.h main/defines_from_dasm_for_c.h
 drawplayer.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h
 drawplayer.o: main/drawplayer.h main/swipeCircle.h main/colour.h main/attribute.h main/player.h
-drawplayer.o: main/rockford.h main/scroll.h
+drawplayer.o: main/mellon.h main/scroll.h
 overlay.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/defines.h
 overlay.o: main/overlay.h main/player.h main/bitpatterns.h main/sound.h
 scroll.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/player.h main/scroll.h
-scroll.o: main/rockford.h
+scroll.o: main/mellon.h
 cavedata.o: main/main.h main/defines_from_dasm_for_c.h main/cavedata.h main/attribute.h
 drawscreen.o: main/defines.h main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h
 drawscreen.o: main/animations.h main/attribute.h main/bitpatterns.h main/characterset.h
 drawscreen.o: main/drawplayer.h main/drawscreen.h main/menu.h main/random.h main/scroll.h main/sound.h
 sound.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/sound.h main/random.h
 player.o: main/defines_from_dasm_for_c.h main/main.h main/player.h main/atarivox.h main/bitpatterns.h
-player.o: main/rockford.h
+player.o: main/mellon.h

@@ -7,4 +7,3 @@ void createDripCharacter();
 extern const unsigned char *const charSet[];
 
 #endif
-

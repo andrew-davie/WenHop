@@ -1,11 +1,10 @@
-#include "defines_cdfj.h"
-#include "main.h"
+#include "scroll.h"
 #include "cavedata.h"
 #include "decodecaves.h"
+#include "defines_cdfj.h"
+#include "main.h"
+#include "mellon.h"
 #include "player.h"
-#include "scroll.h"
-#include "rockford.h"
-
 
 int scrollX, scrollY;
 // int scrollLimitXLeft,scrollLimitXRight;
@@ -19,17 +18,13 @@ static int targetScrollSpeed, targetYScrollSpeed;
 #define decel (accel * 8 / 8)
 #define decelY (decel * 8)
 
-
-
-bool isScrolling() {
-    return (/*displayMode == DISPLAY_NORMAL && */(scrollSpeedX | scrollSpeedY));
+int isScrolling() {
+    return (/*displayMode == DISPLAY_NORMAL && */ (scrollSpeedX | scrollSpeedY));
 }
-
-
 
 void Scroll() {
 
-    // if (lockDisplay && displayMode == DISPLAY_HALF) {
+    // if (lockDisplay && displayMode ==m DISPLAY_HALF) {
     //     scrollX = 40 << 14;
     //     scrollY = 53 << 16;
     //     return;
@@ -44,16 +39,14 @@ void Scroll() {
     }
 #endif
 
+    if (playerDead && !waitRelease && *playerAnimation == FRAME_BLANK) {
 
-    if (rockfordDead && !waitRelease && *playerAnimation == FRAME_BLANK) {
-
-        int speedFactor = 1; //displayMode == DISPLAY_NORMAL ? 1 : 2;
+        int speedFactor = 1; // displayMode == DISPLAY_NORMAL ? 1 : 2;
 
         for (int dir = 0; dir < 4; dir++) {
             if (!(swcha & (joyDirectBit[dir] << 4))) {
                 scrollX += ((int)xInc[joyDirectBit[dir]] * speedFactor) << 13;
                 scrollY += ((int)yInc[joyDirectBit[dir]] * speedFactor) << 16;
-
             }
         }
     }
@@ -62,9 +55,10 @@ void Scroll() {
 
 #define PIXELS_PER_CHAR2 4
 
-        int recip = reciprocal[0];; //gameSpeed - SPEED_BASE];
-        int rockx = rockfordX * PIXELS_PER_CHAR2 + (PIXELS_PER_CHAR2 >> 1);
-        int rocky = rockfordY * TRILINES + (TRILINES >> 1);
+        int recip = reciprocal[0];
+        ; // gameSpeed - SPEED_BASE];
+        int rockx = playerX * PIXELS_PER_CHAR2 + (PIXELS_PER_CHAR2 >> 1);
+        int rocky = playerY * TRILINES + (TRILINES >> 1);
 
         int max = (SCROLLSPEED_MAXIMUM_X * recip) >> 8;
 
@@ -76,15 +70,10 @@ void Scroll() {
         //     triggerEdgePix *= 4;
         // }
 
-
         if (rockx < halfwayPix - triggerEdgePix)
             targetScrollSpeed = -max;
         else if (rockx > halfwayPix + triggerEdgePix)
             targetScrollSpeed = max;
-
-
-
-
 
         // Y...
 
@@ -93,19 +82,16 @@ void Scroll() {
 
         triggerEdgePix = SCROLL_TRIGGEREDGE_VERTICAL;
 
-//        if (displayMode == DISPLAY_HALF) {
-//            max *= 2;
-//            halfwayPix += HALFWAYY;
-//            triggerEdgePix *= 2;
-//        }
-
+        //        if (displayMode == DISPLAY_HALF) {
+        //            max *= 2;
+        //            halfwayPix += HALFWAYY;
+        //            triggerEdgePix *= 2;
+        //        }
 
         if ((halfwayPix - triggerEdgePix) - rocky > 0)
             targetYScrollSpeed = -max;
         else if (rocky - (halfwayPix + triggerEdgePix) > 0)
             targetYScrollSpeed = max;
-
-
 
         int adjustedAccel = (accel * recip) >> 16;
 
@@ -169,11 +155,7 @@ void Scroll() {
 
         scrollX += scrollSpeedX;
         scrollY += scrollSpeedY;
-
-
     }
-
-
 
     int maxX, maxY;
     // if (displayMode == DISPLAY_HALF) {
@@ -182,11 +164,9 @@ void Scroll() {
     //     maxY = 0x660000 - 0x100000;
     // }
     // else {
-        maxX = SCROLL_MAXIMUM_X;
-        maxY = (16 * PIECE_DEPTH / 3 - 6) << 16;
+    maxX = SCROLL_MAXIMUM_X;
+    maxY = (16 * PIECE_DEPTH / 3 - 6) << 16;
     // }
-
-
 
     if (scrollX >= maxX) {
         scrollX = maxX;
@@ -213,17 +193,15 @@ void Scroll() {
     }
 }
 
-
-
 void resetTracking() {
 
     // if (displayMode == DISPLAY_NORMAL)
-        scrollX = (rockfordX - (HALFWAYX /5)) << 16;
+    scrollX = (playerX - (HALFWAYX / 5)) << 16;
 
     // else if (displayMode == DISPLAY_HALF)
-    //     scrollX = (rockfordX - (HALFWAYX >> 1)) << 16;
+    //     scrollX = (playerX - (HALFWAYX >> 1)) << 16;
 
-    scrollY = ((rockfordY - 4) * TRILINES) << 16;
+    scrollY = ((playerY - 4) * TRILINES) << 16;
 
     if (scrollX < 0)
         scrollX = 0;
@@ -231,10 +209,9 @@ void resetTracking() {
         scrollY = 0;
 
     scrollSpeedX =
-    scrollSpeedY =
-    targetScrollSpeed =
-    targetYScrollSpeed = 0;
+        scrollSpeedY =
+            targetScrollSpeed =
+                targetYScrollSpeed = 0;
 }
-
 
 // EOF

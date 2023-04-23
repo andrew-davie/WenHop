@@ -1172,32 +1172,36 @@ __CHAR_BUTTERFLY_1
 
 __CHAR_BRICKWALL
 
-    ;  dc X_ | _Y | ____ ; 00 <
-    ;  dc X_ | _Y | XXX_ ; 01
-    ;  dc XX | YY | XXXX ; 02
-    ;  dc _X | Y_ | XXX_ ; 03 <
-    ;  dc _X | Y_ | XXX_ ; 04
-    ;  dc XX | YY | XXXX ; 05
-    ;  dc X_ | __ | XXX_ ; 06 <
-    ;  dc X_ | _Y | XXX_ ; 07
-    ;  dc XX | YY | XXXX ; 08
-    ;  dc      _Y | XXX_ ; 09 <
-    ;  dc      _Y | ____ ; 10
-    ;  dc      YY | XXXX ; 11
-    ;  dc      Y_ | X_XX ; 12 <
-    ;  dc      Y_ | X_XX ; 13
-    ;  dc      YY | XXXX ; 14
-    ;  dc           X_XX ; 15 <
-    ;  dc           X_XX ; 16
-    ;  dc           XXXX ; 17
-    ;  dc           X_XX ; 18 <
-    ;  dc           X_XX ; 19
-    ;  dc           XXXX ; 20
-
-    ;  dc           X_XX ; 18 <
-    ;  dc           X_XX ; 19
-    ;  dc           XXXX ; 20
-
+     dc X_ | _Y | ____ ; 00 <
+     dc X_ | _Y | XXX_ ; 01
+     dc XX | YY | XXXX ; 02
+     dc _X | Y_ | XXX_ ; 03 <
+     dc _X | Y_ | XXX_ ; 04
+     dc XX | YY | XXXX ; 05
+     dc X_ | __ | XXX_ ; 06 <
+     dc X_ | _Y | XXX_ ; 07
+     dc XX | YY | XXXX ; 08
+     dc      _Y | XXX_ ; 09 <
+     dc      _Y | ____ ; 10
+     dc      YY | XXXX ; 11
+     dc      Y_ | X_XX ; 12 <
+     dc      Y_ | X_XX ; 13
+     dc      YY | XXXX ; 14
+     dc           X_XX ; 15 <
+     dc           X_XX ; 16
+     dc           XXXX ; 17
+     dc           X_XX ; 18 <
+     dc           X_XX ; 19
+     dc           XXXX ; 20
+     dc           X_XX ; 21 <
+     dc           X_XX ; 22
+     dc           XXXX ; 23
+     dc           ____ ; 24
+     dc           ____ ; 25
+     dc           ____ ; 26
+     dc           ____ ; 27
+     dc           ____ ; 28
+     dc           ____ ; 29
 
 
 
@@ -1209,27 +1213,27 @@ __CHAR_BRICKWALL
 
 __CHAR_EXPLODETO_0
 
-     dc __ | _Y | __X_ ; 00 <
-     dc XX | _Y | X_X_ ; 01
-     dc __ | _Y | X_X_ ; 02
-     dc XX | __ | X___ ; 03 <
-     dc XX | Y_ | ____ ; 04
-     dc __ | Y_ | ____ ; 05
-     dc XX | YY | __X_ ; 06 <
-     dc __ | _Y | __X_ ; 07
-     dc __ | YY | __X_ ; 08
-     dc      Y_ | ____ ; 09 <
-     dc      Y_ | __X_ ; 10
-     dc      __ | X_X_ ; 11
-     dc      __ | X_X_ ; 12 <
-     dc      __ | X___ ; 13
-     dc      __ | ___X ; 14
-     dc           ___X ; 15 <
-     dc           _X_X ; 16
-     dc           _X__ ; 17
-     dc           _X_X ; 18 <
-     dc           ___X ; 19
-     dc           ___X ; 20
+    ;  dc __ | _Y | __X_ ; 00 <
+    ;  dc XX | _Y | X_X_ ; 01
+    ;  dc __ | _Y | X_X_ ; 02
+    ;  dc XX | __ | X___ ; 03 <
+    ;  dc XX | Y_ | ____ ; 04
+    ;  dc __ | Y_ | ____ ; 05
+    ;  dc XX | YY | __X_ ; 06 <
+    ;  dc __ | _Y | __X_ ; 07
+    ;  dc __ | YY | __X_ ; 08
+    ;  dc      Y_ | ____ ; 09 <
+    ;  dc      Y_ | __X_ ; 10
+    ;  dc      __ | X_X_ ; 11
+    ;  dc      __ | X_X_ ; 12 <
+    ;  dc      __ | X___ ; 13
+    ;  dc      __ | ___X ; 14
+    ;  dc           ___X ; 15 <
+    ;  dc           _X_X ; 16
+    ;  dc           _X__ ; 17
+    ;  dc           _X_X ; 18 <
+    ;  dc           ___X ; 19
+    ;  dc           ___X ; 20
 
 
 
@@ -1237,26 +1241,26 @@ __CHAR_EXPLODETO_0
 
 __CHAR_EXPLODETO_1
 
-     dc XX | __ | ____ ; 00 <
-     dc __ | Y_ | _X__ ; 01
-     dc __ | Y_ | _X__ ; 02
-     dc __ | Y_ | _X_X ; 03 <
-     dc XX | _Y | ___X ; 04
-     dc XX | _Y | ___X ; 05
-     dc __ | _Y | __X_ ; 06 <
-     dc XX | __ | X_X_ ; 07
-     dc __ | __ | X_X_ ; 08
-     dc      _Y | X___ ; 09 <
-     dc      _Y | ____ ; 10
-     dc      _Y | ____ ; 11
-     dc      __ | __X_ ; 12 <
-     dc      __ | __X_ ; 13
-     dc      __ | __X_ ; 14
-     dc           ____ ; 15 <
-     dc           __X_ ; 16
-     dc           X_X_ ; 17
-     dc           X_X_ ; 18 <
-     dc           X___ ; 19
+    ;  dc XX | __ | ____ ; 00 <
+    ;  dc __ | Y_ | _X__ ; 01
+    ;  dc __ | Y_ | _X__ ; 02
+    ;  dc __ | Y_ | _X_X ; 03 <
+    ;  dc XX | _Y | ___X ; 04
+    ;  dc XX | _Y | ___X ; 05
+    ;  dc __ | _Y | __X_ ; 06 <
+    ;  dc XX | __ | X_X_ ; 07
+    ;  dc __ | __ | X_X_ ; 08
+    ;  dc      _Y | X___ ; 09 <
+    ;  dc      _Y | ____ ; 10
+    ;  dc      _Y | ____ ; 11
+    ;  dc      __ | __X_ ; 12 <
+    ;  dc      __ | __X_ ; 13
+    ;  dc      __ | __X_ ; 14
+    ;  dc           ____ ; 15 <
+    ;  dc           __X_ ; 16
+    ;  dc           X_X_ ; 17
+    ;  dc           X_X_ ; 18 <
+    ;  dc           X___ ; 19
 ;     dc           ____ ; 20
 
 

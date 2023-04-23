@@ -13,15 +13,15 @@
 
 #include "defines_cdfj.h"
 
-#include "main.h"
-#include "decodecaves.h"
 #include "cavedata.h"
 #include "colour.h"
-#include "amoeba.h"
+#include "decodecaves.h"
+#include "main.h"
+// #include "amoeba.h"
 #include "attribute.h"
 #include "characterset.h"
+#include "mellon.h"
 #include "random.h"
-#include "rockford.h"
 #include "scroll.h"
 #include "sound.h"
 
@@ -29,19 +29,16 @@
 #define DRAW_RECT 0b11000000
 #define DRAW_FILLED_RECT 0b10000000
 
-
 /* **************************************** */
 /* Types */
-//typedef const unsigned char UBYTE;
+// typedef const unsigned char UBYTE;
 typedef unsigned char objectType;
-
 
 /* DrawLine data */
 /* When drawing lines, you can draw in all eight directions. This table gives
    the offsets needed to move in each of the 8 directions. */
 
-const signed char ldxy[]={ -1, -1, 0, 1, 1, 1, 0, -1, -1, -1 };
-
+const signed char ldxy[] = {-1, -1, 0, 1, 1, 1, 0, -1, -1, -1};
 
 /* **************************************** */
 /* Prototypes */
@@ -50,7 +47,7 @@ void StoreObject(int x, int y, objectType anObject);
 void DrawLine(objectType anObject, int x, int y, int aLength, int aDirection);
 void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight, objectType aFillObject);
 void DrawRect(objectType anObject, int x, int y, int aWidth, int aHeight);
-//void DrawHorizontalLine(objectType anObject, int x, int y, int aLength);
+// void DrawHorizontalLine(objectType anObject, int x, int y, int aLength);
 
 #if 0
 void NextRandom(int *RandSeed1, int *RandSeed2);
@@ -58,11 +55,11 @@ int RandSeed1, RandSeed2;
 #endif
 
 const unsigned char *theCaveData;
-//int caveFlags;
+// int caveFlags;
 int decodingRow;
 unsigned char caveMirrorXY;
 static int doorX, doorY;
-bool processedLevel;
+int processedLevel;
 extern int thumbnailSpeed;
 int totalDiamondsPossible;
 
@@ -70,39 +67,35 @@ enum DECODE_STATE decodeState;
 
 struct CAVE_DEFINITION *theCave;
 
-
 static int decodeFlasher;
 
 // int last_prng_a;
 // int last_prng_b;
 
-int wyrmNum;
-
 void decodeCave(int cave) {
 
     wyrmNum = 0;
 
-    theCave = (struct CAVE_DEFINITION *) (((int)caveList[cave]) & 0xFFFF);
+    theCave = (struct CAVE_DEFINITION *)(((int)caveList[cave]) & 0xFFFF);
 
     decodeState = DECODE_NONE;
 
     cave_random_a = theCave->randomInit[level];
-    cave_random_b = cave_random_a++;  // ensure one is non-zero!
+    cave_random_b = cave_random_a++; // ensure one is non-zero!
 
 #if ENABLE_RAINBOW
     rainbow = theCave->flags & CAVEDEF_RAINBOW;
 #endif
     lockDisplay = theCave->flags & CAVEDEF_OVERVIEW;
-    //displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
-
+    // displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
 
     diamonds = theCave->diamondsRequired[level];
     time = (theCave->timeToComplete[level] << 8) + 60;
     millingTime = theCave->millingTime * 60;
 
-    int *s = (int *) (RAM + _BOARD);
-    for (int i = 0; i < 880/4; i++)
-        *(s+i) = 0; //(FLAG_UNCOVER << 24) | (FLAG_UNCOVER << 16) | (FLAG_UNCOVER << 8) | FLAG_UNCOVER;
+    int *s = (int *)(RAM + _BOARD);
+    for (int i = 0; i < 880 / 4; i++)
+        *(s + i) = 0; //(FLAG_UNCOVER << 24) | (FLAG_UNCOVER << 16) | (FLAG_UNCOVER << 8) | FLAG_UNCOVER;
 
     decodingRow = -1;
     decodeFlasher = 21;
@@ -110,10 +103,8 @@ void decodeCave(int cave) {
 
     theCaveData = (&(theCave->objectData)) + theCave->objectCount * 6;
 
-
     decodeState = DECODE_START;
 }
-
 
 unsigned char cmd;
 unsigned char a, b, c, d, e, f;
@@ -122,7 +113,7 @@ unsigned char theObject;
 
 // unsigned int restore_prng_a, restore_prng_b;
 
-int decodeExplicitData(bool sfx) {
+int decodeExplicitData(int sfx) {
 
     // restore_prng_a = prng_a;
     // restore_prng_b = prng_b;
@@ -150,8 +141,8 @@ int decodeExplicitData(bool sfx) {
 
                         // unsigned char *this = RAM + _BOARD + x + decodingRow * 40;
                         // if (GET(*this) == 0)
-                            if ((getCaveRandom32() >> 24) < p[level + 1])
-                                StoreObject(x, decodingRow, p[0]);
+                        if ((getCaveRandom32() >> 24) < p[level + 1])
+                            StoreObject(x, decodingRow, p[0]);
                     }
             }
 
@@ -161,14 +152,12 @@ int decodeExplicitData(bool sfx) {
         else {
 
             d = e = 0;
-            //theCaveData = caveList[cave].cavePtr + sizeof(struct CAVE_DEFINITION);
+            // theCaveData = caveList[cave].cavePtr + sizeof(struct CAVE_DEFINITION);
             decodeState = DECODE_STOP;
             processedLevel = false;
-
         }
 
         break;
-
 
     case DECODE_STOP: {
 
@@ -184,13 +173,15 @@ int decodeExplicitData(bool sfx) {
 
                 if (!processedLevel) {
                     for (int skipToBlock = 0; skipToBlock < level; skipToBlock++)
-                        while (*theCaveData++ != 0xFF);
+                        while (*theCaveData++ != 0xFF)
+                            ;
                     processedLevel = true;
                     break;
                 }
 
                 for (int skipBotBlock = level; skipBotBlock < 4; skipBotBlock++)
-                    while (*theCaveData++ != 0xFF);
+                    while (*theCaveData++ != 0xFF)
+                        ;
 
                 decodeState = DECODE_FLASH;
                 break;
@@ -216,26 +207,24 @@ int decodeExplicitData(bool sfx) {
 
                 StoreObject(a, b, theObject);
 
-
                 if (theObject == CH_DOORCLOSED) {
                     doorX = a;
                     doorY = b;
                 }
 
-                else if (theObject == CH_ROCKFORD_BIRTH) {
+                else if (theObject == CH_MELLON_HUSK_BIRTH) {
 
-                    rockfordX = a;
-                    rockfordY = b;
+                    playerX = a;
+                    playerY = b;
 
-//                    if (displayMode == DISPLAY_NORMAL)
-                        scrollX = (rockfordX - (HALFWAYX /5)) << 16;
+                    //                    if (displayMode == DISPLAY_NORMAL)
+                    scrollX = (playerX - (HALFWAYX / 5)) << 16;
 
                     // else if (displayMode == DISPLAY_HALF)
-                    //     scrollX = (rockfordX - (HALFWAYX >> 1)) << 16;
+                    //     scrollX = (playerX - (HALFWAYX >> 1)) << 16;
 
-                    scrollY = (( 6 * PIECE_DEPTH / 3 - 3) << 16);
+                    scrollY = ((6 * PIECE_DEPTH / 3 - 3) << 16);
                 }
-
 
                 thumbnailSpeed = -1;
             }
@@ -249,7 +238,7 @@ int decodeExplicitData(bool sfx) {
 
                 if (cmd == DRAW_FILLED_RECT) {
                     f = *theCaveData++;
-                    if (e & 0x80) {     // instant
+                    if (e & 0x80) { // instant
                         e &= 0x7F;
                         d = e - 1;
                     }
@@ -289,7 +278,6 @@ int decodeExplicitData(bool sfx) {
 
             if (d == e)
                 thumbnailSpeed = -10;
-
         }
 
         break;
@@ -306,7 +294,6 @@ int decodeExplicitData(bool sfx) {
             StoreObject(doorX, doorY, CH_DOORCLOSED);
         break;
 
-
     default:
         break;
     }
@@ -317,59 +304,65 @@ int decodeExplicitData(bool sfx) {
     // prng_a = restore_prng_a;
     // prng_b = restore_prng_b;
 
-
     return decodeFlasher;
 }
-
 
 void StoreObject(int x, int y, objectType anObject) {
 
     unsigned char *this = RAM + _BOARD + x + y * 40;
+    unsigned char type = TYPEOF(anObject);
 
-    if (CharToType[GET(*this)] == TYPE_DOGE)
+    if (TYPEOF(*this) == TYPE_DOGE)
         totalDiamondsPossible--;
 
-    else if (CharToType[anObject] == TYPE_WYRM) {
-        wyrmHead[wyrmNum] = 0;
-        wyrmDir[wyrmNum] = 0;
-        wyrmX[wyrmNum][0] = x;
-        wyrmY[wyrmNum][0] = y;
-        wyrmNum++;
+    switch (type) {
+
+    case TYPE_WYRM: {
+        newWyrm(x, y);
+        break;
     }
 
-    else if (CharToType[anObject] == TYPE_LAVA) {
+    case TYPE_LAVA: {
 
         showLava = true;
         int line = y * PIECE_DEPTH / 3;
         if (lavaSurface > 0 && line < lavaSurface)
             lavaSurface = line;
+
+        break;
     }
 
-    else if (CharToType[anObject] == TYPE_WATER) {
+    case TYPE_WATER: {
 
         showWater = true;
         int line = y * PIECE_DEPTH / 3;
         if (lavaSurface > 0 && line < lavaSurface)
             lavaSurface = line;
+
+        break;
     }
 
+    case TYPE_DOGE: {
 
-    *this = anObject; // | FLAG_UNCOVER;
-
-    if (CharToType[GET(anObject)] == TYPE_DOGE)
         totalDiamondsPossible++;
-}
+        break;
+    }
 
+    default:
+        break;
+    }
+
+    *this = anObject;
+}
 
 void DrawLine(objectType anObject, int x, int y, int aLength, int aDirection) {
 
     for (int counter = 0; counter < aLength; counter++) {
         StoreObject(x, y, anObject);
-        x += ldxy[aDirection+2];
+        x += ldxy[aDirection + 2];
         y += ldxy[aDirection];
     }
 }
-
 
 void DrawRect(objectType anObject, int x, int y, int aWidth, int aHeight) {
 
@@ -379,7 +372,6 @@ void DrawRect(objectType anObject, int x, int y, int aWidth, int aHeight) {
     DrawLine(anObject, x + aWidth - 1, y, aHeight, 4);
 }
 
-
 void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight, objectType aFillObject) {
 
     for (int counter1 = aHeight - 2; counter1 > 0; counter1--)
@@ -387,5 +379,4 @@ void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight, 
     DrawRect(anObject, x, y, aWidth, aHeight);
 }
 
-
-//EOF
+// EOF

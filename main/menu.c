@@ -15,22 +15,18 @@
 #include "decodecaves.h"
 #include "drawscreen.h"
 #include "joystick.h"
+#include "mellon.h"
 #include "overlay.h"
 #include "player.h"
 #include "random.h"
-#include "rockford.h"
-#include "sound.h"
 #include "score.h"
-
-
+#include "sound.h"
 
 #if DEBUG_TIMER
 unsigned int debugDelay = 0;
 #endif
 
 #define LETTER_HEIGHT 10
-
-
 
 #define OPTION_SYSTEM 2
 
@@ -51,9 +47,7 @@ int thumbnailSpeed;
 
 unsigned int sline = 0;
 
-
 #define DETECT_FRAME_COUNT 10
-
 
 void detectConsoleType() {
 
@@ -61,12 +55,11 @@ void detectConsoleType() {
 
     case 0:
 
-        mm_tv_type = TV_TYPE = 0;                // force NTSC frame
+        mm_tv_type = TV_TYPE = 0; // force NTSC frame
 
         T1TC = 0;
         T1TCR = 1;
         break;
-
 
     case DETECT_FRAME_COUNT: {
 
@@ -81,26 +74,43 @@ void detectConsoleType() {
 
         // Timings from Gopher, 20220827
 
-#define NTSC_70MHZ      (0xB25FCD * DETECT_FRAME_COUNT / 10)
-#define PAL_70MHZ       (0xB3856E * DETECT_FRAME_COUNT / 10)
-#define SECAM_70MHZ     (( (PAL_70MHZ - NTSC_70MHZ) / 2 + NTSC_70MHZ) * DETECT_FRAME_COUNT / 10)
+#define NTSC_70MHZ (0xB25FCD * DETECT_FRAME_COUNT / 10)
+#define PAL_70MHZ (0xB3856E * DETECT_FRAME_COUNT / 10)
+#define SECAM_70MHZ (((PAL_70MHZ - NTSC_70MHZ) / 2 + NTSC_70MHZ) * DETECT_FRAME_COUNT / 10)
 
-            { NTSC_70MHZ,   NTSC,    },
-            { SECAM_70MHZ,  SECAM,   },
-            { PAL_70MHZ,    PAL_60,  },
+            {
+                NTSC_70MHZ,
+                NTSC,
+            },
+            {
+                SECAM_70MHZ,
+                SECAM,
+            },
+            {
+                PAL_70MHZ,
+                PAL_60,
+            },
 
 #if ENABLE_60MHZ_AUTODETECT
 
-#define NTSC_60MHZ      (0x98EB2F * DETECT_FRAME_COUNT / 10)
-#define PAL_60MHZ       (0x9A0EEF  * DETECT_FRAME_COUNT / 10)
-#define SECAM_60MHZ     (( (PAL_60MHZ - NTSC_60MHZ) / 2 + NTSC_60MHZ) * DETECT_FRAME_COUNT / 10)
+#define NTSC_60MHZ (0x98EB2F * DETECT_FRAME_COUNT / 10)
+#define PAL_60MHZ (0x9A0EEF * DETECT_FRAME_COUNT / 10)
+#define SECAM_60MHZ (((PAL_60MHZ - NTSC_60MHZ) / 2 + NTSC_60MHZ) * DETECT_FRAME_COUNT / 10)
 
-            { NTSC_60MHZ,   NTSC,    },
-            { SECAM_60MHZ,  SECAM,   },
-            { PAL_60MHZ,    PAL_60,  },
+            {
+                NTSC_60MHZ,
+                NTSC,
+            },
+            {
+                SECAM_60MHZ,
+                SECAM,
+            },
+            {
+                PAL_60MHZ,
+                PAL_60,
+            },
 #endif
         };
-
 
         int delta = INT_MAX;
         for (unsigned int i = 0; i < sizeof(mapTimeToFormat) / sizeof(struct fmt); i++) {
@@ -124,18 +134,13 @@ void detectConsoleType() {
     }
 
     frame++;
-
 }
-
-
 
 void clearBuffer(int *buffer, int size) {
 
     for (int i = 0; i < size; i++)
         buffer[i] = 0;
 }
-
-
 
 void initMenuDatastreams() {
 
@@ -146,25 +151,25 @@ void initMenuDatastreams() {
 
     } streamInits[] = {
 
-        {   _DS_PF1_LEFT,   _BUF_MENU_PF1_LEFT  },
-        {   _DS_PF2_LEFT,   _BUF_MENU_PF2_LEFT  },
-        {   _DS_PF1_RIGHT,  _BUF_MENU_PF1_RIGHT },
-        {   _DS_PF2_RIGHT,  _BUF_MENU_PF2_RIGHT },
-        {   _DS_AUDV0,      _BUF_AUDV           },
-        {   _DS_AUDC0,      _BUF_AUDC           },
-        {   _DS_AUDF0,      _BUF_AUDF           },
-        #if __ENABLE_ATARIVOX
-        {   _DS_SPEECH,     _BUF_SPEECH         },
-        #endif
-        {   _DS_COLUPF,     _BUF_MENU_COLUPF    },
-        {   _DS_COLUP0,     _BUF_MENU_COLUP0    },
-        {   _DS_GRP0a,      _BUF_MENU_GRP0A     },
-        {   _DS_GRP1a,      _BUF_MENU_GRP1A     },
-        {   _DS_GRP0b,      _BUF_MENU_GRP0B     },
-        {   _DS_GRP1b,      _BUF_MENU_GRP1B     },
-        {   _DS_GRP0c,      _BUF_MENU_GRP0C     },
-        {   _DS_GRP1c,      _BUF_MENU_GRP1C     },
-        {   0x21,           _BUF_JUMP1          },
+        {_DS_PF1_LEFT, _BUF_MENU_PF1_LEFT},
+        {_DS_PF2_LEFT, _BUF_MENU_PF2_LEFT},
+        {_DS_PF1_RIGHT, _BUF_MENU_PF1_RIGHT},
+        {_DS_PF2_RIGHT, _BUF_MENU_PF2_RIGHT},
+        {_DS_AUDV0, _BUF_AUDV},
+        {_DS_AUDC0, _BUF_AUDC},
+        {_DS_AUDF0, _BUF_AUDF},
+#if __ENABLE_ATARIVOX
+        {_DS_SPEECH, _BUF_SPEECH},
+#endif
+        {_DS_COLUPF, _BUF_MENU_COLUPF},
+        {_DS_COLUP0, _BUF_MENU_COLUP0},
+        {_DS_GRP0a, _BUF_MENU_GRP0A},
+        {_DS_GRP1a, _BUF_MENU_GRP1A},
+        {_DS_GRP0b, _BUF_MENU_GRP0B},
+        {_DS_GRP1b, _BUF_MENU_GRP1B},
+        {_DS_GRP0c, _BUF_MENU_GRP0C},
+        {_DS_GRP1c, _BUF_MENU_GRP1C},
+        {0x21, _BUF_JUMP1},
 
     };
 
@@ -174,127 +179,273 @@ void initMenuDatastreams() {
     // QINC[_DS_SPEECH] = 0;
 }
 
-
 int butterflyOffset[] = {
-    0, 37, 68, 96
-};
-
+    0, 37, 68, 96};
 
 const unsigned char butterfly[] = {
 
     36,
 
-        _XX____X,_XX____X,________,
-        _XXX_XXX,_XX___XX,________,
-        _XXX_XXX,_XX___XX,__XX_XX_,
-        _XXXXXXX,_XXXXXXX,__XX__X_,
-        __XXXXXX,__XX_XXX,__X___X_,
-        __XXXXX_,__XX_XX_,________,
-        __XXXX__,__XX_X__,________,
-        _XXXXX__,_XX_XX__,________,
-        _XXXXX__,_XX_XX__,__X__X__,
-        _XXXXX__,_XX_XX__,__X__X__,
-        _XX_XX__,_XX_XX__,________,
-        _XX_XX__,_XX_XX__,________,
+    _XX____X,
+    _XX____X,
+    ________,
+    _XXX_XXX,
+    _XX___XX,
+    ________,
+    _XXX_XXX,
+    _XX___XX,
+    __XX_XX_,
+    _XXXXXXX,
+    _XXXXXXX,
+    __XX__X_,
+    __XXXXXX,
+    __XX_XXX,
+    __X___X_,
+    __XXXXX_,
+    __XX_XX_,
+    ________,
+    __XXXX__,
+    __XX_X__,
+    ________,
+    _XXXXX__,
+    _XX_XX__,
+    ________,
+    _XXXXX__,
+    _XX_XX__,
+    __X__X__,
+    _XXXXX__,
+    _XX_XX__,
+    __X__X__,
+    _XX_XX__,
+    _XX_XX__,
+    ________,
+    _XX_XX__,
+    _XX_XX__,
+    ________,
 
     30,
-        ___X_XX_,___X_XX_,________,
-        ___X_XX_,___X_XX_,___X_X__,
-        ___XXXX_,___XXXX_,___X_X__,
-        ___XXXX_,___X_XX_,___X_X__,
-        ___XXX__,___X_X__,________,
-        ___XXX__,___X_X__,________,
-        __XXXX__,__X_XX__,________,
-        __XXXX__,__X_XX__,__X_X___,
-        __XXX___,__X_X___,__X_X___,
-        __X_X___,__X_X___,________,
-
+    ___X_XX_,
+    ___X_XX_,
+    ________,
+    ___X_XX_,
+    ___X_XX_,
+    ___X_X__,
+    ___XXXX_,
+    ___XXXX_,
+    ___X_X__,
+    ___XXXX_,
+    ___X_XX_,
+    ___X_X__,
+    ___XXX__,
+    ___X_X__,
+    ________,
+    ___XXX__,
+    ___X_X__,
+    ________,
+    __XXXX__,
+    __X_XX__,
+    ________,
+    __XXXX__,
+    __X_XX__,
+    __X_X___,
+    __XXX___,
+    __X_X___,
+    __X_X___,
+    __X_X___,
+    __X_X___,
+    ________,
 
     27,
 
-        __XXX___,__XXX___,________,
-        _XXXXX__,_XX_XX__,___X____,
-        _XXXXX__,_X___X__,__XXX___,
-        _XXXXX__,_X___X__,__XXX___,
-        _XXXXX__,_X___X__,__XXX___,
-        _XXXXX__,_X___X__,__XXX___,
-        _XXXXX__,_X___X__,__XXX___,
-        _XXXXX__,_XX_XX__,___X____,
-        __XXX___,__XXX___,________,
-
+    __XXX___,
+    __XXX___,
+    ________,
+    _XXXXX__,
+    _XX_XX__,
+    ___X____,
+    _XXXXX__,
+    _X___X__,
+    __XXX___,
+    _XXXXX__,
+    _X___X__,
+    __XXX___,
+    _XXXXX__,
+    _X___X__,
+    __XXX___,
+    _XXXXX__,
+    _X___X__,
+    __XXX___,
+    _XXXXX__,
+    _X___X__,
+    __XXX___,
+    _XXXXX__,
+    _XX_XX__,
+    ___X____,
+    __XXX___,
+    __XXX___,
+    ________,
 
     21,
-        ________,________,________,
-        ___X____,___X____,________,
-        __XXX___,__XXX___,________,
-        __X_X___,__XXX___,________,
-        __X_X___,__XXX___,________,
-        __XXX___,__XXX___,________,
-        ___X____,___X____,________,
+    ________,
+    ________,
+    ________,
+    ___X____,
+    ___X____,
+    ________,
+    __XXX___,
+    __XXX___,
+    ________,
+    __X_X___,
+    __XXX___,
+    ________,
+    __X_X___,
+    __XXX___,
+    ________,
+    __XXX___,
+    __XXX___,
+    ________,
+    ___X____,
+    ___X____,
+    ________,
 };
 
-
-
 #if ENABLE_ANIMATING_MAN
-const unsigned char manPushing[][73] = {
+const unsigned short manPushing[][129] = {
 
-    {    72,
-          0,    0,    0,
-         14,   14,    0,
-         30,   30,    0,
-         24,   28,    4,
-         16,   90,   74,
-         16,   92,   76,
-         64,   89,   89,
-         64,  125,  125,
-         97,  113,  113,
-        115,  115,  115,
-        127,  126,  127,
-        124,  124,  124,
-        120,  104,  120,
-        240,  240,  240,
-         32,   32,   32,
-        192,    0,    0,
-        160,    0,    0,
-        240,    0,    0,
-        120,    0,    0,
-        120,    0,    0,
-        208,    0,    0,
-        0,    144,    0,
-        0,    144+64+8,    0,
-        0,    144+64+8,    0,
-    },
+    {
+        128,
 
-
-    {    72,
-         28,   28,    0,
-         60,   60,    0,
-         48,   56,    8,
-         32,  180,  148,
-         32,  184,  152,
-        128,  176,  176,
-        128,  186,  186,
-        224,  242,  242,
-        242,  242,  242,
-        254,  254,  254,
-        126,  124,  126,
-        124,  108,  124,
-        112,  112,  112,
-        112,  112,  112,
-         16,   16,   16,
-         96,    0,    0,
-         80,    0,    0,
-        120,    0,    0,
-        120,    0,    0,
-         88,    0,    0,
-         88,    0,    0,
-        0,    72,    0,
-        0,    72+32+4,    0,
-        0,    72+32+4,    0,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000111110000,
+        0b0000000111100000,
+        0b0000000111100000,
+        0b0000000111100000,
+        0b0000001111111000,
+        0b0000001111110000,
+        0b0000001111110000,
+        0b0000001111110000,
+        0b0000011111111100,
+        0b0000011111111000,
+        0b0000011000111000,
+        0b0000011000111000,
+        0b0000011111111100,
+        0b0000011000011000,
+        0b0000010111101000,
+        0b0000010000001000,
+        0b0000111111111110,
+        0b0000110000011100,
+        0b0000111111101100,
+        0b0000110000001100,
+        0b0000111111111110,
+        0b0000110000011100,
+        0b0000101100000100,
+        0b0000100000000100,
+        0b0000111111111110,
+        0b0000110011111100,
+        0b0000101100000100,
+        0b0000100000000100,
+        0b0001111111111111,
+        0b0001110011111110,
+        0b0001100100000110,
+        0b0001100000000110,
+        0b0001111111111111,
+        0b0001110000011110,
+        0b0001001100000010,
+        0b0001000000000010,
+        0b0001111111111111,
+        0b0001110000111110,
+        0b0001000111000010,
+        0b0001000011000010,
+        0b0001111111111111,
+        0b0001110000111110,
+        0b0001001111000010,
+        0b0001000011000010,
+        0b0001111111111111,
+        0b0001100000111110,
+        0b0001011111000010,
+        0b0001011111000010,
+        0b0001111111111111,
+        0b0001100000111110,
+        0b0001010011000010,
+        0b0001011111000010,
+        0b0001111111111111,
+        0b0001100000111110,
+        0b0001010011000010,
+        0b0001011111000010,
+        0b0001111111111111,
+        0b0001100000111110,
+        0b0001011111000010,
+        0b0001011111000010,
+        0b0001111111111111,
+        0b0001110000111110,
+        0b0001000111000010,
+        0b0001000011000010,
+        0b0001111111111111,
+        0b0001110000111110,
+        0b0001001111000010,
+        0b0001000011000010,
+        0b0001111111111111,
+        0b0001110000111110,
+        0b0001000111000010,
+        0b0001000011000010,
+        0b0001111111111111,
+        0b0001110000111110,
+        0b0001101111000110,
+        0b0001100011000110,
+        0b0000111111111110,
+        0b0000111100111100,
+        0b0000100011000100,
+        0b0000100011000100,
+        0b0000111111111110,
+        0b0000111100111100,
+        0b0000100011000100,
+        0b0000100011001100,
+        0b0000111111111110,
+        0b0000111100111100,
+        0b0000110011001100,
+        0b0000110011001100,
+        0b0000011111111100,
+        0b0000011100111000,
+        0b0000010011001000,
+        0b0000011011011000,
+        0b0000011111111100,
+        0b0000011100111000,
+        0b0000011011011000,
+        0b0000011111111000,
+        0b0000001111111000,
+        0b0000001100110000,
+        0b0000001111110000,
+        0b0000001111110000,
+        0b0000000111110000,
+        0b0000000100100000,
+        0b0000000111100000,
+        0b0000000111100000,
+        0b0000000011000000,
+        0b0000000000000000,
+        0b0000000011000000,
+        0b0000000011000000,
+        0b0000000011000000,
+        0b0000000000000000,
+        0b0000000011000000,
+        0b0000000011000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
+        0b0000000000000000,
     },
 };
 #endif
-
 
 #if ENABLE_TITLE_PULSE
 #define LUMINANCE_TITLE 6
@@ -314,74 +465,60 @@ const unsigned char titleScreenImagePalette[] = {
 
 static int butterflyX[BUT];
 static int butterflyY[BUT];
-static int bdirX[BUT];
-static int bdirY[BUT];
+// static int bdirX[BUT];
+// static int bdirY[BUT];
 static char bBase[BUT];
 
+void doDrawBitmap(const unsigned short *shape, int y) {
 
-
-void doDrawBitmap(const unsigned char *shape, int x, int y) {
- return;
-
-    unsigned char *pf1L = RAM + _BUF_MENU_PF1_LEFT + y;
-    unsigned char *pf2L = pf1L + _ARENA_SCANLINES; // RAM + _BUF_MENU_PF2_LEFT + y;
-    unsigned char *pf1R = pf2L + _ARENA_SCANLINES; //RAM + _BUF_MENU_PF1_RIGHT + y;
-    unsigned char *pf2R = pf1R + _ARENA_SCANLINES; //RAM + _BUF_MENU_PF2_RIGHT + y;
+    // unsigned char *pf1L = RAM + _BUF_PF1_LEFT;
+    // unsigned char *pf2L = RAM + _BUF_PF2_LEFT;
+    unsigned char *pf1R = RAM + _BUF_PF1_RIGHT;
+    unsigned char *pf2R = RAM + _BUF_PF2_RIGHT;
 
     int size = shape[0];
-    const unsigned char *bf = shape + 1;
+
+    // const unsigned short *bf = shape + 1;
 
     int baseRoll = roller;
-
 
     union g {
         int bGraphic;
         unsigned char g[4];
     } gfx;
 
-    for (int i = 0; i < size; i += 3) {
+    for (int i = 1; i <= size; i += 4) {
 
-        union masker {
+        if (y >= _ARENA_SCANLINES - 3)
+            return;
+
+        static union masker {
             int mask;
             unsigned char mask2[4];
         } mask;
 
-
-        int meld = bf[0] | bf[1] | bf[2];
-        // if (mirror)
-        //     meld = BitRev[meld];
-
-        mask.mask = (meld << x) ^ 0xFFFFFFFF;
-
+        mask.mask = shape[i] ^ 0xFFFFFFFF;
 
         for (int line = 0; line < 3; line++) {
 
+            gfx.bGraphic = shape[i + baseRoll + 1];
 
-            gfx.bGraphic = bf[baseRoll];
-            // if (mirror)
-            //     gfx.bGraphic = BitRev[gfx.bGraphic];
-            gfx.bGraphic <<= x;
-
-            int offset = i + line;
-
-            pf1L[offset] = (pf1L[offset] & mask.mask2[3]) | gfx.g[3];
-            pf1R[offset] = (pf1R[offset] & BitRev[mask.mask2[0]]) | BitRev[gfx.g[0]];
-            pf2R[offset] = (pf2R[offset] & mask.mask2[1]) | gfx.g[1];
-            pf2L[offset] = (pf2L[offset] & BitRev[mask.mask2[2]]) | BitRev[gfx.g[2]];
+            // pf1L[y] = (pf1L[y] & mask.mask2[3]) | gfx.g[3];
+            pf1R[y] = (pf1R[y] & mask.mask2[1]) | gfx.g[1];
+            pf2R[y] = (pf2R[y] & BitRev[mask.mask2[0]]) | BitRev[gfx.g[0]];
+            // pf2L[y] = (pf2L[y] & BitRev[mask.mask2[2]]) | BitRev[gfx.g[2]];
 
             if (++baseRoll > 2)
                 baseRoll = 0;
+
+            y++;
         }
-
-
-        bf += 3;
     }
 }
 
-
 #if ENABLE_ANIMATING_MAN
-void doRockford() {
- return;
+void doPlayer() {
+    return;
 
     if (pushCount > 0) {
         pushCount--;
@@ -398,112 +535,68 @@ void doRockford() {
     if (!pushFrame)
         jiggle = -((base2 >> 2) & 1) * 3;
 
-    doDrawBitmap(manPushing[pushFrame], 23, 120 + jiggle);
-
+    doDrawBitmap(manPushing[pushFrame], 120 + jiggle);
 }
 #endif
-
-
-
-void doButterflies(int marginL, int marginR, int marginT, int marginB) {
- return;
-    static int butFlap = 0;
-
-    static int localRoller = 0;
-    if (++localRoller > BUT) {
-        localRoller = 0;
-        butFlap += 0x40;
-    }
-
-    for (int but = 0; but < BUT; but++) {
-
-        if (localRoller == 0) {
-
-            rndX = getRandom32();
-
-            #define CANDY_X 196
-            #define CANDY_Y 512
-
-            bdirX[but] += (((rndX & 0xFF) * CANDY_X) >> 8) - CANDY_X / 2;
-            bdirY[but] += ((((rndX >> 16) & 0xFF) * CANDY_Y) >> 8) - CANDY_Y / 2;
-
-            butterflyX[but] += bdirX[but];
-            if (butterflyX[but] < marginL) {
-                butterflyX[but] = marginL;
-                bdirX[but] = 0;
-            }
-
-            if (butterflyX[but] > marginR) {
-                butterflyX[but] = marginR;
-                bdirX[but] = 0;
-            }
-
-
-            butterflyY[but] += bdirY[but];
-
-            if (butterflyY[but] < marginT) {
-                butterflyY[but] = marginT;
-                bdirY[but] = 0;
-            }
-
-            if (butterflyY[but] > marginB) {
-                butterflyY[but] = marginB;
-                bdirY[but] = 0;
-            }
-
-        }
-
-        int by = ((butterflyY[but]) >> 8) * 3 + but;     // force diferent colours
-        int flappy = (butFlap >> 7) & 1;
-
-        doDrawBitmap(butterfly+butterflyOffset[flappy + bBase[but]], butterflyX[but] >> 8, by);
-
-    }
-}
-
 
 #if ENABLE_SNOW
 void doSnow() {
 
-    static const unsigned char snowbase[] = { 26, 16, 0, 0, 16, 26 };
+    static const unsigned char snowbase[] = {26, 16, 0, 0, 16, 26};
     static const unsigned char snow[] = {
 
         15,
-        _X_X____,_X_X____,_X_X____,
-        __X_____,__X_____,__X_____,
-        XXXXX___,XXXXX___,XXXXX___,
-        __X_____,__X_____,__X_____,
-        _X_X____,_X_X____,_X_X____,
-
+        _X_X____,
+        _X_X____,
+        _X_X____,
+        __X_____,
+        __X_____,
+        __X_____,
+        XXXXX___,
+        XXXXX___,
+        XXXXX___,
+        __X_____,
+        __X_____,
+        __X_____,
+        _X_X____,
+        _X_X____,
+        _X_X____,
 
         9,
-        __X_____,__X_____,__X_____,
-        _XXX____,_XXX____,_XXX____,
-        __X_____,__X_____,__X_____,
+        __X_____,
+        __X_____,
+        __X_____,
+        _XXX____,
+        _XXX____,
+        _XXX____,
+        __X_____,
+        __X_____,
+        __X_____,
 
         6,
-        ________,________,________,
-        __X_____,__X_____,__X_____,
+        ________,
+        ________,
+        ________,
+        __X_____,
+        __X_____,
+        __X_____,
     };
 
-    #define SNOW_SPEED 60
+#define SNOW_SPEED 60
 
-    static int snowX = 20;
+    // static int snowX = 20;
     static int snowY = 0;
     static int snowFrame = 0;
     int snowSpeed;
     int yrange;
 
-
     if (KERNEL != KERNEL_MENU) {
         snowSpeed = 80;
         yrange = 150;
-    }
-    else {
+    } else {
         snowSpeed = SNOW_SPEED;
         yrange = 50;
     }
-
 
     if (getRandom32() < 0x10000000 || snowFrame < 0) {
 
@@ -517,22 +610,20 @@ void doSnow() {
             snowY = rangeRandom(yrange);
             if (KERNEL == KERNEL_MENU && snowY > 27) {
                 snowY += 7;
-                snowX = rangeRandom(20) + 2;
+                // snowX = rangeRandom(20) + 2;
             }
-            else
-                snowX = rangeRandom(36);
+            // else
+            //     snowX = rangeRandom(36);
         }
 
     } else {
 
         int base = snowbase[snowFrame >> 8];
-        doDrawBitmap(snow + base, snowX, snowY + ((base + 6) >> 4));
+        doDrawBitmap(snow + base, snowY + ((base + 6) >> 4));
         snowFrame -= snowSpeed;
     }
 }
 #endif
-
-
 
 const unsigned char charAtoZ[] = {
 
@@ -822,7 +913,6 @@ const unsigned char charAtoZ[] = {
     XXXXXXX_,
     XXXXXXX_,
 
-
     _XXXXX__,
     XXXXXXX_,
     XXX__XX_,
@@ -957,54 +1047,169 @@ const unsigned char charAtoZ[] = {
 
 };
 
-
-
 const char wordTvType0[] = {
-    XXXXXX__,_X___XXX,X___X_XX,XXXXXXXX,XX_X___X,________,
-    XXXX_XX_,XX__XX__,XX_XXXX_,_XXXX_XX,XX_XX_XX,________,
-    __X___X_,X____XXX,_XXX__XX,X__X__X_,___XXXXX,________,
-    __X___XX,X______X,X_X_____,XX_X__XX,X__X_X_X,________,
-    __X____X,____XXXX,X_X__XXX,XX_X__X_,___X___X,________,
-    __X____X,____XXXX,__X__XXX,X__X__XX,XX_X___X,________,
+    XXXXXX__,
+    _X___XXX,
+    X___X_XX,
+    XXXXXXXX,
+    XX_X___X,
+    ________,
+    XXXX_XX_,
+    XX__XX__,
+    XX_XXXX_,
+    _XXXX_XX,
+    XX_XX_XX,
+    ________,
+    __X___X_,
+    X____XXX,
+    _XXX__XX,
+    X__X__X_,
+    ___XXXXX,
+    ________,
+    __X___XX,
+    X______X,
+    X_X_____,
+    XX_X__XX,
+    X__X_X_X,
+    ________,
+    __X____X,
+    ____XXXX,
+    X_X__XXX,
+    XX_X__X_,
+    ___X___X,
+    ________,
+    __X____X,
+    ____XXXX,
+    __X__XXX,
+    X__X__XX,
+    XX_X___X,
+    ________,
 };
 
 const char wordStartAt[] = {
-    _XXXXXXX,X_XX__XX,X_XXXXX_,__XX_XXX,XX______,________,
-    XX__XXXX,XXXXX_XX,XXXXXXX_,_XXXXXXX,XX______,________,
-    XXXX__X_,_X__X_X_,_X__X___,_X__X__X,________,________,
-    ___XX_X_,_XXXX_XX,XX__X___,_XXXX__X,________,________,
-    XXXXX_X_,_X__X_XX,X___X___,_X__X__X,________,________,
-    XXXX__X_,_X__X_X_,_X__X___,_X__X__X,________,________,
+    _XXXXXXX,
+    X_XX__XX,
+    X_XXXXX_,
+    __XX_XXX,
+    XX______,
+    ________,
+    XX__XXXX,
+    XXXXX_XX,
+    XXXXXXX_,
+    _XXXXXXX,
+    XX______,
+    ________,
+    XXXX__X_,
+    _X__X_X_,
+    _X__X___,
+    _X__X__X,
+    ________,
+    ________,
+    ___XX_X_,
+    _XXXX_XX,
+    XX__X___,
+    _XXXX__X,
+    ________,
+    ________,
+    XXXXX_X_,
+    _X__X_XX,
+    X___X___,
+    _X__X__X,
+    ________,
+    ________,
+    XXXX__X_,
+    _X__X_X_,
+    _X__X___,
+    _X__X__X,
+    ________,
+    ________,
 };
 
 const char wordDifficulty[] = {
 
-    XXX__XXX,_XXXX_XX,XX_XXX__,XXX_X__X,_X__XXXX,XX___X__,
-    X__X_XXX,_XXX__XX,X__XXX_X,X___X__X,_X__XXXX,XXX_XX__,
-    X__XX_X_,_X____X_,____X__X,____X__X,_X____X_,__XXX___,
-    X__XX_X_,_XXX__XX,X___X__X,X___X__X,_X____X_,___X____,
-    XXXXX_X_,_X____X_,____X__X,XXX_XXXX,_XXXX_X_,___X____,
-    XXXX_XXX,_X____X_,___XXX__,XXX__XX_,_XXXX_X_,___X____,
+    XXX__XXX,
+    _XXXX_XX,
+    XX_XXX__,
+    XXX_X__X,
+    _X__XXXX,
+    XX___X__,
+    X__X_XXX,
+    _XXX__XX,
+    X__XXX_X,
+    X___X__X,
+    _X__XXXX,
+    XXX_XX__,
+    X__XX_X_,
+    _X____X_,
+    ____X__X,
+    ____X__X,
+    _X____X_,
+    __XXX___,
+    X__XX_X_,
+    _XXX__XX,
+    X___X__X,
+    X___X__X,
+    _X____X_,
+    ___X____,
+    XXXXX_X_,
+    _X____X_,
+    ____X__X,
+    XXX_XXXX,
+    _XXXX_X_,
+    ___X____,
+    XXXX_XXX,
+    _X____X_,
+    ___XXX__,
+    XXX__XX_,
+    _XXXX_X_,
+    ___X____,
 };
-
 
 #if ENABLE_EASTER_MYNAME
 const char andrewDavie[] = {
-    _XX_____,___XX___,X_XX_X__,X__XXX__,__XX__X_,X_X__XX_,
-    XX_X____,___XX___,XXXX_X__,X__XXXX_,___XX_X_,X_X_XXX_,
-    XX_X_XX_,_XXXX__X,_X_X_X__,X__XX_XX,__XXX_X_,X___X_X_,
-    XXXX_XXX,XX__X_XX,_XX__XXX,X__XX__X,_XX_X_X_,X_X_XX__,
-    XXXX_X_X,XXXXX_X_,_XXX_XXX,X__XXXXX,_XXXX_XX,X_X_XXX_,
-    XX_X_X_X,_XXXX_X_,__XX_X__,X__XXXX_,__XXX_XX,__X__XX_,
+    _XX_____,
+    ___XX___,
+    X_XX_X__,
+    X__XXX__,
+    __XX__X_,
+    X_X__XX_,
+    XX_X____,
+    ___XX___,
+    XXXX_X__,
+    X__XXXX_,
+    ___XX_X_,
+    X_X_XXX_,
+    XX_X_XX_,
+    _XXXX__X,
+    _X_X_X__,
+    X__XX_XX,
+    __XXX_X_,
+    X___X_X_,
+    XXXX_XXX,
+    XX__X_XX,
+    _XX__XXX,
+    X__XX__X,
+    _XX_X_X_,
+    X_X_XX__,
+    XXXX_X_X,
+    XXXXX_X_,
+    _XXX_XXX,
+    X__XXXXX,
+    _XXXX_XX,
+    X_X_XXX_,
+    XX_X_X_X,
+    _XXXX_X_,
+    __XX_X__,
+    X__XXXX_,
+    __XXX_XX,
+    __X__XX_,
 };
 #endif
-
-
 
 void drawCharacter(int x, int y, int ch) {
 
     if (ch == ' ')
-        ch = '0'+ 11;
+        ch = '0' + 11;
 
     ch -= 'A';
     if (ch < 0)
@@ -1016,18 +1221,14 @@ void drawCharacter(int x, int y, int ch) {
         *col++ = *p++;
 }
 
-
-
 void drawString(int x, int y, const char *text, int colour) {
- return; //tmp
+    return; // tmp
     while (*text && x < 6)
         drawCharacter(x++, y, *text++);
 
     for (int i = 0; i < LETTER_HEIGHT; i++)
         RAM[_BUF_MENU_COLUP0 + i + y - 1] = convertColour(colour);
 }
-
-
 
 void drawSmallProxy(unsigned char colour, int y, const char *smallText) {
 
@@ -1038,36 +1239,31 @@ void drawSmallProxy(unsigned char colour, int y, const char *smallText) {
     }
 }
 
-
-
 void drawSmallString(int y, const char *smallText) {
-    static const unsigned char smallColour[] = { 0x98, 0xB8, 0xB8, 0x0A };
+    static const unsigned char smallColour[] = {0x98, 0xB8, 0xB8, 0x0A};
     int colour = smallColour[mm_tv_type];
     drawSmallProxy(colour, y, smallText);
 }
 
-
-
 int flashTime2 = 0;
 
-char showCave[] = { "CAVE;;" };
+char showCave[] = {"CAVE;;"};
 
 const char TV[][6] = {
 
-    { "NTSC;;" },
-    { "PAL;;;" },
-    { "PAL60;" },
-    { "SECAM;" },
+    {"NTSC;;"},
+    {"PAL;;;"},
+    {"PAL60;"},
+    {"SECAM;"},
 };
-
 
 const char Level[][6] = {
 
-    { "NORMAL" },
-    { "MEDIUM" },
-    { "HARD;;" },
-    { "EXPERT" },
-    { "SUPER;" },
+    {"NORMAL"},
+    {"MEDIUM"},
+    {"HARD;;"},
+    {"EXPERT"},
+    {"SUPER;"},
 };
 
 const char *smallWord[] = {
@@ -1076,33 +1272,26 @@ const char *smallWord[] = {
     wordTvType0,
 };
 
-
-
 void SchedulerMenu() {
 }
-
 
 #if ENABLE_TITLE_PULSE
 extern const unsigned char sinoid[];
 #endif
 
-
 void setTitleMarqueeColours(int a, int b) {
-
 
     unsigned char *p = RAM + _BUF_MENU_COLUPF;
 
     int baseRoller = roller + 1;
 
-
-
-#if  ENABLE_TITLE_PULSE
+#if ENABLE_TITLE_PULSE
 
     static unsigned int flashc = 0;
     flashc += 0x2000000;
 
     // Note: low bit unused/superfluous
-    static const unsigned char sinus[] = { 2,2,4,4,6,6,8,8, 8,8,6,6,4,4,2,2 };
+    static const unsigned char sinus[] = {2, 2, 4, 4, 6, 6, 8, 8, 8, 8, 6, 6, 4, 4, 2, 2};
 
     int flash = sinus[flashc >> 28];
     int flash2 = sinus[(flashc ^ 0x80000000) >> 28];
@@ -1112,7 +1301,7 @@ void setTitleMarqueeColours(int a, int b) {
     for (int i = 0; i < _ARENA_SCANLINES; i++) {
 
         if (++baseRoller > 2)
-            baseRoller -=3;
+            baseRoller -= 3;
 
         int offset = i < a ? 0 : 3;
 
@@ -1127,27 +1316,22 @@ void setTitleMarqueeColours(int a, int b) {
                     p[i] |= flash2;
             }
 #endif
-        }
-        else
+        } else
             p[i] = convertColour(titleScreenImagePalette[baseRoller]);
     }
-
 }
-
-
-
 
 void handleMenuScreen() {
 
-    if (!(SWCHA & 0xF0))            // UDLR at same time!
+    if (!(SWCHA & 0xF0)) // UDLR at same time!
         drawString(0, 182, "ZPH001", 0);
     else
         drawString(0, 182, "      ", 0);
 
-    //getRandom32();
+    // getRandom32();
 
     sline++;
-    if (sline >= sizeof(smallWord)/sizeof(smallWord[0]))
+    if (sline >= sizeof(smallWord) / sizeof(smallWord[0]))
         sline = 0;
 
     int y = sline * 24 + 93;
@@ -1173,8 +1357,7 @@ void handleMenuScreen() {
         break;
     }
 
-//tmp    drawSmallString(y, smallWord[sline]);
-
+    // tmp    drawSmallString(y, smallWord[sline]);
 
 #if ENABLE_EASTER_MYNAME
     if (!(SWCHB & 3) && JOY0_DOWN)
@@ -1183,22 +1366,20 @@ void handleMenuScreen() {
         drawSmallProxy(0, 184, (const char *)playerBigSprite);
 #endif
 
-        int colour = sline == menuLine ?
-            (flashTime2 & 4) ? 0x0A : ((base2 << 2) & 0xF0) | 0x16 : 0x26;
+    int colour = sline == menuLine ? (flashTime2 & 4) ? 0x0A : ((base2 << 2) & 0xF0) | 0x16 : 0x26;
 
-        drawString(0, y + 8, dLine, colour);
+    drawString(0, y + 8, dLine, colour);
 
     // Draw ICC menu PF background
 
     interleaveColour();
     setTitleMarqueeColours(41, 78);
 
-
     const unsigned char *logo0a = (const unsigned char *)__TITLE_SCREEN;
     unsigned char *pf1L = RAM + _BUF_MENU_PF1_LEFT;
     for (int i = 0; i < _ARENA_SCANLINES * 4; i += 3) {
         for (int icc = 0; icc < 3; icc++) {
-            pf1L[icc] = 0; //logo0a[roller];
+            pf1L[icc] = 0; // logo0a[roller];
             if (++roller > 2)
                 roller = 0;
         }
@@ -1208,10 +1389,7 @@ void handleMenuScreen() {
 
     static const char *registered = ":";
     drawString(5, 45, registered, 0x2); //(R)
-
 }
-
-
 
 void initCopyrightScreen() {
 
@@ -1230,16 +1408,13 @@ void initCopyrightScreen() {
     }
 }
 
-
-
 void chooseColourScheme() {
-    unsigned char *c = (unsigned char *) __COLOUR_POOL;
-    do {
-        currentPalette = rangeRandom(__PALETTE_COUNT);
-    } while (((int)caveList[cave]) & CAVE_REQUIRES_AMOEBA_PALETTE &&
-        (!(c[currentPalette << 2] & __COMPATIBLE_AMOEBA_PALETTE)));
+    unsigned char *c = (unsigned char *)__COLOUR_POOL;
+    //    do {
+    currentPalette = rangeRandom(__PALETTE_COUNT);
+    // } while (((int)caveList[cave]) & CAVE_REQUIRES_AMOEBA_PALETTE &&
+    //     (!(c[currentPalette << 2] & __COMPATIBLE_AMOEBA_PALETTE)));
 }
-
 
 void initKernel(int kernel) {
 
@@ -1279,7 +1454,7 @@ void initKernel(int kernel) {
 
     case KERNEL_COPYRIGHT:
 
-        frame = 0;                              // for auto-detect
+        frame = 0; // for auto-detect
 
         mustWatchDelay = MUSTWATCH_COPYRIGHT;
         SAY(__WORD_BOULDERDASH);
@@ -1291,7 +1466,7 @@ void initKernel(int kernel) {
         base2 = 0;
         pushCount = 0;
 
-        initDemoMode(false);
+        // initDemoMode(false);
 
         chooseColourScheme();
 
@@ -1320,13 +1495,12 @@ void initKernel(int kernel) {
         // doubleSize(2, 56, '1' + level);
         // doubleSize(0, 56, 'A' + cave);
 
-
         break;
     }
 
     case KERNEL_GAME:
 
-//        initNewGame();
+        //        initNewGame();
 
 #if __ENABLE_DEMO
         sound_max_volume = demoMode ? VOLUME_NONPLAYING : VOLUME_PLAYING;
@@ -1335,23 +1509,20 @@ void initKernel(int kernel) {
 #endif
 
         break;
-
     }
- }
-
-
+}
 
 void MenuOverscan() {
 
     initMenuDatastreams();
 
-    #if __ENABLE_ATARIVOX
+#if __ENABLE_ATARIVOX
     processSpeech();
-    #endif
+#endif
 
     playAudio();
 
-    clearBuffer((int *)(RAM + _BUF_MENU_PF1_LEFT), /*4 * */_ARENA_SCANLINES /*/ 4*/);
+    clearBuffer((int *)(RAM + _BUF_MENU_PF1_LEFT), /*4 * */ _ARENA_SCANLINES /*/ 4*/);
 
     base2++;
 
@@ -1367,21 +1538,20 @@ void MenuOverscan() {
         //     enableICC = LEFT_DIFFICULTY_A;
         // }
 
-//tmp        if (!--mustWatchDelay)
-            initKernel(KERNEL_MENU);
+        // tmp        if (!--mustWatchDelay)
+        initKernel(KERNEL_MENU);
         break;
 
     case KERNEL_MENU:
         handleMenuScreen();
         break;
 
-    case KERNEL_STATS:  // overscan
+    case KERNEL_STATS: // overscan
 
         interleaveColour();
         processCharAnimations();
-//tmp        initIconPalette();
-//tmp        drawIconScreen(0, 12);
-
+        // tmp        initIconPalette();
+        // tmp        drawIconScreen(0, 12);
 
         if (!caveUnpackComplete) {
 
@@ -1392,9 +1562,7 @@ void MenuOverscan() {
                 thumbnailSpeed = 0;
                 caveUnpackComplete = !decodeExplicitData(true);
             }
-
         }
-
 
         break;
 
@@ -1402,19 +1570,15 @@ void MenuOverscan() {
         break;
     }
 
-    #if ENABLE_SNOW
-        doSnow();
-    #endif
-
-
+#if ENABLE_SNOW
+    doSnow();
+#endif
 }
-
-
 
 void setStatusBackgroundPalette() {
 
     unsigned char *pal = (unsigned char *)(__COLOUR_POOL);
-    pal +=  (currentPalette & 15) << 2;
+    pal += (currentPalette & 15) << 2;
 
     unsigned char *p = RAM + _BUF_MENU_COLUPF;
 
@@ -1428,8 +1592,6 @@ void setStatusBackgroundPalette() {
     }
 }
 
-
-
 int setBounds(int value, int max) {
     if (value < 0)
         value = max;
@@ -1437,8 +1599,6 @@ int setBounds(int value, int max) {
         value = 0;
     return value;
 }
-
-
 
 void resetMode() {
 
@@ -1450,47 +1610,42 @@ void resetMode() {
 
     pushFrame = 0;
     pushCount = (rndX & 31) | 32;
-
 }
-
-
 
 void handleMenuVB() {
 
-    #if __ENABLE_DEMO
-    if (!--mustWatchDelay) {
+    // #if __ENABLE_DEMO
+    // if (!--mustWatchDelay) {
 
-        initDemoMode(true);
-        initNewGame();
-        initKernel(KERNEL_GAME);
-        loadPalette();
-        return;
-    }
-    #endif
-
+    //     initDemoMode(true);
+    //     initNewGame();
+    //     initKernel(KERNEL_GAME);
+    //     loadPalette();
+    //     return;
+    // }
+    // #endif
 
     doFlash();
 
 #if ENABLE_ANIMATING_MAN
-    doRockford();
+    doPlayer();
 #endif
 
     for (int i = 0; i < 6; i++)
         if (!RGB[i] || !rangeRandom(64))
             RGB[i] = (mm_tv_type == SECAM) ? (rangeRandom(7) + 1) << 1
-                : LUMINANCE_TITLE | (getRandom32() << 4);
+                                           : LUMINANCE_TITLE | (getRandom32() << 4);
 
     int negJoy = (SWCHA >> 4) ^ 0xF;
 
     if (!waitRelease) {
 
-        if (true) { //tmp !(INPT4 & 0x80)) {
+        if (true) { // tmp !(INPT4 & 0x80)) {
 
             initNewGame();
             initKernel(KERNEL_STATS);
             return;
         }
-
 
         int dir = yInc[negJoy];
 
@@ -1502,19 +1657,19 @@ void handleMenuVB() {
             dir = xInc[negJoy];
             if (dir) {
 
-
                 switch (menuLine) {
                 case 0:
-                    do cave = setBounds(cave + dir, caveCount - 1);
-                        while (!(canPlay[level] & (1 << cave)));
+                    do
+                        cave = setBounds(cave + dir, caveCount - 1);
+                    while (!(canPlay[level] & (1 << cave)));
                     break;
 
                 case 1:
-    #if !__ENABLE_TRAINER
+#if !__ENABLE_TRAINER
                     level = setBounds(level + dir, 4);
                     while (!(canPlay[level] & (1 << cave)))
                         cave--;
-    #endif
+#endif
                     break;
 
                 case OPTION_SYSTEM:
@@ -1540,10 +1695,7 @@ void handleMenuVB() {
     // #if ENABLE_SNOW
     //     doSnow();
     // #endif
-
 }
-
-
 
 void MenuVerticalBlank() {
 
@@ -1555,22 +1707,21 @@ void MenuVerticalBlank() {
 
     case KERNEL_STATS: // VBlank
 
-//tmp        setStatusBackgroundPalette();
-//tmp        drawIconScreen(12, 22);
+        // tmp        setStatusBackgroundPalette();
+        // tmp        drawIconScreen(12, 22);
 
         if (sound_volume && !caveUnpackComplete)
             sound_volume--;
 
-/*tmp
-        if (!JOY0_FIRE)
-            waitRelease = false;
+        /*tmp
+                if (!JOY0_FIRE)
+                    waitRelease = false;
 
-        else if (!waitRelease) {
-            */
-            waitRelease = true;
-            initKernel(KERNEL_GAME);
-//tmop        }
-
+                else if (!waitRelease) {
+                    */
+        waitRelease = true;
+        initKernel(KERNEL_GAME);
+        // tmop        }
 
         handleSelectReset();
         break;
@@ -1583,12 +1734,11 @@ void MenuVerticalBlank() {
 
     case KERNEL_MENU: // VBlank
         handleMenuVB();
-//setStatusBackgroundPalette();
+        // setStatusBackgroundPalette();
         break;
     }
 
-    doButterflies(0x0000, 0x1600, 0x1A00, 0x3000);
-
+    // doButterflies(0x0000, 0x1600, 0x1A00, 0x3000);
 
     if (KERNEL == KERNEL_STATS) {
         // clear behind the thumbnail
@@ -1598,12 +1748,7 @@ void MenuVerticalBlank() {
             gfx[line + (_BUF_MENU_PF1_RIGHT - _BUF_MENU_PF2_RIGHT)] &= 0xF0;
         }
     }
-
-
-
 }
-
-
 
 void doubleSize(int x, int y, int letter) {
 
@@ -1635,4 +1780,4 @@ void doubleSize(int x, int y, int letter) {
     }
 }
 
-//EOF
+// EOF

@@ -10,4 +10,4 @@ void initSwipeCircle(int zoom);
 // bool checkInCircle(int x, int y);
 
 #endif
-//EOF
+// EOF

@@ -658,7 +658,7 @@ __COLOUR_POOL
 ;ffbf8bbc
 ;b4460202
 
-__COMPATIBLE_AMOEBA_PALETTE = 1      ; amoeba-compatible palette
+; __COMPATIBLE_AMOEBA_PALETTE = 1      ; amoeba-compatible palette
 __PALETTE_COUNT = 16
 
  ;   dc $14, 0x94, 4, 4
@@ -680,7 +680,7 @@ __PALETTE_COUNT = 16
 ;    dc 6, 10, 12, 12
 
     ; 3
-    dc __COMPATIBLE_AMOEBA_PALETTE + 0xA6, 0xC4, 0x46, 0x22
+    dc 0xA6, 0xC4, 0x46, 0x22
 ;    dc 0x2A, 0x68, 0x44, 0x44 ;0x94, 0x54, 0x44, 0x44
 ;    dc 10, 12, 4, 4
 
@@ -690,7 +690,7 @@ __PALETTE_COUNT = 16
 ;    dc 10, 12, 8, 8
 
     ; 5
-    dc __COMPATIBLE_AMOEBA_PALETTE +0x26, 0xD4, 0x84, 0xE4     ; NTSC  BOO's preferred
+    dc 0x26, 0xD4, 0x84, 0xE4     ; NTSC  BOO's preferred
 ;        dc 0x44, 0x94, 0xA2, 0xA2
 ;    dc 0x44, 0x34, 0x84, 0xE4
 ;    dc 10, 12, 8, 8
@@ -731,7 +731,7 @@ __PALETTE_COUNT = 16
  ;   dc 8, 4, 10, 10
 
     ; 13
-    dc __COMPATIBLE_AMOEBA_PALETTE + 0x38, 0xD4, 0x44, 0xC4
+    dc 0x38, 0xD4, 0x44, 0xC4
  ;   dc 0x66, 0x72, 0x92, 0x92
  ;   dc 10, 8, 12, 12
 
@@ -741,7 +741,7 @@ __PALETTE_COUNT = 16
  ;   dc 4, 8, 10, 10
 
     ; 15 purple boulder light blue diamond green mortar good glint
-    dc __COMPATIBLE_AMOEBA_PALETTE +0x78, 0xC4, 0x26, 0xB4
+    dc 0x78, 0xC4, 0x26, 0xB4
  ;   dc 0x4A, 0x94, 0xA4, 0xA4 ;0x66, 0x72, 0x92, 0x92
  ;   dc 0xA0, 0x08, 0x04, 0x04
 
