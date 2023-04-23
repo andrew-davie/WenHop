@@ -26,7 +26,7 @@ enum AudioID {
     SFX_UNCOVERED,     // 1
     SFX_COUNTDOWN2,    // 2   time expiring
     SFX_PICKAXE,       //
-    SFX_DIAMOND2,      // 3
+    SFX_DOGE2,         // 3
     SFX_WHOOSH,        // 4
     SFX_BLIP,          // 5
     SFX_EXTRA,         // 6
@@ -38,13 +38,13 @@ enum AudioID {
     SFX_ROCK,          // 11
     SFX_ROCK2,         // 12
     SFX_SCORE,         // 13
-    SFX_DIAMOND,       // 14
-    SFX_DIAMOND3,      // 15
+    SFX_DOGE,          // 14
+    SFX_DOGE3,         // 15
     SFX_DIRT,          // 16
     SFX_PUSH,          // 17
     SFX_SPACE,         // 18
     SFX_DRIP,          // 19
-    SFX_AMOEBA,        // 20
+    SFX_BUBBLER,       // 20
     SFX_DRIP2,         // 21
     SFX_UNCOVER,       // 22
 // SFX_TICK,               // 24

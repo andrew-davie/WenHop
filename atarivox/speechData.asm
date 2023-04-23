@@ -1,7 +1,7 @@
 
 
 ; Speech Data
-; add address to __SPEECH_ADDRESS table in CDFJBoulderDash.asm
+; add address to __SPEECH_ADDRESS table
 ; make sure __WORD_COUNT is correct
 
     MAC SPEAK_SPEED ;{1}
@@ -13,7 +13,7 @@
     ENDM
 
 
-SPEAK_BOULDERDASH
+SPEAK_WENHOP
     dc 171, 137, 146, 175, 133
     dc 3, 175, 132, 189
 
@@ -26,9 +26,9 @@ SPEAK_SOSAD
     dc $FF
 
 SPEAK_GOODBYE
-    dc 179, 21,119, 138, 175, 171, 21,121, 157, 128 
+    dc 179, 21,119, 138, 175, 171, 21,121, 157, 128
     dc 3, 195, 148, 139, 146,
-    dc 147, 21,119, 151, 146, 175    
+    dc 147, 21,119, 151, 146, 175
     dc $FF
 
 SPEAK_RAGEQUIT
@@ -74,7 +74,7 @@ SPEAK_GETREADY
     dc $FF
 
 SPEAK_TRAP
-    dc 191 ,148 ,132 ,199 ,169 ,129 ,133 ,140 ,128 ,171 ,133 ; "Trap the amoeba"
+    dc 191 ,148 ,132 ,199 ,169 ,129 ,133 ,140 ,128 ,171 ,133 ; "Trap the **"
     dc $FF
 
 SPEAK_WATCHOUT
@@ -99,12 +99,12 @@ SPEAK_WATCHOUT
 ;     dc 179,148,128,191,129,144,167,
 ;     dc 2,2,2,2,2
 ;     dc 167,149,148,137,199,130,165,184,137,140,171,148,139
-    
+
 ;     dc 2,2,2,2,2
 ;     dc 2,2,2,2,2
 ;    dc 2,2,2,2,2
 ;     dc 2,2,2,2,2
- 
+
 
 ;  dc 155,146,134,166,195,132,191,188
 ;     dc 2,2,2,2,2
@@ -176,11 +176,11 @@ SLOWER = 8
 SPEAK_CAVE_ONE
     dc.b 195, SLOWER, 154, SLOWER, 166 ;cave
     dc.b 6,6,6,6,6,6,6,6,6,6
-;\WW \Stress \OH \SLOW \NE  
+;\WW \Stress \OH \SLOW \NE
     dc.b STRESS, 130 ; a
     dc.b 6, 6, 6, 6, 6, 6, 6
 ;    dc.b 147, STRESS, 135, SLOWER, 141, 128  ; one
- 
+
 ;two = \SLOW \TT \IHWW
     dc.b SLOWER, 191, SLOWER, 162
     dc.b $FF

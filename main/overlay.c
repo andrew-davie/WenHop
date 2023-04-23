@@ -18,7 +18,7 @@ int rotateOffset = 0;
 int fIndex = 0;
 int fSpeed = 0x305;
 
-const unsigned char overlayBoulderDash[][5] = {
+const unsigned char overlayATT_ROCKDash[][5] = {
 
     {
         X___X___,

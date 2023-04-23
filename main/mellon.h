@@ -8,7 +8,6 @@ extern int frameAdjustX;
 extern int frameAdjustY;
 
 extern unsigned int pushCounter;
-// extern int suppressDiamondSound;
 
 enum FaceDirectionX {
     FACE_LEFT = -1,

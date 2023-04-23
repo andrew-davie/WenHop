@@ -32,7 +32,7 @@
 
 #define SCHEDULER 0
 
-// #define MAXIMUM_AMOEBA_SIZE 200
+// #define MAXIMUM_SIZE 200
 
 // #define RAIN_ACCEL 0x800
 // #define RAIN_FORMING_DRIP -0xA000
@@ -77,7 +77,7 @@ void InitializeNewGame();
 // void doFlash();
 // void setFlash(unsigned char colourNTSC, unsigned char colourPAL, unsigned char colourSECAM, int time);
 void updateAnimation();
-void pulseDiamond(unsigned char *thiss);
+void pulseDoges(unsigned char *thiss);
 void drawWord(const unsigned char *string, int y);
 void conglomerate(unsigned char *thiss, int att);
 
@@ -141,7 +141,7 @@ extern unsigned char bufferedSWCHA;
 extern unsigned int usableSWCHA;
 extern unsigned int inhibitSWCHA;
 
-extern int diamonds;
+extern int doges;
 extern int lives;
 extern int time;
 extern bool waitRelease;
@@ -154,10 +154,6 @@ extern int exitMode;
 extern unsigned int idleTimer;
 extern int millingTime;
 extern bool exitTrigger;
-
-// extern unsigned int diamondsCollected;
-//  extern int diamondValue;
-// extern int extraDiamondValue;
 
 // extern int selectResetDelay;
 extern unsigned char *thiss;
@@ -210,7 +206,7 @@ extern int cpulse;
 
 void Scheduler();
 void processBoardSquares();
-void reanimateDiamond(unsigned char *thiss);
+void reanimateDoges(unsigned char *thiss);
 void handleSelectReset();
 void initNewGame();
 

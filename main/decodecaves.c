@@ -13,13 +13,12 @@
 
 #include "defines_cdfj.h"
 
+#include "attribute.h"
 #include "cavedata.h"
+#include "characterset.h"
 #include "colour.h"
 #include "decodecaves.h"
 #include "main.h"
-// #include "amoeba.h"
-#include "attribute.h"
-#include "characterset.h"
 #include "mellon.h"
 #include "random.h"
 #include "scroll.h"
@@ -61,7 +60,7 @@ unsigned char caveMirrorXY;
 static int doorX, doorY;
 int processedLevel;
 extern int thumbnailSpeed;
-int totalDiamondsPossible;
+int totalDogePossible;
 
 enum DECODE_STATE decodeState;
 
@@ -89,7 +88,7 @@ void decodeCave(int cave) {
     lockDisplay = theCave->flags & CAVEDEF_OVERVIEW;
     // displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
 
-    diamonds = theCave->diamondsRequired[level];
+    doges = theCave->dogeRequired[level];
     time = (theCave->timeToComplete[level] << 8) + 60;
     millingTime = theCave->millingTime * 60;
 
@@ -99,7 +98,7 @@ void decodeCave(int cave) {
 
     decodingRow = -1;
     decodeFlasher = 21;
-    totalDiamondsPossible = 0;
+    totalDogePossible = 0;
 
     theCaveData = (&(theCave->objectData)) + theCave->objectCount * 6;
 
@@ -202,8 +201,8 @@ int decodeExplicitData(int sfx) {
 
             if (!cmd) {
 
-                // if (theObject == CH_DIAMOND)
-                //     theObject = CH_DIAMOND_PULSE_0 + rangeRandom(7);
+                // if (theObject == CH_DOGE)
+                //     theObject = CH_DOGE_PULSE_0 + rangeRandom(7);
 
                 StoreObject(a, b, theObject);
 
@@ -313,7 +312,7 @@ void StoreObject(int x, int y, objectType anObject) {
     unsigned char type = TYPEOF(anObject);
 
     if (TYPEOF(*thiss) == TYPE_DOGE)
-        totalDiamondsPossible--;
+        totalDogePossible--;
 
     switch (type) {
 
@@ -344,7 +343,7 @@ void StoreObject(int x, int y, objectType anObject) {
 
     case TYPE_DOGE: {
 
-        totalDiamondsPossible++;
+        totalDogePossible++;
         break;
     }
 

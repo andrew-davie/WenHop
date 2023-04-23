@@ -4,12 +4,12 @@
 struct CAVE_DEFINITION {
 
     unsigned char millingTime;
-    unsigned char diamondValue;
-    unsigned char extraDiamondValue;
+    unsigned char dogeValue;
+    unsigned char extraDogeValue;
     unsigned char weather;
 
     unsigned char randomInit[5];
-    unsigned char diamondsRequired[5];
+    unsigned char dogeRequired[5];
     unsigned char timeToComplete[5];
 
     unsigned char flags; // CAVEDEF_...
@@ -39,7 +39,7 @@ enum DECODE_STATE {
 extern enum DECODE_STATE decodeState;
 extern int decodingRow;
 extern const unsigned char *theCaveData;
-extern int totalDiamondsPossible;
+extern int totalDogePossible;
 
 #endif
 // EOF

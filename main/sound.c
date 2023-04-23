@@ -1,7 +1,7 @@
 #include "defines_cdfj.h"
 #include "main.h"
 #include <stdbool.h>
-// #include "amoeba.h"
+
 #include "colour.h"
 #include "joystick.h"
 #include "random.h"
@@ -177,7 +177,7 @@ const unsigned char sampleBlip[] = {
     CMD_STOP,
 };
 
-const unsigned char sampleAmoeba[] = {
+const unsigned char sampleBubbler[] = {
     0xE, 0x8, 5, 30,
     CMD_STOP,
     //    CMD_LOOP,
@@ -461,7 +461,7 @@ const unsigned char sampleSFX[] = {
     CMD_STOP,
 };
 
-const unsigned char sampleDiamond2[] = {
+const unsigned char sampleDoge2[] = {
     // C,F,V,LEN
     5,
     14,
@@ -502,7 +502,7 @@ const unsigned char sampleDiamond2[] = {
     CMD_STOP,
 };
 
-const unsigned char sampleDiamond3[] = {
+const unsigned char sampleDoge3[] = {
     // C,F,V,LEN
     5,
     14,
@@ -580,30 +580,30 @@ const struct AudioTable AudioSamples[] = {
     // MUST correspond to AudioID enum ordering/number
     // MUST be in priority order!
 
-    {sampleUncovered, 201, 0},                                      // SFX_UNCOVERED,          // 0
-    {sample10987654321, 200, AUDIO_LOCKED},                         // SFX_COUNTDOWN2,         // 1
-    {samplePick, 200, 0},                                           // SFX_PICKAXE,           // 2
-    {sampleSFX, 200, 0},                                            // SFX_DIAMOND2,           // 2
-    {sampleWhoosh, 127, 0},                                         // SFX_WHOOSH,             // 3
-    {sampleBlip, 125, 0},                                           // SFX_BLIP,               // 4
-    {sampleExxtra, 110, 0},                                         // SFX_EXTRA,              // 5
-    {sampleExit, 99, 0},                                            // SFX_EXIT,               // 6
-    {sampleExplode, 99, 0},                                         // SFX_EXPLODE,            // 7
-    {sampleExplodeQuiet, 99, 0},                                    // SFX_EXPLODE_QUIET,            // 7
-    {sampleMagic, 50, AUDIO_KILL},                                  // SFX_MAGIC,              // 8
-    {sampleMagic2, 50, 0},                                          // SFX_MAGIC2,             // 9
-    {sampleRock, 11, 0},                                            // SFX_ROCK,               // 10
-    {sampleRock2, 10, 0},                                           // SFX_ROCK2,              // 11
-    {sampleDrip2, 10, 0},                                           // SFX_SCORE,              // 12
-    {sampleDiamond2, 9, 0},                                         // SFX_DIAMOND,            // 13
-    {sampleDiamond3, 9, 0},                                         // SFX_DIAMOND3,           // 14
-    {sampleDirt, 9, 0},                                             // SFX_DIRT,               // 15
-    {samplePush, 8, 0},                                             // SFX_PUSH,               // 16
-    {sampleSpace, 8, 0},                                            // SFX_SPACE,              // 17
-    {sampleDrip2, 8, 0},                                            // SFX_DRIP,               // 18
-    {sampleAmoeba, 7, AUDIO_LOCKED | AUDIO_SINGLETON | AUDIO_KILL}, // SFX_AMOEBA,             // 18
-    {sampleDrip, 5, 0},                                             // SFX_DRIP2,              // 19
-    {sampleUncover, 2, AUDIO_LOCKED | AUDIO_KILL},                  // SFX_UNCOVER,            // 20
+    {sampleUncovered, 201, 0},                                       // SFX_UNCOVERED,          // 0
+    {sample10987654321, 200, AUDIO_LOCKED},                          // SFX_COUNTDOWN2,         // 1
+    {samplePick, 200, 0},                                            // SFX_PICKAXE,           // 2
+    {sampleSFX, 200, 0},                                             // SFX_DOGE2,           // 2
+    {sampleWhoosh, 127, 0},                                          // SFX_WHOOSH,             // 3
+    {sampleBlip, 125, 0},                                            // SFX_BLIP,               // 4
+    {sampleExxtra, 110, 0},                                          // SFX_EXTRA,              // 5
+    {sampleExit, 99, 0},                                             // SFX_EXIT,               // 6
+    {sampleExplode, 99, 0},                                          // SFX_EXPLODE,            // 7
+    {sampleExplodeQuiet, 99, 0},                                     // SFX_EXPLODE_QUIET,            // 7
+    {sampleMagic, 50, AUDIO_KILL},                                   // SFX_MAGIC,              // 8
+    {sampleMagic2, 50, 0},                                           // SFX_MAGIC2,             // 9
+    {sampleRock, 11, 0},                                             // SFX_ROCK,               // 10
+    {sampleRock2, 10, 0},                                            // SFX_ROCK2,              // 11
+    {sampleDrip2, 10, 0},                                            // SFX_SCORE,              // 12
+    {sampleDoge2, 9, 0},                                             // SFX_DOGE,            // 13
+    {sampleDoge3, 9, 0},                                             // SFX_DOGE3,           // 14
+    {sampleDirt, 9, 0},                                              // SFX_DIRT,               // 15
+    {samplePush, 8, 0},                                              // SFX_PUSH,               // 16
+    {sampleSpace, 8, 0},                                             // SFX_SPACE,              // 17
+    {sampleDrip2, 8, 0},                                             // SFX_DRIP,               // 18
+    {sampleBubbler, 7, AUDIO_LOCKED | AUDIO_SINGLETON | AUDIO_KILL}, // SFX_BUBBLER,             // 18
+    {sampleDrip, 5, 0},                                              // SFX_DRIP2,              // 19
+    {sampleUncover, 2, AUDIO_LOCKED | AUDIO_KILL},                   // SFX_UNCOVER,            // 20
 // { sampleTick,           0, AUDIO_LOCKED | AUDIO_KILL          }, // SFX_TICK,               // 22
 
 #if __ENABLE_LAVA
@@ -769,11 +769,11 @@ void playAudio() {
                 audF = (time >> 8) + 16;
                 break;
 
-            case SFX_AMOEBA: {
-                // static unsigned char amoebaF;
+            case SFX_BUBBLER: {
+                // static unsigned char bubblerF;
                 // if (!best->index && best->delay == AudioSamples[best->id].sample[3])
-                //     amoebaF = (getRandom32() & 0xF) | 8;
-                // audF = amoebaF;
+                //     bubblerF = (getRandom32() & 0xF) | 8;
+                // audF = bubblerF;
 
                 static int amFreq = 0;
                 // if (!rangeRandom(4))
@@ -942,7 +942,7 @@ void playAudio() {
 
 #pragma GCC diagnostic pop
 
-// ref: http://www.retrointernals.org/boulder-dash/music.html
+// ref: http://www.retrointernals.org/ATT_ROCK-dash/music.html
 // ref: https://forums.atariage.com/topic/176497-atari-2600-frequency-and-tuning-chart-new-v11/#comment-2198932
 
 static const unsigned char trackSimple[] = {

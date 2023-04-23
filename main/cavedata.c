@@ -11,7 +11,7 @@
 #define STEEL CH_STEELWALL
 
 // #define XY(x,y) (x),(y)
-// #define CAVEHEADER(milling, diamonds, dollar, rain) (milling), (diamonds), (dollar), (rain)
+// #define CAVEHEADER(milling, doge, dollar, rain) (milling), (doge), (dollar), (rain)
 
 #define R 2
 // #define L 6
@@ -49,7 +49,7 @@
 const unsigned char caveA[] = {
 
     20,     // milling
-    10, 15, // diamond $
+    10, 15, // doge $
     5,      //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
@@ -63,9 +63,9 @@ const unsigned char caveA[] = {
     4, CH_BLANK, 60, 255, 0, 255, 10,
     CH_PEBBLE1, 150, 0, 240, 0, 20,
     CH_PEBBLE2, 150, 0, 240, 0, 20,
-    CH_BOULDER, 10, 0, 240, 0, 20,
+    CH_ROCK, 10, 0, 240, 0, 20,
     // CH_FLIP_GRAVITY_0,   100, 10, 10, 10, 10,
-    // CH_BOULDER_DOGE, 80, 80, 80, 80, 80,
+    // CH_ROCK_DOGE, 80, 80, 80, 80, 80,
     //        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
 
     // CH_PUSH_LEFT,    0,  10,   5,   0,  20,
@@ -73,13 +73,11 @@ const unsigned char caveA[] = {
     // CH_PUSH_UP,      0,  10,   5,   0,  20,
     // CH_PUSH_DOWN,    0,  10,   5,   0,  20,
 
-    // DIAMOND,    9,9,9,9,200,
-
     // CH_DOGE_00, 4, 2,
 
     // LINE + CH_LADDER_0, 4,2,4,10,
 
-    // FILLRECT+CH_BOULDER,5,5,21,10,CH_DIRT,
+    // FILLRECT+CH_ROCK,5,5,21,10,CH_DIRT,
 
     // #define VS 3
     // #define HS 3
@@ -248,7 +246,7 @@ const unsigned char caveA[] = {
 const unsigned char caveA2[] = {
 
     20,     // milling
-    10, 15, // diamond $
+    10, 15, // doge $
     5,      //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
@@ -265,7 +263,7 @@ const unsigned char caveA2[] = {
     CH_PUSH_UP, 0, 10, 5, 0, 20,
     CH_PUSH_DOWN, 0, 10, 5, 0, 20,
     //   CH_BLANK,       60, 255,   0, 255,  10,
-    //     CH_BOULDER,     90,   0, 240,   0,  20,
+    //     CH_ROCK,     90,   0, 240,   0,  20,
 
     0x80 + CH_STEELWALL, 10, 5, 20, 12, CH_DIRT,
 
@@ -299,7 +297,7 @@ const unsigned char caveA2[] = {
 const unsigned char caveA3[] = {
 
     20,    // milling
-    1, 15, // diamond $
+    1, 15, // doge $
     5,     //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
@@ -321,7 +319,7 @@ const unsigned char caveA3[] = {
     // 0xFE, CH_FLIP_GRAVITY_0, 11,8,
     0xFE,
     CH_DOGE_00, 16, 8,
-    0xFE, CH_BOULDER, 1, 6,
+    0xFE, CH_ROCK, 1, 6,
     0xFE, CH_STEELWALL, 12, 7,
 
     // 0xFE, CH_FLIP_GRAVITY_0, 16,6,
@@ -333,24 +331,24 @@ const unsigned char caveA3[] = {
     0xFE, CH_DOORCLOSED, 16, 5,
     0xFE, CH_BLOCK, 16, 6,
     0xFE, CH_BLOCK, 16, 7,
-    0xFE, CH_BOULDER, 16, 9,
+    0xFE, CH_ROCK, 16, 9,
 
-    0xFE, CH_BOULDER, 16, 9,
-    0xFE, CH_BOULDER, 16, 10,
-    0xFE, CH_BOULDER, 16, 11,
-    0xFE, CH_BOULDER, 16, 12,
-    0xFE, CH_BOULDER, 16, 13,
-    0xFE, CH_BOULDER, 16, 14,
-    0xFE, CH_BOULDER, 16, 15,
-    0xFE, CH_BOULDER, 16, 16,
-    0xFE, CH_BOULDER, 16, 17,
-    0xFE, CH_BOULDER, 16, 18,
+    0xFE, CH_ROCK, 16, 9,
+    0xFE, CH_ROCK, 16, 10,
+    0xFE, CH_ROCK, 16, 11,
+    0xFE, CH_ROCK, 16, 12,
+    0xFE, CH_ROCK, 16, 13,
+    0xFE, CH_ROCK, 16, 14,
+    0xFE, CH_ROCK, 16, 15,
+    0xFE, CH_ROCK, 16, 16,
+    0xFE, CH_ROCK, 16, 17,
+    0xFE, CH_ROCK, 16, 18,
     // 0xFE, CH_DOGE_00, 16,18,
     0xFE, CH_FLIP_GRAVITY_0, 16, 18,
     0xFE, CH_FLIP_GRAVITY_0, 16, 19,
     0xFE, CH_BLOCK, 16, 20,
 
-    //    0xFE, CH_BOULDER, 16,9,
+    //    0xFE, CH_ROCK, 16,9,
     0xFE, CH_FLIP_GRAVITY_0, 16, 8,
 
     // LINER(CH_PUSH_DOWN,11,6,18,R)
@@ -403,7 +401,7 @@ const unsigned char caveA3[] = {
 const unsigned char caveA4[] = {
 
     20,    // milling
-    1, 15, // diamond $
+    1, 15, // doge $
     5,     //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
@@ -427,7 +425,7 @@ const unsigned char caveA4[] = {
     // 0xFE, CH_FLIP_GRAVITY_0, 11,8,
     //    0xFE, CH_DOGE_00, 16,8,
     0xFE,
-    CH_BOULDER, 1, 6,
+    CH_ROCK, 1, 6,
     0xFE, CH_STEELWALL, 12, 6,
     0xFE, CH_STEELWALL, 12, 7,
 
@@ -447,7 +445,7 @@ const unsigned char caveA4[] = {
     0xFE, CH_DOORCLOSED, 16, 5,
     // 0xFE, CH_BLOCK, 16,6,
     // 0xFE, CH_BLOCK, 16,7,
-    // 0xFE, CH_BOULDER, 16,9,
+    // 0xFE, CH_ROCK, 16,9,
 
     0xFE, CH_MELLON_HUSK_BIRTH, 11, 6,
 

@@ -20,6 +20,6 @@ extern void initCharAnimations();
 extern void startCharAnimation(int type, const char *idx);
 extern void processCharAnimations();
 
-extern const char AnimBrokenBoulder[];
+extern const char AnimBrokenRock[];
 
 #endif

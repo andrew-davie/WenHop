@@ -1,7 +1,5 @@
 # DO NOT DELETE
 
-amoeba.o: main.h defines_from_dasm_for_c.h amoeba.h atarivox.h attribute.h
-amoeba.o: random.h sound.h
 cavedata.o: defines_from_dasm_for_c.h main.h player.h atarivox.h bitpatterns.h
 cavedata.o: rockford.h cavedata.h
 characterset.o: main.h defines_from_dasm_for_c.h bitpatterns.h characterset.h
@@ -15,7 +13,7 @@ animations.o: main.h defines_from_dasm_for_c.h animations.h attribute.h
 animations.o: random.h
 colour.o: defines.h defines_cdfj.h main.h defines_from_dasm_for_c.h
 colour.o: cavedata.h colour.h score.h scroll.h
-main.o: defines_cdfj.h defines.h main.h defines_from_dasm_for_c.h amoeba.h
+main.o: defines_cdfj.h defines.h main.h defines_from_dasm_for_c.h
 main.o: animations.h attribute.h atarivox.h bitpatterns.h cavedata.h
 main.o: characterset.h colour.h decodecaves.h drawplayer.h drawscreen.h
 main.o: joystick.h menu.h overlay.h player.h random.h rockford.h score.h
@@ -25,12 +23,12 @@ rockford.o: animations.h attribute.h atarivox.h player.h rockford.h random.h
 rockford.o: score.h sound.h
 atarivox.o: defines_from_dasm_for_c.h defines_cdfj.h main.h
 decodecaves.o: defines_cdfj.h main.h defines_from_dasm_for_c.h decodecaves.h
-decodecaves.o: amoeba.h attribute.h characterset.h random.h rockford.h
+decodecaves.o: attribute.h characterset.h random.h rockford.h
 decodecaves.o: scroll.h
 menu.o: defines.h defines_cdfj.h main.h defines_from_dasm_for_c.h menu.h
 menu.o: atarivox.h bitpatterns.h cavedata.h colour.h joystick.h overlay.h
 menu.o: player.h random.h sound.h
-score.o: defines_cdfj.h main.h defines_from_dasm_for_c.h amoeba.h
+score.o: defines_cdfj.h main.h defines_from_dasm_for_c.h
 score.o: bitpatterns.h rockford.h score.h sound.h swipeCircle.h
 attribute.o: attribute.h main.h defines_from_dasm_for_c.h
 drawplayer.o: defines_cdfj.h defines.h main.h defines_from_dasm_for_c.h

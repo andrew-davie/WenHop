@@ -2,7 +2,6 @@
 #include "defines_cdfj.h"
 #include "main.h"
 
-// #include "amoeba.h"
 #include "animations.h"
 #include "atarivox.h"
 #include "attribute.h"
@@ -181,17 +180,17 @@ void grabDoge(unsigned char *where) {
 
     startCharAnimation(TYPE_GRAB, AnimateBase[TYPE_GRAB]);
 
-    totalDiamondsPossible--;
+    totalDogePossible--;
 
-    // if (diamonds > 0)
-    addScore(100); // theCave->diamondValue);
+    // if (doges > 0)
+    addScore(100); // theCave->dogeValue);
 
-    if (!--diamonds) {
+    if (!--doges) {
         exitTrigger = true;
         //        FLASH(0x08, 8);     //open door
         ADDAUDIO(SFX_EXIT);
     } else
-        ADDAUDIO(SFX_DIAMOND2);
+        ADDAUDIO(SFX_DOGE2);
 }
 
 int playerSlow = 0;
@@ -467,7 +466,7 @@ bool checkLowPriorityMove(int dir) {
 
         if (pushCounter > 6) {
             //            pushCounter = 2;
-            *thissOffset = ATTRIBUTE_BIT(*thissOffset, ATT_BOULDER_DOGE)
+            *thissOffset = ATTRIBUTE_BIT(*thissOffset, ATT_ROCK_DOGE)
                                ? CH_DOGE_CONVERT | FLAG_THISFRAME
                                : CH_DUST_0;
 
@@ -488,7 +487,7 @@ bool checkLowPriorityMove(int dir) {
 
             for (int i = 0; i < 4; i++)
                 conglomerate(thissOffset + dirOffset[i],
-                             (ATT_BOULDER_DOGE | ATT_GRAB));
+                             (ATT_ROCK_DOGE | ATT_GRAB));
         }
 
         handled = true;
@@ -604,7 +603,7 @@ void movePlayer(unsigned char *thiss) {
     static int breath;
     if (showWater && playerY * PIECE_DEPTH / 3 > lavaSurface) {
 
-        ADDAUDIO(SFX_AMOEBA);
+        ADDAUDIO(SFX_BUBBLER);
 
         breath++;
         if (!(breath & 35) && (breath & 63) < 21) {
@@ -615,7 +614,7 @@ void movePlayer(unsigned char *thiss) {
     }
 
     else
-        killAudio(SFX_AMOEBA);
+        killAudio(SFX_BUBBLER);
 
     static unsigned char lastUsableSWCHA = 0;
 
@@ -660,7 +659,7 @@ void movePlayer(unsigned char *thiss) {
     // potential bug - if you're pushing and something falls on you
 
     if (*(thiss - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
-        *(thiss - 40) == (CH_BOULDER_FALLING | FLAG_THISFRAME)) {
+        *(thiss - 40) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

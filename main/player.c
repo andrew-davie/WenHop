@@ -120,10 +120,10 @@ const signed char AnimationLocked[] = {
 //     ACTION_STOP,
 // };
 
-// const signed char AnimationHoldBoulder[] = {
+// const signed char AnimationHoldATT_ROCK[] = {
 //     FRAME_ARMS_IN_AIR, 10,
 //     ACTION_LOOP,
-//     FRAME_HOLD_BOULDER_1, 5,
+//     FRAME_HOLD_ATT_ROCK_1, 5,
 //     ACTION_STOP,
 // };
 

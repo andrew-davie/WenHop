@@ -38,7 +38,7 @@ BASE = main
 SRC = $(BASE)/custom
 BIN = $(BASE)/bin
 
-SRCS =  amoeba.c	characterset.c	joystick.c	random.c	swipeCircle.c \
+SRCS =  characterset.c	joystick.c	random.c	swipeCircle.c \
 		animations.c	colour.c	main.c		mellon.c \
 		atarivox.c	decodecaves.c	menu.c		score.c \
 		attribute.c	drawplayer.c	overlay.c	scroll.c \
@@ -130,7 +130,7 @@ CUSTOMBIN = $(BIN)/$(CUSTOMNAME).bin
 CUSTOMMAP = $(BIN)/$(CUSTOMNAME).map
 CUSTOMLST = $(BIN)/$(CUSTOMNAME).lst
 CUSTOMLINK = $(SRC)/custom.boot.lds
-CUSTOMOBJS = main.o sound.o custom.o attribute.o amoeba.o random.o \
+CUSTOMOBJS = main.o sound.o custom.o attribute.o random.o \
 	decodecaves.o characterset.o mellon.o cavedata.o drawplayer.o \
 	player.o overlay.o drawscreen.o colour.o swipeCircle.o score.o \
 	scroll.o animations.o menu.o atarivox.o joystick.o
@@ -170,8 +170,6 @@ clean:
 
 # DO NOT DELETE
 
-amoeba.o: main/main.h main/defines_from_dasm_for_c.h main/amoeba.h main/atarivox.h main/attribute.h
-amoeba.o: main/random.h main/sound.h
 characterset.o: main/main.h main/defines_from_dasm_for_c.h main/bitpatterns.h main/characterset.h
 characterset.o: main/scroll.h
 joystick.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/joystick.h
@@ -183,22 +181,22 @@ animations.o: main/main.h main/defines_from_dasm_for_c.h main/animations.h main/
 animations.o: main/random.h
 colour.o: main/defines.h main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h
 colour.o: main/cavedata.h main/colour.h main/score.h main/scroll.h
-main.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
+main.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h
 main.o: main/animations.h main/attribute.h main/atarivox.h main/bitpatterns.h main/cavedata.h
 main.o: main/characterset.h main/colour.h main/decodecaves.h main/drawplayer.h main/drawscreen.h
 main.o: main/joystick.h main/menu.h main/overlay.h main/player.h main/random.h main/mellon.h main/score.h
 main.o: main/scroll.h main/sound.h main/swipeCircle.h
-mellon.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
+mellon.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h
 mellon.o: main/animations.h main/attribute.h main/atarivox.h main/player.h main/mellon.h main/random.h
 mellon.o: main/score.h main/sound.h
 atarivox.o: main/defines_from_dasm_for_c.h main/defines_cdfj.h main/main.h
 decodecaves.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/decodecaves.h
-decodecaves.o: main/amoeba.h main/attribute.h main/characterset.h main/random.h main/mellon.h
+decodecaves.o: main/attribute.h main/characterset.h main/random.h main/mellon.h
 decodecaves.o: main/scroll.h
 menu.o: main/defines.h main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/menu.h
 menu.o: main/atarivox.h main/bitpatterns.h main/cavedata.h main/colour.h main/joystick.h main/overlay.h
 menu.o: main/player.h main/random.h main/sound.h
-score.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/amoeba.h
+score.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h
 score.o: main/bitpatterns.h main/mellon.h main/score.h main/sound.h main/swipeCircle.h
 attribute.o: main/attribute.h main/main.h main/defines_from_dasm_for_c.h
 drawplayer.o: main/defines_cdfj.h main/defines.h main/main.h main/defines_from_dasm_for_c.h

@@ -142,8 +142,8 @@ __CHAR_LADDER_2
     dc           X__X ; 20
 
 
-__CHAR_BOULDER
-__CHAR_BOULDER_SHAKE
+__CHAR_ROCK
+__CHAR_ROCK_SHAKE
 
     dc __XX_ ; 00 <
     dc _____ ; 01
@@ -177,7 +177,7 @@ __CHAR_BOULDER_SHAKE
     dc _XXX_ ; 29
 
 
-__CHAR_BOULDER_DOGE
+__CHAR_ROCK_DOGE
 
     dc __XX_ ; 00 <
     dc __XX_ ; 01
@@ -213,7 +213,7 @@ __CHAR_BOULDER_DOGE
 
 
 
-__CHAR_BOULDER_U
+__CHAR_ROCK_U
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -248,7 +248,7 @@ __CHAR_BOULDER_U
 
 
 
-__CHAR_BOULDER_R
+__CHAR_ROCK_R
 
     dc __XXX ; 00 <
     dc __XXX ; 01
@@ -282,7 +282,7 @@ __CHAR_BOULDER_R
     dc _____ ; 29
 
 
-__CHAR_BOULDER_D
+__CHAR_ROCK_D
 
     dc __XX_ ; 00 <
     dc __XX_ ; 01
@@ -317,7 +317,7 @@ __CHAR_BOULDER_D
 
 
 
-__CHAR_BOULDER_L
+__CHAR_ROCK_L
 
     dc XXXX_ ; 00 <
     dc XXXX_ ; 01
@@ -352,7 +352,7 @@ __CHAR_BOULDER_L
 
 
 
-__CHAR_BOULDER_UR
+__CHAR_ROCK_UR
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -387,7 +387,7 @@ __CHAR_BOULDER_UR
 
 
 
-__CHAR_BOULDER_UD
+__CHAR_ROCK_UD
 
     dc ____X ; 00 <
     dc XX_XX ; 01
@@ -421,7 +421,7 @@ __CHAR_BOULDER_UD
     dc __X__ ; 29
 
 
-__CHAR_BOULDER_UL
+__CHAR_ROCK_UL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -455,7 +455,7 @@ __CHAR_BOULDER_UL
     dc _____ ; 29
 
 
-__CHAR_BOULDER_RD
+__CHAR_ROCK_RD
 
     dc __XXX ; 00 <
     dc __XXX ; 01
@@ -489,7 +489,7 @@ __CHAR_BOULDER_RD
     dc __X__ ; 29
 
 
-__CHAR_BOULDER_RL
+__CHAR_ROCK_RL
 
     dc XXXXX ; 00 <
     dc XXXXX ; 01
@@ -522,7 +522,7 @@ __CHAR_BOULDER_RL
     dc XXXXX ; 28
     dc _____ ; 29
 
-__CHAR_BOULDER_DL
+__CHAR_ROCK_DL
 
     dc XXXX_ ; 00 <
     dc XXXX_ ; 01
@@ -556,7 +556,7 @@ __CHAR_BOULDER_DL
     dc __X__ ; 29
 
 
-__CHAR_BOULDER_URD
+__CHAR_ROCK_URD
 
     dc X____ ; 00 <
     dc XX_XX ; 01
@@ -590,7 +590,7 @@ __CHAR_BOULDER_URD
     dc __X__ ; 29
 
 
-__CHAR_BOULDER_URL
+__CHAR_ROCK_URL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -623,7 +623,7 @@ __CHAR_BOULDER_URL
     dc XXXXX ; 28
     dc _____ ; 29
 
-__CHAR_BOULDER_UDL
+__CHAR_ROCK_UDL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -656,7 +656,7 @@ __CHAR_BOULDER_UDL
     dc XX_XX ; 28
     dc __X__ ; 29
 
-__CHAR_BOULDER_RDL
+__CHAR_ROCK_RDL
 
     dc XXXXX ; 00 <
     dc XXXXX ; 01
@@ -689,7 +689,7 @@ __CHAR_BOULDER_RDL
     dc XX_XX ; 28
     dc __X__ ; 29
 
-__CHAR_BOULDER_URDL
+__CHAR_ROCK_URDL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -722,7 +722,7 @@ __CHAR_BOULDER_URDL
     dc XX_XX ; 28
     dc __X__ ; 29
 
-__CHAR_BOULDER_URDL2
+__CHAR_ROCK_URDL2
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -1814,29 +1814,6 @@ __CHAR_DOGE_FALLING ;
      dc _____ ; 29
 
 
-__CHAR_AMOEBA_1
-
-     ; dc __ | __ | ____ ; 00 <
-     ; dc __ | __ | ____ ; 01
-     ; dc XX | YY | ____ ; 02
-     ; dc _X | __ | ____ ; 03 <
-     ; dc __ | __ | XXX_ ; 04
-     ; dc XX | YY | XXXX ; 05
-     ; dc __ | __ | ____ ; 06 <
-     ; dc X_ | __ | _X__ ; 07
-     ; dc XX | YY | XXXX ; 08
-     ; dc      _Y | ____ ; 09 <
-     ; dc      __ | ____ ; 10
-     ; dc      YY | XXXX ; 11
-     ; dc      _Y | ____ ; 12 <
-     ; dc      __ | ____ ; 13
-     ; dc      YY | XXXX ; 14
-     ; dc           ___X ; 15 <
-     ; dc           ____ ; 16
-     ; dc           XXXX ; 17
-     ; dc           ____ ; 18 <
-     ; dc           ____ ; 19
-     ; dc           ____ ; 20
 
 
 __CHAR_PEBBLE1
@@ -1873,7 +1850,7 @@ __CHAR_PEBBLE1
      dc _____ ; 29
 
 ; actually worm horiz body
-__CHAR_AMOEBA_0
+__CHAR_WYRM_0
 
      dc ___XX ; 00 <
      dc _____ ; 01
@@ -1907,7 +1884,7 @@ __CHAR_AMOEBA_0
      dc _____ ; 29
 
 
-__CHAR_AMOEBA_2
+__CHAR_WYRM_2
 
      dc _XXX_ ; 00 <
      dc _____ ; 01
@@ -1941,7 +1918,7 @@ __CHAR_AMOEBA_2
      dc _XXX_ ; 29
 
 
-__CHAR_AMOEBA_3
+__CHAR_WYRM_3
 
      ; dc __ | __ | _X__ ; 00 < <--
      ; dc __ | __ | _X__ ; 01 <--

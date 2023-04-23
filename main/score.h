@@ -7,7 +7,7 @@
 #define DIGIT_SPACE (DIGIT_ALPHABET + 26)
 // #define DIGIT_LIVES     10
 #define DIGIT_PLUS 10
-#define DIGIT_DIAMOND 11
+#define DIGIT_DOGE 11
 #define DIGIT_CAVE 18
 #define DIGIT_LEVEL 25
 #define DIGIT_ALPHABET 12

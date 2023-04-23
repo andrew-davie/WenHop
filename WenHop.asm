@@ -429,7 +429,7 @@ __WORD_DOSOMETHING  = 9
 __WORD_RAGEQUIT     = 10
 __WORD_GOODBYE      = 11
 __WORD_SOSAD        = 12
-__WORD_BOULDERDASH  = 13
+__WORD_WENHOP  = 13
 __WORD_CAVE_ONE     = 14
 
 
@@ -448,7 +448,7 @@ __SPEECH_ADDRESS
     WORDIS RAGEQUIT
     WORDIS GOODBYE
     WORDIS SOSAD
-    WORDIS BOULDERDASH
+    WORDIS WENHOP
     WORDIS CAVE_ONE
 
 ;    echo "   - SPEECH TABLE from", SPEECH_TABLE, "to", *, "(", (* - SPEECH_TABLE) , "bytes)"
@@ -658,7 +658,7 @@ __COLOUR_POOL
 ;ffbf8bbc
 ;b4460202
 
-; __COMPATIBLE_AMOEBA_PALETTE = 1      ; amoeba-compatible palette
+; __COMPATIBLE_COMPATIBLE_PALETTE = 1
 __PALETTE_COUNT = 16
 
  ;   dc $14, 0x94, 4, 4
@@ -735,12 +735,12 @@ __PALETTE_COUNT = 16
  ;   dc 0x66, 0x72, 0x92, 0x92
  ;   dc 10, 8, 12, 12
 
-    ; 14 tan boulder purple soil aqua diamond good glint
+    ; 14 tan rock purple soil aqua doge good glint
     dc 0x38, 0xA4, 0x64, 0x44
  ;   dc 0x96, 0x68, 0x92, 0x92 ;0x66, 0x72, 0x92, 0x92
  ;   dc 4, 8, 10, 10
 
-    ; 15 purple boulder light blue diamond green mortar good glint
+    ; 15 purple rock light blue doge green mortar good glint
     dc 0x78, 0xC4, 0x26, 0xB4
  ;   dc 0x4A, 0x94, 0xA4, 0xA4 ;0x66, 0x72, 0x92, 0x92
  ;   dc 0xA0, 0x08, 0x04, 0x04
@@ -825,13 +825,13 @@ __PALETTE_COUNT = 16
 ; ;x    dc 0x46, 0xA2, 0xA2, 0xA2
 ; ;    dc 10, 8, 12, 12
 
-;     ; 14 tan boulder purple soil aqua diamond good glint
+;     ; 14 tan rock purple soil aqua doge good glint
 ; ;    dc 0xD8, 0x54, 0x44, 0x34
-;     dc __COMPATIBLE_AMOEBA_PALETTE + 0xA6, 0x48, 0xA2, 0xA2 ;0x46, 0xA2, 0xA2, 0xA2
+;     dc __COMPATIBLE_COMPATIBLE_PALETTE + 0xA6, 0x48, 0xA2, 0xA2 ;0x46, 0xA2, 0xA2, 0xA2
 ; ;    dc 4, 8, 10, 10
 
-;     ; 15 purple boulder light blue diamond green mortar good glint *
-;     dc __COMPATIBLE_AMOEBA_PALETTE + 0xA8, 0xC4, 0x26, 0x94
+;     ; 15 purple rock light blue doge green mortar good glint *
+;     dc __COMPATIBLE_COMPATIBLE_PALETTE + 0xA8, 0xC4, 0x26, 0x94
 ; ;x    dc 0x3A, 0xA4, 0x54, 0x54 ;0x46, 0xA2, 0xA2, 0xA2
 ; ;    dc 0x50, 0y08, 0y04, 0y04
 

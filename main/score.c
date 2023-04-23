@@ -3,7 +3,6 @@
 #include "main.h"
 #include <stdbool.h>
 
-// #include "amoeba.h"
 #include "bitpatterns.h"
 #include "cavedata.h"
 #include "colour.h"
@@ -291,12 +290,12 @@ void drawSpeedRun() {
     }
 }
 
-void drawDiamond() {
+void drawDoge() {
 
     scoreLineNew[1] = DIGIT_PLUS;
-    scoreLineNew[0] = DIGIT_DIAMOND;
+    scoreLineNew[0] = DIGIT_DOGE;
     scoreLineColour[1] = scoreLineColour[0] = RGB_GREEN;
-    drawDecimal2(scoreLineNew + 2, scoreLineColour + 2, RGB_YELLOW, diamonds < 0 ? -diamonds : diamonds);
+    drawDecimal2(scoreLineNew + 2, scoreLineColour + 2, RGB_YELLOW, doges < 0 ? -doges : doges);
 }
 
 void drawTime() {
@@ -429,7 +428,7 @@ void drawScore() {
         switch (scoreCycle) {
         case SCORELINE_TIME:
         case SCORELINE_SCORE:
-            //        drawDiamond();
+            //        drawDoges();
             //        drawTime();
             //        break;
             drawTheScore(actualScore);
@@ -442,7 +441,7 @@ void drawScore() {
             drawCaveLevel();
             break;
         case SCORELINE_SPEEDRUN:
-            if (!theCave->diamondsRequired[level] && !playerDead)
+            if (!theCave->dogeRequired[level] && !playerDead)
                 drawSpeedRun();
             else
                 setScoreCycle(SCORELINE_LIVES);

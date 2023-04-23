@@ -1412,8 +1412,8 @@ void chooseColourScheme() {
     //    unsigned char *c = (unsigned char *)__COLOUR_POOL;
     //    do {
     currentPalette = rangeRandom(__PALETTE_COUNT);
-    // } while (((int)caveList[cave]) & CAVE_REQUIRES_AMOEBA_PALETTE &&
-    //     (!(c[currentPalette << 2] & __COMPATIBLE_AMOEBA_PALETTE)));
+    // } while (((int)caveList[cave]) & CAVE_REQUIRES_COMPATIBLE_PALETTE &&
+    //     (!(c[currentPalette << 2] & __COMPATIBLE_PALETTE)));
 }
 
 void initKernel(int kernel) {
@@ -1457,7 +1457,7 @@ void initKernel(int kernel) {
         frame = 0; // for auto-detect
 
         mustWatchDelay = MUSTWATCH_COPYRIGHT;
-        SAY(__WORD_BOULDERDASH);
+        SAY(__WORD_ATT_ROCKDASH);
         break;
 
     case KERNEL_MENU:

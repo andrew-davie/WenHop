@@ -334,8 +334,8 @@ void loadPalette() {
     unsigned char *c = (unsigned char *)__COLOUR_POOL;
     //    currentPalette = getRandom32() & 15; //(cave ^ prng_a) & 15; // ^ prng_b; //rangeRandom(__PALETTE_COUNT);
 
-    // if (((int)caveList[cave]) & CAVE_REQUIRES_AMOEBA_PALETTE)
-    //     while (!(c[currentPalette << 2] & __COMPATIBLE_AMOEBA_PALETTE))
+    // if (((int)caveList[cave]) & CAVE_REQUIRES_COMPATIBLE_PALETTE)
+    //     while (!(c[currentPalette << 2] & __COMPATIBLE_PALETTE))
     //         currentPalette = rangeRandom(__PALETTE_COUNT);
 
     c += ((currentPalette & 15) << 2);
@@ -344,7 +344,7 @@ void loadPalette() {
     // ICC Colour Usage / Palette by line in char definition
 
     // 0        the soil - varies in colour down the screen ("background")
-    // 1        amoeba
+    // 1        ***
     // 2        the brickwork "mortar"
 
     //--------------

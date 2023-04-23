@@ -121,7 +121,7 @@ static const char AnimMellonHusk[] = {
 
     // @20...   see grab in mellon.c
 
-//    CH_DIAMOND_WITHOUT_DIRT, 3,
+//    CH_DOGE_WITHOUT_DIRT, 3,
     CH_DOGE_GRAB,8,
 
     CH_MELLON_HUSK, ANIM_HALT,
@@ -150,7 +150,7 @@ const char *const AnimateBase[TYPE_MAX] = {
     0,                   // 03 TYPE_OUTBOX_PRE,
     AnimFlashOut,        // 04 TYPE_OUTBOX,
     0,                   // 05 TYPE_STEELWALL,
-    0,                   // 06 TYPE_BOULDER,
+    0,                   // 06 TYPE_ROCK,
     AnimPulseDoge,       // 07 TYPE_DOGE,
     0,                   // 08 TYPE_MELLON_HUSK_PRE,
     AnimMellonHusk,      // 09 TYPE_MELLON_HUSK,
@@ -159,18 +159,18 @@ const char *const AnimateBase[TYPE_MAX] = {
     AnimGrab,            // 12 TYPE_GRAB,
     0,                   // 13 TYPE_DUST_0,
     0,                   // 14 TYPE_DOGE_FALLING,
-    0,                   // 15 TYPE_BOULDER_FALLING,
+    0,                   // 15 TYPE_ROCK_FALLING,
     0,                   // 16 TYPE_DUST_ROCK,
     0,                   // 17 TYPE_DOGE_CONVERT,
     AnimSwitch,          // 18 TYPE_SWITCH,
     0,                   // 19 TYPE_PUSHER,
     0,                   // 20 TYPE_PUSHER_VERT,
     0,                   // 21 TYPE_WYRM,
-    0,                   // 22 TYPE_BOULDER_DOGE,
-    0,                   // 23 TYPE_BOULDER_DOGE_FALLING,
-    AnimConglomerateMid, // 24 TYPE_BOULDER_DOGE_CRITICAL,
+    0,                   // 22 TYPE_ROCK_DOGE,
+    0,                   // 23 TYPE_ROCK_DOGE_FALLING,
+    AnimConglomerateMid, // 24 TYPE_ROCK_DOGE_CRITICAL,
     0,                   // 25 TYPE_LAVA,
-    0,                   // 26 TYPE_PEBBLE_BOULDER,
+    0,                   // 26 TYPE_PEBBLE_ROCK,
     AnimateGravity,      // 27 TYPE_FLIP_GRAVITY,
     0,                   // 28 TYPE_BLOCK
     0,                   // 29 TYPE_PACMAN_DOT
