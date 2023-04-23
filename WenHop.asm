@@ -417,7 +417,7 @@ __WORD_COUNT SET 9
 
 __WORD_NULL         = 0
 
-__WORD_BBG          = 1
+__WORD_BOO          = 1
 __WORD_WATCHOUT     = 2
 __WORD_GETREADY     = 3
 __WORD_AARGH        = 4
@@ -436,7 +436,7 @@ __WORD_CAVE_ONE     = 14
 __SPEECH_ADDRESS
 
     WORDIS NULL
-    WORDIS BBG
+    WORDIS BOO
     WORDIS WATCHOUT
     WORDIS GETREADY
     WORDIS AARGH

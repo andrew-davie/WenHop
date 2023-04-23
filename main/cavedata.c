@@ -21,7 +21,6 @@
 #define LINER(char, x, y, length, direction) 0x40 + char, x, y, direction, length,
 
 // #define RECTR(char, fill, x, y, width, height) 0x80 + char, x, y, width, height, fill,
-// #define ROCKY(startx, starty, doorx, doory) CH_DOORCLOSED, doorx, doory, CH_MELLON_HUSK_BIRTH, startx, starty,
 // #define RECTE(char, x, y, width, height) 0xC0 + char, x, y, width, height,
 
 // #define LINE_N 0

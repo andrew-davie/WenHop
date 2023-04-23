@@ -65,7 +65,7 @@ SPEAK_TOO_LATE
 ;    dc 191, 139, 146, 130, 191 ; "too late"
     dc $FF
 
-SPEAK_BBG
+SPEAK_BOO
     dc 20,20, 96, 21, 114, 22, 88, 23, 5, 183, 7, 159, 146, 164
     dc $FF
 
