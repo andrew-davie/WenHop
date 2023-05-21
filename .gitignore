@@ -7,3 +7,7 @@ main/bin/*.*
 *.out
 .DS_Store
 .vscode/settings.json
+crt_long_WenHop_20230520_003438.jpg
+crt_short_WenHop_20230520_003440.jpg
+.vscode/c_cpp_properties.json
+.vscode/launch.json
