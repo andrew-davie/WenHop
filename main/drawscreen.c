@@ -31,8 +31,8 @@ void grab(int frac, int size) {
     for (int col = 0; col < size; col++) {
 
         int base = frac + col;
-        if (base >= 40)
-            base -= 40;
+        while (base >= _BOARD_COLS)
+            base -= _BOARD_COLS;
 
         unsigned char p2 = GET2(p[base]);
         int type = CharToType[p2];
@@ -44,14 +44,14 @@ void grab(int frac, int size) {
 
         if (ATTRIBUTE_BIT(p[base], ATT_PAD)) {
 
-            if (ATTRIBUTE_BIT(p[base - 40], ATT_CORNER))
-                udlr |= 1;
+            if (ATTRIBUTE_BIT(p[base - _BOARD_COLS], ATT_CORNER))
+                udlr |= DIR_U;
             if (ATTRIBUTE_BIT(p[base + 1], ATT_CORNER))
-                udlr |= 2;
-            if (ATTRIBUTE_BIT(p[base + 40], ATT_CORNER))
-                udlr |= 4;
+                udlr |= DIR_R;
+            if (ATTRIBUTE_BIT(p[base + _BOARD_COLS], ATT_CORNER))
+                udlr |= DIR_D;
             if (ATTRIBUTE_BIT(p[base - 1], ATT_CORNER))
-                udlr |= 8;
+                udlr |= DIR_L;
         }
 
         static const unsigned char blank[] = {
@@ -80,9 +80,12 @@ void grab(int frac, int size) {
 }
 
 static unsigned char rollDirect[3][PIECE_DEPTH] = {
-    {2, 0, 1, 5, 3, 4, 8, 6, 7, 11, 9, 10, 14, 12, 13, 17, 15, 16, 20, 18, 19, 23, 21, 22, 26, 24, 25, 29, 27, 28},
-    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
-    {1, 2, 0, 4, 5, 3, 7, 8, 6, 10, 11, 9, 13, 14, 12, 16, 17, 15, 19, 20, 18, 22, 23, 21, 25, 26, 24, 28, 29, 27},
+    {2,  0,  1,  5,  3,  4,  8,  6,  7,  11, 9,  10, 14, 12, 13,
+     17, 15, 16, 20, 18, 19, 23, 21, 22, 26, 24, 25, 29, 27, 28},
+    {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14,
+     15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
+    {1,  2,  0,  4,  5,  3,  7,  8,  6,  10, 11, 9,  13, 14, 12,
+     16, 17, 15, 19, 20, 18, 22, 23, 21, 25, 26, 24, 28, 29, 27},
 };
 
 void drawScreen(int side) { // --> cycles 44743 (@20221216)
@@ -106,13 +109,11 @@ void drawScreen(int side) { // --> cycles 44743 (@20221216)
     int scanline = 0;
     for (int row = startRow; scanline < SCANLINES; row++) {
 
-        const int height = SCANLINES - scanline < PIECE_DEPTH
-                               ? SCANLINES - scanline
-                               : PIECE_DEPTH;
+        const int height = SCANLINES - scanline < PIECE_DEPTH ? SCANLINES - scanline : PIECE_DEPTH;
 
         for (int half = side; half < side + 1; half++) {
 
-            p = RAM + _BOARD + row * 40 + half * 4;
+            p = RAM + _BOARD + row * _BOARD_COLS + half * 4;
             grab(characterX, 5);
 
             unsigned char *pf0 = arenas[half] + scanline;
@@ -121,7 +122,11 @@ void drawScreen(int side) { // --> cycles 44743 (@20221216)
 
                 int lineColour = rollDirect[roller][y];
 
-                int p = ((unsigned int)(img[0][lineColour] | corner[0][lineColour]) << 27 >> 7) | ((unsigned int)(img[1][lineColour] | corner[1][lineColour]) << 27 >> 12) | ((unsigned int)(img[2][lineColour] | corner[2][lineColour]) << 27 >> 17) | ((unsigned int)(img[3][lineColour] | corner[3][lineColour]) << 27 >> 22) | ((unsigned int)(img[4][lineColour] | corner[4][lineColour]) << 27 >> 27);
+                int p = ((unsigned int)(img[0][lineColour] | corner[0][lineColour]) << 27 >> 7) |
+                        ((unsigned int)(img[1][lineColour] | corner[1][lineColour]) << 27 >> 12) |
+                        ((unsigned int)(img[2][lineColour] | corner[2][lineColour]) << 27 >> 17) |
+                        ((unsigned int)(img[3][lineColour] | corner[3][lineColour]) << 27 >> 22) |
+                        ((unsigned int)(img[4][lineColour] | corner[4][lineColour]) << 27 >> 27);
 
                 p >>= shift;
 
@@ -143,7 +148,7 @@ bool drawBit(int x, int y) {
         return false;
 
     int col = x - ((scrollX * 5) >> 16);
-    if (col < 0 || col > 39)
+    if (col < 0 || col > _BOARD_COLS - 1)
         return false;
 
     unsigned char *base = _BUF_PF0_LEFT + RAM + line;
@@ -180,7 +185,6 @@ unsigned char rainAge[RAINHAILSHINE];
 int rainX[RAINHAILSHINE];
 int rainY[RAINHAILSHINE], /*rainSpeed[RAINHAILSHINE],*/ rainSpeedX[RAINHAILSHINE];
 int rainSpeedY[RAINHAILSHINE];
-char rainRow[RAINHAILSHINE];
 
 #define RAINTYPE_BUBBLE 1
 // #define RAINTYPE_DOT 2

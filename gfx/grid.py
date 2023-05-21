@@ -23,7 +23,7 @@ def build(pix, im, y, start, stop, step):
     return r, g, b
 
 
-im = Image.open("./BoulderDash.gif")
+im = Image.open("./WenHop.gif")
 pix = im.load()
 f = open('../titleData.asm', 'w')
 

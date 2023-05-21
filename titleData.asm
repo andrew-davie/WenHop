@@ -1,796 +1,796 @@
 __COL0
- .byte 0 ;R (65)
- .byte 0 ;G
- .byte 0 ;B
- .byte 3 ;R (64)
- .byte 0 ;G
- .byte 3 ;B
- .byte 7 ;R (63)
- .byte 96 ;G
- .byte 103 ;B
- .byte 6 ;R (62)
- .byte 240 ;G
- .byte 246 ;B
- .byte 6 ;R (61)
- .byte 216 ;G
- .byte 222 ;B
- .byte 6 ;R (60)
- .byte 216 ;G
- .byte 222 ;B
- .byte 6 ;R (59)
- .byte 248 ;G
- .byte 254 ;B
- .byte 6 ;R (58)
- .byte 240 ;G
- .byte 246 ;B
- .byte 6 ;R (57)
- .byte 216 ;G
- .byte 222 ;B
- .byte 7 ;R (56)
- .byte 216 ;G
- .byte 223 ;B
- .byte 7 ;R (55)
- .byte 248 ;G
- .byte 255 ;B
- .byte 3 ;R (54)
- .byte 248 ;G
- .byte 251 ;B
- .byte 0 ;R (53)
- .byte 240 ;G
- .byte 240 ;B
- .byte 0 ;R (52)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (51)
- .byte 0 ;G
- .byte 0 ;B
- .byte 7 ;R (50)
- .byte 7 ;G
- .byte 0 ;B
- .byte 7 ;R (49)
- .byte 7 ;G
- .byte 0 ;B
- .byte 6 ;R (48)
- .byte 6 ;G
- .byte 0 ;B
- .byte 6 ;R (47)
- .byte 6 ;G
- .byte 0 ;B
- .byte 6 ;R (46)
- .byte 6 ;G
- .byte 0 ;B
- .byte 6 ;R (45)
- .byte 6 ;G
- .byte 0 ;B
- .byte 6 ;R (44)
- .byte 6 ;G
- .byte 0 ;B
- .byte 7 ;R (43)
- .byte 7 ;G
- .byte 0 ;B
- .byte 7 ;R (42)
- .byte 7 ;G
- .byte 0 ;B
- .byte 7 ;R (41)
- .byte 7 ;G
- .byte 0 ;B
- .byte 0 ;R (40)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (39)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (38)
+ .byte 1 ;R (65)
  .byte 1 ;G
- .byte 2 ;B
- .byte 0 ;R (37)
+ .byte 0 ;B
+ .byte 2 ;R (64)
  .byte 3 ;G
- .byte 4 ;B
- .byte 0 ;R (36)
+ .byte 1 ;B
+ .byte 0 ;R (63)
+ .byte 3 ;G
+ .byte 3 ;B
+ .byte 0 ;R (62)
+ .byte 3 ;G
+ .byte 3 ;B
+ .byte 4 ;R (61)
  .byte 7 ;G
- .byte 8 ;B
- .byte 0 ;R (35)
- .byte 15 ;G
- .byte 16 ;B
- .byte 0 ;R (34)
- .byte 27 ;G
- .byte 4 ;B
- .byte 0 ;R (33)
- .byte 3 ;G
- .byte 28 ;B
- .byte 0 ;R (32)
- .byte 3 ;G
- .byte 60 ;B
- .byte 0 ;R (31)
- .byte 0 ;G
- .byte 63 ;B
- .byte 0 ;R (30)
- .byte 0 ;G
- .byte 63 ;B
- .byte 0 ;R (29)
- .byte 0 ;G
- .byte 63 ;B
- .byte 0 ;R (28)
- .byte 0 ;G
- .byte 127 ;B
- .byte 0 ;R (27)
- .byte 0 ;G
- .byte 127 ;B
- .byte 0 ;R (26)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (25)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (24)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (23)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (22)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (21)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (20)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (19)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (18)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (17)
- .byte 0 ;G
- .byte 255 ;B
- .byte 0 ;R (16)
- .byte 0 ;G
- .byte 127 ;B
- .byte 0 ;R (15)
- .byte 0 ;G
- .byte 191 ;B
- .byte 0 ;R (14)
- .byte 0 ;G
- .byte 127 ;B
- .byte 0 ;R (13)
- .byte 0 ;G
- .byte 63 ;B
- .byte 0 ;R (12)
- .byte 0 ;G
- .byte 95 ;B
- .byte 0 ;R (11)
- .byte 0 ;G
- .byte 63 ;B
- .byte 64 ;R (10)
- .byte 64 ;G
- .byte 31 ;B
- .byte 192 ;R (9)
- .byte 192 ;G
- .byte 63 ;B
- .byte 224 ;R (8)
- .byte 224 ;G
- .byte 31 ;B
- .byte 240 ;R (7)
- .byte 240 ;G
- .byte 15 ;B
- .byte 240 ;R (6)
- .byte 240 ;G
+ .byte 3 ;B
+ .byte 4 ;R (60)
+ .byte 7 ;G
+ .byte 3 ;B
+ .byte 0 ;R (59)
+ .byte 7 ;G
  .byte 7 ;B
- .byte 248 ;R (5)
- .byte 248 ;G
+ .byte 0 ;R (58)
+ .byte 7 ;G
  .byte 7 ;B
- .byte 252 ;R (4)
- .byte 253 ;G
+ .byte 0 ;R (57)
+ .byte 7 ;G
+ .byte 7 ;B
+ .byte 3 ;R (56)
+ .byte 7 ;G
+ .byte 6 ;B
+ .byte 7 ;R (55)
+ .byte 7 ;G
+ .byte 6 ;B
+ .byte 7 ;R (54)
+ .byte 7 ;G
+ .byte 6 ;B
+ .byte 7 ;R (53)
+ .byte 7 ;G
+ .byte 6 ;B
+ .byte 3 ;R (52)
+ .byte 7 ;G
  .byte 2 ;B
- .byte 127 ;R (3)
+ .byte 29 ;R (51)
+ .byte 15 ;G
+ .byte 28 ;B
+ .byte 25 ;R (50)
+ .byte 63 ;G
+ .byte 24 ;B
+ .byte 25 ;R (49)
+ .byte 63 ;G
+ .byte 24 ;B
+ .byte 27 ;R (48)
+ .byte 63 ;G
+ .byte 24 ;B
+ .byte 27 ;R (47)
+ .byte 63 ;G
+ .byte 24 ;B
+ .byte 127 ;R (46)
+ .byte 126 ;G
+ .byte 57 ;B
+ .byte 103 ;R (45)
+ .byte 63 ;G
+ .byte 124 ;B
+ .byte 101 ;R (44)
+ .byte 255 ;G
+ .byte 62 ;B
+ .byte 101 ;R (43)
+ .byte 255 ;G
+ .byte 62 ;B
+ .byte 100 ;R (42)
+ .byte 255 ;G
+ .byte 61 ;B
+ .byte 101 ;R (41)
+ .byte 255 ;G
+ .byte 60 ;B
+ .byte 92 ;R (40)
+ .byte 255 ;G
+ .byte 60 ;B
+ .byte 69 ;R (39)
+ .byte 255 ;G
+ .byte 37 ;B
+ .byte 115 ;R (38)
  .byte 127 ;G
+ .byte 51 ;B
+ .byte 98 ;R (37)
+ .byte 47 ;G
+ .byte 2 ;B
+ .byte 98 ;R (36)
+ .byte 31 ;G
+ .byte 38 ;B
+ .byte 194 ;R (35)
+ .byte 63 ;G
+ .byte 2 ;B
+ .byte 198 ;R (34)
+ .byte 62 ;G
+ .byte 6 ;B
+ .byte 198 ;R (33)
+ .byte 62 ;G
+ .byte 6 ;B
+ .byte 198 ;R (32)
+ .byte 62 ;G
+ .byte 6 ;B
+ .byte 194 ;R (31)
+ .byte 63 ;G
+ .byte 2 ;B
+ .byte 193 ;R (30)
+ .byte 63 ;G
+ .byte 1 ;B
+ .byte 236 ;R (29)
+ .byte 63 ;G
+ .byte 12 ;B
+ .byte 238 ;R (28)
+ .byte 63 ;G
+ .byte 78 ;B
+ .byte 255 ;R (27)
+ .byte 31 ;G
+ .byte 207 ;B
+ .byte 247 ;R (26)
+ .byte 15 ;G
+ .byte 135 ;B
+ .byte 247 ;R (25)
+ .byte 15 ;G
+ .byte 135 ;B
+ .byte 255 ;R (24)
+ .byte 15 ;G
+ .byte 135 ;B
+ .byte 255 ;R (23)
+ .byte 15 ;G
+ .byte 135 ;B
+ .byte 251 ;R (22)
+ .byte 11 ;G
+ .byte 195 ;B
+ .byte 249 ;R (21)
+ .byte 7 ;G
+ .byte 249 ;B
+ .byte 248 ;R (20)
+ .byte 7 ;G
+ .byte 24 ;B
+ .byte 244 ;R (19)
+ .byte 15 ;G
+ .byte 4 ;B
+ .byte 248 ;R (18)
+ .byte 23 ;G
+ .byte 8 ;B
+ .byte 240 ;R (17)
+ .byte 31 ;G
  .byte 0 ;B
- .byte 127 ;R (2)
- .byte 255 ;G
+ .byte 240 ;R (16)
+ .byte 63 ;G
+ .byte 16 ;B
+ .byte 192 ;R (15)
+ .byte 127 ;G
+ .byte 16 ;B
+ .byte 129 ;R (14)
+ .byte 126 ;G
+ .byte 16 ;B
+ .byte 137 ;R (13)
+ .byte 120 ;G
+ .byte 16 ;B
+ .byte 135 ;R (12)
+ .byte 124 ;G
+ .byte 56 ;B
+ .byte 199 ;R (11)
+ .byte 124 ;G
+ .byte 56 ;B
+ .byte 199 ;R (10)
+ .byte 120 ;G
+ .byte 56 ;B
+ .byte 207 ;R (9)
+ .byte 120 ;G
+ .byte 48 ;B
+ .byte 199 ;R (8)
+ .byte 120 ;G
+ .byte 56 ;B
+ .byte 199 ;R (7)
+ .byte 56 ;G
+ .byte 56 ;B
+ .byte 199 ;R (6)
+ .byte 56 ;G
+ .byte 56 ;B
+ .byte 199 ;R (5)
+ .byte 56 ;G
+ .byte 56 ;B
+ .byte 231 ;R (4)
+ .byte 56 ;G
+ .byte 25 ;B
+ .byte 207 ;R (3)
+ .byte 56 ;G
+ .byte 17 ;B
+ .byte 255 ;R (2)
+ .byte 56 ;G
  .byte 0 ;B
- .byte 255 ;R (1)
- .byte 255 ;G
+ .byte 239 ;R (1)
+ .byte 24 ;G
  .byte 0 ;B
  .byte 255 ;R (0)
- .byte 255 ;G
+ .byte 0 ;G
  .byte 0 ;B
 __COL1
- .byte 192 ;R (65)
- .byte 54 ;G
- .byte 0 ;B
- .byte 192 ;R (64)
- .byte 54 ;G
- .byte 0 ;B
- .byte 193 ;R (63)
- .byte 54 ;G
+ .byte 4 ;R (65)
+ .byte 7 ;G
+ .byte 3 ;B
+ .byte 0 ;R (64)
+ .byte 7 ;G
+ .byte 7 ;B
+ .byte 0 ;R (63)
+ .byte 15 ;G
+ .byte 15 ;B
+ .byte 0 ;R (62)
+ .byte 15 ;G
+ .byte 15 ;B
+ .byte 16 ;R (61)
+ .byte 31 ;G
+ .byte 15 ;B
+ .byte 8 ;R (60)
+ .byte 31 ;G
+ .byte 23 ;B
+ .byte 0 ;R (59)
+ .byte 31 ;G
  .byte 1 ;B
- .byte 193 ;R (62)
+ .byte 1 ;R (58)
+ .byte 31 ;G
+ .byte 0 ;B
+ .byte 0 ;R (57)
+ .byte 31 ;G
+ .byte 0 ;B
+ .byte 46 ;R (56)
+ .byte 49 ;G
+ .byte 14 ;B
+ .byte 42 ;R (55)
+ .byte 33 ;G
+ .byte 30 ;B
+ .byte 62 ;R (54)
+ .byte 33 ;G
+ .byte 30 ;B
+ .byte 62 ;R (53)
+ .byte 55 ;G
+ .byte 30 ;B
+ .byte 62 ;R (52)
+ .byte 55 ;G
+ .byte 30 ;B
+ .byte 62 ;R (51)
+ .byte 59 ;G
+ .byte 30 ;B
+ .byte 47 ;R (50)
  .byte 54 ;G
- .byte 1 ;B
- .byte 193 ;R (61)
+ .byte 15 ;B
+ .byte 47 ;R (49)
  .byte 54 ;G
- .byte 1 ;B
- .byte 193 ;R (60)
- .byte 54 ;G
- .byte 1 ;B
- .byte 193 ;R (59)
- .byte 54 ;G
- .byte 1 ;B
- .byte 193 ;R (58)
- .byte 54 ;G
- .byte 1 ;B
- .byte 193 ;R (57)
- .byte 54 ;G
- .byte 1 ;B
- .byte 193 ;R (56)
- .byte 62 ;G
- .byte 1 ;B
- .byte 193 ;R (55)
- .byte 28 ;G
- .byte 1 ;B
- .byte 0 ;R (54)
- .byte 0 ;G
+ .byte 15 ;B
+ .byte 15 ;R (48)
+ .byte 30 ;G
+ .byte 15 ;B
+ .byte 14 ;R (47)
+ .byte 31 ;G
+ .byte 14 ;B
+ .byte 14 ;R (46)
+ .byte 25 ;G
+ .byte 14 ;B
+ .byte 12 ;R (45)
+ .byte 19 ;G
+ .byte 12 ;B
+ .byte 17 ;R (44)
+ .byte 14 ;G
+ .byte 17 ;B
+ .byte 1 ;R (43)
+ .byte 143 ;G
  .byte 0 ;B
- .byte 0 ;R (53)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (52)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (51)
- .byte 0 ;G
- .byte 48 ;B
- .byte 128 ;R (50)
- .byte 0 ;G
- .byte 120 ;B
- .byte 129 ;R (49)
- .byte 1 ;G
- .byte 108 ;B
- .byte 131 ;R (48)
- .byte 3 ;G
- .byte 108 ;B
- .byte 3 ;R (47)
- .byte 3 ;G
- .byte 124 ;B
- .byte 3 ;R (46)
- .byte 3 ;G
- .byte 124 ;B
- .byte 3 ;R (45)
- .byte 3 ;G
- .byte 124 ;B
- .byte 131 ;R (44)
- .byte 3 ;G
- .byte 108 ;B
- .byte 131 ;R (43)
- .byte 3 ;G
- .byte 108 ;B
- .byte 129 ;R (42)
- .byte 1 ;G
- .byte 108 ;B
- .byte 1 ;R (41)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (40)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (39)
- .byte 252 ;G
- .byte 0 ;B
- .byte 0 ;R (38)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (37)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (36)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (35)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (34)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (33)
- .byte 125 ;G
+ .byte 3 ;R (42)
+ .byte 141 ;G
  .byte 2 ;B
- .byte 0 ;R (32)
- .byte 251 ;G
- .byte 4 ;B
- .byte 0 ;R (31)
- .byte 254 ;G
+ .byte 46 ;R (41)
+ .byte 239 ;G
  .byte 1 ;B
- .byte 0 ;R (30)
- .byte 220 ;G
- .byte 35 ;B
- .byte 0 ;R (29)
- .byte 240 ;G
- .byte 15 ;B
- .byte 0 ;R (28)
- .byte 168 ;G
- .byte 87 ;B
- .byte 0 ;R (27)
- .byte 240 ;G
- .byte 15 ;B
- .byte 0 ;R (26)
- .byte 192 ;G
+ .byte 63 ;R (40)
+ .byte 255 ;G
+ .byte 56 ;B
+ .byte 61 ;R (39)
+ .byte 255 ;G
+ .byte 61 ;B
+ .byte 127 ;R (38)
+ .byte 255 ;G
  .byte 63 ;B
- .byte 128 ;R (25)
- .byte 96 ;G
- .byte 31 ;B
- .byte 0 ;R (24)
- .byte 160 ;G
- .byte 95 ;B
- .byte 0 ;R (23)
- .byte 192 ;G
- .byte 63 ;B
- .byte 0 ;R (22)
- .byte 160 ;G
- .byte 95 ;B
- .byte 0 ;R (21)
- .byte 192 ;G
- .byte 63 ;B
- .byte 0 ;R (20)
- .byte 224 ;G
- .byte 31 ;B
- .byte 0 ;R (19)
- .byte 128 ;G
- .byte 127 ;B
- .byte 0 ;R (18)
- .byte 96 ;G
- .byte 159 ;B
- .byte 0 ;R (17)
- .byte 64 ;G
- .byte 63 ;B
- .byte 0 ;R (16)
- .byte 240 ;G
- .byte 95 ;B
- .byte 0 ;R (15)
- .byte 112 ;G
- .byte 223 ;B
- .byte 0 ;R (14)
- .byte 248 ;G
- .byte 63 ;B
- .byte 0 ;R (13)
- .byte 232 ;G
- .byte 43 ;B
- .byte 0 ;R (12)
- .byte 248 ;G
- .byte 63 ;B
- .byte 0 ;R (11)
- .byte 224 ;G
- .byte 111 ;B
- .byte 0 ;R (10)
+ .byte 120 ;R (37)
+ .byte 255 ;G
+ .byte 56 ;B
+ .byte 56 ;R (36)
+ .byte 255 ;G
+ .byte 56 ;B
+ .byte 10 ;R (35)
+ .byte 255 ;G
+ .byte 56 ;B
+ .byte 16 ;R (34)
+ .byte 63 ;G
+ .byte 34 ;B
+ .byte 208 ;R (33)
+ .byte 63 ;G
+ .byte 34 ;B
+ .byte 249 ;R (32)
+ .byte 7 ;G
+ .byte 2 ;B
+ .byte 250 ;R (31)
+ .byte 6 ;G
+ .byte 240 ;B
+ .byte 252 ;R (30)
+ .byte 3 ;G
+ .byte 4 ;B
+ .byte 248 ;R (29)
+ .byte 7 ;G
+ .byte 0 ;B
+ .byte 255 ;R (28)
+ .byte 3 ;G
+ .byte 135 ;B
+ .byte 255 ;R (27)
+ .byte 135 ;G
+ .byte 143 ;B
+ .byte 255 ;R (26)
+ .byte 159 ;G
+ .byte 143 ;B
+ .byte 119 ;R (25)
+ .byte 223 ;G
+ .byte 151 ;B
+ .byte 55 ;R (24)
+ .byte 255 ;G
+ .byte 247 ;B
+ .byte 39 ;R (23)
+ .byte 255 ;G
+ .byte 247 ;B
+ .byte 7 ;R (22)
+ .byte 255 ;G
+ .byte 247 ;B
+ .byte 15 ;R (21)
+ .byte 255 ;G
+ .byte 247 ;B
+ .byte 12 ;R (20)
+ .byte 250 ;G
+ .byte 116 ;B
+ .byte 8 ;R (19)
+ .byte 255 ;G
+ .byte 48 ;B
+ .byte 10 ;R (18)
+ .byte 255 ;G
+ .byte 48 ;B
+ .byte 38 ;R (17)
+ .byte 253 ;G
+ .byte 16 ;B
+ .byte 39 ;R (16)
+ .byte 249 ;G
+ .byte 16 ;B
+ .byte 63 ;R (15)
  .byte 176 ;G
- .byte 255 ;B
- .byte 0 ;R (9)
- .byte 16 ;G
- .byte 255 ;B
- .byte 0 ;R (8)
- .byte 48 ;G
- .byte 255 ;B
- .byte 0 ;R (7)
- .byte 224 ;G
- .byte 255 ;B
- .byte 0 ;R (6)
- .byte 96 ;G
- .byte 127 ;B
- .byte 192 ;R (5)
- .byte 224 ;G
- .byte 63 ;B
- .byte 192 ;R (4)
- .byte 252 ;G
- .byte 35 ;B
- .byte 211 ;R (3)
- .byte 255 ;G
- .byte 32 ;B
- .byte 191 ;R (2)
- .byte 255 ;G
- .byte 64 ;B
+ .byte 8 ;B
+ .byte 31 ;R (14)
+ .byte 128 ;G
+ .byte 12 ;B
+ .byte 63 ;R (13)
+ .byte 128 ;G
+ .byte 14 ;B
+ .byte 255 ;R (12)
+ .byte 0 ;G
+ .byte 6 ;B
+ .byte 255 ;R (11)
+ .byte 0 ;G
+ .byte 6 ;B
+ .byte 255 ;R (10)
+ .byte 0 ;G
+ .byte 6 ;B
+ .byte 255 ;R (9)
+ .byte 0 ;G
+ .byte 6 ;B
+ .byte 255 ;R (8)
+ .byte 0 ;G
+ .byte 6 ;B
+ .byte 255 ;R (7)
+ .byte 0 ;G
+ .byte 14 ;B
+ .byte 255 ;R (6)
+ .byte 0 ;G
+ .byte 121 ;B
+ .byte 255 ;R (5)
+ .byte 0 ;G
+ .byte 193 ;B
+ .byte 255 ;R (4)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (3)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (2)
+ .byte 0 ;G
+ .byte 0 ;B
  .byte 255 ;R (1)
- .byte 255 ;G
+ .byte 0 ;G
  .byte 0 ;B
  .byte 255 ;R (0)
- .byte 255 ;G
+ .byte 0 ;G
  .byte 0 ;B
 __COL3
  .byte 0 ;R (65)
  .byte 0 ;G
  .byte 0 ;B
- .byte 7 ;R (64)
- .byte 7 ;G
+ .byte 55 ;R (64)
+ .byte 52 ;G
+ .byte 55 ;B
+ .byte 126 ;R (63)
+ .byte 124 ;G
+ .byte 126 ;B
+ .byte 238 ;R (62)
+ .byte 236 ;G
+ .byte 238 ;B
+ .byte 207 ;R (61)
+ .byte 204 ;G
+ .byte 207 ;B
+ .byte 205 ;R (60)
+ .byte 204 ;G
+ .byte 205 ;B
+ .byte 204 ;R (59)
+ .byte 204 ;G
+ .byte 204 ;B
+ .byte 204 ;R (58)
+ .byte 204 ;G
+ .byte 204 ;B
+ .byte 207 ;R (57)
+ .byte 204 ;G
+ .byte 207 ;B
+ .byte 207 ;R (56)
+ .byte 204 ;G
+ .byte 207 ;B
+ .byte 0 ;R (55)
+ .byte 0 ;G
  .byte 0 ;B
- .byte 7 ;R (63)
- .byte 63 ;G
- .byte 0 ;B
- .byte 1 ;R (62)
- .byte 121 ;G
- .byte 0 ;B
- .byte 1 ;R (61)
- .byte 217 ;G
- .byte 0 ;B
- .byte 3 ;R (60)
- .byte 219 ;G
- .byte 0 ;B
- .byte 3 ;R (59)
- .byte 251 ;G
- .byte 0 ;B
- .byte 1 ;R (58)
- .byte 249 ;G
- .byte 0 ;B
- .byte 1 ;R (57)
- .byte 121 ;G
- .byte 0 ;B
- .byte 7 ;R (56)
- .byte 95 ;G
- .byte 0 ;B
- .byte 7 ;R (55)
- .byte 223 ;G
- .byte 0 ;B
- .byte 7 ;R (54)
- .byte 223 ;G
+ .byte 0 ;R (54)
+ .byte 0 ;G
  .byte 0 ;B
  .byte 0 ;R (53)
- .byte 216 ;G
- .byte 0 ;B
- .byte 0 ;R (52)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (51)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (50)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (49)
- .byte 1 ;G
- .byte 1 ;B
- .byte 0 ;R (48)
- .byte 1 ;G
- .byte 1 ;B
- .byte 0 ;R (47)
- .byte 1 ;G
- .byte 1 ;B
+ .byte 60 ;G
+ .byte 60 ;B
+ .byte 1 ;R (52)
+ .byte 109 ;G
+ .byte 109 ;B
+ .byte 3 ;R (51)
+ .byte 111 ;G
+ .byte 111 ;B
+ .byte 3 ;R (50)
+ .byte 111 ;G
+ .byte 111 ;B
+ .byte 3 ;R (49)
+ .byte 63 ;G
+ .byte 63 ;B
+ .byte 3 ;R (48)
+ .byte 15 ;G
+ .byte 15 ;B
+ .byte 1 ;R (47)
+ .byte 13 ;G
+ .byte 13 ;B
  .byte 0 ;R (46)
- .byte 1 ;G
- .byte 1 ;B
+ .byte 12 ;G
+ .byte 12 ;B
  .byte 0 ;R (45)
- .byte 1 ;G
- .byte 1 ;B
+ .byte 0 ;G
+ .byte 0 ;B
  .byte 0 ;R (44)
- .byte 1 ;G
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 240 ;R (43)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (42)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (41)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (40)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (39)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (38)
+ .byte 0 ;G
+ .byte 31 ;B
+ .byte 255 ;R (37)
+ .byte 0 ;G
+ .byte 16 ;B
+ .byte 255 ;R (36)
+ .byte 0 ;G
+ .byte 24 ;B
+ .byte 255 ;R (35)
+ .byte 0 ;G
+ .byte 7 ;B
+ .byte 255 ;R (34)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (33)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (32)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (31)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (30)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (29)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (28)
+ .byte 0 ;G
  .byte 1 ;B
- .byte 0 ;R (43)
- .byte 1 ;G
+ .byte 255 ;R (27)
+ .byte 0 ;G
  .byte 1 ;B
- .byte 0 ;R (42)
- .byte 1 ;G
- .byte 1 ;B
- .byte 0 ;R (41)
- .byte 1 ;G
- .byte 1 ;B
- .byte 0 ;R (40)
- .byte 1 ;G
- .byte 1 ;B
- .byte 0 ;R (39)
+ .byte 255 ;R (26)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (38)
+ .byte 255 ;R (25)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (37)
+ .byte 255 ;R (24)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (36)
+ .byte 255 ;R (23)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (35)
+ .byte 255 ;R (22)
+ .byte 0 ;G
+ .byte 255 ;B
+ .byte 255 ;R (21)
+ .byte 0 ;G
+ .byte 255 ;B
+ .byte 255 ;R (20)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (34)
+ .byte 255 ;R (19)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (33)
+ .byte 255 ;R (18)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (32)
+ .byte 255 ;R (17)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (31)
+ .byte 255 ;R (16)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (30)
+ .byte 255 ;R (15)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (29)
+ .byte 255 ;R (14)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (28)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (27)
+ .byte 255 ;R (13)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (26)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (25)
+ .byte 255 ;R (12)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (24)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (23)
+ .byte 255 ;R (11)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (22)
+ .byte 255 ;R (10)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (21)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (20)
+ .byte 255 ;R (9)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (19)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (18)
+ .byte 255 ;R (8)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (17)
+ .byte 255 ;R (7)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (16)
+ .byte 255 ;R (6)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (15)
+ .byte 255 ;R (5)
  .byte 0 ;G
  .byte 0 ;B
- .byte 112 ;R (14)
+ .byte 255 ;R (4)
  .byte 0 ;G
  .byte 0 ;B
- .byte 252 ;R (13)
+ .byte 255 ;R (3)
+ .byte 0 ;G
+ .byte 255 ;B
+ .byte 255 ;R (2)
  .byte 0 ;G
  .byte 0 ;B
- .byte 254 ;R (12)
+ .byte 255 ;R (1)
  .byte 0 ;G
  .byte 0 ;B
- .byte 63 ;R (11)
- .byte 1 ;G
- .byte 0 ;B
- .byte 92 ;R (10)
+ .byte 255 ;R (0)
  .byte 0 ;G
- .byte 0 ;B
- .byte 56 ;R (9)
- .byte 0 ;G
- .byte 0 ;B
- .byte 21 ;R (8)
- .byte 65 ;G
- .byte 0 ;B
- .byte 24 ;R (7)
- .byte 35 ;G
- .byte 0 ;B
- .byte 15 ;R (6)
- .byte 95 ;G
- .byte 0 ;B
- .byte 7 ;R (5)
- .byte 31 ;G
- .byte 0 ;B
- .byte 7 ;R (4)
- .byte 63 ;G
- .byte 0 ;B
- .byte 7 ;R (3)
- .byte 127 ;G
- .byte 0 ;B
- .byte 3 ;R (2)
- .byte 63 ;G
- .byte 0 ;B
- .byte 1 ;R (1)
- .byte 31 ;G
- .byte 0 ;B
- .byte 1 ;R (0)
- .byte 1 ;G
  .byte 0 ;B
 __COL2
  .byte 0 ;R (65)
  .byte 0 ;G
- .byte 56 ;B
+ .byte 0 ;B
  .byte 1 ;R (64)
- .byte 1 ;G
- .byte 60 ;B
+ .byte 196 ;G
+ .byte 197 ;B
  .byte 1 ;R (63)
- .byte 1 ;G
- .byte 62 ;B
- .byte 1 ;R (62)
- .byte 1 ;G
- .byte 54 ;B
- .byte 1 ;R (61)
- .byte 1 ;G
- .byte 54 ;B
- .byte 1 ;R (60)
- .byte 1 ;G
- .byte 54 ;B
- .byte 1 ;R (59)
- .byte 1 ;G
- .byte 54 ;B
- .byte 1 ;R (58)
- .byte 1 ;G
- .byte 54 ;B
- .byte 193 ;R (57)
- .byte 1 ;G
- .byte 62 ;B
- .byte 193 ;R (56)
- .byte 1 ;G
- .byte 60 ;B
- .byte 193 ;R (55)
- .byte 1 ;G
- .byte 56 ;B
- .byte 1 ;R (54)
- .byte 1 ;G
- .byte 0 ;B
- .byte 0 ;R (53)
+ .byte 196 ;G
+ .byte 197 ;B
+ .byte 3 ;R (62)
+ .byte 196 ;G
+ .byte 199 ;B
+ .byte 3 ;R (61)
+ .byte 212 ;G
+ .byte 215 ;B
+ .byte 3 ;R (60)
+ .byte 212 ;G
+ .byte 215 ;B
+ .byte 3 ;R (59)
+ .byte 212 ;G
+ .byte 215 ;B
+ .byte 3 ;R (58)
+ .byte 252 ;G
+ .byte 255 ;B
+ .byte 1 ;R (57)
+ .byte 124 ;G
+ .byte 125 ;B
+ .byte 1 ;R (56)
+ .byte 104 ;G
+ .byte 105 ;B
+ .byte 0 ;R (55)
  .byte 0 ;G
  .byte 0 ;B
- .byte 0 ;R (52)
- .byte 0 ;G
- .byte 0 ;B
- .byte 240 ;R (51)
- .byte 0 ;G
- .byte 0 ;B
- .byte 240 ;R (50)
- .byte 12 ;G
- .byte 12 ;B
- .byte 128 ;R (49)
- .byte 13 ;G
- .byte 13 ;B
- .byte 192 ;R (48)
- .byte 13 ;G
- .byte 13 ;B
- .byte 224 ;R (47)
- .byte 15 ;G
- .byte 15 ;B
- .byte 112 ;R (46)
- .byte 15 ;G
- .byte 15 ;B
- .byte 48 ;R (45)
- .byte 15 ;G
- .byte 15 ;B
- .byte 176 ;R (44)
- .byte 13 ;G
- .byte 13 ;B
- .byte 240 ;R (43)
- .byte 13 ;G
- .byte 13 ;B
- .byte 224 ;R (42)
- .byte 13 ;G
- .byte 13 ;B
- .byte 0 ;R (41)
- .byte 13 ;G
- .byte 13 ;B
- .byte 0 ;R (40)
- .byte 1 ;G
- .byte 1 ;B
- .byte 0 ;R (39)
- .byte 0 ;G
- .byte 0 ;B
- .byte 0 ;R (38)
- .byte 128 ;G
- .byte 0 ;B
- .byte 0 ;R (37)
+ .byte 0 ;R (54)
  .byte 192 ;G
  .byte 0 ;B
- .byte 0 ;R (36)
- .byte 248 ;G
+ .byte 0 ;R (53)
+ .byte 192 ;G
  .byte 0 ;B
- .byte 0 ;R (35)
- .byte 120 ;G
- .byte 0 ;B
- .byte 0 ;R (34)
- .byte 124 ;G
- .byte 0 ;B
- .byte 0 ;R (33)
- .byte 36 ;G
- .byte 0 ;B
- .byte 0 ;R (32)
- .byte 124 ;G
- .byte 0 ;B
- .byte 0 ;R (31)
- .byte 251 ;G
- .byte 0 ;B
- .byte 0 ;R (30)
- .byte 252 ;G
- .byte 0 ;B
- .byte 0 ;R (29)
- .byte 251 ;G
- .byte 0 ;B
- .byte 0 ;R (28)
+ .byte 3 ;R (52)
+ .byte 195 ;G
+ .byte 3 ;B
+ .byte 6 ;R (51)
+ .byte 246 ;G
+ .byte 6 ;B
+ .byte 6 ;R (50)
  .byte 254 ;G
- .byte 0 ;B
- .byte 0 ;R (27)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (26)
- .byte 126 ;G
- .byte 128 ;B
- .byte 0 ;R (25)
- .byte 61 ;G
- .byte 0 ;B
- .byte 0 ;R (24)
- .byte 63 ;G
- .byte 0 ;B
- .byte 128 ;R (23)
- .byte 126 ;G
- .byte 0 ;B
- .byte 128 ;R (22)
- .byte 125 ;G
- .byte 0 ;B
- .byte 0 ;R (21)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (20)
- .byte 122 ;G
- .byte 128 ;B
- .byte 0 ;R (19)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (18)
- .byte 84 ;G
- .byte 32 ;B
- .byte 0 ;R (17)
- .byte 125 ;G
- .byte 0 ;B
- .byte 0 ;R (16)
- .byte 254 ;G
- .byte 0 ;B
- .byte 0 ;R (15)
- .byte 255 ;G
- .byte 0 ;B
- .byte 0 ;R (14)
- .byte 252 ;G
- .byte 16 ;B
- .byte 0 ;R (13)
- .byte 254 ;G
- .byte 16 ;B
- .byte 0 ;R (12)
+ .byte 6 ;B
+ .byte 6 ;R (49)
+ .byte 222 ;G
+ .byte 6 ;B
+ .byte 6 ;R (48)
+ .byte 222 ;G
+ .byte 6 ;B
+ .byte 3 ;R (47)
+ .byte 219 ;G
+ .byte 3 ;B
+ .byte 0 ;R (46)
  .byte 216 ;G
- .byte 16 ;B
- .byte 0 ;R (11)
- .byte 188 ;G
- .byte 32 ;B
- .byte 0 ;R (10)
- .byte 244 ;G
- .byte 224 ;B
- .byte 32 ;R (9)
- .byte 136 ;G
- .byte 192 ;B
- .byte 18 ;R (8)
- .byte 134 ;G
- .byte 192 ;B
- .byte 15 ;R (7)
- .byte 42 ;G
- .byte 96 ;B
- .byte 31 ;R (6)
- .byte 127 ;G
- .byte 224 ;B
- .byte 159 ;R (5)
- .byte 191 ;G
- .byte 96 ;B
- .byte 111 ;R (4)
- .byte 127 ;G
- .byte 144 ;B
- .byte 111 ;R (3)
- .byte 127 ;G
- .byte 144 ;B
- .byte 239 ;R (2)
- .byte 255 ;G
  .byte 0 ;B
- .byte 199 ;R (1)
- .byte 247 ;G
+ .byte 0 ;R (45)
+ .byte 0 ;G
  .byte 0 ;B
- .byte 129 ;R (0)
- .byte 241 ;G
+ .byte 0 ;R (44)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 0 ;R (43)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 1 ;R (42)
+ .byte 192 ;G
+ .byte 0 ;B
+ .byte 31 ;R (41)
+ .byte 192 ;G
+ .byte 0 ;B
+ .byte 63 ;R (40)
+ .byte 192 ;G
+ .byte 0 ;B
+ .byte 63 ;R (39)
+ .byte 192 ;G
+ .byte 0 ;B
+ .byte 127 ;R (38)
+ .byte 128 ;G
+ .byte 0 ;B
+ .byte 63 ;R (37)
+ .byte 192 ;G
+ .byte 1 ;B
+ .byte 127 ;R (36)
+ .byte 128 ;G
+ .byte 2 ;B
+ .byte 127 ;R (35)
+ .byte 192 ;G
+ .byte 3 ;B
+ .byte 127 ;R (34)
+ .byte 64 ;G
+ .byte 0 ;B
+ .byte 255 ;R (33)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (32)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (31)
+ .byte 0 ;G
+ .byte 248 ;B
+ .byte 255 ;R (30)
+ .byte 0 ;G
+ .byte 14 ;B
+ .byte 255 ;R (29)
+ .byte 128 ;G
+ .byte 7 ;B
+ .byte 127 ;R (28)
+ .byte 128 ;G
+ .byte 3 ;B
+ .byte 127 ;R (27)
+ .byte 128 ;G
+ .byte 15 ;B
+ .byte 127 ;R (26)
+ .byte 128 ;G
+ .byte 31 ;B
+ .byte 127 ;R (25)
+ .byte 128 ;G
+ .byte 124 ;B
+ .byte 127 ;R (24)
+ .byte 128 ;G
+ .byte 120 ;B
+ .byte 127 ;R (23)
+ .byte 128 ;G
+ .byte 64 ;B
+ .byte 127 ;R (22)
+ .byte 128 ;G
+ .byte 1 ;B
+ .byte 127 ;R (21)
+ .byte 128 ;G
+ .byte 15 ;B
+ .byte 255 ;R (20)
+ .byte 128 ;G
+ .byte 124 ;B
+ .byte 255 ;R (19)
+ .byte 0 ;G
+ .byte 224 ;B
+ .byte 255 ;R (18)
+ .byte 0 ;G
+ .byte 128 ;B
+ .byte 255 ;R (17)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (16)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (15)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (14)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (13)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (12)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (11)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (10)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (9)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (8)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (7)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (6)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (5)
+ .byte 0 ;G
+ .byte 192 ;B
+ .byte 255 ;R (4)
+ .byte 0 ;G
+ .byte 124 ;B
+ .byte 255 ;R (3)
+ .byte 0 ;G
+ .byte 3 ;B
+ .byte 255 ;R (2)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (1)
+ .byte 0 ;G
+ .byte 0 ;B
+ .byte 255 ;R (0)
+ .byte 0 ;G
  .byte 0 ;B

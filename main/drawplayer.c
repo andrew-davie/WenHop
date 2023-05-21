@@ -1,21 +1,22 @@
-#include "drawplayer.h"
+#include <stdbool.h>
+
+#include "main.h"
+
 #include "attribute.h"
 #include "bitpatterns.h"
 #include "colour.h"
 #include "defines.h"
 #include "defines_cdfj.h"
-#include "main.h"
+#include "drawplayer.h"
 #include "mellon.h"
 #include "player.h"
 #include "random.h"
 #include "scroll.h"
 #include "sound.h"
 #include "swipeCircle.h"
-#include <stdbool.h>
 
 static int playerSpriteY;
 
-extern const unsigned char playerColour[];
 unsigned char dynamicPlayerColours[16];
 unsigned char playerBaseColour[16];
 unsigned char postProcessPlayerColours[16];
@@ -26,16 +27,30 @@ void initSprites() {
 
     int rcol = getRandom32() & 0xF0;
 
+    static const unsigned char playerColour[] = {
+
+        0x28, // 00 HAIR
+        0x34, // 01 SKIN
+        0x06, // 02 TOP1
+        0x06, // 03 TOP2
+        0x44, // 04 BOOT
+        0x44, // 05 PANT
+        0x58, // 06 BELT
+        0x08, // 07 SOLE
+        0x08, // 08 BONE
+        0x2C, // 09 HMT0
+        0x28, // 10 HMT1
+        0x26, // 11 HMT2
+        0x22, // 12 HMT3
+        0x4A, // 13 BDY0
+        0x46, // 14 BDY1
+        0x44, // 15 BDY2
+    };
+
     for (int i = 0; i < 16; i++) {
-        playerBaseColour[i] =
-            dynamicPlayerColours[i] = convertColour(playerColour[i]) + rcol;
-    }
-
-    // for (int i = 9; i < 16; i++)
-    //     dynamicPlayerColours[i] += rcol;
-
-    for (int i = 0; i < 16; i++)
+        playerBaseColour[i] = dynamicPlayerColours[i] = convertColour(playerColour[i]) + rcol;
         postProcessPlayerColours[i] = dynamicPlayerColours[i] & 0xF0;
+    }
 }
 
 // const unsigned char tinyDigit[][7] = {
@@ -152,8 +167,8 @@ void drawPlayerSprite() { // --> 3171 cycles
 
     int rooted = c[showWater ? 0 : 1][(root >> 3) & 3];
 
-    if (cpulse) {
-        if (!(--cpulse & 7)) {
+    if (pulsePlayerColour) {
+        if (!(--pulsePlayerColour & 7)) {
             int cswitch = getRandom32() & 0xF0;
             for (int i = 9; i < 13; i++)
                 postProcessPlayerColours[i] = cswitch;
@@ -176,10 +191,13 @@ void drawPlayerSprite() { // --> 3171 cycles
 
 #endif
 
-    int ypos = (playerY + 1) * PIECE_DEPTH - y * 3 - frameAdjustY * gravity - 8 + autoMoveY - SCORE_SCANLINES;
+    int ypos = (playerY + 1) * PIECE_DEPTH - y * 3 - frameAdjustY * gravity - 8 + autoMoveY -
+               SCORE_SCANLINES;
     int xpos = playerX * 5 - x;
 
-    if (((frameAdjustY || frameAdjustX || autoMoveX || autoMoveY)) || (xpos >= 0 && xpos < 39 && ypos >= 0 && ypos < _ARENA_SCANLINES - PIECE_DEPTH)) {
+    if (((frameAdjustY || frameAdjustX || autoMoveX || autoMoveY)) ||
+        (xpos >= 0 && xpos < _BOARD_COLS - 1 && ypos >= 0 &&
+         ypos < _ARENA_SCANLINES - PIECE_DEPTH)) {
 
         const unsigned char *spr = spriteShape[*playerAnimation];
         if (!spr)
@@ -243,8 +261,10 @@ void drawPlayerSprite() { // --> 3171 cycles
 
                 else {
 
-                    p0Colour[destLine] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
-                    p1Colour[destLine] = (dynamicPlayerColours[c2] & 0xF) ^ postProcessPlayerColours[c2];
+                    p0Colour[destLine] =
+                        (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
+                    p1Colour[destLine] =
+                        (dynamicPlayerColours[c2] & 0xF) ^ postProcessPlayerColours[c2];
 
                     if (playerSpriteY++ >= lavaLine) {
                         p0Colour[destLine] = ((p0Colour[destLine] & 0x0f) - 2) ^ (rooted & 0xF0);
@@ -276,7 +296,8 @@ void drawPlayerSprite() { // --> 3171 cycles
 
                 else {
 
-                    p0Colour[destLine] = (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
+                    p0Colour[destLine] =
+                        (dynamicPlayerColours[c1] & 0xF) ^ postProcessPlayerColours[c1];
 
                     if (playerSpriteY++ >= lavaLine) {
                         p0Colour[destLine] = ((p0Colour[destLine] & 0x0f) - 2) ^ (rooted & 0xF0);
@@ -286,43 +307,6 @@ void drawPlayerSprite() { // --> 3171 cycles
                 destLine += gravity;
             }
         }
-
-        // p1Colour = RAM + _BUF_COLUP1 + playerSpriteY - 11;
-        // p1 = RAM + _BUF_GRP1A + playerSpriteY - 11;
-        // p0Colour = RAM + _BUF_COLUP0 + playerSpriteY - 10;
-        // p0 = RAM + _BUF_GRP0A + playerSpriteY - 10;
-
-        // for (int i = 0; i < 7; i++) {
-        //     *p0++ = /*(tinyDigit[0][i] << 4) | */(tinyDigit[5][i]);
-        //     *p1++ = (tinyDigit[0][i] << 4) | (tinyDigit[0][i]);
-        //     *p0Colour++ = 0x08;
-        //     *p1Colour++ = 0x08;
-        // }
-
-        // const unsigned char drill[] = {
-
-        //     0b10100,
-        //     0b01110,
-        //     0b00101,
-        //     0b00100,
-        //     0b00100,
-        //     0b00100,
-        //     0b00100,
-
-        // };
-
-        // int drillDepth = 30;
-        // static int drillofset = 0;
-
-        // drillofset++;
-
-        // p1Colour = RAM + _BUF_COLUP1 + playerSpriteY + 20;
-        // p1 = RAM + _BUF_GRP1A + playerSpriteY + 20;
-
-        // for (int i = 0; i < drillDepth; i++) {
-        //     *p1++ = drill[(i + (drillofset >> 1)) & 7];
-        //     *p1Colour++ = 0x8;
-        // }
     }
 }
 

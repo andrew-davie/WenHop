@@ -1,14 +1,8 @@
 #include "defines.h"
 #include "defines_cdfj.h"
 
-#include "main.h"
-
-#include "cavedata.h"
 #include "colour.h"
-#include "decodecaves.h"
-#include "player.h"
-#include "random.h"
-#include "score.h"
+#include "main.h"
 #include "scroll.h"
 
 unsigned char bgPalette[_BOARD_ROWS];
@@ -37,13 +31,10 @@ void interleaveColour() {
         roller = 0;
 }
 
-static const unsigned char xlate[] = {
-    0x00, 0x20, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0,
-    0xD0, 0xB0, 0x90, 0x70, 0x50, 0x30, 0x20, 0x40};
+const unsigned char xlate[] = {0x00, 0x20, 0x20, 0x40, 0x60, 0x80, 0xA0, 0xC0,
+                               0xD0, 0xB0, 0x90, 0x70, 0x50, 0x30, 0x20, 0x40};
 
-static const unsigned char xlateSecam[] = {
-    0, 0xC, 0xC, 4, 4, 6, 6, 2,
-    2, 2, 8, 8, 8, 8, 0xC, 0xC};
+const unsigned char xlateSecam[] = {0, 0xC, 0xC, 4, 4, 6, 6, 2, 2, 2, 8, 8, 8, 8, 0xC, 0xC};
 
 int secamConvert(int col) {
 
@@ -114,7 +105,7 @@ void setBackgroundPalette(unsigned char *c) {
         i1 = i1 << 8;
         c1 = c1 << 8;
 
-        for (int bgLine = 0; bgLine < 22; bgLine++) {
+        for (int bgLine = 0; bgLine < _BOARD_ROWS; bgLine++) {
 
             bgPalette[bgLine] = convertColour(((c1 >> 8) & 0xF0) | (i1 >> 8));
 
@@ -162,16 +153,12 @@ void setPalette() {
     if (interleavedColour && --roll < 0)
         roll = 2;
 
-    static const int lavaColour[] = {0x24, 0x34, 0x26, 0x24, 0x34};
-    //        static const int lavaColour[] = { 0x94, 0xB4, 0x84, 0x94, 0xB4 };
+    unsigned char lavaColour[] = {0x24, 0x36, 0x46, 0x24};
+    const unsigned char waterColour[] = {0x88, 0x78, 0xC8, 0x88};
 
-    static const unsigned char wbg[] = {0x96, 0x96, 0x96, 0x94,
-                                        0x94, 0x94, 0x92,
-                                        0x92, 0x90, 0x90, 0x90};
+    const unsigned char wbg[] = {0x96, 0x96, 0x96, 0x94, 0x94, 0x94, 0x92, 0x92, 0x90, 0x90, 0x90};
 
-    static const unsigned char lbg[] = {0x46, 0x46, 0x46, 0x44,
-                                        0x44, 0x44, 0x42,
-                                        0x42, 0x40, 0x40, 0x40};
+    const unsigned char lbg[] = {0x46, 0x46, 0x46, 0x44, 0x44, 0x44, 0x42, 0x42, 0x40, 0x40, 0x40};
 
     int lavaLine = (lavaSurface - (scrollY >> shift)) * 3;
     int lavab = 0;
@@ -203,6 +190,7 @@ void setPalette() {
     }
 
     const unsigned char *cl = showLava ? &lbg[0] : &wbg[0];
+    const unsigned char *clava = showLava ? &lavaColour[0] : &waterColour[0];
 
     while (i < _ARENA_SCANLINES) {
 
@@ -211,9 +199,9 @@ void setPalette() {
         if (lavab < (10 << 2))
             lavab += 3;
 
-        pfCol[0] = lavaColour[roll];
-        pfCol[1] = lavaColour[roll + 1];
-        pfCol[2] = lavaColour[roll + 2];
+        pfCol[0] = clava[roll];
+        pfCol[1] = clava[roll + 1];
+        pfCol[2] = clava[roll + 2];
 
         bkCol[0] = lbgCol;
         bkCol[1] = lbgCol;

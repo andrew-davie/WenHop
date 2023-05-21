@@ -12,7 +12,6 @@
 __ENABLE_TRAINER = 0
 __ENABLE_ATARIVOX = 0       ; 415 bytes
 __ENABLE_WATER = 0
-__ENABLE_LAVA = 0
 
 __ENABLE_LAVA2 = 1
 __ENABLE_WATER2 = 1
@@ -78,44 +77,14 @@ _DS_GRP1c       = DS20DATA
 _DS_COLUPF      = DS21DATA
 
 
-
-
-MINIMUM_IDLE_TIME = 9
-
-
-
 ; timer values
-VB_TIM64T = 50-7
-OS_TIM64T = 38-9
-
-; ; color values
-; _BLACK           = $00
-; _WHITE           = $0E
-; _GREY            = $00
-; _YELLOW          = $10
-; _ORANGE          = $20
-; _BROWN           = $30
-; _RED             = $40
-; _PURPLE          = $50
-; _VIOLET          = $60
-; _INDIGO          = $70
-; _BLUE            = $80
-; _BLUE2           = $90
-; _TURQUOISE       = $A0
-; _CYAN            = $B0
-; _GREEN           = $C0
-; _YELLOW_GREEN    = $D0
-; _OCHRE_GREEN     = $E0
-; _OCHRE           = $F0
-
-;_HAIR            = $F4
-;_FACE            = $4C
+VB_TIM64T = 43
+OS_TIM64T = 29
 
 ; controls spacing in main menu
 
 _ARENA_SCANLINES    = 198   ; number of scanlines for the arena
-ARENA_BUFFER_SIZE   = 198    ; PF buffer size for largest arena
-; _ARENA_SCANLINES2 = 396
+ARENA_BUFFER_SIZE   = _ARENA_SCANLINES    ; PF buffer size for largest arena
 
 ;===============================================================================
 ; Define custom Macros
@@ -295,9 +264,9 @@ END_OF_INDIRECT_DATA
 
     echo "FREE C-SPACE = ", [ARM_DIRECT_DATA - *]d, "bytes"
 
-BASE_6507_START SET $7010+115
+BASE_6507_START SET $73C0+22
 #if __ENABLE_ATARIVOX
-BASE_6507_START SET BASE_6507_START - 84
+BASE_6507_START SET BASE_6507_START
 #endif
 
     ORG BASE_6507_START
@@ -456,9 +425,9 @@ __SPEECH_ADDRESS
     ENDIF
 
 
-__COPYRIGHT_START
+; __COPYRIGHT_START
 
-    include "copyright.asm"
+;     include "copyright.asm"
 
 ;    echo "   - COPYRIGHT DATA from", __COPYRIGHT_START, "to", *, "(", (* - __COPYRIGHT_START) , "bytes)"
 
@@ -2332,7 +2301,6 @@ _BUF_AUDV           ds 2
 _BUF_AUDC           ds 2
 _BUF_AUDF           ds 2
 
-_HIGHSCORE_NEW      ds 3
 
     align 4
 

@@ -1,8 +1,5 @@
 #include "animations.h"
 #include "attribute.h"
-#include "colour.h"
-#include "main.h"
-#include "random.h"
 
 const char *Animate[TYPE_MAX];
 char AnimCount[TYPE_MAX];
@@ -107,24 +104,7 @@ static const char AnimPulseDoge[] = {
 
 static const char AnimMellonHusk[] = {
 
-
-    // CH_BLANK, 50,
-    // CH_DUST_2, 8,
-    // CH_DUST_1, 8,
-    // CH_DUST_0, 8,
-    // CH_DUST_2, 8,
-    // CH_DUST_1, 8,
-    // CH_DUST_0, 8,
-    // CH_DUST_1, 8,
-    //CH_BLANK, 1,
-    CH_MELLON_HUSK, ANIM_HALT,
-
-    // @20...   see grab in mellon.c
-
-//    CH_DOGE_WITHOUT_DIRT, 3,
-    CH_DOGE_GRAB,8,
-
-    CH_MELLON_HUSK, ANIM_HALT,
+    // Note that mellon.c indexes into this with an offset so this must be kept synched
 
     CH_DUST_0, 6,
     CH_DUST_1, 6,
@@ -132,6 +112,11 @@ static const char AnimMellonHusk[] = {
 
     CH_MELLON_HUSK, ANIM_HALT,
 
+    // @+2
+    // CH_DOGE_GRAB,8,
+    // CH_MELLON_HUSK, ANIM_HALT,
+
+    // @+2
 };
 
 // clang-format on
@@ -144,34 +129,34 @@ const char *const AnimateBase[TYPE_MAX] = {
     // Note that the type number is an ID, not ordinal. That's because the continuity may
     // be compromised by the conditional compilation. Beware.
 
-    0,                   // 00 TYPE_SPACE,
-    0,                   // 01 TYPE_DIRT,
-    0,                   // 02 TYPE_BRICKWALL,
-    0,                   // 03 TYPE_OUTBOX_PRE,
-    AnimFlashOut,        // 04 TYPE_OUTBOX,
-    0,                   // 05 TYPE_STEELWALL,
-    0,                   // 06 TYPE_ROCK,
-    AnimPulseDoge,       // 07 TYPE_DOGE,
-    0,                   // 08 TYPE_MELLON_HUSK_PRE,
-    AnimMellonHusk,      // 09 TYPE_MELLON_HUSK,
-    0,                   // 10 TYPE_PEBBLE1,
-    0,                   // 11 TYPE_PEBBLE2,
-    AnimGrab,            // 12 TYPE_GRAB,
-    0,                   // 13 TYPE_DUST_0,
-    0,                   // 14 TYPE_DOGE_FALLING,
-    0,                   // 15 TYPE_ROCK_FALLING,
-    0,                   // 16 TYPE_DUST_ROCK,
-    0,                   // 17 TYPE_DOGE_CONVERT,
-    AnimSwitch,          // 18 TYPE_SWITCH,
-    0,                   // 19 TYPE_PUSHER,
-    0,                   // 20 TYPE_PUSHER_VERT,
-    0,                   // 21 TYPE_WYRM,
-    0,                   // 22 TYPE_ROCK_DOGE,
-    0,                   // 23 TYPE_ROCK_DOGE_FALLING,
-    AnimConglomerateMid, // 24 TYPE_ROCK_DOGE_CRITICAL,
-    0,                   // 25 TYPE_LAVA,
-    0,                   // 26 TYPE_PEBBLE_ROCK,
-    AnimateGravity,      // 27 TYPE_FLIP_GRAVITY,
+    0,                   // 00 TYPE_SPACE
+    0,                   // 01 TYPE_DIRT
+    0,                   // 02 TYPE_BRICKWALL
+    0,                   // 03 TYPE_OUTBOX_PRE
+    AnimFlashOut,        // 04 TYPE_OUTBOX
+    0,                   // 05 TYPE_STEELWALL
+    0,                   // 06 TYPE_ROCK
+    AnimPulseDoge,       // 07 TYPE_DOGE
+    0,                   // 08 TYPE_MELLON_HUSK_PRE
+    AnimMellonHusk,      // 09 TYPE_MELLON_HUSK
+    0,                   // 10 TYPE_PEBBLE1
+    0,                   // 11 TYPE_PEBBLE2
+    AnimGrab,            // 12 TYPE_GRAB
+    0,                   // 13 TYPE_DUST_0
+    0,                   // 14 TYPE_DOGE_FALLING
+    0,                   // 15 TYPE_ROCK_FALLING
+    0,                   // 16 TYPE_DUST_ROCK
+    0,                   // 17 TYPE_CONVERT_GEODE_TO_DOGE
+    AnimSwitch,          // 18 TYPE_SWITCH
+    0,                   // 19 TYPE_PUSHER
+    0,                   // 20 TYPE_PUSHER_VERT
+    0,                   // 21 TYPE_WYRM
+    0,                   // 22 TYPE_GEODOGE
+    0,                   // 23 TYPE_GEODOGE_FALLING
+    AnimConglomerateMid, // 24 TYPE_GEODOGE_CRITICAL (deprecated)
+    0,                   // 25 TYPE_LAVA
+    0,                   // 26 TYPE_PEBBLE_ROCK
+    AnimateGravity,      // 27 TYPE_FLIP_GRAVITY
     0,                   // 28 TYPE_BLOCK
     0,                   // 29 TYPE_PACMAN_DOT
     AnimateGrinder,      // 30 TYPE_GRINDER
@@ -201,16 +186,14 @@ void startCharAnimation(int type, const char *idx) {
         Animate[type] = idx++;
 
         int count = *idx;
-        if (count == ANIM_RNDSPEED)
-            count = (getRandom32() >> 25) | 7;
+        // if (count == ANIM_RNDSPEED)
+        //     count = (getRandom32() >> 25) | 7;
 
         AnimCount[type] = count;
     }
 }
 
-void processCharAnimations()
-
-{
+void processCharAnimations() {
 
     for (int type = 0; type < TYPE_MAX; type++)
         if (AnimateBase[type] && AnimCount[type] != ANIM_HALT)

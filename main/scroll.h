@@ -9,7 +9,7 @@ void resetTracking();
 int isScrolling();
 
 #define SCROLLSPEED_MAXIMUM_X (256)
-#define SCROLL_MAXIMUM_X ((32 << 16))
+#define SCROLL_MAXIMUM_X (((_BOARD_COLS - 8) << 16))
 #define SCROLLSPEED_MAXIMUM_Y (SCROLLSPEED_MAXIMUM_X * 8)
 #define SCROLL_MINIMUM 0
 

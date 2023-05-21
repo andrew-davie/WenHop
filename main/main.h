@@ -5,18 +5,12 @@
 
 #include "defines_from_dasm_for_c.h"
 
-#define ENABLE_OVERLAY 0
 #define ENABLE_SOUND 1
-#define ENABLE_TOGGLE_DISPLAY_ON_DEATH 0
 #define ENABLE_SHAKE 1
 #define ENABLE_IDLE_ANIMATION 0
-#define ENABLE_SNOW 0             /* 148 bytes */
 #define ENABLE_TITLE_PULSE 0      /* 80 bytes */
-#define ENABLE_EASTER_MYNAME 0    /* 72 bytes */
-#define ENABLE_RAINBOW 0          /* 212 bytes */
 #define ENABLE_60MHZ_AUTODETECT 0 /* 16 bytes */
 #define ENABLE_ANIMATING_MAN 1    /* 244 bytes but man disappears */
-#define COLSELECT 0
 #define WORST_TIMING 0
 
 #define ENABLE_DEBUG 1
@@ -24,13 +18,10 @@
 // Old/uncertiain flags that may not work
 
 #define CIRCLE 1
-#define __FADE 0
 
 #define PIECE_DEPTH 30
 #define SPRITE_DEPTH 30
-#define HALF_DEPTH 15
-
-#define SCHEDULER 0
+#define HALF_DEPTH (PIECE_DEPTH / 2)
 
 #define SPEED_BASE 8
 
@@ -42,37 +33,26 @@
 #define SCORE_SCANLINES 21
 #define SCANLINES (_ARENA_SCANLINES)
 
-#define WYRM_POP 10
-#define WYRM_MAX 4
-
 #define TYPEOF(x) (CharToType[GET(x)])
 #define ATTRIBUTE(x) (Attribute[TYPEOF(x)])
 #define ATTRIBUTE_BIT(x, y) (ATTRIBUTE(x) & (y))
 
-extern signed char wyrmX[WYRM_POP][WYRM_MAX];
-extern signed char wyrmY[WYRM_POP][WYRM_MAX];
-extern int wyrmHead[WYRM_POP]; // = -1;
-extern int wyrmDir[WYRM_POP];
+#define DIR_U 1
+#define DIR_R 2
+#define DIR_D 4
+#define DIR_L 8
 
-void newWyrm(int x, int y);
+extern bool showTool;
 
 void setJumpVectors(int midKernel, int exitKernel);
 void InitializeNewGame();
-// void doFlash();
-// void setFlash(unsigned char colourNTSC, unsigned char colourPAL, unsigned char colourSECAM, int time);
 void updateAnimation();
-void pulseDoges(unsigned char *thiss);
+void pulseDoges(unsigned char *me);
 void drawWord(const unsigned char *string, int y);
-void conglomerate(unsigned char *thiss, int att);
-
-// enum DisplayMode {
-//     DISPLAY_NORMAL,
-//     DISPLAY_HALF,
-//     DISPLAY_OVERVIEW,
-//     DISPLAY_NONE
-// };
-
-// extern enum DisplayMode displayMode, lastDisplayMode;
+void conglomerate(unsigned char *me, int att);
+void bubbles(int count, int dripX, int dripY, int age, int speed);
+int dirFromCoords(int x, int y, int prevX, int prevY);
+void fixSurroundingConglomerates(unsigned char *pos);
 
 extern const unsigned char BitRev[];
 
@@ -89,7 +69,6 @@ struct Animation {
 
 extern const unsigned char joyDirectBit[4];
 extern unsigned char mm_tv_type;
-// extern unsigned char autoTVType;
 
 extern int level;
 extern int cave;
@@ -115,10 +94,6 @@ enum KERNEL_TYPE {
     KERNEL_STATS,
 };
 
-// #if ENABLE_DEBUG
-// extern int debug[32];
-// #endif
-
 extern unsigned char inpt4;
 extern unsigned char swcha;
 extern unsigned char bufferedSWCHA;
@@ -132,21 +107,14 @@ extern bool waitRelease;
 extern bool rageQuit;
 extern unsigned int sparkleTimer;
 
-// extern int lastLives;
-
 extern int exitMode;
 extern unsigned int idleTimer;
 extern int millingTime;
 extern bool exitTrigger;
 
-// extern int selectResetDelay;
-extern unsigned char *thiss;
+extern unsigned char *me;
 
 extern int boardCol;
-
-#if ENABLE_RAINBOW
-extern bool rainbow;
-#endif
 
 extern bool lockDisplay;
 
@@ -154,43 +122,38 @@ extern unsigned int triggerPressCounter;
 extern unsigned char enableParallax;
 extern unsigned char enableICC;
 
-#if __FADE
-extern unsigned int fade;
-#endif
-
 extern bool caveCompleted;
 extern int lavaSurface;
 extern bool showLava, showWater;
 
-#define RAINHAILSHINE 8
+extern const signed char dirOffset[];
+extern const signed char xdir[];
+extern const signed char ydir[];
+
+#define RAINHAILSHINE 16
 
 extern unsigned char rainType[RAINHAILSHINE];
 extern unsigned char rainAge[RAINHAILSHINE];
 
-extern int rainY[RAINHAILSHINE];
-// extern int rainSpeed[RAINHAILSHINE];
 extern int rainSpeedX[RAINHAILSHINE];
 extern int rainSpeedY[RAINHAILSHINE];
-extern char rainRow[RAINHAILSHINE];
 extern int rainX[RAINHAILSHINE];
+extern int rainY[RAINHAILSHINE];
 
-extern int weather;
 extern int canPlay[5];
 extern int shakeTime;
 extern int wyrmNum;
 
-extern const signed char dirOffset[];
+// extern const signed char dirOffset[];
 
 extern unsigned int currentPalette;
-// extern int mirrorFlipper;
-// extern int easterEggColour;
 
 extern unsigned int availableIdleTime;
-extern int cpulse;
+extern int pulsePlayerColour;
 
 void Scheduler();
 void processBoardSquares();
-void reanimateDoges(unsigned char *thiss);
+void reanimateDoges(unsigned char *me);
 void handleSelectReset();
 void initNewGame();
 
@@ -220,7 +183,6 @@ int sphereDot(int dripX, int dripY, int type, int age, int speed);
     END_TIMER
 */
 
-// #define GET(a) ((a) & 0x7f)
 #define GET(a) (((unsigned char)((a) << 1)) >> 1)
 #define GET2(a) (((unsigned char)((a) << 1)) >> 1)
 

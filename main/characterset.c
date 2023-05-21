@@ -1,20 +1,9 @@
-#include "characterset.h"
-#include "animations.h"
-#include "attribute.h"
-#include "bitpatterns.h"
-#include "colour.h"
-#include "defines.h"
 #include "defines_cdfj.h"
-#include "main.h"
-#include "player.h"
-#include "random.h"
-#include "scroll.h"
+
+#include "attribute.h"
+#include "characterset.h"
 
 static unsigned char char_parallaxBlank[PIECE_DEPTH];
-// static unsigned char char_Dust_2[PIECE_DEPTH];
-// static unsigned char char_DustLeft_1[PIECE_DEPTH];
-// static unsigned char char_DustRight_1[PIECE_DEPTH];
-// static unsigned char char_uncover[PIECE_DEPTH];
 
 const unsigned char __CHAR_HUB[] = {
 
@@ -288,230 +277,86 @@ const unsigned char __CHAR_PUSH_DOWN[] = {
     0b11111, // 28
     0b00000, // 29
 };
+
+const unsigned char __CHAR_PUSH_DOWN2[] = {
+
+    0b01110, // 00
+    0b01110, // 01
+    0b00110, // 02
+    0b01110, // 03
+    0b01110, // 04
+    0b00110, // 05
+    0b01110, // 06
+    0b01110, // 07
+    0b00110, // 08
+    0b01110, // 09
+    0b01110, // 10
+    0b00110, // 11
+    0b01110, // 12
+    0b01110, // 13
+    0b00110, // 14
+    0b11111, // 15
+    0b11111, // 16
+    0b00111, // 17
+    0b11111, // 18
+    0b11111, // 19
+    0b11111, // 20
+    0b00000, // 21
+    0b11111, // 22
+    0b00000, // 23
+    0b00000, // 24
+    0b11111, // 25
+    0b00000, // 26
+    0b00000, // 27
+    0b00000, // 28
+    0b00000, // 29
+};
+
 const unsigned char __CHAR_HORIZONTAL_BAR[] = {
 
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11111,
-    0b11110,
-    0b11111,
-    0b11111,
-    0b00000,
-    0b11111,
-    0b11111,
-    0b00000,
-    0b11111,
-    0b11111,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b11111, 0b11111, 0b11111, 0b11111,
+    0b11111, 0b11111, 0b11111, 0b11111, 0b11110, 0b11111, 0b11111, 0b00000, 0b11111, 0b11111,
+    0b00000, 0b11111, 0b11111, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
 };
 
 const unsigned char __CHAR_GRINDER_0[] = {
 
-    0b00000,
-    0b01010,
-    0b01010,
-    0b00000,
-    0b01010,
-    0b01010,
-    0b00000,
-    0b00000,
-    0b01110,
-    0b00000,
-    0b00000,
-    0b01110,
-    0b00000,
-    0b10001,
-    0b11011,
-    0b00000,
-    0b10001,
-    0b11011,
-    0b00000,
-    0b00000,
-    0b01110,
-    0b00000,
-    0b00000,
-    0b01110,
-    0b00000,
-    0b01010,
-    0b01010,
-    0b00000,
-    0b01010,
-    0b01010,
+    0b00000, 0b01010, 0b01010, 0b00000, 0b01010, 0b01010, 0b00000, 0b00000, 0b01110, 0b00000,
+    0b00000, 0b01110, 0b00000, 0b10001, 0b11011, 0b00000, 0b10001, 0b11011, 0b00000, 0b00000,
+    0b01110, 0b00000, 0b00000, 0b01110, 0b00000, 0b01010, 0b01010, 0b00000, 0b01010, 0b01010,
 };
 
 const unsigned char __CHAR_GRINDER_1[] = {
 
-    0b00000,
-    0b00100,
-    0b00100,
-    0b00000,
-    0b00100,
-    0b00100,
-    0b00000,
-    0b10001,
-    0b11111,
-    0b00000,
-    0b10001,
-    0b11111,
-    0b00000,
-    0b00000,
-    0b01010,
-    0b00000,
-    0b00000,
-    0b01010,
-    0b00000,
-    0b10001,
-    0b11111,
-    0b00000,
-    0b10001,
-    0b11111,
-    0b00000,
-    0b00100,
-    0b00100,
-    0b00000,
-    0b00100,
-    0b00100,
+    0b00000, 0b00100, 0b00100, 0b00000, 0b00100, 0b00100, 0b00000, 0b10001, 0b11111, 0b00000,
+    0b10001, 0b11111, 0b00000, 0b00000, 0b01010, 0b00000, 0b00000, 0b01010, 0b00000, 0b10001,
+    0b11111, 0b00000, 0b10001, 0b11111, 0b00000, 0b00100, 0b00100, 0b00000, 0b00100, 0b00100,
 };
 
 const unsigned char __CHAR_BELT_0[] = {
 
-    0b00000,
-    0b01010,
-    0b01010,
-    0b00000,
-    0b01010,
-    0b11111,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b01010,
-    0b11111,
-    0b00000,
-    0b01010,
-    0b01010,
+    0b00000, 0b01010, 0b01010, 0b00000, 0b01010, 0b11111, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b01010, 0b11111, 0b00000, 0b01010, 0b01010,
 };
 
 const unsigned char __CHAR_BELT_1[] = {
 
-    0b00000,
-    0b10101,
-    0b10101,
-    0b00000,
-    0b10101,
-    0b11111,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b00000,
-    0b10101,
-    0b11111,
-    0b00000,
-    0b10101,
-    0b10101,
+    0b00000, 0b10101, 0b10101, 0b00000, 0b10101, 0b11111, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b10101, 0b11111, 0b00000, 0b10101, 0b10101,
 };
 
 const unsigned char __CHAR_SWITCH_LEFT_OFF[] = {
 
-    0b1000,
-    0b1000,
-    0b0000,
-    0b1100,
-    0b1100,
-    0b0000,
-    0b1100,
-    0b1100,
-    0b0000,
-    0b1000,
-    0b1000,
-    0b0000,
-    0b1000,
-    0b1000,
-    0b0000,
-    0b1000,
-    0b1000,
-    0b0000,
-    0b1000,
-    0b1000,
-    0b0000,
-    0b1000,
-    0b1000,
-    0b0000,
+    0b1000, 0b1000, 0b0000, 0b1100, 0b1100, 0b0000, 0b1100, 0b1100, 0b0000, 0b1000, 0b1000, 0b0000,
+    0b1000, 0b1000, 0b0000, 0b1000, 0b1000, 0b0000, 0b1000, 0b1000, 0b0000, 0b1000, 0b1000, 0b0000,
 };
 
 const unsigned char __CHAR_SWITCH_LEFT_ON[] = {
 
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1100,
-    0b1100,
-    0b1000,
-    0b1100,
-    0b1100,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
-    0b1000,
+    0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000,
+    0b1100, 0b1100, 0b1000, 0b1100, 0b1100, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000, 0b1000,
 };
 
 const unsigned char __CHAR_WYRM_HEAD_U[] = {
@@ -652,15 +497,15 @@ const unsigned char __CHAR_WYRM_HEAD_R[] = {
 
 const unsigned char __CHAR_WYRM_CORNER_RD[] = {
 
-    0b00010, // 00 <
+    0b00011, // 00 <
     0b00000, // 01
-    0b00010, // 02
+    0b00011, // 02
     0b00111, // 03 <
     0b00000, // 04
     0b00111, // 05
-    0b01111, // 06 <
+    0b00111, // 06 <
     0b00000, // 07
-    0b01111, // 08
+    0b00111, // 08
     0b01111, // 09 <
     0b00010, // 10
     0b01111, // 11
@@ -692,30 +537,30 @@ const unsigned char __CHAR_WYRM_CORNER_LD[] = {
     0b11100, // 03 <
     0b00000, // 04
     0b11100, // 05
-    0b11110, // 06 <
+    0b11111, // 06 <
     0b00000, // 07
-    0b11110, // 08
-    0b11110, // 09 <
+    0b11111, // 08
+    0b11111, // 09 <
     0b00000, // 10
-    0b11110, // 11
-    0b11110, // 12 <
+    0b11111, // 11
+    0b11111, // 12 <
     0b01000, // 13
-    0b11110, // 14
-    0b11110, // 15 <
+    0b11111, // 14
+    0b11111, // 15 <
     0b01000, // 16
-    0b11110, // 17
-    0b11110, // 18 <
+    0b11111, // 17
+    0b11111, // 18 <
     0b01000, // 19
-    0b11110, // 20
-    0b11110, // 21 <
+    0b11111, // 20
+    0b11111, // 21 <
     0b01000, // 22
-    0b11110, // 23
-    0b11110, // 24 <
+    0b11111, // 23
+    0b11111, // 24 <
     0b00000, // 25
-    0b11110, // 26
-    0b11110, // 27 <
+    0b11111, // 26
+    0b11111, // 27 <
     0b00000, // 28
-    0b11110, // 29
+    0b11111, // 29
 };
 
 const unsigned char __CHAR_WYRM_CORNER_RU[] = {
@@ -723,6 +568,15 @@ const unsigned char __CHAR_WYRM_CORNER_RU[] = {
     0b01110, // 00 <
     0b00000, // 01
     0b01110, // 02
+    0b01111, // 00 <
+    0b00000, // 01
+    0b01111, // 02
+    0b01111, // 00 <
+    0b00000, // 01
+    0b01111, // 02
+    0b01101, // 03 <
+    0b00010, // 04
+    0b01111, // 05
     0b01101, // 03 <
     0b00010, // 04
     0b01111, // 05
@@ -741,15 +595,6 @@ const unsigned char __CHAR_WYRM_CORNER_RU[] = {
     0b00000, // 18 <
     0b00000, // 19
     0b00000, // 20
-    0b00000, // 21 <
-    0b00000, // 22
-    0b00000, // 23
-    0b00000, // 24 <
-    0b00000, // 25
-    0b00000, // 26
-    0b00000, // 27 <
-    0b00000, // 28
-    0b00000, // 29
 };
 
 const unsigned char __CHAR_WYRM_CORNER_LU[] = {
@@ -2119,26 +1964,26 @@ const unsigned char *const charSet[CH_MAX] = {
     C(__CHAR_DUST_0),                 // 032 CH_DUST_0,
     C(__CHAR_DUST_1),                 // 033 CH_DUST_1,
     C(__CHAR_DUST_2),                 // 034 CH_DUST_2,
-    C(__CHAR_ROCK_DOGE),              // 035 CH_CONGLOMERATE,
-    C(__CHAR_ROCK_U),                 // 036 CH_CONGLOMERATE_1,
-    C(__CHAR_ROCK_R),                 // 037 CH_CONGLOMERATE_2,
-    C(__CHAR_ROCK_UR),                // 038 CH_CONGLOMERATE_3,
-    C(__CHAR_ROCK_D),                 // 039 CH_CONGLOMERATE_4,
-    C(__CHAR_ROCK_UD),                // 040 CH_CONGLOMERATE_5,
-    C(__CHAR_ROCK_RD),                // 041 CH_CONGLOMERATE_6,
-    C(__CHAR_ROCK_URD),               // 042 CH_CONGLOMERATE_7,
-    C(__CHAR_ROCK_L),                 // 043 CH_CONGLOMERATE_8,
-    C(__CHAR_ROCK_UL),                // 044 CH_CONGLOMERATE_9,
-    C(__CHAR_ROCK_RL),                // 045 CH_CONGLOMERATE_10,
-    C(__CHAR_ROCK_URL),               // 046 CH_CONGLOMERATE_11,
-    C(__CHAR_ROCK_DL),                // 047 CH_CONGLOMERATE_12,
-    C(__CHAR_ROCK_UDL),               // 048 CH_CONGLOMERATE_13,
-    C(__CHAR_ROCK_RDL),               // 049 CH_CONGLOMERATE_14,
-    C(__CHAR_ROCK_URDL),              // 050 CH_CONGLOMERATE_15,
+    C(__CHAR_GEODOGE),                // 035 (00) CH_CONGLOMERATE,
+    C(__CHAR_ROCK_U),                 // 036 (01) CH_CONGLOMERATE_1,
+    C(__CHAR_ROCK_R),                 // 037 (02) CH_CONGLOMERATE_2,
+    C(__CHAR_ROCK_UR),                // 038 (03) CH_CONGLOMERATE_3,
+    C(__CHAR_ROCK_D),                 // 039 (04) CH_CONGLOMERATE_4,
+    C(__CHAR_ROCK_UD),                // 040 (05) CH_CONGLOMERATE_5,
+    C(__CHAR_ROCK_RD),                // 041 (06) CH_CONGLOMERATE_6,
+    C(__CHAR_ROCK_URD),               // 042 (07) CH_CONGLOMERATE_7,
+    C(__CHAR_ROCK_L),                 // 043 (08) CH_CONGLOMERATE_8,
+    C(__CHAR_ROCK_UL),                // 044 (09) CH_CONGLOMERATE_9,
+    C(__CHAR_ROCK_RL),                // 045 (10) CH_CONGLOMERATE_10,
+    C(__CHAR_ROCK_URL),               // 046 (11) CH_CONGLOMERATE_11,
+    C(__CHAR_ROCK_DL),                // 047 (12) CH_CONGLOMERATE_12,
+    C(__CHAR_ROCK_UDL),               // 048 (13) CH_CONGLOMERATE_13,
+    C(__CHAR_ROCK_RDL),               // 049 (14) CH_CONGLOMERATE_14,
+    C(__CHAR_ROCK_URDL),              // 050 (15) CH_CONGLOMERATE_15,
     C(__CHAR_DUST_ROCK_0),            // 051 CH_DUST_ROCK_0,
     C(__CHAR_DUST_ROCK_1),            // 052 CH_DUST_ROCK_1,
     C(__CHAR_DUST_ROCK_2),            // 053 CH_DUST_ROCK_2,
-    C(__CHAR_DOGE_00),                // 054 CH_DOGE_CONVERT,
+    C(__CHAR_DOGE_00),                // 054 CH_CONVERT_GEODE_TO_DOGE,
     C(__CHAR_SWITCH_LEFT_OFF),        // 055 CH_SWITCH_LEFT_OFF,
     C(__CHAR_SWITCH_LEFT_ON),         // 056 CH_SWITCH_LEFT_ON,
     C(__CHAR_HORIZONTAL_BAR),         // 057 CH_HORIZONTAL_BAR,
@@ -2178,31 +2023,32 @@ const unsigned char *const charSet[CH_MAX] = {
     C(__CHAR_INNER_CORNER_14),        // 091 CH_CORNER_14,
     C(__CHAR_INNER_CORNER_15),        // 092 CH_CORNER_15,
     C(__CHAR_ROCK_URDL2),             // 093 CH_CONGLOMERATE_MID,
-    C(__CHAR_ROCK_DOGE),              // 094 CH_ROCK_DOGE,
-    C(__CHAR_ROCK_DOGE),              // 095 CH_ROCK_DOGE_FALLING,
-    C(__CHAR_FLIP_GRAVITY_0),         // 096 CH_GRAVITY,
-    C(__CHAR_FLIP_GRAVITY_1),         // 097 CH_GRAVITY,
-    C(__CHAR_FLIP_GRAVITY_2),         // 098 CH_GRAVITY,
-    C(__CHAR_BLOCK),                  // 099 CH_BLOCK,
-    C(__CHAR_PACMAN_DOT),             // 100 CH_PACMAN_DOT,
-    C(__CHAR_GRINDER_0),              // 101 CH_GRINDER_0,
-    C(__CHAR_HUB),                    // 102 CH_HUB,
-    C(__CHAR_BLANK),                  // 103 CH_WATER_0,
-    C(__CHAR_BLANK),                  // 104 CH_WATER_1,
-    C(__CHAR_BLANK),                  // 105 CH_WATER_2,
-    C(__CHAR_BLANK),                  // 106 CH_WATER_3,
-    C((long)__CHAR_WATERFLOW_0 + 00), // 107 CH_WATERFLOW_0
-    C((long)__CHAR_WATERFLOW_0 + 06), // 108 CH_WATERFLOW_1
-    C((long)__CHAR_WATERFLOW_0 + 12), // 109 CH_WATERFLOW_2
-    C((long)__CHAR_WATERFLOW_0 + 18), // 110 CH_WATERFLOW_3
-    C((long)__CHAR_WATERFLOW_0 + 24), // 111 CH_WATERFLOW_4
-    C(__CHAR_TAP_0),                  // 112 CH_TAP_0,
-    C(__CHAR_HUB_1),                  // 113 CH_HUB_1
-    C(__CHAR_PUSH_DOWN),              // 114 CH_OUTLET
-    C(__CHAR_TAP_1),                  // 115 CH_TAP_1
-    C(__CHAR_GRINDER_1),              // 116 CH_GRINDER_1
-    C(__CHAR_BELT_0),                 // 117 CH_BELT_0
-    C(__CHAR_BELT_1),                 // 118 CH_BELT_1
+    C(__CHAR_GEODOGE),                // 094 CH_GEODOGE_FALLING,
+    C(__CHAR_FLIP_GRAVITY_0),         // 095 CH_GRAVITY,
+    C(__CHAR_FLIP_GRAVITY_1),         // 096 CH_GRAVITY,
+    C(__CHAR_FLIP_GRAVITY_2),         // 097 CH_GRAVITY,
+    C(__CHAR_BLOCK),                  // 098 CH_BLOCK,
+    C(__CHAR_PACMAN_DOT),             // 099 CH_PACMAN_DOT,
+    C(__CHAR_GRINDER_0),              // 100 CH_GRINDER_0,
+    C(__CHAR_HUB),                    // 101 CH_HUB,
+    C(__CHAR_BLANK),                  // 102 CH_WATER_0,
+    C(__CHAR_BLANK),                  // 103 CH_WATER_1,
+    C(__CHAR_BLANK),                  // 104 CH_WATER_2,
+    C(__CHAR_BLANK),                  // 105 CH_WATER_3,
+    C((long)__CHAR_WATERFLOW_0 + 00), // 106 CH_WATERFLOW_0
+    C((long)__CHAR_WATERFLOW_0 + 06), // 107 CH_WATERFLOW_1
+    C((long)__CHAR_WATERFLOW_0 + 12), // 108 CH_WATERFLOW_2
+    C((long)__CHAR_WATERFLOW_0 + 18), // 109 CH_WATERFLOW_3
+    C((long)__CHAR_WATERFLOW_0 + 24), // 110 CH_WATERFLOW_4
+    C(__CHAR_TAP_0),                  // 111 CH_TAP_0,
+    C(__CHAR_HUB_1),                  // 112 CH_HUB_1
+    C(__CHAR_PUSH_DOWN),              // 113 CH_OUTLET
+    C(__CHAR_TAP_1),                  // 114 CH_TAP_1
+    C(__CHAR_GRINDER_1),              // 115 CH_GRINDER_1
+    C(__CHAR_BELT_0),                 // 116 CH_BELT_0
+    C(__CHAR_BELT_1),                 // 117 CH_BELT_1
+    C(__CHAR_PUSH_DOWN2),             // 118 CH_PUSH_DOWN2,
+    C(__CHAR_GEODOGE),                // 119 CH_GEODOGE_CONVERT
 
 };
 

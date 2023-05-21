@@ -177,7 +177,7 @@ __CHAR_ROCK_SHAKE
     dc _XXX_ ; 29
 
 
-__CHAR_ROCK_DOGE
+__CHAR_GEODOGE
 
     dc __XX_ ; 00 <
     dc __XX_ ; 01
@@ -780,82 +780,6 @@ __CHAR_ROCK_URDL2
 
 
 
-
-__CHAR_FIREFLY
-
-;     dc XX | YY | _XX_ ; 00 <
-;     dc XX | YY | _XX_ ; 01
-;     dc XX | YY | ____ ; 02
-;     dc XX | __ | XXXX ; 03 <
-;     dc XX | __ | XXXX ; 04
-;     dc XX | YY | _XX_ ; 05
-;     dc __ | __ | X__X ; 06 <
-;     dc __ | __ | X__X ; 07
-;     dc __ | YY | _XX_ ; 08
-;     dc      __ | X__X ; 09 <
-;     dc      YY | X__X ; 10
-;     dc      YY | _XX_ ; 11
-;     dc      __ | X__X ; 12 <
-;     dc      __ | X__X ; 13
-;     dc      __ | _XX_ ; 14
-;     dc           XXXX ; 15 <
-;     dc           XXXX ; 16
-;     dc           _XX_ ; 17
-;     dc           _XX_ ; 18 <
-;     dc           _XX_ ; 19
- ;   dc           ____ ; 20
-
-
-__CHAR_FIREFLY2
-
-;     dc __ | YY | ____ ; 00 <
-;     dc XX | YY | ____ ; 01
-;     dc __ | YY | ____ ; 02
-;     dc __ | __ | _XX_ ; 03 <
-;     dc XX | __ | _XX_ ; 04
-;     dc __ | YY | _XX_ ; 05
-;     dc __ | __ | X__X ; 06 <
-;     dc __ | __ | X__X ; 07
-;     dc __ | YY | XXXX ; 08
-;     dc      __ | X__X ; 09 <
-;     dc      YY | X__X ; 10
-;     dc      YY | XXXX ; 11
-;     dc      __ | X__X ; 12 <
-;     dc      __ | X__X ; 13
-;     dc      __ | XXXX ; 14
-;     dc           _XX_ ; 15 <
-;     dc           _XX_ ; 16
-;     dc           _XX_ ; 17
-;    dc           ____ ; 18 <
-;    dc           ____ ; 19
-;    dc           ____ ; 20
-
-
-__CHAR_FIREFLY3
-
-;     dc __ | YY | ____ ; 00 <
-;     dc __ | YY | ____ ; 01
-;     dc __ | YY | ____ ; 02
-;     dc __ | YY | ____ ; 03 <
-;     dc __ | YY | ____ ; 04
-;     dc __ | YY | ____ ; 05
-;     dc __ | YY | _XX_ ; 06 <
-;     dc __ | YY | _XX_ ; 07
-;     dc __ | YY | _XX_ ; 08
-;     dc      YY | _XX_ ; 09 <
-;     dc      YY | _XX_ ; 10
-;     dc      YY | _XX_ ; 11
-;     dc      __ | _XX_ ; 12 <
-;     dc      __ | _XX_ ; 13
-;     dc      __ | _XX_ ; 14
-;     dc           ____ ; 15 <
-;     dc           ____ ; 16
-;    dc           ____ ; 17
-;    dc           ____ ; 18 <
-;    dc           ____ ; 19
-;    dc           ____ ; 20
-
-
 ;CHARSET_END
 
 ;CHARSET_START
@@ -986,8 +910,8 @@ __CHAR_PEBBLE2
      dc _____ ; 16
      dc _X___ ; 17
      dc XXXXX ; 18 <
-     dc _X___ ; 19
-     dc _____ ; 20
+     dc _____ ; 19
+     dc _X___ ; 20
      dc XXXXX ; 21 <
      dc _____ ; 22
      dc _____ ; 23
@@ -997,82 +921,6 @@ __CHAR_PEBBLE2
      dc XXXXX ; 27 <
      dc _____ ; 28
      dc _____ ; 29
-
-
-__CHAR_BUTTERFLY_0
-
-;     dc __ | __ | XX__ ; 00 <
-;     dc _X | _Y | XX_X ; 01
-;     dc _X | Y_ | ___X ; 02
-;     dc X_ | Y_ | XX__ ; 03 <
-;     dc XX | _Y | XX_X ; 04
-;     dc XX | Y_ | ___X ; 05
-;     dc _X | __ | XXX_ ; 06 <
-;     dc __ | __ | XXXX ; 07
-;     dc _X | YY | __XX ; 08
-;     dc      Y_ | __X_ ; 09 <
-;     dc      _Y | _XX_ ; 10
-;     dc      Y_ | _XX_ ; 11
-;     dc      Y_ | _XXX ; 12 <
-;     dc      _Y | XX__ ; 13
-;     dc      __ | XXXX ; 14
-;     dc           __XX ; 15 <
-;     dc           X___ ; 16
-;     dc           X_XX ; 17
-;     dc           __XX ; 18 <
-;     dc           ____ ; 19
-;     dc           ____ ; 20
-
-
-
-
-__CHAR_BUTTERFLY_2
-
-;     dc __ | __ | __X_ ; 00 <
-;     dc X_ | __ | __X_ ; 01
-;     dc X_ | __ | ____ ; 02
-;     dc _X | __ | __X_ ; 03 <
-;     dc XX | __ | __X_ ; 04
-;     dc XX | __ | ____ ; 05
-;     dc X_ | __ | __X_ ; 06 <
-;     dc __ | Y_ | __X_ ; 07
-;     dc X_ | _Y | __X_ ; 08
-;     dc      __ | __X_ ; 09 <
-;     dc      __ | _XX_ ; 10
-;     dc      __ | _XX_ ; 11
-;     dc      __ | _X__ ; 12 <
-;     dc      __ | _X__ ; 13
-;     dc      __ | _X__ ; 14
-;     dc           _X__ ; 15 <
-;     dc           ____ ; 16
-;     dc           _X__ ; 17
-;     dc           _X__ ; 18 <
-;    dc           ____ ; 19
-;    dc           ____ ; 20
-
-
-
-    ;  dc __ | __ | ____ ; 00 <
-    ;  dc __ | __ | ____ ; 01
-    ;  dc __ | __ | ____ ; 02
-    ;  dc _X | __ | _XX_ ; 03 <
-    ;  dc XX | YY | _XX_ ; 04
-    ;  dc X_ | YY | __X_ ; 05
-    ;  dc __ | __ | __X_ ; 06 <
-    ;  dc XX | YY | XX_X ; 07
-    ;  dc __ | _Y | ___X ; 08
-    ;  dc      __ | ___X ; 09 <
-    ;  dc      YY | XXXX ; 10
-    ;  dc      __ | ___X ; 11
-    ;  dc      __ | ___X ; 12 <
-    ;  dc      YY | XXXX ; 13
-    ;  dc      __ | ____ ; 14
-    ;  dc           ___X ; 15 <
-    ;  dc           XXXX ; 16
-    ;  dc           ____ ; 17
-    ;  dc           __XX ; 18 <
-    ;  dc           _XX_ ; 19
-;     dc           ____ ; 20
 
 
 __CHAR_STEELWALL
@@ -1142,32 +990,6 @@ __CHAR_DIRT
     dc XXXXX ; 27 <
     dc _____ ; 28
     dc _____ ; 29
-
-
-__CHAR_BUTTERFLY_1
-
-;     dc __ | __ | _XX_ ; 00 <
-;     dc XX | __ | _XX_ ; 01
-;     dc _X | __ | ____ ; 02
-;     dc XX | Y_ | _XX_ ; 03 <
-;     dc XX | _Y | _XX_ ; 04
-;     dc _X | Y_ | ____ ; 05
-;     dc XX | Y_ | _XX_ ; 06 <
-;     dc __ | _Y | _XX_ ; 07
-;     dc XX | Y_ | __X_ ; 08
-;     dc      __ | __X_ ; 09 <
-;     dc      _Y | _XX_ ; 10
-;     dc      __ | _XX_ ; 11
-;     dc      __ | _XX_ ; 12 <
-;     dc      __ | _X__ ; 13
-;     dc      __ | _XX_ ; 14
-;     dc           _XX_ ; 15 <
-;     dc           ____ ; 16
-;     dc           _XX_ ; 17
-;     dc           _XX_ ; 18 <
-;     dc           ____ ; 19
-;    dc           ____ ; 20
-
 
 
 __CHAR_BRICKWALL
@@ -1825,8 +1647,8 @@ __CHAR_PEBBLE1
      dc _____ ; 04
      dc ___X_ ; 05
      dc XXXXX ; 06 <
-     dc ___X_ ; 07
-     dc _____ ; 08
+     dc _____ ; 07
+     dc ___X_ ; 08
      dc XXXXX ; 09 <
      dc _____ ; 10
      dc _____ ; 11
@@ -1886,36 +1708,36 @@ __CHAR_WYRM_0
 
 __CHAR_WYRM_2
 
-     dc _XXX_ ; 00 <
+     dc _XXXX ; 00 <
      dc _____ ; 01
-     dc _XXX_ ; 02
-     dc _XXX_ ; 03 <
+     dc _XXXX ; 02
+     dc _XXXX ; 03 <
      dc _____ ; 04
-     dc _XXX_ ; 05
-     dc _XXX_ ; 06 <
+     dc _XXXX ; 05
+     dc _XXXX ; 06 <
      dc _____ ; 07
-     dc _XXX_ ; 08
-     dc _XXX_ ; 09 <
+     dc _XXXX ; 08
+     dc _XXXX ; 09 <
      dc __X__ ; 10
-     dc _XXX_ ; 11
+     dc _XXXX ; 11
      dc _____ ; 12 <
-     dc _XXX_ ; 13
-     dc _XXX_ ; 14
-     dc _X_X_ ; 15 <
+     dc _XXXX ; 13
+     dc _XXXX ; 14
+     dc _X_XX ; 15 <
      dc __X__ ; 16
-     dc _XXX_ ; 17
-     dc _XXX_ ; 18 <
+     dc _XXXX ; 17
+     dc _XXXX ; 18 <
      dc __X__ ; 19
-     dc _XXX_ ; 20
-     dc _XXX_ ; 21 <
+     dc _XXXX ; 20
+     dc _XXXX ; 21 <
      dc _____ ; 22
-     dc _XXX_ ; 23
-     dc _XXX_ ; 24 <
+     dc _XXXX ; 23
+     dc _XXXX ; 24 <
      dc _____ ; 25
-     dc _XXX_ ; 26
-     dc _XXX_ ; 27 <
+     dc _XXXX ; 26
+     dc _XXXX ; 27 <
      dc _____ ; 28
-     dc _XXX_ ; 29
+     dc _XXXX ; 29
 
 
 __CHAR_WYRM_3

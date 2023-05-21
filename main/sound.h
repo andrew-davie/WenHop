@@ -1,4 +1,5 @@
-#include "main.h"
+#ifndef __SOUND_H
+#define __SOUND_H
 
 #define AUDIO_LOCKED 0x80
 #define AUDIO_SINGLETON 0x40
@@ -21,36 +22,34 @@ enum AudioID {
 
     // Ordered by priority; see AudioSamples[]
 
-    SFX_NULL, // 0
+    SFX_NULL,          // 00
+    SFX_UNCOVERED,     // 01
+    SFX_COUNTDOWN2,    // 02  time expiring
+    SFX_PICKAXE,       // 03
+    SFX_DOGE2,         // 04
+    SFX_WHOOSH,        // 05
+    SFX_BLIP,          // 06
+    SFX_EXTRA,         // 07
+    SFX_EXIT,          // 08
+    SFX_EXPLODE,       // 09
+    SFX_EXPLODE_QUIET, // 10
+    SFX_MAGIC,         // 11
+    SFX_MAGIC2,        // 12
+    SFX_ROCK,          // 13
+    SFX_ROCK2,         // 14
+    SFX_SCORE,         // 15
+    SFX_DOGE,          // 16
+    SFX_DOGE3,         // 17
+    SFX_DIRT,          // 18
+    SFX_PUSH,          // 19
+    SFX_SPACE,         // 20
+    SFX_DRIP,          // 21
+    SFX_BUBBLER,       // 22
+    SFX_DRIP2,         // 23
+    SFX_UNCOVER,       // 24
 
-    SFX_UNCOVERED,     // 1
-    SFX_COUNTDOWN2,    // 2   time expiring
-    SFX_PICKAXE,       //
-    SFX_DOGE2,         // 3
-    SFX_WHOOSH,        // 4
-    SFX_BLIP,          // 5
-    SFX_EXTRA,         // 6
-    SFX_EXIT,          // 7
-    SFX_EXPLODE,       // 8
-    SFX_EXPLODE_QUIET, // 23
-    SFX_MAGIC,         // 9
-    SFX_MAGIC2,        // 10
-    SFX_ROCK,          // 11
-    SFX_ROCK2,         // 12
-    SFX_SCORE,         // 13
-    SFX_DOGE,          // 14
-    SFX_DOGE3,         // 15
-    SFX_DIRT,          // 16
-    SFX_PUSH,          // 17
-    SFX_SPACE,         // 18
-    SFX_DRIP,          // 19
-    SFX_BUBBLER,       // 20
-    SFX_DRIP2,         // 21
-    SFX_UNCOVER,       // 22
-// SFX_TICK,               // 24
-
-#if __ENABLE_LAVA
-    SFX_LAVA, // 20
+#if __ENABLE_LAVA2
+    SFX_LAVA, // 25
 #endif
 
     SFX_MAX, // size only; not a sound
@@ -95,4 +94,5 @@ void killAudio(enum AudioID id);
 void killRepeatingAudio();
 void initAudio();
 
+#endif
 // EOF

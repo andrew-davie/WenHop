@@ -5,7 +5,7 @@ OUTPUT_ARCH(arm)
 ENTRY(Custom)
 
 /* LPC2103 memory areas  */
-MEMORY 
+MEMORY
 {
     boot (RX)   : ORIGIN = 0x800     , LENGTH = 0x80    /* C-runtime booter */
     C_code (RX) : ORIGIN = 0x880     , LENGTH = 26911  /* C code (26K) */
@@ -43,7 +43,7 @@ SECTIONS
         . = ALIGN(4);
         _etext = .;
     } >C_code
-    
+
     .data : AT ( _etext ) {
         . = ALIGN(4);
         _sdata = .;
@@ -52,7 +52,7 @@ SECTIONS
         . = ALIGN(4);
         _edata = .;
     } >ram
-    
+
     .bss : {
         . = ALIGN(4);
         _sbss = .;

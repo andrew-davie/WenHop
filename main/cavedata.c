@@ -1,7 +1,8 @@
-
 #include "cavedata.h"
 #include "attribute.h"
 #include "main.h"
+
+// clang-format off
 
 // #define LINE 0b01000000
 // #define FILLRECT 0b10000000
@@ -32,9 +33,9 @@
 // #define LINE_W 6
 // #define LINE_NW 7
 
-// #define DRAW_LINE(character, x, y, length, direction) (LINE + (character)), (x), (y), (direction), (length)
-// #define SIZE(x, y) (x), (y)
-// #define DRAW_SOLID_RECTANGLE(character, x, y, width, height, interior) (FILLRECT + (character)), (x), (y), (width), (height), (interior)
+// #define DRAW_LINE(character, x, y, length, direction) (LINE + (character)), (x), (y),
+// (direction), (length) #define SIZE(x, y) (x), (y) #define DRAW_SOLID_RECTANGLE(character, x, y,
+// width, height, interior) (FILLRECT + (character)), (x), (y), (width), (height), (interior)
 
 // #define UP 0
 // #define UPRIGHT 1
@@ -52,19 +53,23 @@ const unsigned char caveA[] = {
     5,      //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
-    25, 12, 12, 12, 12,
-    200, 200, 200, 200, 200,
+    25, 12, 12, 12, 12, 200, 200, 200, 200, 200,
     // 70,65,60,55,50,
 
-    CAVEDEF_PARALLAX,
-    STEEL, DIRT,
+    CAVEDEF_PARALLAX, STEEL, DIRT,
 
-    4, CH_BLANK, 60, 255, 0, 255, 10,
+    4,
+    CH_BLANK, 60, 255, 0, 255, 10,
     CH_PEBBLE1, 150, 0, 240, 0, 20,
     CH_PEBBLE2, 150, 0, 240, 0, 20,
     CH_ROCK, 10, 0, 240, 0, 20,
+
+    0xFE, CH_FLIP_GRAVITY_0, 16, 8,
+    0xFE, CH_FLIP_GRAVITY_0, 8, 12,
+
+
     // CH_FLIP_GRAVITY_0,   100, 10, 10, 10, 10,
-    // CH_ROCK_DOGE, 80, 80, 80, 80, 80,
+    // CH_GEODOGE, 80, 80, 80, 80, 80,
     //        CH_WYRM_HEAD_U, 50, 60, 70, 80, 90,
 
     // CH_PUSH_LEFT,    0,  10,   5,   0,  20,
@@ -121,69 +126,62 @@ const unsigned char caveA[] = {
     //     0xFE, CH_HUB, 2,6+VS*2,
     //     0xFE, CH_HUB, 3,6+VS*2,
 
-    0xFE, CH_WYRM_HEAD_U, 3, 6,
-
-    // 0xFE,CH_BUTTERFLY_0, 9,7,
+       0xFE, CH_WYRM_HEAD_U, 3, 6,
 
     // LINE + CH_BRICKWALL,1,7,2,31,
     // LINE + CH_BRICKWALL,8,14,2,31,
 
     // LINE+CH_BLANK,30,1,4,6,
-    // LINE+CH_BUTTERFLY_0,30,1,4,4,
 
     // LINE+CH_BLANK,10,1,4,6,
-    // LINE+CH_FIREFLY_0,10,1,4,2,
 
     // LINE+CH_BLANK,5,8,4,7,
-    // LINE+CH_BUTTERFLY_0,5,8,4,4,
 
     // LINE+CH_BLANK,30,15,4,5,
-    // LINE+CH_BUTTERFLY_0,30,15,4,4,
 
-    0xFE, CH_DOORCLOSED, 38, 16,
-    0xFE, CH_MELLON_HUSK_BIRTH, 2, 9,
+    0xFE, CH_DOORCLOSED, 38, 16, 0xFE, CH_MELLON_HUSK_BIRTH, 2, 9,
 
-    0xFE, CH_GRINDER_0, 4, 9,
-    0xFE, CH_GRINDER_0, 5, 8,
-    0xFE, CH_GRINDER_0, 6, 6,
-    0xFE, CH_GRINDER_0, 7, 6,
-    0xFE, CH_GRINDER_0, 8, 5,
+    // 0xFE, CH_GRINDER_0, 4, 9,
+    // 0xFE, CH_GRINDER_0, 5, 8,
+    // 0xFE, CH_GRINDER_0, 6, 6,
+    // 0xFE, CH_GRINDER_0, 7, 6,
+    // 0xFE, CH_GRINDER_0, 8, 5,
 
-    0xFE, CH_GRINDER_0, 8, 9,
-    0xFE, CH_GRINDER_1, 9, 9,
-    0xFE, CH_GRINDER_0, 9, 8,
-    0xFE, CH_GRINDER_1, 10, 8,
-    0xFE, CH_GRINDER_0, 10, 7,
+    // 0xFE, CH_GRINDER_0, 8, 9,
+    // 0xFE, CH_GRINDER_1, 9, 9,
+    // 0xFE, CH_GRINDER_0, 9, 8,
+    // 0xFE, CH_GRINDER_1, 10, 8,
+    // 0xFE, CH_GRINDER_0, 10, 7,
 
-    0xFE, CH_GRINDER_1, 11, 12,
-    0xFE, CH_BELT_0, 12, 12,
-    0xFE, CH_BELT_1, 13, 12,
-    0xFE, CH_GRINDER_1, 14, 12,
-    0xFE, CH_BELT_1, 15, 12,
-    0xFE, CH_BELT_0, 16, 12,
-    0xFE, CH_GRINDER_1, 17, 12,
-    0xFE, CH_BELT_1, 18, 12,
-    0xFE, CH_BELT_0, 19, 12,
-    0xFE, CH_GRINDER_1, 20, 12,
+    // 0xFE, CH_GRINDER_1, 11, 12,
+    // 0xFE, CH_BELT_0, 12, 12,
+    // 0xFE, CH_BELT_1, 13, 12,
+    // 0xFE, CH_GRINDER_1, 14, 12,
+    // 0xFE, CH_BELT_1, 15, 12,
+    // 0xFE, CH_BELT_0, 16, 12,
+    // 0xFE, CH_GRINDER_1, 17, 12,
+    // 0xFE, CH_BELT_1, 18, 12,
+    // 0xFE, CH_BELT_0, 19, 12,
+    // 0xFE, CH_GRINDER_1, 20, 12,
 
-    0xFE, CH_HUB_1, 20, 8,
-    0xFE, CH_PUSH_DOWN, 20, 9,
+    // 0xFE, CH_HUB_1, 20, 8,
+    //  0xFE, CH_PUSH_DOWN, 20, 9,
 
-    0xFE, CH_GRINDER_0, 15, 15,
-    0xFE, CH_BELT_0, 16, 15,
-    0xFE, CH_BELT_1, 17, 15,
-    0xFE, CH_BELT_0, 18, 15,
-    0xFE, CH_BELT_1, 19, 15,
-    0xFE, CH_BELT_0, 20, 15,
-    0xFE, CH_BELT_1, 21, 15,
-    0xFE, CH_GRINDER_0, 22, 15,
+    // 0xFE, CH_GRINDER_0, 15, 15,
+    // 0xFE, CH_BELT_0, 16, 15,
+    // 0xFE, CH_BELT_1, 17, 15,
+    // 0xFE, CH_BELT_0, 18, 15,
+    // 0xFE, CH_BELT_1, 19, 15,
+    // 0xFE, CH_BELT_0, 20, 15,
+    // 0xFE, CH_BELT_1, 21, 15,
+    // 0xFE, CH_GRINDER_0, 22, 15,
 
-    0xFE, CH_HORIZONTAL_BAR, 1, 13,
-    0xFE, CH_HORIZONTAL_BAR, 2, 13,
-    0xFE, CH_HORIZONTAL_BAR, 3, 13,
-    0xFE, CH_TAP_0, 4, 12,
-    0xFE, CH_HUB_1, 4, 13,
-    0xFE, CH_OUTLET, 4, 14,
+    // 0xFE, CH_HORIZONTAL_BAR, 1, 13,
+    // 0xFE, CH_HORIZONTAL_BAR, 2, 13,
+    // 0xFE, CH_HORIZONTAL_BAR, 3, 13,
+    // 0xFE, CH_TAP_0, 4, 12,
+    // 0xFE, CH_HUB_1, 4, 13,
+    // 0xFE, CH_OUTLET, 4, 14,
 
     // 0xFE, CH_WATERFLOW_0, 4, 12,
     // 0xFE, CH_WATERFLOW_0, 4, 13,
@@ -249,17 +247,12 @@ const unsigned char caveA2[] = {
     5,      //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
-    25, 12, 12, 12, 12,
-    200, 200, 200, 200, 200,
+    25, 12, 12, 12, 12, 200, 200, 200, 200, 200,
     // 70,65,60,55,50,
 
-    CAVEDEF_PARALLAX,
-    STEEL, CH_BLANK,
+    CAVEDEF_PARALLAX, STEEL, CH_BLANK,
 
-    4,
-    CH_PUSH_LEFT, 0, 10, 5, 0, 20,
-    CH_PUSH_RIGHT, 0, 10, 5, 0, 20,
-    CH_PUSH_UP, 0, 10, 5, 0, 20,
+    4, CH_PUSH_LEFT, 0, 10, 5, 0, 20, CH_PUSH_RIGHT, 0, 10, 5, 0, 20, CH_PUSH_UP, 0, 10, 5, 0, 20,
     CH_PUSH_DOWN, 0, 10, 5, 0, 20,
     //   CH_BLANK,       60, 255,   0, 255,  10,
     //     CH_ROCK,     90,   0, 240,   0,  20,
@@ -269,11 +262,8 @@ const unsigned char caveA2[] = {
     //    0xFE, CH_DOORCLOSED,38,16,
     0xFE, CH_MELLON_HUSK_BIRTH, 16, 6,
 
-    0xFE, CH_WYRM_HEAD_U, 11, 6,
-    0xFE, CH_WYRM_HEAD_U, 12, 6,
-    0xFE, CH_WYRM_HEAD_U, 13, 6,
-    0xFE, CH_WYRM_HEAD_U, 14, 6,
-    0xFE, CH_WYRM_HEAD_U, 15, 6,
+    0xFE, CH_WYRM_HEAD_U, 11, 6, 0xFE, CH_WYRM_HEAD_U, 12, 6, 0xFE, CH_WYRM_HEAD_U, 13, 6, 0xFE,
+    CH_WYRM_HEAD_U, 14, 6, 0xFE, CH_WYRM_HEAD_U, 15, 6,
 
     // 0xFE, CH_WYRM_HEAD_U, 11, 9,
     // 0xFE, CH_WYRM_HEAD_U, 12, 9,
@@ -300,12 +290,10 @@ const unsigned char caveA3[] = {
     5,     //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
-    8, 8, 8, 8, 8,
-    20, 200, 200, 200, 200,
+    8, 8, 8, 8, 8, 20, 200, 200, 200, 200,
     // 70,65,60,55,50,
 
-    CAVEDEF_PARALLAX,
-    STEEL, CH_BLANK,
+    CAVEDEF_PARALLAX, STEEL, CH_BLANK,
 
     0,
 
@@ -317,9 +305,7 @@ const unsigned char caveA3[] = {
     // 0xFE, CH_FLIP_GRAVITY_0, 22,8,
     // 0xFE, CH_FLIP_GRAVITY_0, 11,8,
     0xFE,
-    CH_DOGE_00, 16, 8,
-    0xFE, CH_ROCK, 1, 6,
-    0xFE, CH_STEELWALL, 12, 7,
+    CH_DOGE_00, 16, 8, 0xFE, CH_ROCK, 1, 6, 0xFE, CH_STEELWALL, 12, 7,
 
     // 0xFE, CH_FLIP_GRAVITY_0, 16,6,
     //    0xFE, CH_FLIP_GRAVITY_0, 16,6,
@@ -327,25 +313,13 @@ const unsigned char caveA3[] = {
     //  0xFE, CH_FLIP_GRAVITY_0, 12,6,
 
     // 0xFE, CH_STEELWALL, 16,7,
-    0xFE, CH_DOORCLOSED, 16, 5,
-    0xFE, CH_BLOCK, 16, 6,
-    0xFE, CH_BLOCK, 16, 7,
-    0xFE, CH_ROCK, 16, 9,
+    0xFE, CH_DOORCLOSED, 16, 5, 0xFE, CH_BLOCK, 16, 6, 0xFE, CH_BLOCK, 16, 7, 0xFE, CH_ROCK, 16, 9,
 
-    0xFE, CH_ROCK, 16, 9,
-    0xFE, CH_ROCK, 16, 10,
-    0xFE, CH_ROCK, 16, 11,
-    0xFE, CH_ROCK, 16, 12,
-    0xFE, CH_ROCK, 16, 13,
-    0xFE, CH_ROCK, 16, 14,
-    0xFE, CH_ROCK, 16, 15,
-    0xFE, CH_ROCK, 16, 16,
-    0xFE, CH_ROCK, 16, 17,
-    0xFE, CH_ROCK, 16, 18,
+    0xFE, CH_ROCK, 16, 9, 0xFE, CH_ROCK, 16, 10, 0xFE, CH_ROCK, 16, 11, 0xFE, CH_ROCK, 16, 12, 0xFE,
+    CH_ROCK, 16, 13, 0xFE, CH_ROCK, 16, 14, 0xFE, CH_ROCK, 16, 15, 0xFE, CH_ROCK, 16, 16, 0xFE,
+    CH_ROCK, 16, 17, 0xFE, CH_ROCK, 16, 18,
     // 0xFE, CH_DOGE_00, 16,18,
-    0xFE, CH_FLIP_GRAVITY_0, 16, 18,
-    0xFE, CH_FLIP_GRAVITY_0, 16, 19,
-    0xFE, CH_BLOCK, 16, 20,
+    0xFE, CH_FLIP_GRAVITY_0, 16, 18, 0xFE, CH_FLIP_GRAVITY_0, 16, 19, 0xFE, CH_BLOCK, 16, 20,
 
     //    0xFE, CH_ROCK, 16,9,
     0xFE, CH_FLIP_GRAVITY_0, 16, 8,
@@ -404,12 +378,10 @@ const unsigned char caveA4[] = {
     5,     //              ,          // rain
 
     10, 11, 50, 56, 8, // randomiser[level]
-    17, 17, 17, 17, 17,
-    20, 200, 200, 200, 200,
+    17, 17, 17, 17, 17, 20, 200, 200, 200, 200,
     // 70,65,60,55,50,
 
-    CAVEDEF_PARALLAX,
-    STEEL, CH_BLANK,
+    CAVEDEF_PARALLAX, STEEL, CH_BLANK,
 
     0,
 
@@ -424,12 +396,9 @@ const unsigned char caveA4[] = {
     // 0xFE, CH_FLIP_GRAVITY_0, 11,8,
     //    0xFE, CH_DOGE_00, 16,8,
     0xFE,
-    CH_ROCK, 1, 6,
-    0xFE, CH_STEELWALL, 12, 6,
-    0xFE, CH_STEELWALL, 12, 7,
+    CH_ROCK, 1, 6, 0xFE, CH_STEELWALL, 12, 6, 0xFE, CH_STEELWALL, 12, 7,
 
-    0xFE, CH_STEELWALL, 14, 7,
-    0xFE, CH_STEELWALL, 14, 8,
+    0xFE, CH_STEELWALL, 14, 7, 0xFE, CH_STEELWALL, 14, 8,
 
     0xFE, CH_PEBBLE1, 13, 7,
     // 0xFE, CH_DIRT, 11,6,
@@ -462,13 +431,13 @@ const unsigned char caveA4[] = {
 
 const unsigned char *caveList[] = {
 
-    caveA,
-    caveA4,
+    caveA, caveA4,
 
     caveA3,
     // caveA2,
 };
 
-const int caveCount = sizeof(caveList) / sizeof(unsigned char *);
+const unsigned int caveCount = sizeof(caveList) / sizeof(unsigned char *);
 
+// clang-format on
 // EOF

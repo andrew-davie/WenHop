@@ -1,6 +1,9 @@
 #include "defines.h"
 #include "defines_cdfj.h"
+
 #include "main.h"
+
+#include "mellon.h"
 
 #include "animations.h"
 #include "atarivox.h"
@@ -8,14 +11,11 @@
 #include "colour.h"
 #include "decodecaves.h"
 #include "joystick.h"
-#include "mellon.h"
 #include "player.h"
 #include "random.h"
 #include "score.h"
 #include "scroll.h"
 #include "sound.h"
-
-// #define PLAYER_BORED        100
 
 int playerX;
 int playerY;
@@ -24,95 +24,50 @@ int frameAdjustY;
 unsigned int pushCounter;
 enum FaceDirectionX faceDirection;
 bool playerDead;
-// bool playerDeadRelease;
+int waitForNothing;
+bool handled;
 
-static bool handled;
-
-enum DIR {
-    DIR_UP = 1,
-    DIR_DOWN = 2,
-    DIR_LEFT = 4,
-    DIR_RIGHT = 8,
-};
-
-const int off[] = {-40, 1, 40, -1};
-
-const signed char xInc[] = {
-
-    // RLDU
-    0,  // 0000
-    0,  // 0001
-    0,  // 0010
-    0,  // 0011
-    -1, // 0100
-    -1, // 0101
-    -1, // 0110
-    0,  // 0111
-    1,  // 1000
-    1,  // 1001
-    1,  // 1010
-    0,  // 1011
-    0,  // 1100
-    0,  // 1101
-    0,  // 1110
-    0,  // 1111
-};
-
-const signed char yInc[] = {
-
-    // RLDU
-    0,  // 0000
-    -1, // 0001
-    1,  // 0010
-    0,  // 0011
-    0,  // 0100
-    -1, // 0101
-    1,  // 0110
-    0,  // 0111
-    0,  // 1000
-    -1, // 1001
-    1,  // 1010
-    0,  // 1011
-    0,  // 1100
-    0,  // 1101
-    0,  // 1110
-    0,  // 1111
+enum JOYSTICK_DIRECTION {
+    JOYSTICK_UP = 1,
+    JOYSTICK_DOWN = 2,
+    JOYSTICK_LEFT = 4,
+    JOYSTICK_RIGHT = 8,
 };
 
 const unsigned char joyDirectBit[] = {
-    DIR_LEFT,
-    DIR_RIGHT,
-    DIR_UP,
-    DIR_DOWN,
+    JOYSTICK_UP,
+    JOYSTICK_RIGHT,
+    JOYSTICK_DOWN,
+    JOYSTICK_LEFT,
 };
 
 const signed char faceDirectionDef[] = {
-    FACE_LEFT,
-    FACE_RIGHT,
     FACE_UP,
+    FACE_RIGHT,
     FACE_DOWN,
+    FACE_LEFT,
 };
 
 const signed char animDeltaX[] = {
-    -20,
+    0,
     -20,
     0,
-    0,
+    -20,
 };
 
-const signed char animDeltaY[] = {
-    0,
-    0,
-    PIECE_DEPTH,
-    -PIECE_DEPTH,
+const unsigned char mineAnimation[] = {
+    ID_MineUp,
+    ID_Push,
+    ID_MineDown,
+    ID_Push,
 };
 
-// const char newSnatch[] = {
-//     ID_Snatch,
-//     ID_Snatch,
-//     ID_SnatchUp,
-//     ID_SnatchDown,
-// };
+const unsigned char WalkAnimation[] = {
+    ID_WalkUp,   // U
+    ID_Walk,     // R
+    ID_WalkDown, // D
+    ID_Walk,     // L
+};
 
 void initPlayer() {
 
@@ -173,12 +128,12 @@ void initPlayer() {
 // #endif
 // }
 
-void grabDoge(unsigned char *where) {
+void grabDoge(/* unsigned char *where*/) {
 
     // TODO
-    *where = CH_DOGE_GRAB | FLAG_THISFRAME;
+    // *where = CH_DOGE_GRAB | FLAG_THISFRAME;
 
-    startCharAnimation(TYPE_GRAB, AnimateBase[TYPE_GRAB]);
+    // startCharAnimation(TYPE_GRAB, AnimateBase[TYPE_GRAB]);
 
     totalDogePossible--;
 
@@ -206,59 +161,30 @@ bool checkHighPriorityMove(int dir) {
         faceDirection = faceDirectionDef[dir];
     }
 
-    unsigned char *thissOffset = thiss + dirOffset[dir];
-    unsigned char destType = CharToType[GET(*thissOffset)];
-    // bool dirtFlag = false;
+    unsigned char *meOffset = me + dirOffset[dir];
+    unsigned char destType = CharToType[GET(*meOffset)];
 
-    //    if (!waitRelease && !(inpt4 & 0x80)) {        // fire button
-
-    // extern int shakeTime;
-    //     shakeTime += 10;
-
-    //        triggerPressCounter = 999;
-
-    // if (destType == TYPE_DOGE_FALLING && dir < 2) {
-    //     grabDoge(thisOffset);
-    //     startPlayerAnimation(newSnatch[dir]);
-    //     handled = true;
-    // }
-    // else
-
-    // if (Attribute[destType] & (ATT_DIRT | ATT_GRAB)) {
-
-    //     if (Attribute[destType] & ATT_GRAB)
-    //         grabDoge(thisOffset);
-
-    //     else {
-    //         ADDAUDIO(SFX_DIRT);
-    //         *thissOffset = CH_DUST_0 | FLAG_THISFRAME;
-    //     }
-
-    //     startPlayerAnimation(newSnatch[dir]);
-    //     handled = true;
-    // }
-    // else
-    //            startPlayerAnimation(ID_Locked);
-    //   }
-
-    //   else
     { // no fire button
 
-        bool grabbed = false;
-        int type = CharToType[GET(*thissOffset)];
+        //        bool grabbed = false;
+        int type = CharToType[GET(*meOffset)];
 
         // turn on/off a tap
         if (type == TYPE_TAP) {
-            *thissOffset = *thissOffset ^ (CH_TAP_1 ^ CH_TAP_0);
-            if (*thissOffset == CH_TAP_1) {
+            *meOffset = *meOffset ^ (CH_TAP_1 ^ CH_TAP_0);
+            if (*meOffset == CH_TAP_1) {
                 showWater = true;
+                showLava = false;
                 if (21 * TRILINES < lavaSurface)
                     lavaSurface = 21 * TRILINES;
             }
 
-            *(thissOffset + 40) =
-                (GET(*(thissOffset + 40)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
+            *(meOffset + _BOARD_COLS) =
+                (GET(*(meOffset + _BOARD_COLS)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
             startPlayerAnimation(ID_Push);
+
+            waitForNothing = 6;
+            startPlayerAnimation(ID_Stand);
             handled = true;
         }
 
@@ -267,8 +193,7 @@ bool checkHighPriorityMove(int dir) {
             shakeTime = 5;
         }
 
-        else if (Attribute[destType] &
-                 (ATT_BLANK | ATT_PERMEABLE | ATT_GRAB | ATT_EXIT)) {
+        else if (Attribute[destType] & (ATT_BLANK | ATT_PERMEABLE | ATT_GRAB | ATT_EXIT)) {
 
             // startCharAnimation(TYPE_MELLON_HUSK,
             // AnimateBase[TYPE_MELLON_HUSK]);
@@ -279,7 +204,7 @@ bool checkHighPriorityMove(int dir) {
                 ADDAUDIO(SFX_SPACE);
 
             else if (destType == TYPE_OUTBOX) {
-                *thissOffset = CH_EXITBLANK;
+                *meOffset = CH_EXITBLANK;
                 ADDAUDIO(SFX_WHOOSH);
                 exitMode = 151;
                 waitRelease = true;
@@ -304,32 +229,24 @@ bool checkHighPriorityMove(int dir) {
             // }
 
             else if (Attribute[destType] & ATT_GRAB) {
-                grabDoge(thissOffset);
-                grabbed = true;
+                grabDoge(/* meOffset */);
+                //     grabbed = true;
+                // if (grabbed)
+                nDots(4, playerX, playerY, 2, -25, 3, 4, 0x10000);
             }
 
-            playerX += xInc[joyDirectBit[dir]];
-            playerY += yInc[joyDirectBit[dir]];
-
-            if (grabbed)
-                nDots(4, playerX, playerY, 2, -50, 3, 4, 0x10000);
+            playerX += xdir[dir];
+            playerY += ydir[dir];
 
             frameAdjustX = frameAdjustY = 0;
 
             if (!exitMode) {
-                *thissOffset = CH_MELLON_HUSK | FLAG_THISFRAME;
+                *meOffset = CH_MELLON_HUSK | FLAG_THISFRAME;
 
                 if (Attribute[destType] & ATT_DIRT)
-                    startCharAnimation(TYPE_MELLON_HUSK,
-                                       AnimateBase[TYPE_MELLON_HUSK] + 8);
-
-                else if (Attribute[destType] & ATT_GRAB)
-                    startCharAnimation(TYPE_MELLON_HUSK,
-                                       AnimateBase[TYPE_MELLON_HUSK] + 2);
-
+                    startCharAnimation(TYPE_MELLON_HUSK, AnimateBase[TYPE_MELLON_HUSK]);
                 else
-                    startCharAnimation(TYPE_MELLON_HUSK,
-                                       AnimateBase[TYPE_MELLON_HUSK]);
+                    startCharAnimation(TYPE_MELLON_HUSK, AnimateBase[TYPE_MELLON_HUSK] + 6);
             }
 
             // Fix bar stuff
@@ -364,21 +281,21 @@ bool checkHighPriorityMove(int dir) {
                 };
 
                 for (int d = 0; d < 4; d++) {
-                    if ((ATTRIBUTE_BIT(*(thiss + off[d]), ATT_PIPE)) ||
-                        GET(*(thiss + off[d])) == CH_MELLON_HUSK)
+                    if ((ATTRIBUTE_BIT(*(me + dirOffset[d]), ATT_PIPE)) ||
+                        GET(*(me + dirOffset[d])) == CH_MELLON_HUSK)
                         udlr |= 1 << d;
                 }
 
-                *thiss = udlrChar[udlr];
+                *me = udlrChar[udlr];
 
-                if (*thiss == CH_HUB_1 &&
-                    Attribute[CharToType[GET(*(thiss - 40))]] & ATT_BLANK)
-                    *(thiss - 40) = CH_TAP_0;
+                if (*me == CH_HUB_1 && Attribute[CharToType[GET(*(me - _BOARD_COLS))]] & ATT_BLANK)
+                    *(me - _BOARD_COLS) = CH_TAP_0;
 
+                showTool = true;
             }
 
             else
-                *thiss = CH_DUST_0 | FLAG_THISFRAME;
+                *me = CH_DUST_0 | FLAG_THISFRAME;
 
             playerSlow = 0;
             if (!autoMoveFrameCount &&
@@ -387,22 +304,14 @@ bool checkHighPriorityMove(int dir) {
                 playerSlow = 1;
                 ADDAUDIO(SFX_DIRT);
                 // dirtFlag = true;
-                startCharAnimation(TYPE_MELLON_HUSK,
-                                   AnimateBase[TYPE_MELLON_HUSK]);
+                startCharAnimation(TYPE_MELLON_HUSK, AnimateBase[TYPE_MELLON_HUSK]);
 
-                nDots(6, playerX, playerY, 2, -50, 3, 4, 0x10000);
+                nDots(6, playerX, playerY, 2, 25, 2, 5, 0x10000);
             }
 
-            const int WalkAnimation[] = {
-                ID_Walk,     // L
-                ID_Walk,     // R
-                ID_WalkUp,   // U
-                ID_WalkDown, // D
-            };
-
             int dir2 = dir;
-            if (gravity < 0 && dir2 > 1)
-                dir2 ^= 1;
+            if (gravity < 0) // && dir2 > 1)
+                dir2 ^= 2;
 
             if (playerAnimationID != WalkAnimation[dir2])
                 startPlayerAnimation(WalkAnimation[dir2]);
@@ -412,7 +321,7 @@ bool checkHighPriorityMove(int dir) {
                 autoMoveFrameCount = ((gameSpeed * 2) << playerSlow);
 
                 autoMoveX = autoMoveDeltaX = animDeltaX[dir] >> playerSlow;
-                autoMoveY = autoMoveDeltaY = animDeltaY[dir] >> playerSlow;
+                autoMoveY = autoMoveDeltaY = -(ydir[dir] * PIECE_DEPTH) >> playerSlow;
             }
 
             handled = true;
@@ -428,15 +337,6 @@ bool checkHighPriorityMove(int dir) {
     return handled;
 }
 
-int waitForNothing;
-
-const unsigned char mineAnimation[4] = {
-    ID_Push,
-    ID_Push,
-    ID_MineUp,
-    ID_MineDown,
-};
-
 bool checkLowPriorityMove(int dir) {
 
     unsigned char joyBit = joyDirectBit[dir] << 4;
@@ -445,15 +345,15 @@ bool checkLowPriorityMove(int dir) {
     }
 
     int offset = dirOffset[dir];
-    unsigned char *thissOffset = thiss + offset;
-    unsigned char destType = CharToType[GET(*thissOffset)];
+    unsigned char *meOffset = me + offset;
+    unsigned char destType = CharToType[GET(*meOffset)];
 
 #if 1 // disable push
-    if (faceDirectionDef[dir] && (Attribute[destType] & ATT_MINE)) {
+    if (/*faceDirectionDef[dir] && */ (Attribute[destType] & ATT_MINE)) {
 
         if (++pushCounter > 1) {
             int anim = mineAnimation[dir];
-            if (dir > 1 && gravity < 0)
+            if (!(dir & 1) && gravity < 0)
                 anim ^= ID_MineDown ^ ID_MineUp;
 
             if (playerAnimationID != anim)
@@ -464,30 +364,33 @@ bool checkLowPriorityMove(int dir) {
             //            nicely as start of push
         }
 
-        if (pushCounter > 6) {
-            //            pushCounter = 2;
-            *thissOffset = ATTRIBUTE_BIT(*thissOffset, ATT_ROCK_DOGE)
-                               ? CH_DOGE_CONVERT | FLAG_THISFRAME
-                               : CH_DUST_0;
+        if (pushCounter > 10) {
 
-            waitForNothing = 2;
+            addScore(VALUE_BREAK_GEODE);
+
+            //            pushCounter = 2;
+            *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE)
+                            ? CH_CONVERT_GEODE_TO_DOGE | FLAG_THISFRAME
+                            : CH_DUST_0;
+
+            fixSurroundingConglomerates(meOffset);
+
+            waitForNothing = 6;
+            startPlayerAnimation(ID_Stand);
+
             pushCounter = 0;
 
-            extern int dogeBlockCount;
-            extern int cumulativeBlockCount;
-            dogeBlockCount++;
-            cumulativeBlockCount++;
+            // extern int dogeBlockCount;
+            // extern int cumulativeBlockCount;
+            // dogeBlockCount++;
+            // cumulativeBlockCount++;
 
             if (faceDirection > 0) {
-                thiss += 2;
+                me += 2;
                 boardCol += 2; // SKIP processing it!
             }
 
             ADDAUDIO(SFX_PUSH);
-
-            for (int i = 0; i < 4; i++)
-                conglomerate(thissOffset + dirOffset[i],
-                             (ATT_ROCK_DOGE | ATT_GRAB));
         }
 
         handled = true;
@@ -501,92 +404,19 @@ bool checkLowPriorityMove(int dir) {
     return handled;
 }
 
-#if COLSELECT
-int colourn = 0;
-extern unsigned char colr[5];
-static bool letgo = true;
-
-void colourAdjust() {
-
-    if (SWCHA != 0xFF && letgo)
-        return;
-    letgo = false;
-
-    if (SWCHA != 0xFF)
-        letgo = true;
-
-    if (JOY0_RIGHT) {
-        colourn = colourn + 1;
-        if (colourn > 4)
-            colourn = 0;
-    }
-
-    if (JOY0_LEFT) {
-        colourn = colourn - 1;
-        if (colourn < 0)
-            colourn = 4;
-    }
-
-    if (JOY0_UP) {
-
-        if (colourn == 4) {
-            colr[4] = (colr[4] + 1) & 0xF;
-            currentPalette = colr[4];
-            loadPalette();
-        }
-
-        else {
-            colr[colourn] += 2;
-            if (mm_tv_type == SECAM)
-                colr[colourn] &= 0xF;
-            if (colourn == 2)
-                colr[3] = colr[2];
-        }
-    }
-
-    if (JOY0_DOWN) {
-
-        if (colourn == 4) {
-            colr[4] = (colr[4] - 1) & 0xF;
-            currentPalette = colr[4];
-            loadPalette();
-        }
-
-        else {
-            colr[colourn] -= 2;
-            if (mm_tv_type == SECAM)
-                colr[colourn] &= 0xF;
-            if (colourn == 2)
-                colr[3] = colr[2];
-        }
-    }
-
-#if ENABLE_RAINBOW
-    rainbow = (!(colr[2] | colr[3]));
-
-    if (!rainbow)
-#endif
-        setBackgroundPalette(colr);
-}
-#endif
-
 // #define DOTY 0x10000
 
 void bubbles(int count, int dripX, int dripY, int age, int speed) {
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX << 8, dripY << 16, 1, age, speed);
         if (idx >= 0) {
-            rainSpeedY[idx] =
-                -0x2800 -
-                rangeRandom(0x2800); //- ((0x4000 + ((int)(rangeRandom(DOTY
-                                     //>> 1))) * 0x8000) >> 16);
+            rainSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
             rainSpeedX[idx] >>= 2;
-            //            rainX[idx] += rangeRandom(3) - 1;
         }
     }
 }
 
-void movePlayer(unsigned char *thiss) {
+void movePlayer(unsigned char *me) {
 
     handled = false;
 
@@ -594,8 +424,8 @@ void movePlayer(unsigned char *thiss) {
     // if (!(inpt4 & 0x80)) {        // fire button
     //     // shakeTime += 10;
 
-    //     if (Attribute[CharToType[GET(*(thiss + 1))]] & ATT_BLANK)
-    //         *(thiss + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
+    //     if (Attribute[CharToType[GET(*(me + 1))]] & ATT_BLANK)
+    //         *(me + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
 
     // }
 
@@ -650,16 +480,15 @@ void movePlayer(unsigned char *thiss) {
         else if (playerAnimationID == ID_Walk || playerAnimationID == ID_Push)
             startPlayerAnimation(ID_StandLR);
 
-        else if (playerAnimationID == ID_WalkDown ||
-                 playerAnimationID == ID_MineDown)
+        else if (playerAnimationID == ID_WalkDown || playerAnimationID == ID_MineDown)
             startPlayerAnimation(ID_Stand);
     }
 
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
 
-    if (*(thiss - 40) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
-        *(thiss - 40) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
+    if (*(me - _BOARD_COLS) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
+        *(me - _BOARD_COLS) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

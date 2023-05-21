@@ -1,13 +1,14 @@
-#include "defines_from_dasm_for_c.h"
 #include <stdbool.h>
 
+#include "defines_from_dasm_for_c.h"
+
 #include "main.h"
-#include "player.h"
 
 #include "atarivox.h"
 #include "bitpatterns.h"
 #include "colour.h"
 #include "mellon.h"
+#include "player.h"
 #include "sound.h"
 
 int autoMoveX;
@@ -16,78 +17,57 @@ int autoMoveDeltaX;
 int autoMoveDeltaY;
 int autoMoveFrameCount;
 
+// clang-format off
+
 const signed char AnimationDefault[] = {
 
-    FRAME_STAND,
-    255,
+    FRAME_STAND, 255,
 };
 
 const signed char AnimationStandUp[] = {
 
-    FRAME_WALKUP0,
-    20,
-    FRAME_WALK3,
-    6,
-    FRAME_STAND,
-    255,
+    FRAME_WALKUP0, 20,
+    FRAME_WALK3, 6,
+    FRAME_STAND, 255,
 };
 
 const signed char AnimationStandLR[] = {
     //    FRAME_WALK3, ,
-    FRAME_STAND,
-    255,
+    FRAME_STAND, 255,
 };
 
 const signed char AnimationPush[] = {
 
-    ACTION_SFX,
-    SFX_PICKAXE,
-    ACTION_DOT,
-    4,
-    4,
-    FRAME_PUSH,
-    8,
-    FRAME_PUSH2,
-    5,
-    FRAME_STAND,
-    5,
+    ACTION_SFX, SFX_PICKAXE,
+    ACTION_DOT, 4, 4,
+    FRAME_PUSH, 8,
+    FRAME_PUSH2, 5,
+    FRAME_STAND, 5,
     ACTION_LOOP,
 };
 
 const signed char AnimationMineUp[] = {
 
-    ACTION_SFX,
-    SFX_PICKAXE,
-    ACTION_DOT,
-    0,
-    0,
-    FRAME_MINE_UP_1,
-    12,
-    FRAME_MINE_UP_0,
-    8,
+    ACTION_SFX, SFX_PICKAXE,
+    ACTION_DOT, 0, 0,
+    FRAME_MINE_UP_1, 12,
+    FRAME_MINE_UP_0, 8,
     ACTION_LOOP,
 };
 
 const signed char AnimationMineDown[] = {
 
     //    FRAME_MINE_DOWN_0, 2,
-    ACTION_SFX,
-    SFX_PICKAXE,
-    ACTION_DOT,
-    1,
-    12,
-    FRAME_MINE_DOWN_1,
-    8,
-    FRAME_MINE_DOWN_0,
-    5,
-    FRAME_STAND,
-    5,
+    ACTION_SFX, SFX_PICKAXE,
+    ACTION_DOT, 1, 12,
+    FRAME_MINE_DOWN_1, 8,
+    FRAME_MINE_DOWN_0, 5,
+    FRAME_STAND, 5,
     ACTION_LOOP,
 };
 
 const signed char AnimationLocked[] = {
-    FRAME_HUNCH,
-    12,
+    FRAME_HUNCH, 12,
     ACTION_STOP,
 };
 
@@ -178,10 +158,8 @@ const signed char AnimationLocked[] = {
 // };
 
 const signed char AnimationTurn[] = {
-    FRAME_LOOK1,
-    4,
-    FRAME_LOOK2,
-    4,
+    FRAME_LOOK1, 4,
+    FRAME_LOOK2, 4,
     ACTION_FLIP,
     ACTION_STOP,
 };
@@ -323,8 +301,7 @@ const signed char AnimationSkeleton[] = {
 // };
 
 const signed char AnimationArmsCrossed[] = {
-    FRAME_ARMSCROSSED,
-    80,
+    FRAME_ARMSCROSSED, 80,
     ACTION_STOP,
 };
 
@@ -376,23 +353,25 @@ const signed char AnimationArmsCrossed[] = {
 
 // #endif // ENABLE_DRIP
 
+// clang-format on
+
 const signed char *const AnimationVector[] = {
 
     // see (player.h) AnimationIdent
 
-    AnimationDefault,  // 00
-    AnimationStandUp,  // 01
-    AnimationStandLR,  // 02
-    AnimationPush,     // 03
-    AnimationTurn,     // 04
-    AnimationDie,      // 05
-    AnimationWalk,     // 06
-    AnimationSkeleton, // 07
-    AnimationLocked,   // 08
-    AnimationWalkUp,   // 09
-    AnimationWalkDown, // 10
-    AnimationMineUp,   // 11
-    AnimationMineDown, // 12
+    AnimationDefault,  // 00 ID_Stand
+    AnimationStandUp,  // 01 ID_StandUp
+    AnimationStandLR,  // 02 ID_StandLR
+    AnimationPush,     // 03 ID_Push
+    AnimationTurn,     // 04 ID_Turn
+    AnimationDie,      // 05 ID_Die
+    AnimationWalk,     // 06 ID_Walk
+    AnimationSkeleton, // 07 ID_Skeleton
+    AnimationLocked,   // 08 ID_Locked
+    AnimationWalkUp,   // 09 ID_WalkUp
+    AnimationWalkDown, // 10 ID_WalkDown
+    AnimationMineUp,   // 11 ID_MineUp
+    AnimationMineDown, // 12 ID_MineDown
 };
 
 enum AnimationIdent playerAnimationID = ID_Stand;
@@ -430,36 +409,10 @@ unsigned int playerAnimationCount = 0;
 #define BDY2 15
 
 const unsigned char redirect[] = {0, 1, 1, 2};
-const unsigned char playerColour[] = {
 
-    // NTSC  PAL  PAL_60 SECAM
+#define SP(a, b, c, d) a, b, (c << 4) + d
 
-    0x28, // 0 HAIR
-    0x34, // 1 SKIN
-    0x06, // 2 TOP1
-    0x06, // 3 TOP 2
-    0x44, // 4 BOOT
-    0x44, // 5 PANT
-    0x58, // 6 BELT
-    0x08, // 5 SOLE
-    0x08, // 8 BONE
-
-    0x2C, // 9  HMT0
-    0x28, // 10 HMT1
-    0x26, // 11 HMT2
-    0x22, // 12 HMT3
-
-    0x4A, // 13  BDY0
-    0x46, // 14 BDY1
-    0x44, // 15 BDY2
-
-};
-
-#define SP(a, b, c, d) \
-    a, b, (c << 4) + d
-
-#define SP2(a, b) \
-    a, (b << 4)
+#define SP2(a, b) a, (b << 4)
 
 // #define PNT2 0x04
 
@@ -2138,7 +2091,8 @@ const unsigned char shape_FRAME_BLANK[] = {
     // 00
 
     0,
-    0, 0,
+    0,
+    0,
 
     SP2(________, ____), // 00
     SP2(________, ____), // 01
@@ -2175,7 +2129,8 @@ const unsigned char shape_FRAME_BLANK[] = {
 const unsigned char shape_FRAME_STAND[] = {
 
     26,
-    4 + 0, 0,
+    4 + 0,
+    0,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2210,7 +2165,8 @@ const unsigned char shape_FRAME_ARMS_IN_AIR[] = {
     // 02
 
     SPRITE_DOUBLE | 24,
-    2, 5,
+    2,
+    5,
 
     SP(__X_____, _X______, HMT0, BONE), // 00
     SP(__X_XXXX, _X______, HMT0, BONE), // 01
@@ -2242,7 +2198,8 @@ const unsigned char shape_FRAME_HUNCH[] = {
     // 03
 
     26,
-    4 + 0, 0,
+    4 + 0,
+    0,
 
     SP2(___XXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2277,7 +2234,8 @@ const unsigned char shape_FRAME_PUSH[] = {
     // 04
 
     SPRITE_DOUBLE | 25,
-    4, 0,
+    4,
+    0,
 
     SP(___XXXX_, ________, HMT0, BONE), // 00
     SP(__XXXXXX, ___XX___, HMT0, BONE), // 01
@@ -2310,7 +2268,8 @@ const unsigned char shape_FRAME_PUSH2[] = {
     // 05
 
     SPRITE_DOUBLE | 26,
-    4, 0,
+    4,
+    0,
 
     SP(________, _XX_____, BONE, BONE), // 00
     SP(_______X, X_______, BONE, BONE), // 01
@@ -2372,7 +2331,8 @@ const unsigned char shape_FRAME_WALK1[] = {
     // 13
 
     26,
-    5, 0,
+    5,
+    0,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2406,7 +2366,8 @@ const unsigned char shape_FRAME_WALK2[] = {
     // 14
 
     24,
-    3, 3,
+    3,
+    3,
 
     SP2(___XXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2438,7 +2399,8 @@ const unsigned char shape_FRAME_WALK3[] = {
     // 15
 
     26,
-    4, 0,
+    4,
+    0,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2472,7 +2434,8 @@ const unsigned char shape_FRAME_WALK4[] = {
     // 16
 
     24,
-    3, 3,
+    3,
+    3,
 
     SP2(___XXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2508,8 +2471,7 @@ const unsigned char shape_FRAME_SNATCH_DOWN[] = {
 const unsigned char shape_FRAME_SKELETON1[] = {
     // 18
 
-    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20,
-    0, 0,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20, 0, 0,
 
     SP(_____XXX, X_______, BONE, BONE), // 00
     SP(____XXXX, XX______, BONE, BONE), // 01
@@ -2536,8 +2498,7 @@ const unsigned char shape_FRAME_SKELETON1[] = {
 const unsigned char shape_FRAME_SKELETON2[] = {
     // 21
 
-    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20,
-    1, 0,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 20, 1, 0,
 
     SP(____XXXX, ________, BONE, BONE), // 00
     SP(___XXXXX, X_______, BONE, BONE), // 01
@@ -2565,8 +2526,7 @@ const unsigned char shape_FRAME_SKELETON2[] = {
 const unsigned char shape_FRAME_SKELETON3[] = {
     // 20
 
-    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 16,
-    0, 0,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 16, 0, 0,
 
     SP(_______X, XXX_____, BONE, BONE), // 00
     SP(______XX, XXXX____, BONE, BONE), // 01
@@ -2589,8 +2549,7 @@ const unsigned char shape_FRAME_SKELETON3[] = {
 const unsigned char shape_FRAME_SKELETON4[] = {
     // 19
 
-    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 12,
-    -1, 0,
+    SPRITE_DOUBLE | SPRITE_ABSCOLOUR | 12, -1, 0,
 
     SP(________, XXXX____, BONE, BONE), // 00
     SP(_______X, XXXXX___, BONE, BONE), // 01
@@ -2610,7 +2569,8 @@ const unsigned char shape_FRAME_SKELETON5[] = {
     // 22
 
     3,
-    6, 0,
+    6,
+    0,
 
     SP2(_XXXXXX_, BONE), // 00
     SP2(X__X__XX, BONE), // 01
@@ -2629,7 +2589,8 @@ const unsigned char shape_FRAME_WALKUP0[] = {
     // 25
 
     26,
-    3, 0,
+    3,
+    0,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2663,7 +2624,8 @@ const unsigned char shape_FRAME_WALKUP1[] = {
     // 26
 
     25,
-    3, 2,
+    3,
+    2,
 
     SP2(___XXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2696,7 +2658,8 @@ const unsigned char shape_FRAME_WALKUP2[] = {
     // 27
 
     26,
-    3, 0,
+    3,
+    0,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2730,7 +2693,8 @@ const unsigned char shape_FRAME_WALKUP3[] = {
     // 28
 
     25,
-    3, 2,
+    3,
+    2,
 
     SP2(__XXX___, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2763,7 +2727,8 @@ const unsigned char shape_FRAME_WALKDOWN0[] = {
     // 29
 
     26,
-    3, 0,
+    3,
+    0,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2797,7 +2762,8 @@ const unsigned char shape_FRAME_WALKDOWN1[] = {
     // 30
 
     25,
-    3, 3,
+    3,
+    3,
 
     SP2(__XXX___, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2830,7 +2796,8 @@ const unsigned char shape_FRAME_WALKDOWN2[] = {
     // 31
 
     26,
-    3, 3,
+    3,
+    3,
 
     SP2(__XXXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2864,7 +2831,8 @@ const unsigned char shape_FRAME_WALKDOWN3[] = {
     // 32
 
     25,
-    3, 3,
+    3,
+    3,
 
     SP2(___XXX__, HMT0), // 00
     SP2(_XXXXXX_, HMT0), // 01
@@ -2897,7 +2865,8 @@ const unsigned char shape_FRAME_MINE_UP_0[] = {
     // 31
 
     SPRITE_DOUBLE | 31,
-    0, 0,
+    0,
+    0,
 
     SP(________, XX______, BONE, BONE), // 00
     SP(_______X, X_______, BONE, BONE), // 00
@@ -2936,7 +2905,8 @@ const unsigned char shape_FRAME_MINE_UP_1[] = {
     // 32
 
     SPRITE_DOUBLE | 24,
-    -5, 0,
+    -5,
+    0,
 
     SP(_______X, __XXXX__, BONE, HMT0), // 00
     SP(______X_, _XXXXXX_, BONE, HMT0), // 01
@@ -3006,7 +2976,8 @@ const unsigned char shape_FRAME_MINE_DOWN_0[] = {
     // 31
 
     SPRITE_DOUBLE | 27,
-    3, -4,
+    3,
+    -4,
 
     SP(__XXXX__, ________, HMT0, BONE), // 00
     SP(_XXXXXX_, ________, HMT0, BONE), // 01
@@ -3041,7 +3012,8 @@ const unsigned char shape_FRAME_MINE_DOWN_1[] = {
     // 32
 
     SPRITE_DOUBLE | 29,
-    3, 0,
+    3,
+    0,
 
     SP(__XXXX__, ________, HMT0, HMT0), // 00
     SP(_XXXXXX_, ________, HMT0, HMT0), // 01
@@ -3160,7 +3132,7 @@ void processAnimationCommand() {
 
             int dotX = 2 + (*++playerAnimation) * faceDirection;
             int dotY = *++playerAnimation;
-            nDots(4, playerX, playerY, 2, -30, dotX, dotY, 0x10000);
+            nDots(4, playerX, playerY, 2, -30, dotX, dotY, 0x8000);
             playerAnimation++;
             break;
         }
@@ -3203,7 +3175,7 @@ const unsigned short reciprocal[] = {
     //    0x10000/5,
     //    0x10000/6,
     //    0x10000/7,
-    0x10000 / 7,
+    0x10000 / SPEED_BASE,
 // 0x10000/9,
 // 0x10000/10,
 // 0x10000/11,
@@ -3238,14 +3210,13 @@ void startPlayerAnimation(enum AnimationIdent animID) {
 
     playerAnimationID = animID;
 
-    playerAnimation =
-        playerAnimationLoop = AnimationVector[animID];
+    playerAnimation = playerAnimationLoop = AnimationVector[animID];
 
-    playerAnimationCount =
-        autoMoveDeltaX =
-            autoMoveDeltaY =
-                frameAdjustX =
-                    frameAdjustY = 0;
+    playerAnimationCount = 0;
+    autoMoveDeltaX = 0;
+    autoMoveDeltaY = 0;
+    frameAdjustX = 0;
+    frameAdjustY = 0;
 
     processAnimationCommand();
 }

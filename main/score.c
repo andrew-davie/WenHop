@@ -1,18 +1,21 @@
+#include <stdbool.h>
+#include <stdint.h>
+
 #include "defines.h"
 #include "defines_cdfj.h"
+
 #include "main.h"
-#include <stdbool.h>
+
+#include "score.h"
 
 #include "bitpatterns.h"
 #include "cavedata.h"
 #include "colour.h"
 #include "decodecaves.h"
-
 #include "mellon.h"
 #include "menu.h"
 #include "player.h"
 #include "random.h"
-#include "score.h"
 #include "sound.h"
 #include "swipeCircle.h"
 
@@ -56,56 +59,25 @@ void addScore(int score) {
         setScoreCycle(SCORELINE_LIVES);
     }
 
-    scorePulse = 200;
+    // scorePulse = 200;
 }
 
 const int pwr[] = {
-    1,
-    10,
-    100,
-    1000,
-    10000,
-    100000,
+    1, 10, 100, 1000, 10000, 100000,
 };
 
 // right-to-left, least-significant first digit position
 const unsigned char mask[] = {
-    0x0F,
-    0xF0,
-    0xF0,
-    0x0F,
-    0x0F,
-    0x0F,
-    0xF0,
-    0xF0,
-    0x0F,
-    0x0F,
+    0x0F, 0xF0, 0xF0, 0x0F, 0x0F, 0x0F, 0xF0, 0xF0, 0x0F, 0x0F,
 };
 
 const bool mirror[] = {
-    1,
-    1,
-    0,
-    0,
-    1,
-    1,
-    1,
-    0,
-    0,
-    1,
+    1, 1, 0, 0, 1, 1, 1, 0, 0, 1,
 };
 
 const int base[] = {
-    _BUF_PF2_RIGHT,
-    _BUF_PF2_RIGHT,
-    _BUF_PF1_RIGHT,
-    _BUF_PF1_RIGHT,
-    _BUF_PF0_RIGHT,
-    _BUF_PF2_LEFT,
-    _BUF_PF2_LEFT,
-    _BUF_PF1_LEFT,
-    _BUF_PF1_LEFT,
-    _BUF_PF0_LEFT,
+    _BUF_PF2_RIGHT, _BUF_PF2_RIGHT, _BUF_PF1_RIGHT, _BUF_PF1_RIGHT, _BUF_PF0_RIGHT,
+    _BUF_PF2_LEFT,  _BUF_PF2_LEFT,  _BUF_PF1_LEFT,  _BUF_PF1_LEFT,  _BUF_PF0_LEFT,
 };
 
 void setScoreCycle(enum SCORE_MODE cycle) {
@@ -169,9 +141,10 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
     }
 
     unsigned char *dig;
-    if (!(digit & 0x40))
-        dig = (unsigned char *)(__DIGIT_SHAPE + digit * DIGIT_SIZE);
-    else
+    if (!(digit & 0x40)) {
+        uintptr_t p = (__DIGIT_SHAPE + digit * DIGIT_SIZE);
+        dig = (unsigned char *)p;
+    } else
         dig = bigDigitBuffer;
 
     unsigned char rdl, rdl2;
@@ -211,10 +184,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
 
 void fillBit(int line, unsigned char b) {
     unsigned char *bdp = bigDigitBuffer + (line << 2);
-    bdp[0] =
-        bdp[1] =
-            bdp[2] =
-                bdp[3] = b;
+    bdp[0] = bdp[1] = bdp[2] = bdp[3] = b;
 }
 
 void doubleSizeScore(int x, int y, int letter, int col) {
@@ -235,7 +205,8 @@ void doubleSizeScore(int x, int y, int letter, int col) {
     drawBigDigit(0x81, x + 1, y + DIGIT_SIZE, 0x40 | col, false);
 }
 
-unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer, unsigned int colour, int cvt) {
+unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer,
+                            unsigned int colour, int cvt) {
 
     int forced = 0;
     for (int digit = 2; digit >= 0; digit--) {
@@ -259,25 +230,49 @@ unsigned char *drawDecimal2(unsigned char *buffer, unsigned char *colour_buffer,
     return buffer;
 }
 
-void drawCaveLevel() {
+// clang-format off
 
-    scoreLineNew[1] = LETTER('P');
-    scoreLineNew[2] = LETTER('L');
-    scoreLineNew[3] = LETTER('A');
-    scoreLineNew[4] = LETTER('N');
-    scoreLineNew[5] = LETTER('E');
-    scoreLineNew[6] = LETTER('T');
+const char *planetName[] = {
+
+    "MERCURY",
+    "VENUS",
+    "EARTH",
+    "MARS",
+    "JUPITER",
+    "SATURN",
+    "URANUS",
+    "NEPTUNE",
+    "PLUTO",
+    "X"
+};
+
+// clang-format on
+
+void drawPlanetName() {
+
+    static int col = 0;
+    col++;
+
+    const char *p = planetName[cave < sizeof(planetName) ? cave : sizeof(planetName) - 1];
+    for (int i = 2; *p; i++) {
+        scoreLineNew[i] = LETTER(*p++);
+        scoreLineColour[i] = col++ & 7;
+    }
+
+    // scoreLineNew[1] = LETTER('P');
+    // scoreLineNew[2] = LETTER('L');
+    // scoreLineNew[3] = LETTER('A');
+    // scoreLineNew[4] = LETTER('N');
+    // scoreLineNew[5] = LETTER('E');
+    // scoreLineNew[6] = LETTER('T');
 
     //    scoreLineNew[7] = LETTER('A' + cave);
-    scoreLineNew[8] = level + 1;
+    // scoreLineNew[8] = level + 1;
 
-    scoreLineColour[2] =
-        scoreLineColour[3] =
-            scoreLineColour[4] =
-                scoreLineColour[5] = RGB_YELLOW;
+    // scoreLineColour[2] = scoreLineColour[3] = scoreLineColour[4] = scoreLineColour[5] =
+    // RGB_YELLOW;
 
-    scoreLineColour[7] =
-        scoreLineColour[8] = RGB_AQUA;
+    // scoreLineColour[7] = scoreLineColour[8] = RGB_AQUA;
 }
 
 void drawSpeedRun() {
@@ -306,7 +301,8 @@ void drawTime() {
     scoreLineColour[tPos++] = RGB_BLUE;
 
     if (time > 0xA00 || ++toggle & 16)
-        drawDecimal2(scoreLineNew + tPos, scoreLineColour + tPos, time < 0xA00 ? RGB_RED : RGB_AQUA, time >> 8);
+        drawDecimal2(scoreLineNew + tPos, scoreLineColour + tPos, time < 0xA00 ? RGB_RED : RGB_AQUA,
+                     time >> 8);
 }
 
 void drawLives() {
@@ -337,58 +333,6 @@ void drawTheScore(int score) {
     }
 }
 
-#if COLSELECT
-extern int colourn;
-unsigned char colr[5];
-static int tog = 0;
-
-void drawc(int start, int v) {
-
-    scoreLineNew[start] = DIGIT_SPACE;
-    scoreLineNew[start + 1] = DIGIT_SPACE;
-
-    if (!(7 - start == colourn * 2) || (tog & 0b1000)) {
-
-        int d = (v >> 4) & 0xF;
-        if (d >= 10)
-            d += DIGIT_A - 10;
-
-        scoreLineNew[start] = d;
-        d = v & 0xF;
-        if (d >= 10)
-            d += DIGIT_A - 10;
-        scoreLineNew[start + 1] = d;
-    }
-}
-
-void drawColours() {
-
-    tog++;
-
-    scoreLineNew[9] = DIGIT_SPACE;
-    if (colourn != 4 || (tog & 0b1000))
-        scoreLineNew[9] = colr[4] + ((colr[4] > 9) ? DIGIT_A - 10 : 0);
-
-    drawc(7, colr[0]);
-    drawc(5, colr[1]);
-    drawc(3, colr[2]);
-    drawc(1, colr[3]);
-
-    short type = 0;
-    switch (mm_tv_type) {
-    case NTSC:
-        type = DIGIT_N;
-        break;
-    case PAL:
-    case PAL_60:
-        type = DIGIT_P;
-        break;
-    }
-
-    scoreLineNew[0] = type;
-}
-#endif
-
 void drawScore() {
 
     static int scc = 0;
@@ -412,56 +356,38 @@ void drawScore() {
         }
     }
 
-    // #if COLSELECT > 0
-    //     displayedScoreCycle = SCORELINE_COLOUREDIT;
-    // #endif
-
     for (int i = 0; i < 10; i++)
         scoreLineNew[i] = DIGIT_SPACE;
 
-#if COLSELECT
-    if (LEFT_DIFFICULTY_A) {
-        drawColours();
-    } else
-#endif
+    switch (scoreCycle) {
+    case SCORELINE_TIME:
+    case SCORELINE_SCORE:
+        //        drawDoges();
+        //        drawTime();
+        //        break;
+        drawTheScore(actualScore);
+        break;
+    case SCORELINE_LIVES:
+        //        drawTime();
+        drawLives();
+        break;
+    case SCORELINE_CAVELEVEL:
+        drawPlanetName();
+        break;
+    case SCORELINE_SPEEDRUN:
+        if (!theCave->dogeRequired[level] && !playerDead)
+            drawSpeedRun();
+        else
+            setScoreCycle(SCORELINE_LIVES);
+        break;
 
-        switch (scoreCycle) {
-        case SCORELINE_TIME:
-        case SCORELINE_SCORE:
-            //        drawDoges();
-            //        drawTime();
-            //        break;
-            drawTheScore(actualScore);
-            break;
-        case SCORELINE_LIVES:
-            //        drawTime();
-            drawLives();
-            break;
-        case SCORELINE_CAVELEVEL:
-            drawCaveLevel();
-            break;
-        case SCORELINE_SPEEDRUN:
-            if (!theCave->dogeRequired[level] && !playerDead)
-                drawSpeedRun();
-            else
-                setScoreCycle(SCORELINE_LIVES);
-            break;
-
-        default:
-            break;
-        }
-
-    static int scoreColour;
-    if (scorePulse > 0) {
-        scorePulse--;
-        scoreColour++;
+    default:
+        break;
     }
 
-    else
-        scoreColour = 6 << 4;
-
-    for (int i = 0; i < 10; i++)
-        drawBigDigit(scoreLineNew[i], 9 - i, 9, (scoreColour >> 4) & 7, false);
+    for (int i = 0; i < 10; i++) {
+        drawBigDigit(scoreLineNew[i], 9 - i, 9, 7, false);
+    }
 }
 
 // EOF

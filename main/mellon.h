@@ -1,7 +1,7 @@
 #ifndef __MELLON_H
 #define __MELLON_H
 
-void movePlayer(unsigned char *thisss);
+void movePlayer(unsigned char *mes);
 void initPlayer();
 
 extern int frameAdjustX;

@@ -1,16 +1,17 @@
-
 #include "defines_cdfj.h"
+
+#include "decodecaves.h"
 
 #include "attribute.h"
 #include "cavedata.h"
 #include "characterset.h"
 #include "colour.h"
-#include "decodecaves.h"
 #include "main.h"
 #include "mellon.h"
 #include "random.h"
 #include "scroll.h"
 #include "sound.h"
+#include "wyrm.h"
 
 #define DRAW_LINE 0b01000000
 #define DRAW_RECT 0b11000000
@@ -32,7 +33,8 @@ const signed char ldxy[] = {-1, -1, 0, 1, 1, 1, 0, -1, -1, -1};
 void decodeCave(int cave);
 void StoreObject(int x, int y, objectType anObject);
 void DrawLine(objectType anObject, int x, int y, int aLength, int aDirection);
-void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight, objectType aFillObject);
+void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight,
+                    objectType aFillObject);
 void DrawRect(objectType anObject, int x, int y, int aWidth, int aHeight);
 // void DrawHorizontalLine(objectType anObject, int x, int y, int aLength);
 
@@ -70,9 +72,6 @@ void decodeCave(int cave) {
     cave_random_a = theCave->randomInit[level];
     cave_random_b = cave_random_a++; // ensure one is non-zero!
 
-#if ENABLE_RAINBOW
-    rainbow = theCave->flags & CAVEDEF_RAINBOW;
-#endif
     lockDisplay = theCave->flags & CAVEDEF_OVERVIEW;
     // displayMode = lockDisplay ? DISPLAY_HALF : DISPLAY_NORMAL;
 
@@ -81,8 +80,9 @@ void decodeCave(int cave) {
     millingTime = theCave->millingTime * 60;
 
     int *s = (int *)(RAM + _BOARD);
-    for (int i = 0; i < 880 / 4; i++)
-        *(s + i) = 0; //(FLAG_UNCOVER << 24) | (FLAG_UNCOVER << 16) | (FLAG_UNCOVER << 8) | FLAG_UNCOVER;
+    for (int i = 0; i < (_BOARD_ROWS * _BOARD_COLS) / 4; i++)
+        *(s + i) =
+            0; //(FLAG_UNCOVER << 24) | (FLAG_UNCOVER << 16) | (FLAG_UNCOVER << 8) | FLAG_UNCOVER;
 
     decodingRow = -1;
     decodeFlasher = 21;
@@ -116,18 +116,19 @@ int decodeExplicitData(int sfx) {
 
         if (decodingRow < _BOARD_ROWS) {
 
-            DrawLine(theCave->borderCharacter, 0, decodingRow + 1, 40, 2);
+            DrawLine(theCave->borderCharacter, 0, decodingRow + 1, _BOARD_COLS, 2);
 
             if (decodingRow > 0 && decodingRow < _BOARD_ROWS - 1) {
 
-                DrawLine(theCave->interiorCharacter /*| FLAG_UNCOVER*/, 1, decodingRow, 38, 2);
+                DrawLine(theCave->interiorCharacter /*| FLAG_UNCOVER*/, 1, decodingRow,
+                         _BOARD_COLS - 2, 2);
 
-                for (int x = 1; x < 39; x++)
+                for (int x = 1; x < _BOARD_COLS - 1; x++)
                     for (int object = 0; object < theCave->objectCount; object++) {
                         unsigned char *p = (&(theCave->objectData)) + object * 6;
 
-                        // unsigned char *thiss = RAM + _BOARD + x + decodingRow * 40;
-                        // if (GET(*thiss) == 0)
+                        // unsigned char *me = RAM + _BOARD + x + decodingRow * _BOARD_COLS;
+                        // if (GET(*me) == 0)
                         if ((getCaveRandom32() >> 24) < p[level + 1])
                             StoreObject(x, decodingRow, p[0]);
                     }
@@ -272,7 +273,8 @@ int decodeExplicitData(int sfx) {
 
     case DECODE_FLASH:
 
-        DrawRect(theCave->borderCharacter & ((decodeFlasher & 4) ? 0 : 0xFF), 0, 0, 40, 22);
+        DrawRect(theCave->borderCharacter & ((decodeFlasher & 4) ? 0 : 0xFF), 0, 0, _BOARD_COLS,
+                 _BOARD_ROWS);
 
         if (!(decodeFlasher & 0b11))
             if (sfx)
@@ -296,10 +298,10 @@ int decodeExplicitData(int sfx) {
 
 void StoreObject(int x, int y, objectType anObject) {
 
-    unsigned char *thiss = RAM + _BOARD + x + y * 40;
+    unsigned char *me = RAM + _BOARD + x + y * _BOARD_COLS;
     unsigned char type = TYPEOF(anObject);
 
-    if (TYPEOF(*thiss) == TYPE_DOGE)
+    if (TYPEOF(*me) == TYPE_DOGE)
         totalDogePossible--;
 
     switch (type) {
@@ -339,7 +341,7 @@ void StoreObject(int x, int y, objectType anObject) {
         break;
     }
 
-    *thiss = anObject;
+    *me = anObject;
 }
 
 void DrawLine(objectType anObject, int x, int y, int aLength, int aDirection) {
@@ -359,7 +361,8 @@ void DrawRect(objectType anObject, int x, int y, int aWidth, int aHeight) {
     DrawLine(anObject, x + aWidth - 1, y, aHeight, 4);
 }
 
-void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight, objectType aFillObject) {
+void DrawFilledRect(objectType anObject, int x, int y, int aWidth, int aHeight,
+                    objectType aFillObject) {
 
     for (int counter1 = aHeight - 2; counter1 > 0; counter1--)
         DrawLine(aFillObject, x + 1, y + counter1, aWidth - 2, 2);

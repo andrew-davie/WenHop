@@ -42,7 +42,7 @@ SRCS =  characterset.c	joystick.c	random.c	swipeCircle.c \
 		animations.c	colour.c	main.c		mellon.c \
 		atarivox.c	decodecaves.c	menu.c		score.c \
 		attribute.c	drawplayer.c	scroll.c \
-		cavedata.c	drawscreen.c		sound.c player.c
+		cavedata.c	drawscreen.c		sound.c player.c wyrm.c
 
 
 # C Compiler flags
@@ -76,6 +76,9 @@ default: armcode
 	@zsh -c "nohup ../Gopher2600/gopher2600_darwin_arm64 -right savekey $(SHOWFPS) ./$(PROJECT).bin &"
 #	zsh -c "sudo nohup nice -20 ../Gopher2600/gopher2600_darwin_amd64 -showfps ./WenHop.bin &"
 	@sleep 1
+
+gfx:
+	(cd gfx & make)
 
 
 
@@ -133,8 +136,8 @@ CUSTOMLINK = $(SRC)/custom.boot.lds
 CUSTOMOBJS = main.o sound.o custom.o attribute.o random.o \
 	decodecaves.o characterset.o mellon.o cavedata.o drawplayer.o \
 	player.o drawscreen.o colour.o swipeCircle.o score.o \
-	scroll.o animations.o menu.o atarivox.o joystick.o
-CUSTOMDEPENDS = sound.h main.h attribute.h
+	scroll.o animations.o menu.o atarivox.o joystick.o wyrm.o
+CUSTOMDEPENDS = sound.h main.h attribute.h wyrm.h
 
 CUSTOMTARGETS = $(CUSTOMELF) $(CUSTOMBIN)
 
@@ -211,3 +214,4 @@ drawscreen.o: main/drawplayer.h main/drawscreen.h main/menu.h main/random.h main
 sound.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/sound.h main/random.h
 player.o: main/defines_from_dasm_for_c.h main/main.h main/player.h main/atarivox.h main/bitpatterns.h
 player.o: main/mellon.h
+wyrm.o: main/wyrm.h

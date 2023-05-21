@@ -1,11 +1,14 @@
-#include "defines_cdfj.h"
-#include "main.h"
 #include <stdbool.h>
+
+#include "defines_cdfj.h"
+
+#include "main.h"
+
+#include "sound.h"
 
 #include "colour.h"
 #include "joystick.h"
 #include "random.h"
-#include "sound.h"
 
 void loadTrack(int t, const unsigned char *tune);
 void processTracks();
@@ -18,6 +21,8 @@ int sound_max_volume = 1024;
 int volume[2];
 
 struct Audio Track[MAX_TRACKS];
+
+// clang-format off
 
 const unsigned char sampleTick[] = {
     0xF,
@@ -185,7 +190,7 @@ const unsigned char sampleBubbler[] = {
     // CMD_LOOP,
 };
 
-#if __ENABLE_LAVA
+#if __ENABLE_LAVA2
 const unsigned char sampleLava[] = {
     3,
     10,
@@ -573,6 +578,8 @@ const unsigned char sampleExit[] = {
 //     CMD_STOP,
 // };
 
+// clang-format on
+
 const struct AudioTable AudioSamples[] = {
 
     {sampleNone, 0, 0}, // 0  PLACEHOLDER - NOT USED AS SOUND
@@ -580,34 +587,33 @@ const struct AudioTable AudioSamples[] = {
     // MUST correspond to AudioID enum ordering/number
     // MUST be in priority order!
 
-    {sampleUncovered, 201, 0},                                       // SFX_UNCOVERED,          // 0
-    {sample10987654321, 200, AUDIO_LOCKED},                          // SFX_COUNTDOWN2,         // 1
-    {samplePick, 200, 0},                                            // SFX_PICKAXE,           // 2
-    {sampleSFX, 200, 0},                                             // SFX_DOGE2,           // 2
-    {sampleWhoosh, 127, 0},                                          // SFX_WHOOSH,             // 3
-    {sampleBlip, 125, 0},                                            // SFX_BLIP,               // 4
-    {sampleExxtra, 110, 0},                                          // SFX_EXTRA,              // 5
-    {sampleExit, 99, 0},                                             // SFX_EXIT,               // 6
-    {sampleExplode, 99, 0},                                          // SFX_EXPLODE,            // 7
-    {sampleExplodeQuiet, 99, 0},                                     // SFX_EXPLODE_QUIET,            // 7
-    {sampleMagic, 50, AUDIO_KILL},                                   // SFX_MAGIC,              // 8
-    {sampleMagic2, 50, 0},                                           // SFX_MAGIC2,             // 9
-    {sampleRock, 11, 0},                                             // SFX_ROCK,               // 10
-    {sampleRock2, 10, 0},                                            // SFX_ROCK2,              // 11
-    {sampleDrip2, 10, 0},                                            // SFX_SCORE,              // 12
-    {sampleDoge2, 9, 0},                                             // SFX_DOGE,            // 13
-    {sampleDoge3, 9, 0},                                             // SFX_DOGE3,           // 14
-    {sampleDirt, 9, 0},                                              // SFX_DIRT,               // 15
-    {samplePush, 8, 0},                                              // SFX_PUSH,               // 16
-    {sampleSpace, 8, 0},                                             // SFX_SPACE,              // 17
-    {sampleDrip2, 8, 0},                                             // SFX_DRIP,               // 18
-    {sampleBubbler, 7, AUDIO_LOCKED | AUDIO_SINGLETON | AUDIO_KILL}, // SFX_BUBBLER,             // 18
-    {sampleDrip, 5, 0},                                              // SFX_DRIP2,              // 19
-    {sampleUncover, 2, AUDIO_LOCKED | AUDIO_KILL},                   // SFX_UNCOVER,            // 20
-// { sampleTick,           0, AUDIO_LOCKED | AUDIO_KILL          }, // SFX_TICK,               // 22
+    {sampleUncovered, 201, 0},                                       // 01 SFX_UNCOVERED
+    {sample10987654321, 200, AUDIO_LOCKED},                          // 02 SFX_COUNTDOWN2
+    {samplePick, 200, 0},                                            // 03 SFX_PICKAXE
+    {sampleSFX, 200, 0},                                             // 04 SFX_DOGE2
+    {sampleWhoosh, 127, 0},                                          // 05 SFX_WHOOSH
+    {sampleBlip, 125, 0},                                            // 06 SFX_BLIP
+    {sampleExxtra, 110, 0},                                          // 07 SFX_EXTRA
+    {sampleExit, 99, 0},                                             // 08 SFX_EXIT
+    {sampleExplode, 99, 0},                                          // 09 SFX_EXPLODE
+    {sampleExplodeQuiet, 99, 0},                                     // 10 SFX_EXPLODE_QUIET
+    {sampleMagic, 50, AUDIO_KILL},                                   // 11 SFX_MAGIC
+    {sampleMagic2, 50, 0},                                           // 12 SFX_MAGIC2
+    {sampleRock, 11, 0},                                             // 13 SFX_ROCK
+    {sampleRock2, 10, 0},                                            // 14 SFX_ROCK2
+    {sampleDrip2, 10, 0},                                            // 15 SFX_SCORE
+    {sampleDoge2, 9, 0},                                             // 16 SFX_DOGE
+    {sampleDoge3, 9, 0},                                             // 17 SFX_DOGE3
+    {sampleDirt, 9, 0},                                              // 18 SFX_DIRT
+    {samplePush, 8, 0},                                              // 19 SFX_PUSH
+    {sampleSpace, 8, 0},                                             // 20 SFX_SPACE
+    {sampleDrip2, 8, 0},                                             // 21 SFX_DRIP
+    {sampleBubbler, 7, AUDIO_LOCKED | AUDIO_SINGLETON | AUDIO_KILL}, // 22 SFX_BUBBLER
+    {sampleDrip, 5, 0},                                              // 23 SFX_DRIP2
+    {sampleUncover, 2, AUDIO_LOCKED | AUDIO_KILL},                   // 24 SFX_UNCOVER
 
-#if __ENABLE_LAVA
-    {sampleLava, 2, true}, // 20
+#if __ENABLE_LAVA2
+    {sampleLava, 2, true}, // 25 SFX_LAVA
 #endif
 };
 
@@ -618,12 +624,6 @@ void initAudio() {
     // #if __ENABLE_ATARIVOX
     // RAM[_BUF_SPEECH] = 0xFF;
     // #endif
-
-    // for (int i = 0; i < MAX_TRACKS; i++)
-    //     Track[i].id = 0;
-
-    // RAM[_BUF_AUDV] =
-    // RAM[_BUF_AUDV + 1] = 0;
 
     for (int i = 0; i < SFX_MAX; i++)
         audioRequest[i] = false;
@@ -684,22 +684,19 @@ void playAudio() {
                     break;
                 }
 
-                if ((
-
-                        !(AudioSamples[idx].flags & AUDIO_LOCKED) && // not locked, and...
-                        (lowest < 0                                  // either we haven't found a lowest yet
-                         || AudioSamples[Track[i].id].priority < AudioSamples[Track[lowest].id].priority)
-
-                        // or the priority of this track is lower than the lowest found so far...
-
-                        ))
+                if ((!(AudioSamples[idx].flags & AUDIO_LOCKED) && // not locked, and...
+                     (lowest < 0 || // either we haven't found a lowest yet
+                      AudioSamples[Track[i].id].priority < AudioSamples[Track[lowest].id].priority)
+                     // or the priority of this track is lower than the lowest found so far...
+                     ))
 
                     lowest = i;
             }
 
             // we've now found the lowest priority sound in our current batch...
             // if the lowest slot is lower priority than new sound, replace it
-            if (lowest >= 0 && (!Track[lowest].id || AudioSamples[id].priority >= AudioSamples[Track[lowest].id].priority)) {
+            if (lowest >= 0 && (!Track[lowest].id || AudioSamples[id].priority >=
+                                                         AudioSamples[Track[lowest].id].priority)) {
 
                 Track[lowest].index = 0;
                 Track[lowest].id = id;
@@ -817,7 +814,8 @@ void playAudio() {
                 // case SFX_DEADBEAT: {
 
                 //         static int f;
-                //         if (!best->index && best->delay == AudioSamples[best->id].sample[3] - 1) {
+                //         if (!best->index && best->delay == AudioSamples[best->id].sample[3] - 1)
+                //         {
 
                 //             tuneIndex++;
                 //             if (beat2[tuneIndex] == 0)
@@ -832,7 +830,8 @@ void playAudio() {
 
                 // case SFX_DEADBEAT2: {
 
-                //         if (!best->index && best->delay == AudioSamples[best->id].sample[3] - 1) {
+                //         if (!best->index && best->delay == AudioSamples[best->id].sample[3] - 1)
+                //         {
 
                 //             tuneIndex++;
                 //             if (beat[tuneIndex] == 0)
@@ -943,7 +942,10 @@ void playAudio() {
 #pragma GCC diagnostic pop
 
 // ref: http://www.retrointernals.org/ATT_ROCK-dash/music.html
-// ref: https://forums.atariage.com/topic/176497-atari-2600-frequency-and-tuning-chart-new-v11/#comment-2198932
+// ref:
+// https://forums.atariage.com/topic/176497-atari-2600-frequency-and-tuning-chart-new-v11/#comment-2198932
+
+// clang-format off
 
 static const unsigned char trackSimple[] = {
 
@@ -1007,78 +1009,78 @@ static const unsigned char trackSimple[] = {
 
     //   FULLNOTE
     a4 b4
-        c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-            c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
-                        c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                            c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
 
-                                        b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-                                            c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
-                                                d5 a4 b4 a4 g4_SHARP a4 d5 a4
-                                                    c5_SHARP a4 a4 a4
-                                                        // QUARTERNOTE
-                                                        a4 a4
-                                                            // FULLNOTE
-                                                            /* previous 2 should be single quarter note */ a4 a4
-                                                                b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-                                                                    c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
-                                                                        d5 a4 b4 a4 g4_SHARP a4 d5 a4
-                                                                            c5_SHARP a4 a4 a4
-                                                                                // QUARTERNOTE
-                                                                                a4 a4
-                                                                                    // FULLNOTE
-                                                                                    /* previous 2 should be single quarter note */ a4 c5
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
+    d5 a4 b4 a4 g4_SHARP a4 d5 a4
+    c5_SHARP a4 a4 a4
+    // QUARTERNOTE
+    a4 a4
+    // FULLNOTE
+    /* previous 2 should be single quarter note */ a4 a4
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4_SHARP a4 c5_SHARP a4 g4_SHARP a4
+    d5 a4 b4 a4 g4_SHARP a4 d5 a4
+    c5_SHARP a4 a4 a4
+    // QUARTERNOTE
+    a4 a4
+    // FULLNOTE
+    /* previous 2 should be single quarter note */ a4 c5
 
-                                                                                        g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
-                                                                                            g5_SHARP c5_SHARP b4 c5_SHARP b4
-                                                                                                // QUARTERNOTE
-                                                                                                b4 b4
-                                                                                                    // FULLNOTE
-                                                                                                    /* previous 2 should be single quarter note */ c5_SHARP
-                                                                                                        g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
-                                                                                                            g5_SHARP c5_SHARP b4 c5_SHARP b4
-                                                                                                                // QUARTERNOTE
-                                                                                                                b4 b4
-                                                                                                                    // FULLNOTE
-                                                                                                                    /* previous 2 should be single quarter note */ a4
+    g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
+    g5_SHARP c5_SHARP b4 c5_SHARP b4
+    // QUARTERNOTE
+    b4 b4
+    // FULLNOTE
+    /* previous 2 should be single quarter note */ c5_SHARP
+    g5_SHARP c5_SHARP b4 c5_SHARP d5 c5_SHARP b4 c5_SHARP
+    g5_SHARP c5_SHARP b4 c5_SHARP b4
+    // QUARTERNOTE
+    b4 b4
+    // FULLNOTE
+    /* previous 2 should be single quarter note */ a4
 
-                                                                                                                        f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
-                                                                                                                            f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
-                                                                                                                                f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
-                                                                                                                                    f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
+    f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
+    f5_SHARP c5_SHARP a4 c5_SHARP d5 c5_SHARP a4 c5_SHARP
+    f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
+    f5_SHARP c5_SHARP b4 c5_SHARP d5 b4 b4 d5
 
-                                                                                                                                        g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
-                                                                                                                                            g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
-                                                                                                                                                g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
-                                                                                                                                                    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
+    g5_SHARP d5 b4 d5 g5_SHARP d4 d4 d4
 
-                                                                                                                                                        c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                                                                                                                                            c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                                                                                                                                                c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                                                                                                                                                    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
-                                                                                                                                                                        c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                                                                                                                                                            c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                                                                                                                                                                c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
-                                                                                                                                                                                    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    c5_SHARP a4 d5 a4 c5_SHARP a4 a4 a4
+    b4 a4 g4_SHARP a4 c5_SHARP a4 a4 a4
 
-                                                                                                                                                                                        b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-                                                                                                                                                                                            c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
-                                                                                                                                                                                                d5 a4 b4 a4 g4_SHARP a4 b5 a4
-                                                                                                                                                                                                    c5_SHARP a4 a4 a4
-                                                                                                                                                                                                        // QUARTERNOTE
-                                                                                                                                                                                                        a4 a4
-                                                                                                                                                                                                            // FULLNOTE
-                                                                                                                                                                                                            /* previous 2 should be single quarter note */ a4 a4
-                                                                                                                                                                                                                b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
-                                                                                                                                                                                                                    c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
-                                                                                                                                                                                                                        d5 a4 b4 a4 g4_SHARP a4 b5 a4
-                                                                                                                                                                                                                            c5_SHARP a4 a4 a4
-                                                                                                                                                                                                                                // QUARTERNOTE
-                                                                                                                                                                                                                                a4 a4 a4 a4 /* previous 4 should be single half note */
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
+    d5 a4 b4 a4 g4_SHARP a4 b5 a4
+    c5_SHARP a4 a4 a4
+    // QUARTERNOTE
+    a4 a4
+    // FULLNOTE
+    /* previous 2 should be single quarter note */ a4 a4
+    b4 a4 g4_SHARP a4 b4 a4 g4_SHARP a4
+    c5_SHARP a4 g4 a4 c5_SHARP a4 g4 a4
+    d5 a4 b4 a4 g4_SHARP a4 b5 a4
+    c5_SHARP a4 a4 a4
+    // QUARTERNOTE
+    a4 a4 a4 a4 /* previous 4 should be single half note */
 
     0};
 
@@ -1144,8 +1146,9 @@ static const int systemSpeed[] = {
 static const unsigned char renote[] = {
     1, 4, 6, 12};
 
-const int multiplier[] = {
-    0, 0x100, 0x200, 0x400};
+// clang-format on
+
+const int multiplier[] = {0, 0x100, 0x200, 0x400};
 
 void processTracks() {
 
@@ -1182,35 +1185,15 @@ void processTracks() {
         unsigned char note = track[i].tune[track[i].index];
         int envelope_ptr = (track[i].progress) >> (12);
 
-        RAM[_BUF_AUDV + i] = volume[i] = (instrument[track[i].instrument][envelope_ptr] * sound_volume * track[i].volume) >> (4 + 10 + 8);
+        RAM[_BUF_AUDV + i] = volume[i] =
+            (instrument[track[i].instrument][envelope_ptr] * sound_volume * track[i].volume) >>
+            (4 + 10 + 8);
         RAM[_BUF_AUDF + i] = note;
         RAM[_BUF_AUDC + i] = renote[note >> 6];
 
         track[i].progress += (systemSpeed[mm_tv_type] * track[i].noteDurationMultiplier) >> 8;
     }
 }
-
-#endif
-
-#if 0
-Alternative...
-
-[F4, F4, F4, F4,   F4, F4, F4, F4,   F4, F4, F4, F4,   F4, F4, F4, F4]
-[F4, A4, F4,Bb4,   F4, A4, F4,Bb4,   F4, A4, F4,Bb4,  Eb4, G4,Eb4,Ab4]
-[F4, F5, F4,Eb5,   F4, D5, F4, C5,  Eb4,Eb5,Eb4,Eb5,  Eb4,Bb4,Eb4,Eb5]
-[F4, A4, F4,Bb4,   F4, A4, F4,Bb4,   F4, A4, F4,Bb4,  Eb4, G4,Eb4,Ab4]
-[A4, F4, C4, A3,   G4,Eb4,Bb3,Eb3,   C5, A4, F4, C4,   G4,Eb4,Bb3,Eb3]
-
-aud0=aud0.ring
-
-[F2, C3, F3,Ab3,  Eb2, D3,Eb3,Bb3,  Db2,Db2,Db3,Db2,  Eb3,Bb4, E3, A4]
-[F2, F2, F2, F2,  Eb2,Eb2,Eb2,Eb2,   F2, F2, F2, F2,  Db3,Db3,Db3,Db3]
-[Eb2,Eb2,Eb2,Eb2,   B2, B2, B2, B2,   C2, C3, C2, C3,  Bb2,Bb2, F2, F2]
-[F2, F2, F2, F2,   F3, F3, F2, F2,  Eb2,Eb2,Eb2,Eb2,  Eb3,Eb3,Eb2,Eb2]
-[F2, F4, F2, F4,   F3, F4, F2, F4,  Eb2, F4,Eb2, F4,  Eb3,Eb4,Eb2,Eb4]
-[F2, F2, F2, C5,   F3, F3, F2, C5,  Eb2,Eb2,Eb2,Eb2,  Eb3,Eb3,Eb2,Eb2]
-[F2, F4, F2, F4,   F3, F4, F2, F4,  Eb2, F4,Eb2, F4,  Eb3,Eb4,Eb2,Eb4]
-[F4, C4, A3, F3,  Eb4,Bb3, G3,Eb2,   A4, F4, C4, A3,  Bb3, G3,Eb3,Eb2]
 
 #endif
 

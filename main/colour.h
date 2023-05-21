@@ -1,8 +1,6 @@
 #ifndef __COLOUR_H
 #define __COLOUR_H
 
-#include "defines_from_dasm_for_c.h"
-
 void doFlash();
 void setPalette();
 void setBackgroundPalette(unsigned char *c);
@@ -13,11 +11,11 @@ void interleaveColour();
 void loadPalette();
 int convertColour(int colour);
 
-#define FLASH(a, b) \
+#define FLASH(a, b)                                                                                \
     { setFlash2(a, b); }
 
-extern unsigned char bgPalette[_BOARD_ROWS];
-extern unsigned char fgPalette[2];
+extern unsigned char bgPalette[];
+extern unsigned char fgPalette[];
 extern int roller;
 extern int interleavedColour;
 

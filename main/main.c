@@ -1,15 +1,14 @@
 #include <stdbool.h>
 
-#include "attribute.h"
+#include "defines.h"
 #include "defines_cdfj.h"
 #include "defines_from_dasm_for_c.h"
-
-#include "defines.h"
 
 #include "main.h"
 
 #include "animations.h"
 #include "atarivox.h"
+#include "attribute.h"
 #include "bitpatterns.h"
 #include "cavedata.h"
 #include "characterset.h"
@@ -26,6 +25,7 @@
 #include "scroll.h"
 #include "sound.h"
 #include "swipeCircle.h"
+#include "wyrm.h"
 
 #if WORST_TIMING
 int worstEver = 0;
@@ -33,15 +33,14 @@ int worstEverCreature = -1;
 #endif
 
 int togt;
-int cpulse;
-int wyrmNum;
+int pulsePlayerColour;
 
 int conveyorDirection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURABLE UX
 
-#define DEAD_RESTART \
+#define DEAD_RESTART                                                                               \
     1 // 20     /* # frames to hold trigger after loss of life, to start next
       // life
       // */
@@ -55,18 +54,15 @@ int conveyorDirection;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const int dir[] = {1, -1, -40, 40, 0};
-const signed char xdir[] = {1, -1, 0, 0};
-const signed char ydir[] = {0, 0, -1, 1};
-const unsigned char merge[] = {2, 8, 1, 4};
-
-const signed char dirOffset[] = {-1, 1, -40, 40};
+const signed char dirOffset[] = {-_BOARD_COLS, 1, _BOARD_COLS, -1, 0};
+const signed char xdir[] = {0, 1, 0, -1};
+const signed char ydir[] = {-1, 0, 1, 0};
 
 int lavaSurface;
 bool showWater;
 bool showLava;
 
-static int boardRow;
+int boardRow;
 int boardCol;
 
 int gravity;
@@ -76,15 +72,11 @@ int canPlay[5];
 
 int explodeCount;
 
-#if ENABLE_RAINBOW
-bool rainbow;
-#endif
-
 bool showTool;
 
 bool lockDisplay;
 bool rageQuit;
-unsigned char *thiss;
+unsigned char *me;
 unsigned char inpt4;
 unsigned char swcha;
 int millingTime; // negative = expired
@@ -124,8 +116,8 @@ int gameSpeed;
 unsigned int triggerPressCounter;
 static unsigned int triggerOffCounter;
 
-int dogeBlockCount;
-int cumulativeBlockCount;
+// int dogeBlockCount;
+// int cumulativeBlockCount;
 
 int lives;
 // int selectResetDelay;;
@@ -143,33 +135,15 @@ unsigned char bufferedSWCHA;
 unsigned int usableSWCHA;
 unsigned int inhibitSWCHA;
 
-signed char wyrmX[WYRM_POP][WYRM_MAX];
-signed char wyrmY[WYRM_POP][WYRM_MAX];
-int wyrmHead[WYRM_POP]; // = -1;
-int wyrmDir[WYRM_POP];
-
-#if __FADE
-unsigned int fade = 0;
-#endif
-
-#if __ENABLE_WATER
-int water unsigned char *lastWater;
-#endif
-
-#if __ENABLE_LAVA
-int lava;
-#endif
-
 #if ENABLE_SHAKE
 int shakeX, shakeY;
 int shakeTime;
 #endif
 
 // COMPILE-TIME REVERSE BITS IN BYTE
-#define RVS(a)                                           \
-    (((((a) >> 0) & 1) << 7) | ((((a) >> 1) & 1) << 6) | \
-     ((((a) >> 2) & 1) << 5) | ((((a) >> 3) & 1) << 4) | \
-     ((((a) >> 4) & 1) << 3) | ((((a) >> 5) & 1) << 2) | \
+#define RVS(a)                                                                                     \
+    (((((a) >> 0) & 1) << 7) | ((((a) >> 1) & 1) << 6) | ((((a) >> 2) & 1) << 5) |                 \
+     ((((a) >> 3) & 1) << 4) | ((((a) >> 4) & 1) << 3) | ((((a) >> 5) & 1) << 2) |                 \
      ((((a) >> 6) & 1) << 1) | ((((a) >> 7) & 1) << 0))
 
 #define P0(a) RVS(a)
@@ -201,11 +175,7 @@ void SystemReset();
 void setupBoard();
 void processCharAnimations();
 
-#if ENABLE_OVERLAY
-void GameScheduleDrawOverlay();
-#endif
-
-static void (*const runFunc[])() = {
+void (*const runFunc[])() = {
 
     SystemReset,       // _FN_SYSTEM_RESET
     MenuOverscan,      // _FN_MENU_OS
@@ -271,56 +241,50 @@ int sphereDot(int dripX, int dripY, int type, int age, int speed) {
         return idx;
 
     int col = (dripX >> 8) - ((scrollX * 5) >> 16);
-    if (col < 0 || col > 39)
+    if (col < 0 || col > _BOARD_COLS - 1)
         return idx;
 
     int whichDrop = -1;
-    while (++whichDrop < RAINHAILSHINE)
+    int oldest = 0;
+    while (++whichDrop < RAINHAILSHINE) {
+        if (rainAge[whichDrop] < rainAge[oldest])
+            oldest = whichDrop;
         if (rainX[whichDrop] == -1)
             break;
+    }
 
     if (whichDrop == RAINHAILSHINE)
-        whichDrop = rangeRandom(RAINHAILSHINE);
+        whichDrop = oldest; // rangeRandom(RAINHAILSHINE);
 
     rainType[whichDrop] = type;
     rainX[whichDrop] = dripX;
-    //    rainRow[whichDrop] = dripY;
-
-#define DOTY 0x10000
 
     rainY[whichDrop] = dripY;
-    rainSpeedX[whichDrop] =
-        (((int)(((rangeRandom(64) - 32) << 1))) * speed) >> 16;
-    rainSpeedY[whichDrop] =
-        (((int)(rangeRandom(DOTY) - (DOTY >> 1))) * speed) >> 16;
+    rainSpeedX[whichDrop] = (((int)(((rangeRandom(64) - 32) << 1))) * speed) >> 16;
+    rainSpeedY[whichDrop] = (((int)((rangeRandom(64) - 32) << 1)) * speed * 3 * 4) >> 11;
 
-    rainAge[whichDrop] =
-        age < 0 ? -age : age; // rangeRandom(-age>>1) + (age >>1) : age;
+    rainAge[whichDrop] = age < 0 ? -age : age; // rangeRandom(-age>>1) + (age >>1) : age;
 
     return whichDrop;
 }
 
-void nDots(int count, int dripX, int dripY, int type, int age, int offsetX,
-           int offsetY, int speed) {
+void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY,
+           int speed) {
 
     int y = offsetY;
     if (gravity < 0) {
         y = TRILINES - y;
     }
     for (int i = 0; i < count; i++)
-        sphereDot((dripX * 5 + offsetX) << 8,
-                  (dripY * TRILINES + y) << 16, type, age, speed);
+        sphereDot((dripX * 5 + offsetX) << 8, (dripY * TRILINES + y) << 16, type, age, speed);
 }
 
 void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed) {
 
-    return; // tmp
-
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX << 8, dripY << 16, 2, age, speed);
         if (idx >= 0)
-            rainSpeedY[idx] =
-                -((((int)(rangeRandom(DOTY >> 1))) * speed) >> 16);
+            rainSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
     }
 }
 
@@ -330,11 +294,6 @@ void setJumpVectors(int midKernel, int exitKernel) {
         RAM_SINT[(_BUF_JUMP1 / 2) + i] = midKernel;
     RAM_SINT[_BUF_JUMP1_EXIT / 2] = exitKernel;
 }
-
-#define DIR_U 1
-#define DIR_R 2
-#define DIR_D 4
-#define DIR_L 8
 
 int dirFromCoords(int x, int y, int prevX, int prevY) {
 
@@ -352,191 +311,13 @@ int dirFromCoords(int x, int y, int prevX, int prevY) {
     return dir;
 }
 
-// void randomPebble() {
-//     unsigned char *p = RAM + _BOARD + rangeRandom(880);
-//     if (*p == CH_DIRT)
-//         *p = CH_PEBBLE1 + rangeRandom(2);
-// }
-
-void newWyrm(int x, int y) {
-
-    if (wyrmNum < WYRM_POP) {
-        wyrmHead[wyrmNum] = 0;
-        wyrmDir[wyrmNum] = getRandom32() & 3;
-        wyrmX[wyrmNum][0] = x;
-        wyrmY[wyrmNum][0] = y;
-        wyrmNum++;
-    }
-}
-
-void awyrm() {
-
-    for (int wyrm = 0; wyrm < WYRM_POP; wyrm++) {
-
-        int headPos = wyrmHead[wyrm];
-
-        if (headPos < 0 /*|| (gameFrame & 31)*/)
-            continue;
-
-        int x, y;
-
-        x = wyrmX[wyrm][headPos];
-        y = wyrmY[wyrm][headPos];
-
-        if (gameFrame & 1)
-            return;
-
-        int offsetX[] = {0, 1, 0, -1, 0};
-        int offsetY[] = {-1, 0, 1, 0, 0};
-
-        int candidateX = x + offsetX[wyrmDir[wyrm]];
-        int candidateY = y + offsetY[wyrmDir[wyrm]];
-
-        unsigned char *newHead = RAM + _BOARD + y * 40 + x;
-
-        int mask = ATT_BLANK | ATT_GRAB;
-        if (!rangeRandom(4) || wyrmHead[wyrm] < 2)
-            mask |= ATT_DIRT;
-
-        int whatsThere = CharToType[GET(*newHead)];
-        bool moveable = Attribute[whatsThere] & mask;
-
-        if (!moveable || !(getRandom32() & 63)) {
-
-            int rdir = wyrmDir[wyrm];
-
-            if (getRandom32() & 1)
-                rdir = getRandom32() & 3;
-
-            for (int dir = 0; dir < 4; dir++) {
-
-                candidateX = x + offsetX[rdir];
-                candidateY = y + offsetY[rdir];
-
-                newHead = RAM + _BOARD + candidateY * 40 + candidateX;
-                whatsThere = CharToType[GET(*newHead)];
-                if (Attribute[whatsThere] & mask) {
-                    wyrmDir[wyrm] = rdir;
-                    moveable = true;
-
-                    break;
-                }
-
-                rdir = (rdir + 1) & 3;
-            }
-
-            if (!moveable) {
-
-                // reverse wyrm
-
-                int tempX[WYRM_MAX], tempY[WYRM_MAX];
-                for (int i = 0; i <= wyrmHead[wyrm]; i++) {
-                    tempX[wyrmHead[wyrm] - i] = wyrmX[wyrm][i];
-                    tempY[wyrmHead[wyrm] - i] = wyrmY[wyrm][i];
-                }
-
-                for (int i = 0; i <= wyrmHead[wyrm]; i++) {
-                    wyrmX[wyrm][i] = tempX[i];
-                    wyrmY[wyrm][i] = tempY[i];
-                }
-            }
-        }
-
-        if (moveable) {
-
-            static const unsigned char wyrmChar[] = {
-                0,                 // 0
-                CH_WYRM_VERT_BODY, // 1   U
-                CH_WYRM_BODY,      // 2   R
-                CH_WYRM_CORNER_RU, // 3   RU
-                CH_WYRM_VERT_BODY, // 4   D
-                CH_WYRM_VERT_BODY, // 5   UD
-                CH_WYRM_CORNER_RD, // 6   RD
-                0,                 // 7
-                CH_WYRM_BODY,      // 8   L
-                CH_WYRM_CORNER_LU, // 9   LU
-                CH_WYRM_BODY,      // 10  LR
-                0,                 // 11
-                CH_WYRM_CORNER_LD, // 12  LD
-                0,                 // 13
-                0,                 // 14
-                0,                 // 15
-            };
-
-            // candidateX, candidateY --> new head position
-            // wyrmX[wyrmHead], wyrmY[wyrmHead] --> old head position (new neck)
-            // wyrmX[wyrmHead -1], wyrmY[wyrmHead - 1] -> previous neck
-
-            unsigned char *segment;
-            if (headPos > 0) {
-                int dir =
-                    dirFromCoords(candidateX, candidateY, wyrmX[wyrm][headPos],
-                                  wyrmY[wyrm][headPos]) |
-                    dirFromCoords(wyrmX[wyrm][headPos - 1],
-                                  wyrmY[wyrm][headPos - 1],
-                                  wyrmX[wyrm][headPos], wyrmY[wyrm][headPos]);
-                segment = RAM + _BOARD + wyrmY[wyrm][headPos] * 40 +
-                          wyrmX[wyrm][headPos];
-                *segment = wyrmChar[dir];
-            }
-
-            wyrmX[wyrm][++headPos] = candidateX;
-            wyrmY[wyrm][headPos] = candidateY;
-
-            wyrmHead[wyrm] = headPos;
-
-            segment = RAM + _BOARD + candidateY * 40 + candidateX;
-
-            if (TYPEOF(*segment) == TYPE_DOGE)
-                nDots(8, candidateX, candidateY, 2, -50, 3, 0, 0x10000);
-
-            const unsigned char headCharacter[] = {
-                CH_WYRM_HEAD_U,
-                CH_WYRM_HEAD_R,
-                CH_WYRM_HEAD_D,
-                CH_WYRM_HEAD_L,
-            };
-
-            *segment = headCharacter[wyrmDir[wyrm]];
-        }
-
-        if (wyrmHead[wyrm] == WYRM_MAX - 1) {
-            unsigned char *tailPos =
-                RAM + _BOARD + wyrmY[wyrm][0] * 40 + wyrmX[wyrm][0];
-
-            *tailPos = CH_DUST_0; //
-            //   (Attribute[whatsThere] & ATT_DIRT)
-            //                  ? /CH_DUST_0
-            //              : (getRandom32() & 63) ? CH_DUST_0
-            //                                     : CH_DOGE_00;
-
-            if (wyrmY[wyrm][0] * TRILINES > lavaSurface) {
-                if (!rangeRandom(50)) {
-                    newWyrm(wyrmX[wyrm][0], wyrmY[wyrm][0]);
-                }
-            }
-
-            for (int i = 0; i < WYRM_MAX - 1; i++) {
-                wyrmX[wyrm][i] = wyrmX[wyrm][i + 1];
-                wyrmY[wyrm][i] = wyrmY[wyrm][i + 1];
-            }
-
-            // tailPos = RAM + _BOARD + wyrmY[wyrm][0] * 40 + wyrmX[wyrm][0];
-            // if (*tailPos == CH_WYRM_BODY)
-            //     *tailPos = CH_WYRM_CORNER_LD;
-
-            wyrmHead[wyrm]--;
-        }
-    }
-}
-
 void initNewGame() {
 
     actualScore = 0;
     partialScore = 0;
     lives = 3;
     invincible = false;
-    cpulse = 0;
+    pulsePlayerColour = 0;
 }
 
 void initNextLife() {
@@ -573,8 +354,8 @@ void initNextLife() {
     // expandSpeed = 0;
     nextGravity = 1;
 
-    dogeBlockCount = 0;
-    cumulativeBlockCount = 0;
+    // dogeBlockCount = 0;
+    // cumulativeBlockCount = 0;
     explodeCount = 0;
 
     resetDelay = 0;
@@ -589,10 +370,6 @@ void initNextLife() {
     lavaSurface = 10000; // 0x1C2/3; //22 * PIECE_DEPTH - 1;
     showLava = false;
     showWater = false;
-
-#if __FADE
-    fade = 0;
-#endif
 
     // lastDisplayMode = DISPLAY_NONE;
     switchOn = true;
@@ -618,15 +395,7 @@ void initNextLife() {
     frameCounter = gameSpeed; // force initial
     selectorCounter = 0;
 
-    for (int wyrm = 0; wyrm < WYRM_POP; wyrm++) {
-        wyrmHead[wyrm] = -1;
-        wyrmDir[wyrm] = 0;
-        for (int i = 0; i < WYRM_MAX; i++) {
-            wyrmX[wyrm][i] = -1;
-            wyrmY[wyrm][i] = -1;
-        }
-    }
-
+    initWyrms();
     initPlayer();
     initSprites();
 
@@ -638,11 +407,6 @@ void initNextLife() {
 #endif
 
     initCharAnimations();
-
-#if COLSELECT
-    extern unsigned char colr[5];
-    colr[4] = currentPalette; //(cave + level) & 0xF;
-#endif
 
     spacing = 0;
 
@@ -717,8 +481,7 @@ void drawWord(const unsigned char *string, int y) {
                 if (ch >= 'A')
                     ch = LETTER(ch);
 
-                drawBigDigit(ch, x, y + sinoid[(x + (togt >> 2) + base) & 15],
-                             colour, true);
+                drawBigDigit(ch, x, y + sinoid[(x + (togt >> 2) + base) & 15], colour, true);
             }
             x--;
         }
@@ -755,7 +518,7 @@ void drawWord(const unsigned char *string, int y) {
 //             int dripX = x;
 //             int dripY = y;
 
-//             unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
+//             unsigned char *dripPos = RAM + _BOARD + (dripY * _BOARD_COLS) + dripX;
 
 //             rainType[whichDrop] = 2;
 //             rainX[whichDrop] = ((dripX << 2) + pix ) << 8;
@@ -820,49 +583,6 @@ void drawOverscanThings() {
     drawScore();
 
     drawPlayerSprite();
-
-    // static int whichDrop = 0;
-    if (!showingWords) {
-
-        // bullets
-
-        // static int whichDrop = 0;
-        // if (!playerDead && JOY0_FIRE)
-        //     sphereDot(playerX, playerY, 2, -130, 2, 5);
-
-        // if (++whichDrop >= theCave->weather)
-        //     whichDrop = 0;
-
-        // real rain
-
-        // if (theCave->weather && rainX[whichDrop] == 255) {
-
-        //     rndX = getRandom32();
-
-        //     int dripX = playerX + ((((rndX >> 12) & 0xFF) * 9) >> 8) - 4;
-        //     int dripY = playerY + ((((rndX >> 7) & 0xFF) * 9) >> 8) - 4;
-
-        //     if (dripX >= 1 && dripX <= 39 && dripY >= 1 && dripY <= 19) {
-
-        //         unsigned char *dripPos = RAM + _BOARD + (dripY * 40) + dripX;
-        //         if ((Attribute[CharToType[GET(*(dripPos - 40))]] & ATT_DRIP)
-        //             && (Attribute[CharToType[GET(*dripPos)]] & ATT_BLANK)) {
-
-        //             rainX[whichDrop] = (dripX << 2) + (rndX & 3);
-        //             rainRow[whichDrop] = dripY;
-        //             rainY[whichDrop] = -1;                  // embed in upper
-        //             char rainSpeed[whichDrop] = RAIN_FORMING_DRIP;
-
-        //             if (++whichDrop >= theCave->weather)
-        //                 whichDrop = 0;
-        //         }
-        //     }
-        // }
-    }
-    // }
-    // }
-
-    //    lastDisplayMode = displayMode;
 }
 
 void initGameDataStreams() {
@@ -937,14 +657,7 @@ void handleCaveCompletion() {
 
         if (perfectTimer && !totalDogePossible) { // got 'em all!
             static const unsigned char perfect[] = {
-                'P',
-                'E',
-                'R',
-                'F',
-                'E',
-                'C',
-                'T',
-                END_STRING,
+                'P', 'E', 'R', 'F', 'E', 'C', 'T', END_STRING,
             };
             drawWord(perfect, 60);
             perfectTimer--;
@@ -958,11 +671,7 @@ void handleCaveCompletion() {
                 if (doges < 0) {
 
                     static const unsigned char extraBonus[] = {
-                        'D',
-                        'O',
-                        'G',
-                        'E',
-                        END_STRING,
+                        'D', 'O', 'G', 'E', END_STRING,
                     };
 
                     if (exitMode == 51)
@@ -991,11 +700,7 @@ void handleCaveCompletion() {
                         ADDAUDIO(SFX_UNCOVER);
 
                     static const unsigned char extraBonus[] = {
-                        'T',
-                        'I',
-                        'M',
-                        'E',
-                        END_STRING,
+                        'T', 'I', 'M', 'E', END_STRING,
                     };
 
                     setScoreCycle(SCORELINE_SCORE);
@@ -1071,8 +776,6 @@ void GameOverscan() {
         inhibitSWCHA = 0;
     }
 
-    // handleCaveCompletion();
-
     if (waitRelease) {
         if ((inpt4 & 0x80) && (swcha == 0xFF))
             waitRelease = false;
@@ -1096,10 +799,6 @@ void GameOverscan() {
                 rageQuit = true;
                 initKernel(KERNEL_MENU);
                 //                ADDAUDIO(SFX_BLIP);
-
-#if ENABLE_OVERLAY
-                overlayWord = 0;
-#endif
                 return;
             }
         }
@@ -1110,8 +809,7 @@ void GameOverscan() {
 
     if (!waitRelease && !(inpt4 & 0x80)) { // JOY0_FIRE)
 
-        if (showTool)
-            showTool = false;
+        showTool = false;
 
         if (!exitMode && triggerOffCounter && triggerOffCounter < DOUBLE_TAP &&
             triggerPressCounter < TOOLONG) {
@@ -1155,8 +853,7 @@ void GameOverscan() {
 
     } else {
 
-        if (!exitMode && triggerPressCounter &&
-            triggerOffCounter >= DOUBLE_TAP) {
+        if (!exitMode && triggerPressCounter && triggerOffCounter >= DOUBLE_TAP) {
 
             //             if (triggerPressCounter < TOOLONG) {
             //                 // if (displayMode == DISPLAY_NORMAL)
@@ -1178,14 +875,6 @@ void GameOverscan() {
 
 #if __ENABLE_DEMO
 //    checkDemoFinished();
-#endif
-
-#if __FADE
-    if (fade < 0x10x) {
-
-        fade += 1536;
-        loadPalette();
-    }
 #endif
 
     handleSelectReset();
@@ -1244,12 +933,6 @@ void GameVerticalBlank() {
     if (sparkleTimer)
         --sparkleTimer;
 
-#if COLSELECT
-    extern void colourAdjust();
-    if (LEFT_DIFFICULTY_A)
-        colourAdjust();
-#endif
-
 #if SCHEDULER == 0
     frameCounter++;
 #endif
@@ -1264,8 +947,6 @@ void GameVerticalBlank() {
 #endif
             time && !playerDead && !exitMode) {
 
-#if !COLSELECT
-
             time--;
 
             if ((time & 0xFF) == 0xFF) {
@@ -1276,17 +957,20 @@ void GameVerticalBlank() {
                     ADDAUDIO(SFX_COUNTDOWN2);
                 }
             }
-#endif
         }
 
         drawScore();
         rain();
 
-        extern const unsigned short manPushing[][73];
+        extern const unsigned short toolIcon[][127];
 
-        if (showTool)
-            doDrawBitmap(manPushing[0], 90);
+        if (showTool) {
 
+            static int pulseTool = 0;
+            pulseTool++;
+
+            doDrawBitmap(toolIcon[0 /*(pulseTool >> 4) & 1*/], 90);
+        }
 #if CIRCLE
         swipeCircle();
 #endif
@@ -1294,25 +978,23 @@ void GameVerticalBlank() {
         setPalette();
         processCharAnimations();
     }
-
-    // drawOverlayWords();
 }
 
-void conglomerate(unsigned char *thiss, int att) {
+void conglomerate(unsigned char *me, int att) {
 
-    int chr = GET(*thiss);
+    int chr = GET(*me);
     int type = CharToType[chr];
     if ((Attribute[type] & att)) {
 
-        unsigned char cong = CH_CONGLOMERATE;
+        int cong = CH_GEODOGE | (*me & FLAG_THISFRAME);
 
         for (int i = 0; i < 4; i++) {
-            int ch = *(thiss + dir[i]);
-            if (Attribute[CharToType[GET(ch)]] & ATT_ROCK_DOGE)
-                cong += merge[i];
+            int ch = *(me + dirOffset[i]);
+            if (Attribute[CharToType[GET(ch)]] & ATT_GEODOGE)
+                cong += 1 << i;
         }
 
-        *thiss = cong;
+        *me = cong;
     }
 }
 
@@ -1334,20 +1016,32 @@ void setupBoard() {
                 lavaSurface -= gravity;
 
             if (!rangeRandom(3)) {
-                int posX = ((scrollX * 5) >> 16) + rangeRandom(40);
+                int posX = ((scrollX * 5) >> 16) + rangeRandom(_BOARD_COLS);
                 nDotsAtPixel(4, posX, lavaSurface + 1, 40, 0x10000);
             }
         }
 
         if (showWater) {
+            static const unsigned char sinus[] = {0, 1, 1, 2, 2, 2, 3, 3, 4, 3, 3, 2, 2, 2, 1, 1};
+            static int waves = 0;
 
-            extern void bubbles(int count, int dripX, int dripY, int age,
-                                int speed);
+            if (lavaSurface) {
+
+                lavaSurface -= sinus[(waves >> 0) & 15];
+
+                if (((sinus[(waves >> 0) & 15] & 3) != 0) || (gameFrame & 31) == 0) {
+                    ++waves;
+
+                    if (!(gameFrame & 31))
+                        lavaSurface--;
+                }
+
+                lavaSurface += sinus[(waves >> 0) & 15];
+            }
 
             for (int i = 0; i < 4; i++) {
-                int posX = ((scrollX * 5) >> 16) + rangeRandom(40);
-                int deep =
-                    lavaSurface + rangeRandom(21 * PIECE_DEPTH - lavaSurface);
+                int posX = ((scrollX * 5) >> 16) + rangeRandom(_BOARD_COLS);
+                int deep = lavaSurface + rangeRandom(21 * PIECE_DEPTH - lavaSurface);
                 if (deep > 0 && deep < _ARENA_SCANLINES)
                     bubbles(1, posX, deep, 2240, 0x8000);
             }
@@ -1360,8 +1054,8 @@ void setupBoard() {
         bufferedSWCHA = 0xFF;
 
         if (boardRow < 0) {
-            boardRow = 21;
-            boardCol = 39;
+            boardRow = _BOARD_ROWS - 1;
+            boardCol = _BOARD_COLS - 1;
         }
 
         else {
@@ -1391,7 +1085,7 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
     // bool player = false;
 
     for (int x = -1; x < 2; x++)
-        for (int y = -40; y < 80; y += 40) {
+        for (int y = -_BOARD_COLS; y < _BOARD_COLS * 2; y += _BOARD_COLS) {
             unsigned char *cell = where + y + x;
             unsigned char type = CharToType[GET(*cell)];
             if (Attribute[type] & ATT_EXPLODABLE) {
@@ -1413,99 +1107,37 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
     FLASH(4, 4);
 }
 
-// 00 = facing left
-// 01 = facing up
-// 10 = facing right
-// 11 = facing down
+void doRoll(unsigned char *me, unsigned char creature) {
 
-// turn right = -1
-// turn left = +1
-
-// CH_FIREFLY_0 --> facing LEFT
-// CH_FIREFLY_1 --> FACING UP
-// CH_FIREFLY_2 --> FACING RIGHT
-// CH_FIREFLY_3 --> FACING DOWN
-
-// Note: firefly init facing left (00), butterfly init facing down (11)
-// fireflies turn to LEFT, butterflies turn to RIGHT
-
-// void handleFly(unsigned char *thiss, int base, int turn, unsigned char
-// explode) {
-
-//     static const signed char move[] = {
-//         -1, -40, +1, +40,
-//     };
-
-//     // turn = -1 (firefly) and +1 (butterfly)
-
-//     // any killables?
-//     for (int dir = 0; dir < 4; dir++)
-//         if (Attribute[CharToType[GET(*(thiss + move[dir]))]] & ATT_KILLS_FLY)
-//         {
-//             Explode(this, explode);
-//             return;
-//         }
-
-//     unsigned char replace = CH_BLANK | FLAG_THISFRAME;
-
-//     // turn preferred direction
-//     int dir = (*thiss) - base;                   // facing direction
-
-//     unsigned char newdir = (dir + turn) & 3;
-//     unsigned char *newpos = thiss + move[newdir];
-
-//     if (Attribute[CharToType[GET(*newpos)]] & ATT_BLANK) {
-//         *newpos = (base + newdir) | FLAG_THISFRAME;
-//         *thiss = replace;
-//         return;
-//     }
-
-//     // straight ahead
-//     newpos = thiss + move[dir];
-
-//     if (Attribute[CharToType[GET(*newpos)]] & ATT_BLANK) {
-//         *newpos = (base + dir) | FLAG_THISFRAME;
-//         *thiss = replace;
-//         return;
-//     }
-
-//     // turn non-preferred direction
-//     *thiss = base + ((dir - turn) & 3);
-// }
-
-void doRoll(unsigned char *thiss, unsigned char creature) {
-
-    if (rangeRandom(50) || !(TYPEOF(*(thiss + 40)) == TYPE_GRINDER ||
-                             CharToType[GET(*(thiss + 40))] == TYPE_GRINDER_1))
+    if (rangeRandom(50) || !(TYPEOF(*(me + _BOARD_COLS)) == TYPE_GRINDER ||
+                             CharToType[GET(*(me + _BOARD_COLS))] == TYPE_GRINDER_1))
         return;
 
-    // if (!((CharToType[GET(*(thiss + 40))] == TYPE_GRINDER)
-    //     || (CharToType[GET(*(this+ 40))] == TYPE_GRINDER_1))
+    // if (!((CharToType[GET(*(me + _BOARD_COLS))] == TYPE_GRINDER)
+    //     || (CharToType[GET(*(this+ _BOARD_COLS))] == TYPE_GRINDER_1))
     //     && (!shakeTime || rangeRandom(50)))
     //     return;
 
     for (int offset = -1; offset < 2; offset += 2) {
 
-        unsigned char *side = thiss + offset;
+        unsigned char *side = me + offset;
         if (!(*side & FLAG_THISFRAME)) {
 
             unsigned char sideType = CharToType[GET(*side)];
             if (Attribute[sideType] & ATT_BLANK) {
 
-                unsigned char sideDownType = CharToType[GET(*(side + 40))];
+                unsigned char sideDownType = CharToType[GET(*(side + _BOARD_COLS))];
                 if (Attribute[sideDownType] & ATT_BLANK) {
 
                     int creatureType = CharToType[GET(creature)];
-                    unsigned replacement = (Attribute[creatureType] &
-                                            (ATT_ROCK | ATT_ROCK_DOGE))
-                                               ? CH_DUST_0
-                                               : CH_BLANK;
-                    *thiss = replacement | FLAG_THISFRAME;
-                    *(thiss + offset) = creature | FLAG_THISFRAME;
+                    unsigned replacement =
+                        (Attribute[creatureType] & (ATT_ROCK | ATT_GEODOGE)) ? CH_DUST_0 : CH_BLANK;
+                    *me = replacement | FLAG_THISFRAME;
+                    *(me + offset) = creature | FLAG_THISFRAME;
 
-                    for (int i = 0; i < 4; i++)
-                        conglomerate(thiss + dir[i],
-                                     (ATT_ROCK_DOGE | ATT_GRAB));
+                    // for (int i = 0; i < 4; i++)
+                    //     conglomerate(me + dirOffset[i],
+                    //                  (ATT_GEODOGE | ATT_GRAB));
 
                     return;
                 }
@@ -1514,65 +1146,72 @@ void doRoll(unsigned char *thiss, unsigned char creature) {
     }
 }
 
-void chainReactDoge() {
+void fixSurroundingConglomerates(unsigned char *pos) {
 
-    for (int i = 0; i < 4; i++) {
-
-        int chr = *(thiss + dir[i]);
-        if (!(chr & FLAG_THISFRAME)) {
-            int type = CharToType[chr];
-
-            if (Attribute[type] & ATT_ROCK_DOGE) {
-
-                *(thiss + dir[i]) =
-                    CH_DOGE_CONVERT |
-                    FLAG_THISFRAME; //((dir[i] > 0) ? FLAG_THISFRAME : 0);
-                ADDAUDIO(SFX_UNCOVER);
-                dogeBlockCount++;
-                cumulativeBlockCount++;
-
-                for (int j = 0; j < 4; j++)
-                    conglomerate(thiss + dir[i] + dir[j],
-                                 (ATT_ROCK_DOGE | ATT_GRAB));
-            }
-        }
-    }
+    for (int i = 0; i < 4; i++)
+        conglomerate(pos + dirOffset[i], ATT_GEODOGE);
 }
 
-void convertDogeToATT_ROCK() {
+void chainReact_GeoDogeToDoge() {
 
-    //    int neighbours = 0;
+    bool ongoing = false;
+
     for (int i = 0; i < 4; i++) {
 
-        int chr = GET(*(thiss + dir[i]));
-        int type = CharToType[chr];
+        unsigned char *pos = me + dirOffset[i];
+        unsigned char chr = *pos;
+        //        if (!(chr & FLAG_THISFRAME)) {
+        int type = CharToType[GET(chr)];
 
-        if (Attribute[type] & ATT_ROCK_DOGE) {
-            // neighbours++;
-            *thiss = CH_ROCK_DOGE | FLAG_THISFRAME;
+        if (Attribute[type] & ATT_GEODOGE) {
 
-            //      conglomerate(this, (ATT_ROCK_DOGE | ATT_GRAB));
-            return;
+            *(me + dirOffset[i]) = CH_CONVERT_GEODE_TO_DOGE |
+                                   FLAG_THISFRAME; //+ ((dirOffset[i] > 0) ? FLAG_THISFRAME : 0);
+            ADDAUDIO(SFX_UNCOVER);
+            ongoing = true;
+            // dogeBlockCount++;
+            // cumulativeBlockCount++;
+
+            fixSurroundingConglomerates(pos);
         }
+        //    }
     }
 
-    // if (neighbours > 0)
-    //     *thiss = CH_ROCK_DOGE | FLAG_THISFRAME;
+    if (!ongoing)
+        killAudio(SFX_UNCOVER);
+}
+
+void chainReact_DogeToGeoDoge() {
+    return;
+    for (int i = 0; i < 4; i++) {
+
+        unsigned char *pos = me + dirOffset[i];
+        unsigned char chr = *pos;
+        //        if (!(chr & FLAG_THISFRAME)) {
+        int type = CharToType[GET(chr)];
+        if (Attribute[type] & ATT_GRAB) {
+            *me = CH_GEODOGE_CONVERT | ((dirOffset[i] > 0) ? FLAG_THISFRAME : 0) |
+                  (chr & FLAG_THISFRAME);
+
+            fixSurroundingConglomerates(me + dirOffset[i]);
+        }
+        //        }
+    }
 }
 
 void genericPush(int offsetX, int offsetY) {
 
     if (switchOn) {
 
-        int adjustOffset = offsetY * 40 + offsetX;
+        int adjustOffset = offsetY * _BOARD_COLS + offsetX;
 
-        unsigned char *playerPos = RAM + _BOARD + playerY * 40 + playerX;
-        unsigned char *pushPos = thiss + adjustOffset;
+        unsigned char *playerPos = RAM + _BOARD + playerY * _BOARD_COLS + playerX;
+        unsigned char *pushPos = me + adjustOffset;
 
         if (playerPos == pushPos && (!(*playerPos & FLAG_THISFRAME))) {
 
-            cpulse = 20;
-            shakeTime = 3;
+            pulsePlayerColour = 20;
+            //            shakeTime = 3;
             ADDAUDIO(SFX_EXPLODE_QUIET);
 
             unsigned char *pushPosFurther = pushPos + adjustOffset;
@@ -1590,63 +1229,63 @@ void genericPush(int offsetX, int offsetY) {
                 playerX += offsetX;
                 playerY += offsetY;
 
-                nDots(RAINHAILSHINE / 2, boardCol + offsetX, boardRow + offsetY,
-                      2, -150, 3, 4, 0x10000);
+                nDots(6, boardCol + offsetX, boardRow + offsetY, 2, -150, 3, 4, 0x10000);
             }
         }
 
         int att = ATTRIBUTE(*pushPos);
-        if ((GET(*pushPos) == CH_DOGE_CONVERT) ||
-            att & (ATT_PERMEABLE | ATT_GRAB | ATT_ROCK_DOGE | ATT_ROCK)) {
+        if ((GET(*pushPos) == CH_CONVERT_GEODE_TO_DOGE) ||
+            att & (ATT_PERMEABLE | ATT_GRAB | ATT_GEODOGE | ATT_ROCK)) {
 
-            // dots for the disappearing object
-            if (!(att & ATT_BLANK)) {
+            // // dots for the disappearing object
+            // if (!(att & ATT_BLANK)) {
 
-                if (rangeRandom(15)) {
-                    *pushPos |= FLAG_THISFRAME;
-                    //          shakeTime = 2;
-                    return;
-                }
+            //     if (rangeRandom(15)) {
+            //         *pushPos |= FLAG_THISFRAME;
+            //         //          shakeTime = 2;
+            //         return;
+            //     }
 
-                FLASH(0x32, 4);
+            //     FLASH(0x32, 4);
 
-                nDots(10, boardCol + offsetX, boardRow + offsetY, 2, 150, 3, 5,
-                      0x10000);
+            //     shakeTime = 10;
+            //     nDots(5, boardCol + offsetX, boardRow + offsetY, 2, 75, 3, 5, 0x8000);
 
-                if (att & ATT_ROCK_DOGE) {
-                    nDots(10, boardCol + offsetX, boardRow + offsetY, 2, 150, 3,
-                          5, 0x10000);
+            //     if (att & ATT_GEODOGE) {
+            //         nDots(5, boardCol + offsetX, boardRow + offsetY, 2, 75, 3, 5, 0x8000);
 
-                    *pushPos = CH_BLANK;
+            //         // *pushPos = CH_BLANK;
 
-                    for (int i = 0; i < 4; i++)
-                        conglomerate(pushPos + dir[i],
-                                     (ATT_ROCK_DOGE | ATT_GRAB));
+            //         // for (int i = 0; i < 4; i++)
+            //         //     conglomerate(pushPos + dirOffset[i],
+            //         //                  (ATT_GEODOGE | ATT_GRAB));
 
-                    *pushPos = CH_DOGE_CONVERT | FLAG_THISFRAME;
+            //         *pushPos = CH_DOGE_01 | FLAG_THISFRAME;
 
-                    return;
-                }
-            }
+            //         return;
+            //     }
+            // }
 
-            *pushPos = *thiss | FLAG_THISFRAME;
-            *thiss = offsetX ? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
+            *pushPos = *me | FLAG_THISFRAME;
+            *me = offsetX ? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
 
-            // dots for a solid impact on NEXT move
-            att = Attribute[CharToType[GET(*(pushPos + adjustOffset))]];
-            if (!(att & ATT_BLANK)) {
+            // // dots for a solid impact on NEXT move
+            // att = Attribute[CharToType[GET(*(pushPos + adjustOffset))]];
+            // if (!(att & ATT_BLANK)) {
 
-                // int x[] = {4, 3, 0};
-                // int y[] = {8, 4, 0};
+            //     // shakeTime = 10;
 
-                // nDots(3, boardCol + offsetX * 2, boardRow + offsetY * 2, 2,
-                // 50,
-                //     x[offsetX + 1], y[offsetY + 1], 0x10000);
-            }
+            //     // int x[] = {4, 3, 0};
+            //     // int y[] = {8, 4, 0};
+
+            //     // nDots(3, boardCol + offsetX * 2, boardRow + offsetY * 2, 2,
+            //     // 50,
+            //     //     x[offsetX + 1], y[offsetY + 1], 0x10000);
+            // }
         }
 
         else
-            *thiss = (*thiss) + 1; // reverse
+            *me = (*me) + 1; // reverse
     }
 }
 
@@ -1654,27 +1293,18 @@ void genericPushReverse(int offsetX, int offsetY) {
 
     if (switchOn) {
 
-        unsigned char *pushPos = thiss + offsetY * 40 + offsetX;
+        unsigned char *pushPos = me + offsetY * _BOARD_COLS + offsetX;
         int type = CharToType[GET(*pushPos)];
 
         if (type == TYPE_PUSHER) {
-            *pushPos = *thiss | FLAG_THISFRAME;
-            *thiss = CH_BLANK;
+            *pushPos = *me | FLAG_THISFRAME;
+            *me = CH_BLANK;
         } else
-            *thiss = (*thiss) - 1;
+            *me = (*me) - 1;
     }
 }
 
 void processBoardSquares() {
-
-    // int lastCreature = 12345;
-    // if (!(getRandom32() & 0xFF)) {
-
-    //     if (sound_max_volume)
-    //         sound_max_volume = 0;
-    //     else
-    //         sound_max_volume = VOLUME_PLAYING;
-    // }
 
     while (true) {
 
@@ -1684,19 +1314,16 @@ void processBoardSquares() {
         //            return;
         //        }
 
-        // tmp??
-        rndX = (rndX >> 1) | (rndX << 31);
+        rndX = getRandom32();
 
         int lastBoardRow = boardRow;
         int lastBoardCol = boardCol;
 
         boardCol += gravity;
-        if (boardCol > 39 || boardCol < 0) {
-
-            // lastCreature = 0;
+        if (boardCol > (_BOARD_COLS - 1) || boardCol < 0) {
 
             if (boardCol < 0) {
-                boardCol = 39;
+                boardCol = _BOARD_COLS - 1;
                 boardRow--;
             }
 
@@ -1705,32 +1332,31 @@ void processBoardSquares() {
                 boardRow++;
             }
 
-            if (boardRow > 21 || boardRow < 0) {
+            if (boardRow > _BOARD_ROWS - 1 || boardRow < 0) {
 
-                awyrm();
-                //                randomPebble();
+                processWyrms();
 
-                int lastCumulative = cumulativeBlockCount;
-                if (!dogeBlockCount && cumulativeBlockCount) {
+                // int lastCumulative = cumulativeBlockCount;
+                // if (!dogeBlockCount && cumulativeBlockCount) {
 
-                    int val = 0;
+                //     int val = 0;
 
-                    if (cumulativeBlockCount < 10)
-                        val = cumulativeBlockCount;
-                    else if (cumulativeBlockCount < 20)
-                        val = cumulativeBlockCount * 10;
-                    else
-                        val = cumulativeBlockCount * 100;
+                //     if (cumulativeBlockCount < 10)
+                //         val = cumulativeBlockCount;
+                //     else if (cumulativeBlockCount < 20)
+                //         val = cumulativeBlockCount * 10;
+                //     else
+                //         val = cumulativeBlockCount * 100;
 
-                    addScore(val);
+                //     // addScore(val);
 
-                    cumulativeBlockCount = 0;
-                }
-                dogeBlockCount = 0;
+                //     cumulativeBlockCount = 0;
+                // }
+                // dogeBlockCount = 0;
 
-                if (!cumulativeBlockCount && lastCumulative) {
-                    killAudio(SFX_UNCOVER);
-                }
+                // if (!cumulativeBlockCount && lastCumulative) {
+                //     killAudio(SFX_UNCOVER);
+                // }
 
                 gameSchedule = SCHEDULE_START;
 
@@ -1740,8 +1366,7 @@ void processBoardSquares() {
 
                     bool oldDead = playerDead;
 
-                    unsigned char *man = RAM + _BOARD + (playerY << 5) +
-                                         (playerY << 3) + playerX;
+                    unsigned char *man = RAM + _BOARD + (playerY << 5) + (playerY << 3) + playerX;
 
                     int what = GET(*man);
 
@@ -1749,11 +1374,11 @@ void processBoardSquares() {
                         what = *man = CH_MELLON_HUSK;
 
                     int type = CharToType[what];
-                    playerDead = (type != TYPE_MELLON_HUSK &&
-                                  type != TYPE_MELLON_HUSK_PRE && !exitMode);
+                    playerDead =
+                        (type != TYPE_MELLON_HUSK && type != TYPE_MELLON_HUSK_PRE && !exitMode);
 
                     if (explodeCount > 0) {
-                        nDots(1, playerX, playerY, 1, -1, 3, 0, 0x10000);
+                        nDots(2, playerX, playerY, 1, -1, 2, 0, 0x10000);
                         --explodeCount;
                     }
 
@@ -1772,15 +1397,15 @@ void processBoardSquares() {
                     }
 
                     if (playerDead && *playerAnimation)
-                        nDots(4, playerX, playerY, 1, -100, 3, 8, 0x10000);
+                        nDots(4, playerX, playerY, 1, -100, 2, 8, 0x10000);
                 }
 
                 return;
             }
         }
 
-        thiss = RAM + _BOARD + (boardRow * 40) + boardCol;
-        // lastCreature = GET(*thiss);
+        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
+        // lastCreature = GET(*me);
 
         // pcount++;
         // if (displayMode == DISPLAY_OVERVIEW)
@@ -1797,25 +1422,24 @@ void processBoardSquares() {
 #if WORST_TIMING
 
         int startCreatureTime = T1TC;
-        int worstCreature = GET(*thiss);
+        int worstCreature = GET(*me);
 #endif
 
-        if (T1TC + 0x1000 /*worstRequiredTime[CharToType[GET(*thiss)]]*/ >=
-            availableIdleTime) {
+        if (T1TC + 0x1000 /*worstRequiredTime[CharToType[GET(*me)]]*/ >= availableIdleTime) {
 
             boardRow = lastBoardRow;
             boardCol = lastBoardCol;
             return;
         }
 
-        unsigned char creature = *thiss;
+        unsigned char creature = *me;
 
 #if WORST_TIMING
 //        worstEverCreature = creature;
 #endif
 
-        unsigned char *prev = thiss - 40 * gravity;
-        unsigned char *next = thiss + 40 * gravity;
+        unsigned char *prev = me - _BOARD_COLS * gravity;
+        unsigned char *next = me + _BOARD_COLS * gravity;
 
         if (!(creature & FLAG_THISFRAME)) {
 
@@ -1834,35 +1458,43 @@ void processBoardSquares() {
             if (Attribute[type] & isActive[selectorCounter]) {
                 switch (type) {
 
+                case TYPE_DOGE: {
+
+                    //                    chainReact_DogeToGeoDoge();
+
+                    int attrNext = ATTRIBUTE(*next);
+
+                    if (attrNext & ATT_BLANK) {
+                        *me = CH_DUST_0 | FLAG_THISFRAME;
+                        *next = CH_DOGE_FALLING | FLAG_THISFRAME;
+                        break;
+                    }
+
+                    if (attrNext & ATT_ROLL)
+                        doRoll(me, CH_DOGE_FALLING);
+
+                    break;
+                }
+
                 case TYPE_PEBBLE1:
                 case TYPE_PEBBLE2: {
 
-                    // don't form above player
-                    if (boardCol == playerX && boardRow < playerY)
+                    // don't form way above player
+                    if (boardCol == playerX && boardRow < playerY - 1)
                         break;
 
-                    const int offset[] = {-40, 40, -1, 1};
-                    static int chance;
-                    bool nearPlayer = false;
-                    for (int i = 0; i < 4; i++) {
-                        if (TYPEOF(*(thiss + offset[i])) == TYPE_MELLON_HUSK) {
-                            nearPlayer = true;
+                    int chance = 50;
+
+                    for (int i = 0; i < 4; i++)
+                        if (TYPEOF(*(me + dirOffset[i])) == TYPE_MELLON_HUSK) {
+                            chance = 5;
                             break;
                         }
-                    }
-
-#define DECHANCE 5
-
-                    if (nearPlayer) {
-                        if (chance >= DECHANCE)
-                            chance -= DECHANCE;
-                    } else {
-                        chance = 50;
-                    }
 
                     if (!rangeRandom((chance))) {
-                        *thiss = CH_PEBBLE_ROCK;
-                        nDots(10, boardCol, boardRow, 2, 50, 3, 5, 0x10000);
+                        *me = CH_PEBBLE_ROCK | FLAG_THISFRAME;
+                        nDots(10, boardCol, boardRow, 2, 20 + rangeRandom(30), 3, 5,
+                              rangeRandom(0xC000));
                     }
 
                     break;
@@ -1873,7 +1505,7 @@ void processBoardSquares() {
                     if ((boardRow - 1) * TRILINES >= lavaSurface) {
 
                         for (int i = 0; i < 4; i++) {
-                            unsigned char *neighbour = thiss + dir[i];
+                            unsigned char *neighbour = me + dirOffset[i];
 
                             int type = CharToType[GET(*neighbour)];
                             int att = Attribute[type];
@@ -1889,24 +1521,23 @@ void processBoardSquares() {
 
                 case TYPE_LAVA: {
 
-                    if (*thiss == CH_LAVA_2) {
+                    if (*me == CH_LAVA_2) {
                         if (!rangeRandom(20))
-                            *thiss = rangeRandom(4) + CH_LAVA_0;
+                            *me = rangeRandom(4) + CH_LAVA_0;
                         ;
                     }
 
                     else {
-                        *thiss = rangeRandom(4) + CH_LAVA_0;
+                        *me = rangeRandom(4) + CH_LAVA_0;
 
-                        if (!rangeRandom(105) && (*thiss == CH_LAVA_2))
-                            nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50,
-                                  3, 4, 0x8000);
+                        if (!rangeRandom(105) && (*me == CH_LAVA_2))
+                            nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50, 3, 4, 0x8000);
                     }
 
                     if ((boardRow - 1) * TRILINES >= lavaSurface) {
 
                         for (int i = 0; i < 4; i++) {
-                            unsigned char *neighbour = thiss + dir[i];
+                            unsigned char *neighbour = me + dirOffset[i];
                             if (!(*neighbour & FLAG_THISFRAME)) {
 
                                 int type = CharToType[GET(*neighbour)];
@@ -1918,9 +1549,10 @@ void processBoardSquares() {
                                 }
 
                                 if (att & ATT_MELTS && !rangeRandom(50)) {
-                                    *neighbour = CH_DUST_0;
-                                    nDots(8, boardCol + xdir[i],
-                                          boardRow + ydir[i], 2, 50, 3, 4,
+
+                                    *neighbour = (att & ATT_GEODOGE) ? CH_DOGE_00 | FLAG_THISFRAME
+                                                                     : CH_DUST_0 | FLAG_THISFRAME;
+                                    nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4,
                                           0x10000);
                                     break;
                                 }
@@ -1934,7 +1566,7 @@ void processBoardSquares() {
                 case TYPE_MELLON_HUSK:
 
                     if (!exitMode)
-                        movePlayer(thiss);
+                        movePlayer(me);
                     break;
 
                 default:
@@ -1953,73 +1585,16 @@ void processBoardSquares() {
                     else if (creature == CH_GRINDER_0)
                         conveyorDirection = -1;
 
-                    unsigned char *up = thiss - 40;
-                    unsigned char *up2 = thiss - 40 + conveyorDirection;
+                    unsigned char *up = me - _BOARD_COLS;
+                    unsigned char *up2 = me - _BOARD_COLS + conveyorDirection;
 
                     if (ATTRIBUTE_BIT(*up, ATT_CONVEYOR) &&
                         (ATTRIBUTE_BIT(*up2, ATT_BLANK | ATT_DISSOLVES)) &&
                         !(*up & FLAG_THISFRAME)) {
                         *up2 = (*up) | FLAG_THISFRAME;
                         *up = CH_DUST_0;
-
-                        for (int i = 0; i < 4; i++) {
-                            conglomerate(up + dir[i],
-                                         (ATT_ROCK_DOGE | ATT_GRAB));
-                            conglomerate(up2 + dir[i],
-                                         (ATT_ROCK_DOGE | ATT_GRAB));
-                        }
-
-                        conglomerate(up, (ATT_ROCK_DOGE | ATT_GRAB));
-                        conglomerate(up2, (ATT_ROCK_DOGE | ATT_GRAB));
                     }
 
-                    //     else {
-
-                    //         if (creature == CH_BELT_0 || creature ==
-                    //         CH_BELT_1 ||
-                    //             GET(*(thiss + 1)) == CH_BELT_0 || GET(*(thiss +
-                    //             1)) == CH_BELT_1) {
-
-                    //             if (!(*(this - 40) & FLAG_THISFRAME)) {
-                    //                 if (Attribute[CharToType[GET(*(this -
-                    //                 39))]] & ATT_BLANK) {
-                    //                     int type = CharToType[GET(*(this -
-                    //                     40))]; if (type == TYPE_DOGE || type
-                    //                     == TYPE_ROCK_DOGE ||
-                    //                         type == TYPE_ROCK) {
-                    //                     *(this - 39) = *(this - 40) |
-                    //                     FLAG_THISFRAME;
-                    //                     *(this - 40) = CH_DUST_0;
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-
-                    //         else {
-                    //         int up = *(this - 40);
-                    //         if (!(up & FLAG_THISFRAME))
-                    //         if (Attribute[CharToType[up]] & ATT_GRIND) {
-                    //             nDots(3, boardCol, boardRow - 1, 2, 50, 3, 7,
-                    //             0x10000); if (!rangeRandom(10)) { FLASH(0x22,
-                    //             1); ADDAUDIO(SFX_EXPLODE_QUIET); shakeTime =
-                    //             5;
-
-                    //             if (CharToType[up] == TYPE_ROCK_DOGE)
-                    //                 *(this - 40) = CH_DOGE_CONVERT |
-                    //                 FLAG_THISFRAME;
-                    //             else
-                    //                 *(this - 40) = CH_DUST_0 |
-                    //                 FLAG_THISFRAME;
-                    //             nDots(RAINHAILSHINE, boardCol, boardRow - 1,
-                    //             2, 50, 3, 7,
-                    //                     0x10000);
-                    //             }
-                    //             // else {
-                    //             //     ADDAUDIO(SFX_DIRT);
-                    //             // }
-                    //         }
-                    //     }
-                    //   }
                     break;
                 }
 
@@ -2027,70 +1602,39 @@ void processBoardSquares() {
 
                     if ((boardRow + 2) * TRILINES <= lavaSurface) {
 
-                        if (GET(*(thiss + 80)) != CH_WATERFLOW_0)
-                            *(thiss + 80) = CH_WATERFLOW_0 | FLAG_THISFRAME;
+                        if (GET(*(me + 80)) != CH_WATERFLOW_0)
+                            *(me + 80) = CH_WATERFLOW_0 | FLAG_THISFRAME;
 
-                        nDots(4, boardCol, boardRow + 2, 2, 50,
-                              rangeRandom(2) * 5, rangeRandom(7), 0x10000);
+                        nDots(4, boardCol, boardRow + 2, 2, 50, rangeRandom(2) * 5, rangeRandom(7),
+                              0x10000);
                     }
                     break;
 
                 case CH_HUB_1:
 
-                    if (GET(*(thiss + 80)) == CH_WATERFLOW_0)
-                        *(thiss + 80) = CH_BLANK;
+                    if (GET(*(me + 80)) == CH_WATERFLOW_0)
+                        *(me + 80) = CH_BLANK;
                     break;
 
                 case CH_WATERFLOW_0: {
 
+                    int line = boardRow * TRILINES;
                     if (!(gameFrame & 7)) {
 
-                        int line = (boardRow)*TRILINES;
                         if (boardRow < 20 && line < lavaSurface)
-                            *(thiss + 40) = CH_WATERFLOW_0;
+                            *(me + _BOARD_COLS) = CH_WATERFLOW_0;
 
                         else
-                            *thiss = CH_BLANK;
+                            *me = CH_BLANK;
                     }
 
-                    nDots(1, boardCol, boardRow, 2, 100, 5 * rangeRandom(2), 10,
-                          0x10000);
+                    if (line >= lavaSurface)
+                        nDots(1, boardCol, boardRow, 2, 100, 5 * rangeRandom(2), 10, 0x10000);
                     break;
                 }
 
-                    // case CH_HORIZ_ZAP_0: {
-
-                    //     int att = Attribute[CharToType[GET(*(thiss + 1))]];
-                    //     if (/*!(gameFrame & 3) &&*/ att & ATT_BLANK) {
-                    //         *(thiss + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
-                    //         *(this) = CH_HORIZ_ZAP_1 | FLAG_THISFRAME;
-                    //     }
-                    //     else {
-                    //         if (att & ATT_PULL) {
-                    //             *thiss = *(thiss + 1) | FLAG_THISFRAME;
-                    //             *(thiss + 1) = CH_BLANK | FLAG_THISFRAME;
-
-                    //             if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
-                    //                 *(this - 1) = CH_HORIZ_ZAP_0 |
-                    //                 FLAG_THISFRAME;
-                    //         }
-                    //         else {
-                    //             *thiss = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
-                    //         }
-                    //     }
-                    //     conglomerate();
-                    //     break;
-                    // }
-
-                    // case CH_HORIZ_ZAP_2: {
-                    //     *thiss = CH_BLANK | FLAG_THISFRAME;
-                    //     if (CharToType[GET(*(this - 1))] == TYPE_ZAP)
-                    //         *(this - 1) = CH_HORIZ_ZAP_2 | FLAG_THISFRAME;
-                    //     break;
-                    // }
-
                 case CH_PEBBLE_ROCK:
-                    *thiss = CH_ROCK_DOGE | FLAG_THISFRAME;
+                    *me = CH_GEODOGE | FLAG_THISFRAME;
                     break;
 
                 case CH_PUSH_LEFT:
@@ -2118,19 +1662,25 @@ void processBoardSquares() {
                     break;
 
                 case CH_PUSH_DOWN:
+                    //                    *me = CH_PUSH_DOWN2;
                     genericPush(0, 1);
                     break;
+
+                    // case CH_PUSH_DOWN2:
+                    //     *me = CH_PUSH_DOWN;
+                    //     genericPush(0, 1);
+                    //     break;
 
                 case CH_PUSH_DOWN_REVERSE:
                     genericPushReverse(0, -1);
                     break;
 
                 case CH_DUST_2:
-                    *thiss = CH_BLANK;
+                    *me = CH_BLANK;
                     break;
 
                 case CH_DUST_ROCK_2:
-                    *thiss = CH_DOGE_00;
+                    *me = CH_DOGE_00;
                     ADDAUDIO(SFX_UNCOVER);
                     break;
 
@@ -2138,62 +1688,29 @@ void processBoardSquares() {
                 case CH_DUST_1:
                 case CH_DUST_ROCK_0:
                 case CH_DUST_ROCK_1:
-                    (*thiss)++;
+                    (*me)++;
                     break;
 
                 case CH_EXPLODETOBLANK_0:
                 case CH_EXPLODETOBLANK_1:
                 case CH_EXPLODETOBLANK_2:
                 case CH_EXPLODETOBLANK_3:
-                    *thiss = (creature + 1) | FLAG_THISFRAME;
+                    *me = (creature + 1) | FLAG_THISFRAME;
                     break;
 
                 case CH_EXPLODETOBLANK_4:
-                    *thiss = CH_BLANK | FLAG_THISFRAME;
+                    *me = CH_BLANK | FLAG_THISFRAME;
                     break;
 
-                case CH_DOGE_CONVERT:
-
-                    chainReactDoge();
-                    *thiss = CH_DOGE_00;
-                    // fall through
-
-                case CH_DOGE_00:
-                case CH_DOGE_01:
-                case CH_DOGE_02:
-                case CH_DOGE_03:
-                case CH_DOGE_04:
-                case CH_DOGE_05: {
-
-                    if (creature == CH_DOGE_00)
-                        convertDogeToATT_ROCK();
-
-                    // if (CharToType[GET(*(this - 40))] != TYPE_DOGE &&
-                    // !(getRandom32() & 0xFFF)) {
-                    //     *thiss = CH_DUST_0 | FLAG_THISFRAME;
-                    //     nDots(8, boardCol, boardRow, 2, 50, 3, 0, 0x10000);
-                    //     break;
-                    // }
-
-                    int attrNext = ATTRIBUTE(*next);
-
-                    if (attrNext & ATT_BLANK) {
-                        *thiss = CH_DUST_0 | FLAG_THISFRAME;
-                        *next = CH_DOGE_FALLING | FLAG_THISFRAME;
-
-                        for (int i = 0; i < 4; i++)
-                            conglomerate(thiss + dir[i],
-                                         (ATT_ROCK_DOGE | ATT_GRAB));
-                        break;
-                    }
-
-                    if (attrNext & ATT_ROLL)
-                        doRoll(thiss, CH_DOGE_FALLING);
-
-                    // conglomerate();
-
+                case CH_CONVERT_GEODE_TO_DOGE:
+                    *me = CH_DOGE_00 | FLAG_THISFRAME;
+                    chainReact_GeoDogeToDoge();
                     break;
-                }
+
+                case CH_GEODOGE_CONVERT:
+                    // *me = CH_GEODOGE | FLAG_THISFRAME;
+                    // chainReact_DogeToGeoDoge();
+                    break;
 
                 case CH_FLIP_GRAVITY_0:
                 case CH_FLIP_GRAVITY_2:
@@ -2203,13 +1720,12 @@ void processBoardSquares() {
 
                     unsigned char typeDown = CharToType[GET(*next)];
                     if (Attribute[typeDown] & ATT_BLANK) {
-                        *next = *thiss | FLAG_THISFRAME;
-                        *thiss = CH_DUST_0 | FLAG_THISFRAME;
+                        *next = *me | FLAG_THISFRAME;
+                        *me = CH_DUST_0 | FLAG_THISFRAME;
                     }
                     break;
                 }
 
-                case CH_CONGLOMERATE:
                 case CH_CONGLOMERATE_1:
                 case CH_CONGLOMERATE_2:
                 case CH_CONGLOMERATE_3:
@@ -2228,77 +1744,74 @@ void processBoardSquares() {
 
                 case CH_ROCK:
 
-                case CH_ROCK_DOGE: {
+                case CH_GEODOGE: {
 
-                    if (GET(*thiss) == CH_CONGLOMERATE_15 &&
-                        *Animate[TYPE_ROCK_DOGE_CRITICAL] ==
-                            CH_CONGLOMERATE_15 &&
-                        !rangeRandom(4)) {
+                    // if (GET(*me) == CH_CONGLOMERATE_15 &&
+                    //     *Animate[TYPE_GEODOGE_CRITICAL] == CH_CONGLOMERATE_15 &&
+                    //     !rangeRandom(4)) {
 
-                        bool close =
-                            ((boardCol - playerX) * (boardCol - playerX) +
-                                 (boardRow - playerY) * (boardRow - playerY) <
-                             7);
+                    //     bool close = ((boardCol - playerX) * (boardCol - playerX) +
+                    //                       (boardRow - playerY) * (boardRow - playerY) <
+                    //                   7);
 
-                        int pulse = 3 + rangeRandom(RAINHAILSHINE / 2);
-                        if (pulse && close) {
-                            cpulse += 32;
-                            //                            FLASH(0x42, 10);
-                        }
+                    //     int pulse = 3 + rangeRandom(RAINHAILSHINE / 2);
+                    //     if (pulse && close) {
+                    //         pulsePlayerColour += 32;
+                    //         //                            FLASH(0x42, 10);
+                    //     }
 
-                        nDots(pulse, boardCol, boardRow, 2, 50, 3, 4, 0x30000);
-                    }
+                    //     nDots(pulse, boardCol, boardRow, 2, 25, 3, 4, 0x10000);
+                    // }
 
                     unsigned char typeDown = CharToType[GET(*next)];
 
                     if (Attribute[typeDown] & ATT_BLANK) {
 
-                        if (ATTRIBUTE_BIT(*thiss, ATT_ROCK_DOGE))
-                            *next = CH_ROCK_DOGE_FALLING | FLAG_THISFRAME;
+                        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
+                            *next = CH_GEODOGE_FALLING | FLAG_THISFRAME;
                         else
                             *next = CH_ROCK_FALLING | FLAG_THISFRAME;
 
-                        *thiss = CH_DUST_0 | FLAG_THISFRAME;
+                        *me = CH_DUST_0 | FLAG_THISFRAME;
 
-                        // int att = Attribute[CharToType[GET(*(next + 40))]];
+                        // int att = Attribute[CharToType[GET(*(next + _BOARD_COLS))]];
                         // if (!(att & ATT_NOROCKNOISE))
                         //     ADDAUDIO(att & ATT_HARD ? SFX_ROCK : SFX_ROCK2);
                     }
 
                     else if (Attribute[typeDown] & ATT_ROLL) {
 
-                        if (ATTRIBUTE_BIT(*thiss, ATT_ROCK_DOGE))
-                            doRoll(thiss, CH_ROCK_DOGE_FALLING);
+                        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
+                            doRoll(me, CH_GEODOGE_FALLING);
                         else
-                            doRoll(thiss, CH_ROCK_FALLING);
+                            doRoll(me, CH_ROCK_FALLING);
                     }
 
-                    for (int i = 0; i < 4; i++)
-                        conglomerate(thiss + dir[i],
-                                     (ATT_ROCK_DOGE | ATT_GRAB));
+                    if (creature != CH_ROCK)
+                        for (int i = 0; i < 5; i++)
+                            conglomerate(me + dirOffset[i], ATT_GEODOGE);
 
                     break;
                 }
 
                 case CH_DOGE_FALLING:
                 case CH_ROCK_FALLING:
-                case CH_ROCK_DOGE_FALLING: {
+                case CH_GEODOGE_FALLING: {
 
                     unsigned char typeDown = CharToType[GET(*next)];
                     if (Attribute[typeDown] & ATT_BLANK) {
 
-                        *thiss = CH_DUST_0 | FLAG_THISFRAME;
+                        *me = CH_DUST_0 | FLAG_THISFRAME;
 
                         *next = creature | FLAG_THISFRAME;
 
-                        unsigned char *nextNext = next + 40;
+                        unsigned char *nextNext = next + _BOARD_COLS;
                         unsigned char downCh = GET(*nextNext);
                         typeDown = CharToType[downCh];
                         int attNextNext = Attribute[typeDown];
 
-                        if (downCh != CH_ROCK_FALLING &&
-                            downCh != CH_DOGE_FALLING &&
-                            downCh != CH_ROCK_DOGE_FALLING) {
+                        if (downCh != CH_ROCK_FALLING && downCh != CH_DOGE_FALLING &&
+                            downCh != CH_GEODOGE_FALLING) {
 
                             int sfx = 0;
 
@@ -2312,22 +1825,19 @@ void processBoardSquares() {
                             // }
 
                             if (attNextNext & ATT_HARD) {
-                                if (creature == CH_ROCK_FALLING ||
-                                    creature == CH_ROCK_DOGE_FALLING) {
+                                if (creature == CH_ROCK_FALLING || creature == CH_GEODOGE_FALLING) {
 
                                     sfx = SFX_ROCK;
 
-                                    unsigned char *dL = thiss + 40 - 1;
+                                    unsigned char *dL = me + _BOARD_COLS - 1;
                                     unsigned char *dR = dL + 2;
 
                                     if (!CharToType[GET(*dR)]) {
-                                        nDots(4, boardCol, boardRow + 1, 2, 10,
-                                              3, 7, 0x10000);
+                                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
                                     }
 
                                     if (!CharToType[GET(*dL)]) {
-                                        nDots(4, boardCol, boardRow + 1, 2, 10,
-                                              3, 7, 0x10000);
+                                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
                                     }
                                 }
                                 // else
@@ -2342,10 +1852,6 @@ void processBoardSquares() {
                     else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
                         Explode(next, CH_DUST_0 | FLAG_THISFRAME);
 
-                    // else if (typeDown == TYPE_BUTTERFLY)
-                    //     Explode(next, CH_EXPLODETODOGE_0 |
-                    //     FLAG_THISFRAME);
-
                     else {
 
                         // stop falling
@@ -2354,29 +1860,28 @@ void processBoardSquares() {
 
                         switch (creature) {
                         case CH_ROCK_FALLING: {
-                            *thiss = CH_ROCK;
+                            *me = CH_ROCK;
                             sfx = att & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
                             break;
                         }
 
-                        case CH_ROCK_DOGE_FALLING: {
-                            *thiss = CH_ROCK_DOGE;
+                        case CH_GEODOGE_FALLING: {
+                            *me = CH_GEODOGE;
                             break;
                         }
 
                         case CH_DOGE_FALLING: {
-                            *thiss = CH_DOGE_00;
+                            *me = CH_DOGE_00;
                             sfx = SFX_DOGE;
                             break;
                         }
                         }
 
                         if (creature != CH_DOGE_FALLING)
-                            nDots(4, boardCol, boardRow, 2, 40,
-                                  getRandom32() & 3, 10, 0x10000);
+                            nDots(4, boardCol, boardRow, 2, 40, getRandom32() & 3, 10, 0x10000);
 
                         if (att & ATT_ROLL)
-                            doRoll(thiss, creature);
+                            doRoll(me, creature);
 
                         if (sfx && !(att & ATT_NOROCKNOISE))
                             ADDAUDIO(sfx);
@@ -2388,7 +1893,7 @@ void processBoardSquares() {
 
                 case CH_DOORCLOSED:
                     if (!doges) {
-                        *thiss = CH_DOOROPEN_0;
+                        *me = CH_DOOROPEN_0;
                         FLASH(0x28, 10);
                     }
                     break;
@@ -2400,14 +1905,7 @@ void processBoardSquares() {
 
                     if (
 #if CIRCLE
-                        checkSwipeFinished()
-#if ENABLE_OVERLAY
-                            && fSpeed == -1
-#endif
-                        //                        && (displayMode ==
-                        //                        DISPLAY_OVERVIEW
-
-                        ||
+                        checkSwipeFinished() ||
 #endif
                         (!isScrolling())) {
 
@@ -2415,13 +1913,13 @@ void processBoardSquares() {
 
                         // ADDAUDIO(SFX_PUSH);
                         // startPlayerAnimation(ID_Shades); //(ID_Startup);
-                        *thiss = CH_MELLON_HUSK; // | FLAG_THISFRAME;
+                        *me = CH_MELLON_HUSK; // | FLAG_THISFRAME;
                     }
                     break;
 
                 case CH_DOGE_GRAB:
                     if (*Animate[TYPE_GRAB] == CH_BLANK)
-                        *thiss = CH_BLANK;
+                        *me = CH_BLANK;
                     break;
 
                 default:
@@ -2433,11 +1931,11 @@ void processBoardSquares() {
             // water/lava chars
 
             if (boardRow * TRILINES >= lavaSurface) {
-                if (!(*thiss & FLAG_THISFRAME)) {
+                if (!(*me & FLAG_THISFRAME)) {
                     if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES)) {
                         if (!rangeRandom(4)) {
                             int rr = getRandom32() & 3;
-                            *thiss = showLava ? CH_LAVA_2 : CH_WATER_0 + rr;
+                            *me = showLava ? CH_LAVA_2 : CH_WATER_0 + rr;
                         }
                     }
                 }

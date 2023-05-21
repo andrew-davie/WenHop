@@ -1,8 +1,10 @@
-#include "colour.h"
-#include "defines_cdfj.h"
-#include "defines_from_dasm_for_c.h"
-#include "main.h"
-#include <stdbool.h>
+// #include <stdbool.h>
+
+// #include "main.h"
+
+// #include "colour.h"
+// #include "defines_cdfj.h"
+// #include "defines_from_dasm_for_c.h"
 
 #if __ENABLE_ATARIVOX
 
@@ -17,8 +19,7 @@ void sayWord(int word) {
 
 void processSpeech() {
 
-    static const unsigned short *const sp =
-        (const unsigned short *)__SPEECH_ADDRESS;
+    static const unsigned short *const sp = (const unsigned short *)__SPEECH_ADDRESS;
     const unsigned char *const s = (const unsigned char *)(int)sp[speakWord];
 
     if ((RAM[_BUF_SPEECH] = s[spk]) != 0xFF) {

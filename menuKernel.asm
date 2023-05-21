@@ -1,8 +1,8 @@
-                
-                    ldx #%00110011 
+
+                    ldx #%00110011
                     stx NUSIZ0                      ; three copies close, missile x8
                     stx NUSIZ1                      ; three copies close, missile x8
-                    stx VDELP0                      ; vertical delay on 
+                    stx VDELP0                      ; vertical delay on
                     stx VDELP1                      ; vertical delay on
 
 OverScanMenu
@@ -56,7 +56,7 @@ processArmOSMenu    jsr CallArmCode
 safeTimerWait2      lda INTIM
                     bpl safeTimerWait2
                     ;jsr safeTimerWait
-                    
+
 
 VerticalSyncMenu
 
@@ -67,13 +67,13 @@ VerticalSyncMenu
 
                     sty WSYNC
 
-; --- start scanline 1 of Vertical Sync ---        
+; --- start scanline 1 of Vertical Sync ---
 
                     sty VSYNC           ; turn on Vertical Sync signal
                     sta TIM64T
                     sty WSYNC
 
-; --- start scanline 2 of Vertical Sync ---        
+; --- start scanline 2 of Vertical Sync ---
 
                     ; use otherwise wasted time to zero out some TIA registers
 
@@ -82,7 +82,7 @@ VerticalSyncMenu
 ;                    stx CTRLPF          ; 3 26
                     stx WSYNC           ; 3 29/0
 
-; --- start scanline 3 of Vertical Sync ---        
+; --- start scanline 3 of Vertical Sync ---
 
 
 
@@ -93,19 +93,19 @@ VerticalSyncMenu
 
                     ldy #_FN_MENU_VB
                     stx WSYNC           ; end of VerticalSync scanline 3
-                    stx VSYNC           ; turn off Vertical Sync signal            
+                    stx VSYNC           ; turn off Vertical Sync signal
                     jsr CallArmCode
 
                     ldx #1
 vbSetInitialMenu    lda #DSCOMM                 ; P1_X, P0_X
 
 PosObject
-    
+
     ; A = X position value
     ; X = 0=P0, 1=P1, 2=M0, 3=M1, 4=Ball
 
                     sec
-                    sta WSYNC       
+                    sta WSYNC
 DivideLoop          sbc #15
                     bcs DivideLoop
 
@@ -117,7 +117,7 @@ DivideLoop          sbc #15
                     sta.wx HMP0,X
                     sta RESP0,X
 
-                    dex        
+                    dex
                     bpl vbSetInitialMenu
 
                     lda #DSCOMM
@@ -155,12 +155,12 @@ safeTimerWait3      lda INTIM
                     sta WSYNC
     ;                sta WSYNC
                     jmp FASTJMP1
-         
-    
+
+
 _MENU_KERNEL
 
 ;@3
-        
+
                     lda #_DS_PF1_LEFT
                     sta PF1                         ; 5
                     lda #_DS_GRP0a
@@ -183,7 +183,7 @@ _MENU_KERNEL
 ;@41
                     lda #_DS_PF2_RIGHT              ; 2
                     nop                             ; 2
-                    sta PF2                         ; 3 
+                    sta PF2                         ; 3
 
                     lda #_DS_GRP1b                  ; 2
                     sta GRP1                        ; 3
@@ -215,5 +215,5 @@ _EXIT_MENU_KERNEL
                     sty PF2
 
                     jmp OverScanMenu
-        
+
 ; EOF

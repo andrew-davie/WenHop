@@ -6,7 +6,7 @@
 // #define CAVEFLAG_MIRROR_XY      (CAVEFLAG_MIRROR_X + CAVEFLAG_MIRROR_Y)
 
 extern const unsigned char *caveList[];
-extern const int caveCount;
+extern const unsigned int caveCount;
 extern unsigned char caveFlags;
 
 #define COLOURPOOL_SIZE 115

@@ -1,9 +1,11 @@
+#include "defines.h"
 #include "defines_cdfj.h"
 
-#include "colour.h"
-#include "defines.h"
-#include "joystick.h"
 #include "main.h"
+
+#include "joystick.h"
+
+#include "colour.h"
 #include "menu.h"
 #include "random.h"
 #include "swipeCircle.h"
