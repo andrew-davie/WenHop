@@ -71,7 +71,7 @@ extern const unsigned char joyDirectBit[4];
 extern unsigned char mm_tv_type;
 
 extern int level;
-extern int cave;
+extern unsigned int cave;
 extern int gravity;
 extern int nextGravity;
 extern unsigned char *playerLocation;

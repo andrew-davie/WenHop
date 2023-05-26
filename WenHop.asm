@@ -86,33 +86,6 @@ OS_TIM64T = 29
 _ARENA_SCANLINES    = 198   ; number of scanlines for the arena
 ARENA_BUFFER_SIZE   = _ARENA_SCANLINES    ; PF buffer size for largest arena
 
-;===============================================================================
-; Define custom Macros
-;----------------------------------------
-; POSITION_OBJECT is defined as a macro because it appears at the same position
-; in both banks of 6507 code.
-;
-; CHECK_ARENA_BUFFER_SIZE is used to make sure the playfield buffers are large
-; enough for the graphics.
-;===============================================================================
-;         MAC POSITION_OBJECT
-;         ; sets X position of any object.  X holds which object, A holds position
-; PosObject:              ; A holds X value
-;         sec             ; 2
-;         sta WSYNC       ; X holds object, 0=P0, 1=P1, 2=M0, 3=M1, 4=Ball
-; DivideLoop:
-;         sbc #15         ; 2
-;         bcs DivideLoop  ; 2  4
-;         eor #7          ; 2  6
-;         asl             ; 2  8
-;         asl             ; 2 10
-;         asl             ; 2 12
-;         asl             ; 2 14
-;         sta.wx HMP0,X   ; 5 19
-;         sta RESP0,X     ; 4 23 <- set object position
-; SLEEP12: rts            ; 6 29
-;         ENDM
-
 
         MAC CHECK_ARENA_BUFFER_SIZE
         ; trigger a compile time error if the arena buffer need to be increased

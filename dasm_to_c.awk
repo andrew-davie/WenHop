@@ -1,0 +1,1 @@
+/^_/ {printf "#define %-25s 0x%s\n", $1, $2}

@@ -25,6 +25,7 @@
 #include "scroll.h"
 #include "sound.h"
 #include "swipeCircle.h"
+#include "tools.h"
 #include "wyrm.h"
 
 #if WORST_TIMING
@@ -129,7 +130,7 @@ static int selectDelay;
 
 unsigned int currentPalette;
 
-int cave;
+unsigned int cave;
 bool caveCompleted;
 unsigned char bufferedSWCHA;
 unsigned int usableSWCHA;
@@ -449,10 +450,12 @@ void drawWord(const unsigned char *string, int y) {
 
     showingWords = true;
 
+    FLASH(0x42, 2);
+
     // FIXES PAL long-word display?
-    availableIdleTime -= 30000;
-    if (availableIdleTime > 0)
-        availableIdleTime = 0;
+    // availableIdleTime -= 30000;
+    // if (availableIdleTime > 0)
+    //     availableIdleTime = 0;
 
     if (spacing < 56)
         spacing++;
@@ -961,8 +964,6 @@ void GameVerticalBlank() {
 
         drawScore();
         rain();
-
-        extern const unsigned short toolIcon[][127];
 
         if (showTool) {
 

@@ -32,7 +32,6 @@ extern unsigned char timeString[];
 
 extern int actualScore;
 extern int partialScore;
-extern int detectedPeriod;
 
 void drawBigDigit(int digit, int pos, int offset, int colour, bool tape);
 void drawLives();

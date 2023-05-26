@@ -129,7 +129,7 @@ __COL0
  .byte 15 ;G
  .byte 135 ;B
  .byte 251 ;R (22)
- .byte 11 ;G
+ .byte 15 ;G
  .byte 195 ;B
  .byte 249 ;R (21)
  .byte 7 ;G
@@ -275,26 +275,26 @@ __COL1
  .byte 1 ;B
  .byte 63 ;R (40)
  .byte 255 ;G
- .byte 56 ;B
+ .byte 48 ;B
  .byte 61 ;R (39)
  .byte 255 ;G
- .byte 61 ;B
+ .byte 53 ;B
  .byte 127 ;R (38)
  .byte 255 ;G
- .byte 63 ;B
+ .byte 55 ;B
  .byte 120 ;R (37)
  .byte 255 ;G
- .byte 56 ;B
+ .byte 48 ;B
  .byte 56 ;R (36)
  .byte 255 ;G
- .byte 56 ;B
+ .byte 48 ;B
  .byte 10 ;R (35)
  .byte 255 ;G
- .byte 56 ;B
- .byte 16 ;R (34)
+ .byte 48 ;B
+ .byte 24 ;R (34)
  .byte 63 ;G
  .byte 34 ;B
- .byte 208 ;R (33)
+ .byte 216 ;R (33)
  .byte 63 ;G
  .byte 34 ;B
  .byte 249 ;R (32)
@@ -334,7 +334,7 @@ __COL1
  .byte 255 ;G
  .byte 247 ;B
  .byte 12 ;R (20)
- .byte 250 ;G
+ .byte 251 ;G
  .byte 116 ;B
  .byte 8 ;R (19)
  .byte 255 ;G

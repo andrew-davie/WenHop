@@ -457,7 +457,7 @@ const unsigned short toolIcon[][127] = {
 char RGB[6];
 
 const unsigned char titleScreenImagePalette[] = {
-    0xB4, 0xF6, 0x42 // + LUMINANCE, 0x24 + LUMINANCE, 0x24 + LUMINANCE, // NTSC
+    0xB6, 0xF8, 0x46 // + LUMINANCE, 0x24 + LUMINANCE, 0x24 + LUMINANCE, // NTSC
 };
 
 void doDrawBitmap(const unsigned short *shape, int y) {
@@ -1193,6 +1193,26 @@ const char wordDifficulty[] = {
     ________, _____XXX, X__X__X_, X__X__X_, __X__X_X, XX___XX_,
 };
 
+
+const char wordProto2[] = {
+    XXX___XX, __XXX__X, XX______, XX__XXXX, ____XXX_, _X______,
+    __XX_X__, X___XX__, _XX____X, __X_X___, ______XX, _X__X___,
+    __X__X__, X___X___, XX_____X, __X_XXX_, ______X_, _X__X___,
+    _X___X__, X__X____, _XX____X, __X____X, _____X__, _XXXX___,
+    XXXX_XXX, X_XXXX_X, XXX_XX_X, XXX_XXXX, _XX_XXXX, ___XX___,
+    XXXX__XX, __XXXX_X, XX__XX__, XX__XXX_, _XX_XXXX, ___XX___,
+};
+
+
+const char wordProto[] = {
+    XXX__XXX, ___XX__X, XXXX__XX, ____X__X, ________, __X_____,
+    XXXX_XX_, X_X__X_X, XXXX_X__, X___XX_X, ________, _XX_____,
+    X__X_X__, X_X__X__, _X___X__, X___XX_X, __XX____, _XX_____,
+    XXX__XXX, __X__X__, _X___X__, X___X_XX, _X__X___, __X_____,
+    X____X_X, __XXXX__, _X___XXX, X___X_XX, _XXXX_XX, _XXX____,
+    X____X__, X__XX___, _X____XX, ____X__X, __XX__XX, _XXX____,
+};
+
 // clang-format on
 
 void drawCharacter(int x, int y, int ch) {
@@ -1349,6 +1369,24 @@ void handleMenuScreen() {
     int colour = sline == menuLine ? (flashTime2 & 4) ? 0x0A : ((base2 << 2) & 0xF0) | 0x16 : 0x26;
 
     drawString(0, y + 8, dLine, colour);
+
+    static int protoTime = 0;
+    if (++protoTime < 200) {
+
+        drawSmallString(180, wordProto);
+        drawSmallString(188, wordProto2);
+
+        for (int line = 179; line < 194; line++) {
+            RAM[_BUF_MENU_COLUP0 + line] = 0x8;
+        }
+    }
+
+    else {
+
+        for (int line = 179; line < 194; line++)
+            for (int i = 0; i < 6; i++)
+                RAM[_BUF_MENU_GRP0A + _ARENA_SCANLINES * i + line] = 0;
+    }
 
     // Draw ICC menu PF background
 
