@@ -9,6 +9,37 @@
         include "macro.h"
         include "cdfj.h"
 
+;===============================================================================
+; Project Configuration
+;----------------------------------------
+;   _PC_ROM_SIZE        Size of ROM, in kilobytes
+;        32              32 KB of ROM and  8 KB of RAM
+;        64              64 KB of ROM and 16 KB of RAM
+;       128             128 KB of ROM and 16 KB of RAM
+;       256             256 KB of ROM and 32 KB of RAM
+;       512             512 KB of ROM and 32 KB of RAM
+;
+;   _PC_DD_SIZE         Size of Display Data, in bytes
+;       4096
+;
+;   _PC_CDFJ_FF         Select CDFJ+ driver based on Fast Fetcher usage:
+;       FF_LDA          LDA # only
+;       FF_LDA_LDX      LDA # and LDX #
+;       FF_LDA_LDY      LDA # and LDY #
+;       FF_LDA_LDX_LDY  LDA #, LDX #, and LDY #
+;
+;   _PC_FF_OFFSET       offset for Fast Fetchers
+;       0 - 220         adjusts which LDA # values are overridden for fast
+;                       fetcher use (and optionally LDX # and/or LDY #)
+;===============================================================================
+
+_PC_ROM_SIZE    = 64
+_PC_DD_SIZE     = 4096 - 512
+_PC_CDFJ_FF     = FF_LDA
+_PC_FF_OFFSET   = $80
+
+
+
 __ENABLE_TRAINER = 0
 __ENABLE_ATARIVOX = 0       ; 415 bytes
 __ENABLE_WATER = 0

@@ -157,6 +157,10 @@
 #define _NORMAL_KERNEL            0x7fa9
 #define _P0_X                     0x0005
 #define _P1_X                     0x0004
+#define _PC_CDFJ_FF               0x0000
+#define _PC_DD_SIZE               0x0e00
+#define _PC_FF_OFFSET             0x0080
+#define _PC_ROM_SIZE              0x0040
 #define _RUN_FUNC                 0x0000
 #define _SWCHA                    0x0001
 #define _SWCHB                    0x0002

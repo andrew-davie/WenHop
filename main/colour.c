@@ -1,5 +1,16 @@
 #include "defines.h"
-#include "defines_cdfj.h"
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+
+#include "defines_from_dasm_for_c.h"
+#define CDFJ_NO_MUSIC #must be before defines_cdfjplus.h
+#define CDFJ_NO_PITCH_TABLE #must be before defines_cdfjplus.h
+#define CDFJ_NO_MEMCOPY_INT #must be before defines_cdfjplus.h
+#include "defines.h"
+#include "defines_cdfjplus.h"
+
+#pragma GCC diagnostic pop
 
 #include "colour.h"
 #include "main.h"

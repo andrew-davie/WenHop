@@ -8,6 +8,7 @@
 
 PROJECT=WenHop
 DASM_TO_C=defines_from_dasm_for_c.h
+DASM_TO_LDS=symbols_from_dasm_for_lds.h
 
 # If desired, the following color values can be changed.
 # 30=black  31=red      32=green    33=yellow
@@ -38,7 +39,7 @@ BASE = main
 SRC = $(BASE)/custom
 BIN = $(BASE)/bin
 
-SRCS =  characterset.c	joystick.c	random.c	swipeCircle.c \
+SRCS =  defines_cdfjplus.c characterset.c	joystick.c	random.c	swipeCircle.c \
 		animations.c	colour.c	main.c		mellon.c \
 		atarivox.c	decodecaves.c	menu.c		score.c \
 		attribute.c	drawplayer.c	scroll.c \
@@ -66,11 +67,8 @@ TARGET := $(shell date +"WenHop_%Y%m%d@%H:%M:%S" | tr ' :' '__')
 # asmSrcs = $(wildcard *.asm) macro.h vcs.h cdfj.h
 
 
-export FOO='hello'
-
 # Default target
 default: armcode
-	echo $(FOO)
 	@#sleep 20
 	@#open -a /Applications/Stella.app ./$(PROJECT).bin
 	@zsh -c "nohup ../Gopher2600/gopher2600_darwin_arm64 -right savekey $(SHOWFPS) ./$(PROJECT).bin &"
@@ -101,6 +99,16 @@ armcode_defines: gfx $(asmSrcs)
 	@echo "Step 2/3 - Create ARM BIN"
 	@printf $(OPTION_COLOR)
 
+create_arm_symbols:
+	@printf $(INFO_COLOR)
+	@echo
+	@echo "Step 2/4 - Create $(DASM_TO_LDS)"
+	@printf $(OPTION_COLOR)
+	@echo
+	@echo "/* Do not change this file. It is auto-generated during the make process */" > main/$(DASM_TO_LDS)
+	awk -f dasm_to_lds.awk $(PROJECT).sym >> main/$(DASM_TO_LDS)
+
+
 armcode_atari:
 	$(DASM) $(PROJECT).asm -p100 -f3 -v0 -s$(PROJECT).sym -l$(PROJECT).lst -o$(PROJECT).bin
 	@cp $(PROJECT).bin ROMs/$(TARGET).bin
@@ -113,7 +121,9 @@ armcode_list:
 	$(DASM) $(PROJECT).asm -p100 -f3 -v0 -o$(PROJECT).bin -l$(PROJECT).lst -s$(PROJECT).sym
 	@printf $(DEFAULT_COLOR)
 
-armcode: killEmulator armcode_defines armcode_arm armcode_list armcode_atari
+armcode: killEmulator armcode_defines create_arm_symbols armcode_arm armcode_list armcode_atari
+
+#fullbuild: create_arm_defines create_arm_symbols create_arm_bin create_vcs_bin
 
 
 gfx: tools/logo.py copyright.asm
@@ -133,7 +143,7 @@ CUSTOMBIN = $(BIN)/$(CUSTOMNAME).bin
 CUSTOMMAP = $(BIN)/$(CUSTOMNAME).map
 CUSTOMLST = $(BIN)/$(CUSTOMNAME).lst
 CUSTOMLINK = $(SRC)/custom.boot.lds
-CUSTOMOBJS = main.o sound.o custom.o attribute.o random.o \
+CUSTOMOBJS = defines_cdfjplus.o main.o sound.o custom.o attribute.o random.o \
 	decodecaves.o characterset.o mellon.o cavedata.o drawplayer.o \
 	player.o drawscreen.o colour.o swipeCircle.o score.o \
 	scroll.o animations.o menu.o atarivox.o joystick.o wyrm.o
@@ -172,7 +182,7 @@ clean:
 	rm -f *.o *.i *.s $(BIN)/*.* $(PROJECT).bin $(PROJECT).lst $(PROJECT).sym
 
 # DO NOT DELETE
-
+defines_cdfjplus.o: defines_cdfjplus.h
 characterset.o: main/main.h main/defines_from_dasm_for_c.h main/bitpatterns.h main/characterset.h
 characterset.o: main/scroll.h
 joystick.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/joystick.h
@@ -215,3 +225,4 @@ sound.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/sou
 player.o: main/defines_from_dasm_for_c.h main/main.h main/player.h main/atarivox.h main/bitpatterns.h
 player.o: main/mellon.h
 wyrm.o: main/wyrm.h
+

@@ -144,7 +144,7 @@ _PC_TABLE_SIZE = 4
 ;   That would simplify this if possible.
 ;===============================================================================
 
-   IF (_PC_ROM_SIZE = 32 && _PC_CDFJ_FF = 0)
+  IF (_PC_ROM_SIZE = 32 && _PC_CDFJ_FF = 0)
          INCBIN "cdfjplus_driver/cdfjplus48A_20220131.bin"
   ENDIF
   IF (_PC_ROM_SIZE = 32 && _PC_CDFJ_FF = 1)

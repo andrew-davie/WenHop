@@ -3,7 +3,7 @@
 // #include "main.h"
 
 // #include "colour.h"
-// #include "defines_cdfj.h"
+// #include "defines_cdfjplus.h"
 // #include "defines_from_dasm_for_c.h"
 
 #if __ENABLE_ATARIVOX

@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include "defines_from_dasm_for_c.h"
+// #include "defines_from_dasm_for_c.h"
 
 #define ENABLE_SOUND 1
 #define ENABLE_SHAKE 1
@@ -61,7 +61,7 @@ struct Animation {
     signed char count;
 };
 
-#define setPointer(fetcher, offset) QPTR[fetcher] = (offset) << 20;
+// #define setPointer(fetcher, offset) _QPTR[fetcher] = (offset) << 20;
 
 #define FLAG_THISFRAME 0x80
 
