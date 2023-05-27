@@ -39,7 +39,7 @@ BASE = main
 SRC = $(BASE)/custom
 BIN = $(BASE)/bin
 
-SRCS =  defines_cdfjplus.c characterset.c	joystick.c	random.c	swipeCircle.c \
+SRCS =  characterset.c	joystick.c	random.c	swipeCircle.c \
 		animations.c	colour.c	main.c		mellon.c \
 		atarivox.c	decodecaves.c	menu.c		score.c \
 		attribute.c	drawplayer.c	scroll.c \
@@ -143,7 +143,7 @@ CUSTOMBIN = $(BIN)/$(CUSTOMNAME).bin
 CUSTOMMAP = $(BIN)/$(CUSTOMNAME).map
 CUSTOMLST = $(BIN)/$(CUSTOMNAME).lst
 CUSTOMLINK = $(SRC)/custom.boot.lds
-CUSTOMOBJS = defines_cdfjplus.o main.o sound.o custom.o attribute.o random.o \
+CUSTOMOBJS =  main.o sound.o custom.o attribute.o random.o \
 	decodecaves.o characterset.o mellon.o cavedata.o drawplayer.o \
 	player.o drawscreen.o colour.o swipeCircle.o score.o \
 	scroll.o animations.o menu.o atarivox.o joystick.o wyrm.o
@@ -182,7 +182,7 @@ clean:
 	rm -f *.o *.i *.s $(BIN)/*.* $(PROJECT).bin $(PROJECT).lst $(PROJECT).sym
 
 # DO NOT DELETE
-defines_cdfjplus.o: defines_cdfjplus.h
+#defines_cdfjplus.o: defines_cdfjplus.h
 characterset.o: main/main.h main/defines_from_dasm_for_c.h main/bitpatterns.h main/characterset.h
 characterset.o: main/scroll.h
 joystick.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/joystick.h
