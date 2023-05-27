@@ -9,7 +9,7 @@ SERIAL_RDYMASK  equ     $02
 
     MAC SPKOUT2
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 
                 lda SWCHA
                 and #SERIAL_RDYMASK     ; buffer full?
@@ -39,7 +39,7 @@ SERIAL_RDYMASK  equ     $02
                 lda #-6                 ; 2 @20
 .wasteCycles    adc #1                  ; 2         C is clear!
                 bcc .wasteCycles        ; 3(2) =5*6 - 1 = 29 loop
-                
+
                 SLEEP 6                 ; @55
 
                 txa                     ; 2 @57

@@ -190,7 +190,7 @@ const unsigned char sampleBubbler[] = {
     // CMD_LOOP,
 };
 
-#if __ENABLE_LAVA2
+#if _ENABLE_LAVA2
 const unsigned char sampleLava[] = {
     3,
     10,
@@ -612,7 +612,7 @@ const struct AudioTable AudioSamples[] = {
     {sampleDrip, 5, 0},                                              // 23 SFX_DRIP2
     {sampleUncover, 2, AUDIO_LOCKED | AUDIO_KILL},                   // 24 SFX_UNCOVER
 
-#if __ENABLE_LAVA2
+#if _ENABLE_LAVA2
     {sampleLava, 2, true}, // 25 SFX_LAVA
 #endif
 };
@@ -621,7 +621,7 @@ bool audioRequest[SFX_MAX];
 
 void initAudio() {
 
-    // #if __ENABLE_ATARIVOX
+    // #if _ENABLE_ATARIVOX
     // RAM[_BUF_SPEECH] = 0xFF;
     // #endif
 
@@ -779,7 +779,7 @@ void playAudio() {
                 break;
             }
 
-#if __ENABLE_LAVA
+#if _ENABLE_LAVA
             case SFX_LAVA: {
 
                 static unsigned char lavaF;
@@ -851,13 +851,13 @@ void playAudio() {
             RAM[_BUF_AUDF + channel] = audF;
             RAM[_BUF_AUDV + channel] = audV;
 
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
             if (!demoMode) {
 #endif
                 sound_volume -= 5;
                 if (sound_volume < 0)
                     sound_volume = 0;
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
             }
 #endif
         }

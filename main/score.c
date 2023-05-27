@@ -142,7 +142,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
 
     unsigned char *dig;
     if (!(digit & 0x40)) {
-        uintptr_t p = (__DIGIT_SHAPE + digit * DIGIT_SIZE);
+        uintptr_t p = (_DIGIT_SHAPE + digit * DIGIT_SIZE);
         dig = (unsigned char *)p;
     } else
         dig = bigDigitBuffer;

@@ -9,21 +9,21 @@
         include "macro.h"
         include "cdfj.h"
 
-__ENABLE_TRAINER = 0
-__ENABLE_ATARIVOX = 0       ; 415 bytes
-__ENABLE_WATER = 0
+_ENABLE_TRAINER = 0
+_ENABLE_ATARIVOX = 0       ; 415 bytes
+_ENABLE_WATER = 0
 
-__ENABLE_LAVA2 = 1
-__ENABLE_WATER2 = 1
+_ENABLE_LAVA2 = 1
+_ENABLE_WATER2 = 1
 
- IF __ENABLE_TRAINER == 1
-__ENABLE_DEMO = 0       ; 260 bytes + joystick data (DO NOT ADJUST)
+ IF _ENABLE_TRAINER == 1
+_ENABLE_DEMO = 0       ; 260 bytes + joystick data (DO NOT ADJUST)
  ELSE
-__ENABLE_DEMO = 0;1       ; 260 bytes + joystick data (adjust this on/off as required)
+_ENABLE_DEMO = 0;1       ; 260 bytes + joystick data (adjust this on/off as required)
 
  ENDIF
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
         include "atarivox/speakjet.h"
     ENDIF
 
@@ -119,12 +119,12 @@ tv_type         ds 1                    ; 0 NTSC, 1 PAL, 2 = PAL-60 3 SECAM  TOD
 kernel          ds 1       ; 0 copyright, 1 menu, 2 game, 3 stats
 currentKernel   ds 1
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 ;spoken          ds 1
 what            ds 1
 ∫    ENDIF
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 highScoreSK         ds 3
 startCave           ds 1        ; cave * 5
 startLevel          ds 1
@@ -180,7 +180,7 @@ SIZEOF_ARM_CODE = * - ARM_CODE
 
 SPEECH_DATA
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 
         include "atarivox/speechData.asm"
 SIZEOF_SPEECH_DATA = * - SPEECH_DATA
@@ -238,7 +238,7 @@ END_OF_INDIRECT_DATA
     echo "FREE C-SPACE = ", [ARM_DIRECT_DATA - *]d, "bytes"
 
 BASE_6507_START SET $73C0+22
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
 BASE_6507_START SET BASE_6507_START
 #endif
 
@@ -353,7 +353,7 @@ SPEECH_TABLE
 
 __WORD_COUNT SET 0
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 
 __WORD_COUNT SET 9
 
@@ -405,7 +405,7 @@ __SPEECH_ADDRESS
 ;    echo "   - COPYRIGHT DATA from", __COPYRIGHT_START, "to", *, "(", (* - __COPYRIGHT_START) , "bytes)"
 
 
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
 
 R = 0
 L = 1
@@ -592,7 +592,7 @@ BUT = 0x80
 
 
 
-__COLOUR_POOL
+_COLOUR_POOL
 ;const unsigned char colourPool[][4] = {
 
     ; NTSC, PAL, SECAM
@@ -601,7 +601,7 @@ __COLOUR_POOL
 ;b4460202
 
 ; __COMPATIBLE_COMPATIBLE_PALETTE = 1
-__PALETTE_COUNT = 16
+_PALETTE_COUNT = 16
 
  ;   dc $14, 0x94, 4, 4
 
@@ -784,736 +784,734 @@ __PALETTE_COUNT = 16
 
 ;    echo "   - CHARACTER SET DATA from", CHAR_BLOCK_START, "to", *, "(", [(* - CHAR_BLOCK2_START)]d , " bytes, ", [(* - CHAR_BLOCK2_START) / CHAR_SIZE]d, "characters)"
 
-B________ = 0
-B_______X = 1
-B______X_ = 2
-B______XX = 3
-B_____X__ = 4
-B_____X_X = 5
-B_____XX_ = 6
-B_____XXX = 7
-B____X___ = 8
-B____X__X = 9
-B____X_X_ = 10
-B____X_XX = 11
-B____XX__ = 12
-B____XX_X = 13
-B____XXX_ = 14
-B____XXXX = 15
-B___X____ = 16
-B___X___X = 17
-B___X__X_ = 18
-B___X__XX = 19
-B___X_X__ = 20
-B___X_X_X = 21
-B___X_XX_ = 22
-B___X_XXX = 23
-B___XX___ = 24
-B___XX__X = 25
-B___XX_X_ = 26
-B___XX_XX = 27
-B___XXX__ = 28
-B___XXX_X = 29
-B___XXXX_ = 30
-B___XXXXX = 31
-B__X_____ = 32
-B__X____X = 33
-B__X___X_ = 34
-B__X___XX = 35
-B__X__X__ = 36
-B__X__X_X = 37
-B__X__XX_ = 38
-B__X__XXX = 39
-B__X_X___ = 40
-B__X_X__X = 41
-B__X_X_X_ = 42
-B__X_X_XX = 43
-B__X_XX__ = 44
-B__X_XX_X = 45
-B__X_XXX_ = 46
-B__X_XXXX = 47
-B__XX____ = 48
-B__XX___X = 49
-B__XX__X_ = 50
-B__XX__XX = 51
-B__XX_X__ = 52
-B__XX_X_X = 53
-B__XX_XX_ = 54
-B__XX_XXX = 55
-B__XXX___ = 56
-B__XXX__X = 57
-B__XXX_X_ = 58
-B__XXX_XX = 59
-B__XXXX__ = 60
-B__XXXX_X = 61
-B__XXXXX_ = 62
-B__XXXXXX = 63
-B_X______ = 64
-B_X_____X = 65
-B_X____X_ = 66
-B_X____XX = 67
-B_X___X__ = 68
-B_X___X_X = 69
-B_X___XX_ = 70
-B_X___XXX = 71
-B_X__X___ = 72
-B_X__X__X = 73
-B_X__X_X_ = 74
-B_X__X_XX = 75
-B_X__XX__ = 76
-B_X__XX_X = 77
-B_X__XXX_ = 78
-B_X__XXXX = 79
-B_X_X____ = 80
-B_X_X___X = 81
-B_X_X__X_ = 82
-B_X_X__XX = 83
-B_X_X_X__ = 84
-B_X_X_X_X = 85
-B_X_X_XX_ = 86
-B_X_X_XXX = 87
-B_X_XX___ = 88
-B_X_XX__X = 89
-B_X_XX_X_ = 90
-B_X_XX_XX = 91
-B_X_XXX__ = 92
-B_X_XXX_X = 93
-B_X_XXXX_ = 94
-B_X_XXXXX = 95
-B_XX_____ = 96
-B_XX____X = 97
-B_XX___X_ = 98
-B_XX___XX = 99
-B_XX__X__ = 100
-B_XX__X_X = 101
-B_XX__XX_ = 102
-B_XX__XXX = 103
-B_XX_X___ = 104
-B_XX_X__X = 105
-B_XX_X_X_ = 106
-B_XX_X_XX = 107
-B_XX_XX__ = 108
-B_XX_XX_X = 109
-B_XX_XXX_ = 110
-B_XX_XXXX = 111
-B_XXX____ = 112
-B_XXX___X = 113
-B_XXX__X_ = 114
-B_XXX__XX = 115
-B_XXX_X__ = 116
-B_XXX_X_X = 117
-B_XXX_XX_ = 118
-B_XXX_XXX = 119
-B_XXXX___ = 120
-B_XXXX__X = 121
-B_XXXX_X_ = 122
-B_XXXX_XX = 123
-B_XXXXX__ = 124
-B_XXXXX_X = 125
-B_XXXXXX_ = 126
-B_XXXXXXX = 127
-BX_______ = 128
-BX______X = 129
-BX_____X_ = 130
-BX_____XX = 131
-BX____X__ = 132
-BX____X_X = 133
-BX____XX_ = 134
-BX____XXX = 135
-BX___X___ = 136
-BX___X__X = 137
-BX___X_X_ = 138
-BX___X_XX = 139
-BX___XX__ = 140
-BX___XX_X = 141
-BX___XXX_ = 142
-BX___XXXX = 143
-BX__X____ = 144
-BX__X___X = 145
-BX__X__X_ = 146
-BX__X__XX = 147
-BX__X_X__ = 148
-BX__X_X_X = 149
-BX__X_XX_ = 150
-BX__X_XXX = 151
-BX__XX___ = 152
-BX__XX__X = 153
-BX__XX_X_ = 154
-BX__XX_XX = 155
-BX__XXX__ = 156
-BX__XXX_X = 157
-BX__XXXX_ = 158
-BX__XXXXX = 159
-BX_X_____ = 160
-BX_X____X = 161
-BX_X___X_ = 162
-BX_X___XX = 163
-BX_X__X__ = 164
-BX_X__X_X = 165
-BX_X__XX_ = 166
-BX_X__XXX = 167
-BX_X_X___ = 168
-BX_X_X__X = 169
-BX_X_X_X_ = 170
-BX_X_X_XX = 171
-BX_X_XX__ = 172
-BX_X_XX_X = 173
-BX_X_XXX_ = 174
-BX_X_XXXX = 175
-BX_XX____ = 176
-BX_XX___X = 177
-BX_XX__X_ = 178
-BX_XX__XX = 179
-BX_XX_X__ = 180
-BX_XX_X_X = 181
-BX_XX_XX_ = 182
-BX_XX_XXX = 183
-BX_XXX___ = 184
-BX_XXX__X = 185
-BX_XXX_X_ = 186
-BX_XXX_XX = 187
-BX_XXXX__ = 188
-BX_XXXX_X = 189
-BX_XXXXX_ = 190
-BX_XXXXXX = 191
-BXX______ = 192
-BXX_____X = 193
-BXX____X_ = 194
-BXX____XX = 195
-BXX___X__ = 196
-BXX___X_X = 197
-BXX___XX_ = 198
-BXX___XXX = 199
-BXX__X___ = 200
-BXX__X__X = 201
-BXX__X_X_ = 202
-BXX__X_XX = 203
-BXX__XX__ = 204
-BXX__XX_X = 205
-BXX__XXX_ = 206
-BXX__XXXX = 207
-BXX_X____ = 208
-BXX_X___X = 209
-BXX_X__X_ = 210
-BXX_X__XX = 211
-BXX_X_X__ = 212
-BXX_X_X_X = 213
-BXX_X_XX_ = 214
-BXX_X_XXX = 215
-BXX_XX___ = 216
-BXX_XX__X = 217
-BXX_XX_X_ = 218
-BXX_XX_XX = 219
-BXX_XXX__ = 220
-BXX_XXX_X = 221
-BXX_XXXX_ = 222
-BXX_XXXXX = 223
-BXXX_____ = 224
-BXXX____X = 225
-BXXX___X_ = 226
-BXXX___XX = 227
-BXXX__X__ = 228
-BXXX__X_X = 229
-BXXX__XX_ = 230
-BXXX__XXX = 231
-BXXX_X___ = 232
-BXXX_X__X = 233
-BXXX_X_X_ = 234
-BXXX_X_XX = 235
-BXXX_XX__ = 236
-BXXX_XX_X = 237
-BXXX_XXX_ = 238
-BXXX_XXXX = 239
-BXXXX____ = 240
-BXXXX___X = 241
-BXXXX__X_ = 242
-BXXXX__XX = 243
-BXXXX_X__ = 244
-BXXXX_X_X = 245
-BXXXX_XX_ = 246
-BXXXX_XXX = 247
-BXXXXX___ = 248
-BXXXXX__X = 249
-BXXXXX_X_ = 250
-BXXXXX_XX = 251
-BXXXXXX__ = 252
-BXXXXXX_X = 253
-BXXXXXXX_ = 254
-BXXXXXXXX = 255
+________ = 0
+_______X = 1
+______X_ = 2
+______XX = 3
+_____X__ = 4
+_____X_X = 5
+_____XX_ = 6
+_____XXX = 7
+____X___ = 8
+____X__X = 9
+____X_X_ = 10
+____X_XX = 11
+____XX__ = 12
+____XX_X = 13
+____XXX_ = 14
+____XXXX = 15
+___X____ = 16
+___X___X = 17
+___X__X_ = 18
+___X__XX = 19
+___X_X__ = 20
+___X_X_X = 21
+___X_XX_ = 22
+___X_XXX = 23
+___XX___ = 24
+___XX__X = 25
+___XX_X_ = 26
+___XX_XX = 27
+___XXX__ = 28
+___XXX_X = 29
+___XXXX_ = 30
+___XXXXX = 31
+__X_____ = 32
+__X____X = 33
+__X___X_ = 34
+__X___XX = 35
+__X__X__ = 36
+__X__X_X = 37
+__X__XX_ = 38
+__X__XXX = 39
+__X_X___ = 40
+__X_X__X = 41
+__X_X_X_ = 42
+__X_X_XX = 43
+__X_XX__ = 44
+__X_XX_X = 45
+__X_XXX_ = 46
+__X_XXXX = 47
+__XX____ = 48
+__XX___X = 49
+__XX__X_ = 50
+__XX__XX = 51
+__XX_X__ = 52
+__XX_X_X = 53
+__XX_XX_ = 54
+__XX_XXX = 55
+__XXX___ = 56
+__XXX__X = 57
+__XXX_X_ = 58
+__XXX_XX = 59
+__XXXX__ = 60
+__XXXX_X = 61
+__XXXXX_ = 62
+__XXXXXX = 63
+_X______ = 64
+_X_____X = 65
+_X____X_ = 66
+_X____XX = 67
+_X___X__ = 68
+_X___X_X = 69
+_X___XX_ = 70
+_X___XXX = 71
+_X__X___ = 72
+_X__X__X = 73
+_X__X_X_ = 74
+_X__X_XX = 75
+_X__XX__ = 76
+_X__XX_X = 77
+_X__XXX_ = 78
+_X__XXXX = 79
+_X_X____ = 80
+_X_X___X = 81
+_X_X__X_ = 82
+_X_X__XX = 83
+_X_X_X__ = 84
+_X_X_X_X = 85
+_X_X_XX_ = 86
+_X_X_XXX = 87
+_X_XX___ = 88
+_X_XX__X = 89
+_X_XX_X_ = 90
+_X_XX_XX = 91
+_X_XXX__ = 92
+_X_XXX_X = 93
+_X_XXXX_ = 94
+_X_XXXXX = 95
+_XX_____ = 96
+_XX____X = 97
+_XX___X_ = 98
+_XX___XX = 99
+_XX__X__ = 100
+_XX__X_X = 101
+_XX__XX_ = 102
+_XX__XXX = 103
+_XX_X___ = 104
+_XX_X__X = 105
+_XX_X_X_ = 106
+_XX_X_XX = 107
+_XX_XX__ = 108
+_XX_XX_X = 109
+_XX_XXX_ = 110
+_XX_XXXX = 111
+_XXX____ = 112
+_XXX___X = 113
+_XXX__X_ = 114
+_XXX__XX = 115
+_XXX_X__ = 116
+_XXX_X_X = 117
+_XXX_XX_ = 118
+_XXX_XXX = 119
+_XXXX___ = 120
+_XXXX__X = 121
+_XXXX_X_ = 122
+_XXXX_XX = 123
+_XXXXX__ = 124
+_XXXXX_X = 125
+_XXXXXX_ = 126
+_XXXXXXX = 127
+X_______ = 128
+X______X = 129
+X_____X_ = 130
+X_____XX = 131
+X____X__ = 132
+X____X_X = 133
+X____XX_ = 134
+X____XXX = 135
+X___X___ = 136
+X___X__X = 137
+X___X_X_ = 138
+X___X_XX = 139
+X___XX__ = 140
+X___XX_X = 141
+X___XXX_ = 142
+X___XXXX = 143
+X__X____ = 144
+X__X___X = 145
+X__X__X_ = 146
+X__X__XX = 147
+X__X_X__ = 148
+X__X_X_X = 149
+X__X_XX_ = 150
+X__X_XXX = 151
+X__XX___ = 152
+X__XX__X = 153
+X__XX_X_ = 154
+X__XX_XX = 155
+X__XXX__ = 156
+X__XXX_X = 157
+X__XXXX_ = 158
+X__XXXXX = 159
+X_X_____ = 160
+X_X____X = 161
+X_X___X_ = 162
+X_X___XX = 163
+X_X__X__ = 164
+X_X__X_X = 165
+X_X__XX_ = 166
+X_X__XXX = 167
+X_X_X___ = 168
+X_X_X__X = 169
+X_X_X_X_ = 170
+X_X_X_XX = 171
+X_X_XX__ = 172
+X_X_XX_X = 173
+X_X_XXX_ = 174
+X_X_XXXX = 175
+X_XX____ = 176
+X_XX___X = 177
+X_XX__X_ = 178
+X_XX__XX = 179
+X_XX_X__ = 180
+X_XX_X_X = 181
+X_XX_XX_ = 182
+X_XX_XXX = 183
+X_XXX___ = 184
+X_XXX__X = 185
+X_XXX_X_ = 186
+X_XXX_XX = 187
+X_XXXX__ = 188
+X_XXXX_X = 189
+X_XXXXX_ = 190
+X_XXXXXX = 191
+XX______ = 192
+XX_____X = 193
+XX____X_ = 194
+XX____XX = 195
+XX___X__ = 196
+XX___X_X = 197
+XX___XX_ = 198
+XX___XXX = 199
+XX__X___ = 200
+XX__X__X = 201
+XX__X_X_ = 202
+XX__X_XX = 203
+XX__XX__ = 204
+XX__XX_X = 205
+XX__XXX_ = 206
+XX__XXXX = 207
+XX_X____ = 208
+XX_X___X = 209
+XX_X__X_ = 210
+XX_X__XX = 211
+XX_X_X__ = 212
+XX_X_X_X = 213
+XX_X_XX_ = 214
+XX_X_XXX = 215
+XX_XX___ = 216
+XX_XX__X = 217
+XX_XX_X_ = 218
+XX_XX_XX = 219
+XX_XXX__ = 220
+XX_XXX_X = 221
+XX_XXXX_ = 222
+XX_XXXXX = 223
+XXX_____ = 224
+XXX____X = 225
+XXX___X_ = 226
+XXX___XX = 227
+XXX__X__ = 228
+XXX__X_X = 229
+XXX__XX_ = 230
+XXX__XXX = 231
+XXX_X___ = 232
+XXX_X__X = 233
+XXX_X_X_ = 234
+XXX_X_XX = 235
+XXX_XX__ = 236
+XXX_XX_X = 237
+XXX_XXX_ = 238
+XXX_XXXX = 239
+XXXX____ = 240
+XXXX___X = 241
+XXXX__X_ = 242
+XXXX__XX = 243
+XXXX_X__ = 244
+XXXX_X_X = 245
+XXXX_XX_ = 246
+XXXX_XXX = 247
+XXXXX___ = 248
+XXXXX__X = 249
+XXXXX_X_ = 250
+XXXXX_XX = 251
+XXXXXX__ = 252
+XXXXXX_X = 253
+XXXXXXX_ = 254
+XXXXXXXX = 255
+
+_DIGIT_SHAPE
+
+       dc __X__X__
+       dc __X_XXX_
+       dc _XX_XXX_
+       dc _XX_XXX_
+       dc _XX_X_X_
+       dc _XX_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc __X__X__
+       dc ________
 
 
-
-__DIGIT_SHAPE
-
-       dc B__X__X__
-       dc B__X_XXX_
-       dc B_XX_XXX_
-       dc B_XX_XXX_
-       dc B_XX_X_X_
-       dc B_XX_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B__X__X__
-       dc B________
+       dc _X___X__
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc X_X_X_X_
+       dc __X___X_
+       dc __X___X_
+       dc _XX___X_
+       dc _X___XX_
+       dc _XX_XXX_
+       dc _XX_XX__
+       dc __X_X___
+       dc __X_X___
+       dc X_X_X_X_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc _X__XXX_
+       dc ________
 
 
-       dc B_X___X__
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BX_X_X_X_
-       dc B__X___X_
-       dc B__X___X_
-       dc B_XX___X_
-       dc B_X___XX_
-       dc B_XX_XXX_
-       dc B_XX_XX__
-       dc B__X_X___
-       dc B__X_X___
-       dc BX_X_X_X_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc B_X__XXX_
-       dc B________
+       dc XXX_X___
+       dc XXX_X___
+       dc XXX_X___
+       dc X_X_X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc XX__X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_XXX_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc X_X_XXX_
+       dc X_X___X_
+       dc XXX___X_
+       dc XXX___X_
+       dc XXX___X_
+       dc XXX___X_
+       dc _X____X_
+       dc ________
 
 
-       dc BXXX_X___
-       dc BXXX_X___
-       dc BXXX_X___
-       dc BX_X_X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BXX__X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_XXX_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc BX_X_XXX_
-       dc BX_X___X_
-       dc BXXX___X_
-       dc BXXX___X_
-       dc BXXX___X_
-       dc BXXX___X_
-       dc B_X____X_
-       dc B________
+       dc XXX__X__
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc X_X_X_X_
+       dc __X_X___
+       dc __X_XX__
+       dc __X_XXX_
+       dc __X_XXX_
+       dc _XX_XXX_
+       dc _X__X_X_
+       dc _X__X_X_
+       dc _X__X_X_
+       dc _X__X_X_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X___X__
+       dc ________
 
 
-       dc BXXX__X__
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BX_X_X_X_
-       dc B__X_X___
-       dc B__X_XX__
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B_XX_XXX_
-       dc B_X__X_X_
-       dc B_X__X_X_
-       dc B_X__X_X_
-       dc B_X__X_X_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X___X__
-       dc B________
+       dc _X___X__
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_XXX_
+       dc XXX__X__
+       dc XXX__X__
+       dc _XX_XXX_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc X_X_X_X_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc _X___X__
+       dc ________
 
 
-       dc B_X___X__
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_XXX_
-       dc BXXX__X__
-       dc BXXX__X__
-       dc B_XX_XXX_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc BX_X_X_X_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc B_X___X__
-       dc B________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
 
 
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
+    ;    dc _X___X__
+    ;    dc _X___X__
+    ;    dc _X___X__
+    ;    dc _X______
+    ;    dc _X__XXX_
+    ;    dc _X__XXX_
+    ;    dc _X__XXX_
+    ;    dc _X__XXX_
+    ;    dc _X___X__
+    ;    dc _X___X__
+    ;    dc _X___X__
+    ;    dc _____X__
+    ;    dc ____X_X_
+    ;    dc ____X_X_
+    ;    dc _X__X_X_
+    ;    dc _X__X_X_
+    ;    dc _X__X_X_
+    ;    dc ________
+    ;    dc ________
+    ;    dc ________
 
 
-    ;    dc B_X___X__
-    ;    dc B_X___X__
-    ;    dc B_X___X__
-    ;    dc B_X______
-    ;    dc B_X__XXX_
-    ;    dc B_X__XXX_
-    ;    dc B_X__XXX_
-    ;    dc B_X__XXX_
-    ;    dc B_X___X__
-    ;    dc B_X___X__
-    ;    dc B_X___X__
-    ;    dc B_____X__
-    ;    dc B____X_X_
-    ;    dc B____X_X_
-    ;    dc B_X__X_X_
-    ;    dc B_X__X_X_
-    ;    dc B_X__X_X_
-    ;    dc B________
-    ;    dc B________
-    ;    dc B________
+       dc ___XXX__
+       dc ___XXX__
+       dc ___XXX__
+       dc ___X_XX_
+       dc ___X__X_
+       dc ___X__X_
+       dc __XXX_X_
+       dc __XXX_X_
+       dc __XXX_X_
+       dc __XXX_X_
+       dc __XXX_X_
+       dc __XXX_X_
+       dc ___X__X_
+       dc ___X__X_
+       dc ___X_XX_
+       dc ___XXX__
+       dc ___XXX__
+       dc ___XXX__
+       dc ________
+       dc ________
 
 
-       dc B___XXX__
-       dc B___XXX__
-       dc B___XXX__
-       dc B___X_XX_
-       dc B___X__X_
-       dc B___X__X_
-       dc B__XXX_X_
-       dc B__XXX_X_
-       dc B__XXX_X_
-       dc B__XXX_X_
-       dc B__XXX_X_
-       dc B__XXX_X_
-       dc B___X__X_
-       dc B___X__X_
-       dc B___X_XX_
-       dc B___XXX__
-       dc B___XXX__
-       dc B___XXX__
-       dc B________
-       dc B________
+       dc XX___X__
+       dc XXX__X__
+       dc XXX__X__
+       dc XXX_XXX_
+       dc X_X_XXX_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc XXX_X_X_
+       dc XX__X_X_
+       dc XXX_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XX__X_X_
+       dc ________
 
 
-       dc BXX___X__
-       dc BXXX__X__
-       dc BXXX__X__
-       dc BXXX_XXX_
-       dc BX_X_XXX_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BXXX_X_X_
-       dc BXX__X_X_
-       dc BXXX_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXX__X_X_
-       dc B________
+       dc X____XX_
+       dc XX___XX_
+       dc XX__XXX_
+       dc XXX_XXX_
+       dc XXX_XX__
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X_X_
+       dc X_X_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XX___XX_
+       dc ________
 
 
-       dc BX____XX_
-       dc BXX___XX_
-       dc BXX__XXX_
-       dc BXXX_XXX_
-       dc BXXX_XX__
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X_X_
-       dc BX_X_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXX___XX_
-       dc B________
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc X___X___
+       dc X___X___
+       dc X___XX__
+       dc X___XX__
+       dc XX__XX__
+       dc XX__XX__
+       dc XX__X___
+       dc XX__X___
+       dc X___X___
+       dc X___XXX_
+       dc X___XXX_
+       dc X___XXX_
+       dc X___XXX_
+       dc X___XXX_
+       dc X___XXX_
+       dc ________
 
 
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BX___X___
-       dc BX___X___
-       dc BX___XX__
-       dc BX___XX__
-       dc BXX__XX__
-       dc BXX__XX__
-       dc BXX__X___
-       dc BXX__X___
-       dc BX___X___
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc B________
+       dc X_X__X__
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_X_X_
+       dc X_X_X___
+       dc X_X_X___
+       dc X_X_X___
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X__XX_
+       dc ________
+
+       dc __X_XXX_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc __X__X__
+       dc __X__X__
+       dc __X__X__
+       dc __X__X__
+       dc __X__X__
+       dc __X__X__
+       dc __X__X__
+       dc __X__X__
+       dc X_X__X__
+       dc X_X_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc _X__XXX_
+       dc ________
+
+       dc X___X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc X___XXX_
+       dc X___XX__
+       dc X___XX__
+       dc X___XX__
+       dc X___XX__
+       dc X___XXX_
+       dc X_X_XXX_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc ________
+
+    ;    dc XX__X_X_
+    ;    dc XX__X_X_
+    ;    dc XX__X_X_
+    ;    dc XXX_XXX_
+    ;    dc XXX_XXX_
+    ;    dc XXX_XXX_
+    ;    dc XXX_XXX_
+    ;    dc X_X_XXX_
+    ;    dc X_X_XXX_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+    ;    dc X_X_X_X_
+
+       dc __X_X_X_
+       dc __X_X_X_
+       dc X_X_X_X_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc X___X_X_
+       dc ________
 
 
-       dc BX_X__X__
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_X_X_
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BX_X_X___
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X__XX_
-       dc B________
+       dc XX___X__
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XX__X_X_
+       dc X___XXX_
+       dc X___XXX_
+       dc X___XXX_
+       dc X___XXX_
+       dc X____X__
+       dc ________
 
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B__X__X__
-       dc B__X__X__
-       dc B__X__X__
-       dc B__X__X__
-       dc B__X__X__
-       dc B__X__X__
-       dc B__X__X__
-       dc B__X__X__
-       dc BX_X__X__
-       dc BX_X_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc B_X__XXX_
-       dc B________
+       dc XX___X__
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XX__X_X_
+       dc XX__X_X_
+       dc XXX_X_X_
+       dc XXX_X___
+       dc X_X_X_X_
+       dc X_X_X_XX
+       dc X_X_XXXX
+       dc X_X_XXXX
+       dc X_X_XX_X
+       dc X_X__X_X
+       dc ________
 
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BX___XXX_
-       dc BX___XX__
-       dc BX___XX__
-       dc BX___XX__
-       dc BX___XX__
-       dc BX___XXX_
-       dc BX_X_XXX_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc B________
+       dc XXX__XX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc XXX_X_X_
+       dc XX__X___
+       dc _X__XX__
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X___XX_
+       dc _X____X_
+       dc _X____X_
+       dc _X____X_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XX__
+       dc ________
 
-    ;    dc BXX__X_X_
-    ;    dc BXX__X_X_
-    ;    dc BXX__X_X_
-    ;    dc BXXX_XXX_
-    ;    dc BXXX_XXX_
-    ;    dc BXXX_XXX_
-    ;    dc BXXX_XXX_
-    ;    dc BX_X_XXX_
-    ;    dc BX_X_XXX_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
-    ;    dc BX_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X__XXX_
+       dc _X___X__
+       dc ________
 
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc BX___X_X_
-       dc B________
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc _X__X_X_
+       dc _X__X_X_
+       dc _X__X_X_
+       dc XXX_XXX_
+       dc XXX_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_XXX_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc X_X_X_X_
+       dc ________
 
-
-       dc BXX___X__
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXX__X_X_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX___XXX_
-       dc BX____X__
-       dc B________
-
-       dc BXX___X__
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXX__X_X_
-       dc BXX__X_X_
-       dc BXXX_X_X_
-       dc BXXX_X___
-       dc BX_X_X_X_
-       dc BX_X_X_XX
-       dc BX_X_XXXX
-       dc BX_X_XXXX
-       dc BX_X_XX_X
-       dc BX_X__X_X
-       dc B________
-
-       dc BXXX__XX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BXXX_X_X_
-       dc BXX__X___
-       dc B_X__XX__
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X___XX_
-       dc B_X____X_
-       dc B_X____X_
-       dc B_X____X_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XX__
-       dc B________
-
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X__XXX_
-       dc B_X___X__
-       dc B________
-
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc B_X__X_X_
-       dc B_X__X_X_
-       dc B_X__X_X_
-       dc BXXX_XXX_
-       dc BXXX_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_XXX_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc BX_X_X_X_
-       dc B________
-
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc BXXX_X_X_
-       dc B__X_X_X_
-       dc B__X_X_X_
-       dc B__X_XXX_
-       dc B__X_XXX_
-       dc B_XX_XXX_
-       dc BXXX_XXX_
-       dc BXXX__X__
-       dc BXX___X__
-       dc BX____X__
-       dc BX____X__
-       dc BX____X__
-       dc BX____X__
-       dc BXXX__X__
-       dc BXXX__X__
-       dc BXXX__X__
-       dc B________
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc XXX_X_X_
+       dc __X_X_X_
+       dc __X_X_X_
+       dc __X_XXX_
+       dc __X_XXX_
+       dc _XX_XXX_
+       dc XXX_XXX_
+       dc XXX__X__
+       dc XX___X__
+       dc X____X__
+       dc X____X__
+       dc X____X__
+       dc X____X__
+       dc XXX__X__
+       dc XXX__X__
+       dc XXX__X__
+       dc ________
 
     ;    dc ________
     ;    dc ________
@@ -1535,22 +1533,22 @@ __DIGIT_SHAPE
     ;    dc X_______
 
 
-;    echo "   - 3PIX DIGIT SHAPES from", __DIGIT_SHAPE, "to", *, "(", [(* - __DIGIT_SHAPE)]d , " bytes"
+;    echo "   - 3PIX DIGIT SHAPES from", _DIGIT_SHAPE, "to", *, "(", [(* - _DIGIT_SHAPE)]d , " bytes"
 
 
 ;███████████████████████████████████████████████████████████████████████████████
 
-__TITLE_SCREEN
+_TITLE_SCREEN
 
     include "titleData.asm"
 
-;    echo "   - TITLE SCREEN  from", __TITLE_SCREEN, "to", *, "(", (* - __TITLE_SCREEN) , "bytes)"
+;    echo "   - TITLE SCREEN  from", _TITLE_SCREEN, "to", *, "(", (* - _TITLE_SCREEN) , "bytes)"
 
 
 
 
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 
 speakJet
 
@@ -1972,7 +1970,7 @@ KernelGame
                     ldx #0
                     stx NUSIZ0
                     stx NUSIZ1
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 ;                    stx spoken
     ENDIF
 
@@ -1994,7 +1992,7 @@ OverScan
                     sta TIM64T              ; set timer for OS
 
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
          jsr speakJet
     ENDIF
 
@@ -2137,7 +2135,7 @@ DivideLoop3         sbc #15
 
 GameVB
 
-    ; IF __ENABLE_ATARIVOX
+    ; IF _ENABLE_ATARIVOX
     ;     jsr speakJet
     ; ENDIF
 
@@ -2169,7 +2167,7 @@ InitSystem
                     stx SETMODE             ; <-- x=0   "Fast Fetch" enable
                     ;stx kernel              ; "copyright" ==0 by sys clear
 
-    ; #if __ENABLE_ATARIVOX
+    ; #if _ENABLE_ATARIVOX
     ;     ldx #$FF
     ;     stx _BUF_SPEECH ;tmp
     ; #endif
@@ -2288,7 +2286,7 @@ _BOARD              ds _BOARD_COLS * _BOARD_ROWS + 4    ; extra for grab+1 in dr
 
 
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
 _BUF_SPEECH         ds 1
     ENDIF
 ;------------------------------------------------------------------------------

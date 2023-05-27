@@ -42,7 +42,7 @@ thisKernel
                     sta AUDF1
 
 
-    IF __ENABLE_ATARIVOX
+    IF _ENABLE_ATARIVOX
         jsr speakJet
     ENDIF
 
@@ -86,7 +86,7 @@ VerticalSyncMenu
 
 
 
-    ; IF __ENABLE_ATARIVOX
+    ; IF _ENABLE_ATARIVOX
     ;     jsr speakJet
     ; ENDIF
 

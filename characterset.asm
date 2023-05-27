@@ -68,7 +68,7 @@ YY = %11000000
 
 
 
-__CHAR_LADDER_0
+_CHAR_LADDER_0
 
     dc XX | __ | XXXX ; 00 <
     dc XX | YY | XXXX ; 01
@@ -93,7 +93,7 @@ __CHAR_LADDER_0
     dc           X__X ; 20
 
 
-__CHAR_LADDER_1
+_CHAR_LADDER_1
 
     dc XX | __ | X__X ; 00 <
     dc XX | YY | X__X ; 01
@@ -117,7 +117,7 @@ __CHAR_LADDER_1
     dc           X__X ; 19
     dc           X__X ; 20
 
-__CHAR_LADDER_2
+_CHAR_LADDER_2
 
     dc XX | __ | X__X ; 00 <
     dc XX | YY | X__X ; 01
@@ -142,8 +142,8 @@ __CHAR_LADDER_2
     dc           X__X ; 20
 
 
-__CHAR_ROCK
-__CHAR_ROCK_SHAKE
+_CHAR_ROCK
+_CHAR_ROCK_SHAKE
 
     dc __XX_ ; 00 <
     dc _____ ; 01
@@ -177,7 +177,7 @@ __CHAR_ROCK_SHAKE
     dc _XXX_ ; 29
 
 
-__CHAR_GEODOGE
+_CHAR_GEODOGE
 
     dc __XX_ ; 00 <
     dc __XX_ ; 01
@@ -213,7 +213,7 @@ __CHAR_GEODOGE
 
 
 
-__CHAR_ROCK_U
+_CHAR_ROCK_U
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -248,7 +248,7 @@ __CHAR_ROCK_U
 
 
 
-__CHAR_ROCK_R
+_CHAR_ROCK_R
 
     dc __XXX ; 00 <
     dc __XXX ; 01
@@ -282,7 +282,7 @@ __CHAR_ROCK_R
     dc _____ ; 29
 
 
-__CHAR_ROCK_D
+_CHAR_ROCK_D
 
     dc __XX_ ; 00 <
     dc __XX_ ; 01
@@ -317,7 +317,7 @@ __CHAR_ROCK_D
 
 
 
-__CHAR_ROCK_L
+_CHAR_ROCK_L
 
     dc XXXX_ ; 00 <
     dc XXXX_ ; 01
@@ -352,7 +352,7 @@ __CHAR_ROCK_L
 
 
 
-__CHAR_ROCK_UR
+_CHAR_ROCK_UR
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -387,7 +387,7 @@ __CHAR_ROCK_UR
 
 
 
-__CHAR_ROCK_UD
+_CHAR_ROCK_UD
 
     dc ____X ; 00 <
     dc XX_XX ; 01
@@ -421,7 +421,7 @@ __CHAR_ROCK_UD
     dc __X__ ; 29
 
 
-__CHAR_ROCK_UL
+_CHAR_ROCK_UL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -455,7 +455,7 @@ __CHAR_ROCK_UL
     dc _____ ; 29
 
 
-__CHAR_ROCK_RD
+_CHAR_ROCK_RD
 
     dc __XXX ; 00 <
     dc __XXX ; 01
@@ -489,7 +489,7 @@ __CHAR_ROCK_RD
     dc __X__ ; 29
 
 
-__CHAR_ROCK_RL
+_CHAR_ROCK_RL
 
     dc XXXXX ; 00 <
     dc XXXXX ; 01
@@ -522,7 +522,7 @@ __CHAR_ROCK_RL
     dc XXXXX ; 28
     dc _____ ; 29
 
-__CHAR_ROCK_DL
+_CHAR_ROCK_DL
 
     dc XXXX_ ; 00 <
     dc XXXX_ ; 01
@@ -556,7 +556,7 @@ __CHAR_ROCK_DL
     dc __X__ ; 29
 
 
-__CHAR_ROCK_URD
+_CHAR_ROCK_URD
 
     dc X____ ; 00 <
     dc XX_XX ; 01
@@ -590,7 +590,7 @@ __CHAR_ROCK_URD
     dc __X__ ; 29
 
 
-__CHAR_ROCK_URL
+_CHAR_ROCK_URL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -623,7 +623,7 @@ __CHAR_ROCK_URL
     dc XXXXX ; 28
     dc _____ ; 29
 
-__CHAR_ROCK_UDL
+_CHAR_ROCK_UDL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -656,7 +656,7 @@ __CHAR_ROCK_UDL
     dc XX_XX ; 28
     dc __X__ ; 29
 
-__CHAR_ROCK_RDL
+_CHAR_ROCK_RDL
 
     dc XXXXX ; 00 <
     dc XXXXX ; 01
@@ -689,7 +689,7 @@ __CHAR_ROCK_RDL
     dc XX_XX ; 28
     dc __X__ ; 29
 
-__CHAR_ROCK_URDL
+_CHAR_ROCK_URDL
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -722,7 +722,7 @@ __CHAR_ROCK_URDL
     dc XX_XX ; 28
     dc __X__ ; 29
 
-__CHAR_ROCK_URDL2
+_CHAR_ROCK_URDL2
 
     dc _____ ; 00 <
     dc XX_XX ; 01
@@ -787,7 +787,7 @@ CHAR_BLOCK2_START
 
 
 
-__CHAR_SPARKLE_0
+_CHAR_SPARKLE_0
 
 ;     dc X_ | __ | ____ ; 00 <
 ;     dc X_ | __ | ____ ; 01
@@ -812,7 +812,7 @@ __CHAR_SPARKLE_0
 ;    dc           ____ ; 20
 
 
-__CHAR_SPARKLE_1
+_CHAR_SPARKLE_1
 
 ;     dc __ | __ | ____ ; 00 <
 ;     dc __ | __ | ____ ; 01
@@ -837,7 +837,7 @@ __CHAR_SPARKLE_1
 ;    dc           ____ ; 20
 
 
-__CHAR_SPARKLE_2
+_CHAR_SPARKLE_2
 
     dc _X | __ | ____ ; 00 <
     dc _X | __ | ____ ; 01
@@ -862,7 +862,7 @@ __CHAR_SPARKLE_2
 ;    dc           ____ ; 20
 
 
-__CHAR_SPARKLE_3
+_CHAR_SPARKLE_3
 
     dc __ | _Y | ____ ; 00 <
     dc __ | _Y | ____ ; 01
@@ -889,7 +889,7 @@ __CHAR_SPARKLE_3
 
 
 
-__CHAR_PEBBLE2
+_CHAR_PEBBLE2
 
      dc XXXXX ; 00 <
      dc _____ ; 01
@@ -923,7 +923,7 @@ __CHAR_PEBBLE2
      dc _____ ; 29
 
 
-__CHAR_STEELWALL
+_CHAR_STEELWALL
 
      dc XXXXX ; 00 <
      dc _____ ; 01
@@ -958,7 +958,7 @@ __CHAR_STEELWALL
 
 
 
-__CHAR_DIRT
+_CHAR_DIRT
 
     dc XXXXX ; 00 <
     dc _____ ; 01
@@ -992,7 +992,7 @@ __CHAR_DIRT
     dc _____ ; 29
 
 
-__CHAR_BRICKWALL
+_CHAR_BRICKWALL
 
      dc X_ | _Y | ____ ; 00 <
      dc X_ | _Y | XXX_ ; 01
@@ -1033,7 +1033,7 @@ __CHAR_BRICKWALL
 
 
 
-__CHAR_EXPLODETO_0
+_CHAR_EXPLODETO_0
 
     ;  dc __ | _Y | __X_ ; 00 <
     ;  dc XX | _Y | X_X_ ; 01
@@ -1061,7 +1061,7 @@ __CHAR_EXPLODETO_0
 
 
 
-__CHAR_EXPLODETO_1
+_CHAR_EXPLODETO_1
 
     ;  dc XX | __ | ____ ; 00 <
     ;  dc __ | Y_ | _X__ ; 01
@@ -1088,7 +1088,7 @@ __CHAR_EXPLODETO_1
 
 
 
-__CHAR_EXPLODETO_3
+_CHAR_EXPLODETO_3
 
      dc XX | _Y | ____ ; 00 <
      dc XX | _Y | X___ ; 01
@@ -1115,7 +1115,7 @@ __CHAR_EXPLODETO_3
 
 
 
-__CHAR_EXPLODETO_4
+_CHAR_EXPLODETO_4
 
      dc __ | __ | ____ ; 00 <
      dc __ | __ | ____ ; 01
@@ -1142,7 +1142,7 @@ __CHAR_EXPLODETO_4
 
 
 
-__CHAR_EXPLODETO_2
+_CHAR_EXPLODETO_2
 
      dc XX | __ | __X_ ; 00 <
      dc XX | __ | __X_ ; 01
@@ -1170,7 +1170,7 @@ __CHAR_EXPLODETO_2
 
 
 
-; __CHAR_DIRT_GRABBED
+; _CHAR_DIRT_GRABBED
 
 ;      dc XX | __ | ____ ; 00 <
 ;      dc __ | __ | ____ ; 01
@@ -1196,9 +1196,9 @@ __CHAR_EXPLODETO_2
 
 
 
-__CHAR_DUST_ROCK_0
+_CHAR_DUST_ROCK_0
  dc 0
-__CHAR_DUST_0
+_CHAR_DUST_0
 
      dc _____ ; 24 <
      dc _____ ; 25
@@ -1231,9 +1231,9 @@ __CHAR_DUST_0
      dc _____ ; 22
      dc _____ ; 23
 
-__CHAR_DUST_ROCK_1
+_CHAR_DUST_ROCK_1
  dc 0
-__CHAR_DUST_1
+_CHAR_DUST_1
 
 
      dc _____ ; 27
@@ -1269,10 +1269,10 @@ __CHAR_DUST_1
 
 
 
-__CHAR_DUST_ROCK_2
+_CHAR_DUST_ROCK_2
  dc 0
 
-__CHAR_DUST_2
+_CHAR_DUST_2
 
 
 
@@ -1310,7 +1310,7 @@ __CHAR_DUST_2
 
 ;     dc           ____ ; 20
 
-__CHAR_PARALLAX_TEMPLATE        ; squished in here - careful about count above/below chars
+_CHAR_PARALLAX_TEMPLATE        ; squished in here - careful about count above/below chars
 
     ;  dc   %00000000 ;,  // 00
     ;  dc   %00010001 ;, // 01
@@ -1335,7 +1335,7 @@ __CHAR_PARALLAX_TEMPLATE        ; squished in here - careful about count above/b
 ;        ________, // 20
 
 
-__CHAR_DUST_RIGHT_1
+_CHAR_DUST_RIGHT_1
      dc _____ ; 00 <
      dc _____ ; 01
      dc _____ ; 02
@@ -1369,7 +1369,7 @@ __CHAR_DUST_RIGHT_1
 
 
 
-__CHAR_DUST_LEFT_1
+_CHAR_DUST_LEFT_1
 
      dc ____ ; 00 <
      dc ____ ; 01
@@ -1403,7 +1403,7 @@ __CHAR_DUST_LEFT_1
      dc ____ ; 29 <
 
 
-__CHAR_DOGE_00 ; doged
+_CHAR_DOGE_00 ; doged
 
      dc _____ ; 00 <
      dc _____ ; 01
@@ -1436,7 +1436,7 @@ __CHAR_DOGE_00 ; doged
      ; dc _____ ; 28
      ; dc _____ ; 29
 
-__CHAR_DOGE_01 ; doged
+_CHAR_DOGE_01 ; doged
 
      dc _____ ; 00 <
      dc _____ ; 01
@@ -1469,7 +1469,7 @@ __CHAR_DOGE_01 ; doged
      ; dc _____ ; 28
      ; dc _____ ; 29
 
-__CHAR_DOGE_02 ;doged
+_CHAR_DOGE_02 ;doged
 
      dc _____ ; 00 <
      dc _____ ; 01
@@ -1502,7 +1502,7 @@ __CHAR_DOGE_02 ;doged
      ; dc _____ ; 28
      ; dc _____ ; 29
 
-__CHAR_DOGE_03 ; doged
+_CHAR_DOGE_03 ; doged
 
      dc _____ ; 00 <
      dc _____ ; 01
@@ -1535,7 +1535,7 @@ __CHAR_DOGE_03 ; doged
      ; dc _____ ; 28
      ; dc _____ ; 29
 
-__CHAR_DOGE_04 ; doged
+_CHAR_DOGE_04 ; doged
 
      dc _____ ; 00 <
      dc _____ ; 01
@@ -1568,7 +1568,7 @@ __CHAR_DOGE_04 ; doged
      ; dc _____ ; 28
      ; dc _____ ; 29
 
-__CHAR_DOGE_05
+_CHAR_DOGE_05
 
      dc _____ ; 00 <
      dc _____ ; 01
@@ -1602,7 +1602,7 @@ __CHAR_DOGE_05
      dc _____ ; 29
 
 
-__CHAR_DOGE_FALLING ;
+_CHAR_DOGE_FALLING ;
 
      dc ____X ; 00 <
      dc ____X ; 01
@@ -1638,7 +1638,7 @@ __CHAR_DOGE_FALLING ;
 
 
 
-__CHAR_PEBBLE1
+_CHAR_PEBBLE1
 
      dc XXXXX ; 00 <
      dc _____ ; 01
@@ -1672,7 +1672,7 @@ __CHAR_PEBBLE1
      dc _____ ; 29
 
 ; actually worm horiz body
-__CHAR_WYRM_0
+_CHAR_WYRM_0
 
      dc ___XX ; 00 <
      dc _____ ; 01
@@ -1706,7 +1706,7 @@ __CHAR_WYRM_0
      dc _____ ; 29
 
 
-__CHAR_WYRM_2
+_CHAR_WYRM_2
 
      dc _XXXX ; 00 <
      dc _____ ; 01
@@ -1740,7 +1740,7 @@ __CHAR_WYRM_2
      dc _XXXX ; 29
 
 
-__CHAR_WYRM_3
+_CHAR_WYRM_3
 
      ; dc __ | __ | _X__ ; 00 < <--
      ; dc __ | __ | _X__ ; 01 <--
@@ -1765,9 +1765,9 @@ __CHAR_WYRM_3
      ; dc           XXXX ; 20
 
 
-    IF __ENABLE_WATER
+    IF _ENABLE_WATER
 
-__CHAR_WATER_0
+_CHAR_WATER_0
 
      dc XX | __ | ____ ; 00 <
      dc __ | __ | ____ ; 01
@@ -1792,7 +1792,7 @@ __CHAR_WATER_0
      dc           ____ ; 20
 
 
-__CHAR_WATER_1
+_CHAR_WATER_1
 
      dc __ | __ | ____ ; 00 <
      dc XX | __ | __XX ; 01
@@ -1817,7 +1817,7 @@ __CHAR_WATER_1
      dc           ____ ; 20
 
 
-__CHAR_WATER_2
+_CHAR_WATER_2
 
      dc __ | __ | ____ ; 00 <
      dc XX | __ | ____ ; 01
@@ -1842,7 +1842,7 @@ __CHAR_WATER_2
      dc           ____ ; 20
 
 
-__CHAR_WATER_3
+_CHAR_WATER_3
 
      dc __ | __ | ____ ; 00 <
      dc XX | __ | ____ ; 01

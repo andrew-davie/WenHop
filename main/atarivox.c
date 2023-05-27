@@ -6,7 +6,7 @@
 // #include "defines_cdfj.h"
 // #include "defines_from_dasm_for_c.h"
 
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
 
 static int speakWord = 0;
 static int spk = 0;

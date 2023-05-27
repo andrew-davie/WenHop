@@ -306,7 +306,7 @@ const signed char AnimationArmsCrossed[] = {
 };
 
 // const signed char AnimationTalk[] = {
-// #if __ENABLE_ATARIVOX
+// #if _ENABLE_ATARIVOX
 //     ACTION_SAY, __WORD_DOSOMETHING,
 //     FRAME_TALK,10, //FRAMEDELAY_RANDOM,
 //     FRAME_STAND,3, //FRAMEDELAY_RANDOM,
@@ -325,7 +325,7 @@ const signed char AnimationArmsCrossed[] = {
 //     ACTION_STOP,
 // };
 
-// #if __ENABLE_DRIP
+// #if _ENABLE_DRIP
 
 // const signed char AnimationDrip[] = {
 //     FRAME_IMPATIENT,25,
@@ -397,6 +397,9 @@ unsigned int playerAnimationCount = 0;
 // #define PANT 5
 // #define BELT 6
 // #define SOLE 7
+
+#define ____ 0
+
 #define BONE 8
 
 #define HMT0 9
@@ -3138,7 +3141,7 @@ void processAnimationCommand() {
         }
 
         case ACTION_SAY:
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
             sayWord(*++playerAnimation);
 #endif
             playerAnimation++;

@@ -159,7 +159,7 @@ void initMenuDatastreams() {
         {_DS_AUDV0, _BUF_AUDV},
         {_DS_AUDC0, _BUF_AUDC},
         {_DS_AUDF0, _BUF_AUDF},
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
         {_DS_SPEECH, _BUF_SPEECH},
 #endif
         {_DS_COLUPF, _BUF_MENU_COLUPF},
@@ -1393,7 +1393,7 @@ void handleMenuScreen() {
     interleaveColour();
     setTitleMarqueeColours(); // 41, 78);
 
-    const unsigned char *logo0a = (const unsigned char *)__TITLE_SCREEN;
+    const unsigned char *logo0a = (const unsigned char *)_TITLE_SCREEN;
     unsigned char *pf1L = RAM + _BUF_MENU_PF1_LEFT;
     for (int i = 0; i < _ARENA_SCANLINES * 4; i += 3) {
         for (int icc = 0; icc < 3; icc++) {
@@ -1431,9 +1431,9 @@ void handleMenuScreen() {
 // }
 
 void chooseColourScheme() {
-    //    unsigned char *c = (unsigned char *)__COLOUR_POOL;
+    //    unsigned char *c = (unsigned char *)_COLOUR_POOL;
     //    do {
-    currentPalette = rangeRandom(__PALETTE_COUNT);
+    currentPalette = rangeRandom(_PALETTE_COUNT);
     // } while (((int)caveList[cave]) & CAVE_REQUIRES_COMPATIBLE_PALETTE &&
     //     (!(c[currentPalette << 2] & __COMPATIBLE_PALETTE)));
 }
@@ -1514,7 +1514,7 @@ void initKernel(int kernel) {
 
         //        initNewGame();
 
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
         sound_max_volume = demoMode ? VOLUME_NONPLAYING : VOLUME_PLAYING;
 #else
         sound_max_volume = VOLUME_PLAYING;
@@ -1528,7 +1528,7 @@ void MenuOverscan() {
 
     initMenuDatastreams();
 
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
     processSpeech();
 #endif
 
@@ -1586,7 +1586,7 @@ void MenuOverscan() {
 
 void setStatusBackgroundPalette() {
 
-    unsigned char *pal = (unsigned char *)(__COLOUR_POOL);
+    unsigned char *pal = (unsigned char *)(_COLOUR_POOL);
     pal += (currentPalette & 15) << 2;
 
     unsigned char *p = RAM + _BUF_MENU_COLUPF;
@@ -1665,7 +1665,7 @@ const signed char yInc[] = {
 
 void handleMenuVB() {
 
-    // #if __ENABLE_DEMO
+    // #if _ENABLE_DEMO
     // if (!--mustWatchDelay) {
 
     //     initDemoMode(true);
@@ -1716,7 +1716,7 @@ void handleMenuVB() {
                     break;
 
                 case 1:
-#if !__ENABLE_TRAINER
+#if !_ENABLE_TRAINER
                     level = setBounds(level + dir, 4);
                     while (!(canPlay[level] & (1 << cave)))
                         cave--;
@@ -1746,7 +1746,7 @@ void handleMenuVB() {
 
 void MenuVerticalBlank() {
 
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
     processSpeech();
 #endif
 

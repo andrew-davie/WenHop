@@ -48,7 +48,7 @@ enum AudioID {
     SFX_DRIP2,         // 23
     SFX_UNCOVER,       // 24
 
-#if __ENABLE_LAVA2
+#if _ENABLE_LAVA2
     SFX_LAVA, // 25
 #endif
 

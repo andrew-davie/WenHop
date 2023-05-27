@@ -216,7 +216,7 @@ void setPalette() {
 
 void loadPalette() {
 
-    unsigned char *c = (unsigned char *)__COLOUR_POOL;
+    unsigned char *c = (unsigned char *)_COLOUR_POOL;
 
     c += ((currentPalette & 15) << 2);
     setBackgroundPalette(c);

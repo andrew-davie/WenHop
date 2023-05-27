@@ -228,7 +228,7 @@ void SystemReset() {
         worst[i] = 0;
 #endif
 
-    // #if __ENABLE_ATARIVOX
+    // #if _ENABLE_ATARIVOX
     // RAM[_BUF_SPEECH] = 0xFF;
     // #endif
 }
@@ -327,7 +327,7 @@ void initNextLife() {
 
     setJumpVectors(_NORMAL_KERNEL, _EXIT_KERNEL);
 
-#if __ENABLE_WATER
+#if _ENABLE_WATER
     //    water = 0;
     //    lava = 0;
     lastWater = 0;
@@ -500,7 +500,7 @@ void drawWord(const unsigned char *string, int y) {
 //     togt++;
 
 //     if (
-// #if __ENABLE_DEMO
+// #if _ENABLE_DEMO
 //         !demoMode &&
 // #endif
 //         displayMode != DISPLAY_OVERVIEW && uncoverTimer > 1 && uncoverTimer <
@@ -612,7 +612,7 @@ void initGameDataStreams() {
         {_DS_COLUP1, _BUF_COLUP1},
         {_DS_GRP0a, _BUF_GRP0A},
         {_DS_GRP1a, _BUF_GRP1A},
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
         {_DS_SPEECH, _BUF_SPEECH},
 #endif
         {0x21, _BUF_JUMP1},
@@ -668,7 +668,7 @@ void handleCaveCompletion() {
 
         else {
 
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
             if (!demoMode) {
 #endif
                 if (doges < 0) {
@@ -728,7 +728,7 @@ void handleCaveCompletion() {
 
                 if (!--exitMode)
                     caveCompleted = true;
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
             }
 #endif
         }
@@ -744,7 +744,7 @@ void GameOverscan() {
 
     availableIdleTime = 99000 - 1000;
 
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
     if (RAM[_BUF_SPEECH] != 0xFF)
         availableIdleTime = 30000;
 #endif
@@ -876,7 +876,7 @@ void GameOverscan() {
 
     drawOverscanThings();
 
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
 //    checkDemoFinished();
 #endif
 
@@ -900,14 +900,14 @@ void handleSelectReset() {
 
         caveCompleted = false;
 
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
         if (demoMode)
             initKernel(KERNEL_MENU);
         else {
 #endif
 
             if (++cave >= caveCount) {
-#if !__ENABLE_TRAINER
+#if !_ENABLE_TRAINER
                 if (level < 4)
                     ++level;
 #endif
@@ -915,7 +915,7 @@ void handleSelectReset() {
             }
 
             initKernel(KERNEL_STATS);
-#if __ENABLE_DEMO
+#if _ENABLE_DEMO
         }
 #endif
     }
@@ -929,7 +929,7 @@ void GameVerticalBlank() {
     showingWords = false;
     availableIdleTime = 120000 - 1000;
 
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
     processSpeech();
 #endif
 
@@ -1063,6 +1063,8 @@ void setupBoard() {
             boardCol = -1;
             boardRow = 0;
         }
+
+        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
 
         gameSchedule = SCHEDULE_PROCESSBOARD;
 
@@ -1326,11 +1328,13 @@ void processBoardSquares() {
             if (boardCol < 0) {
                 boardCol = _BOARD_COLS - 1;
                 boardRow--;
+                me--;
             }
 
             else {
                 boardCol = 0;
                 boardRow++;
+                me++;
             }
 
             if (boardRow > _BOARD_ROWS - 1 || boardRow < 0) {

@@ -1,7 +1,7 @@
 #ifndef __ATARIVOX_H
 #define __ATARIVOX_H
 
-#if __ENABLE_ATARIVOX
+#if _ENABLE_ATARIVOX
 
 extern void sayWord(int word);
 extern void processSpeech();
