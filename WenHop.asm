@@ -7,7 +7,7 @@
         PROCESSOR 6502
         include "vcs.h"
         include "macro.h"
-        include "cdfj.h"
+        include "cdfjplus.h"
 
 ;===============================================================================
 ; Project Configuration
@@ -38,6 +38,21 @@ _PC_DD_SIZE     = 4096 - 512
 _PC_CDFJ_FF     = FF_LDA
 _PC_FF_OFFSET   = $80
 
+;===============================================================================
+; Define constants
+;----------------------------------------
+;   Define constants used by 6507 code, as well as those used by both
+;   6507 code and the C code.
+;
+;   To make it easier to synchronize values between the 6507 and C code the
+;   make process will auto-export anything with a _ prefix to file:
+;       main/defines_from_dasm_for_c.h
+;
+;   and anything with a _PC_ prefix to file:
+;       main/symbols_from_dasm_for_lds.h
+;
+;   it does this by using awk to parse the symbol file created by dasm
+;===============================================================================
 
 
 __ENABLE_TRAINER = 0
@@ -117,6 +132,19 @@ OS_TIM64T = 29
 _ARENA_SCANLINES    = 198   ; number of scanlines for the arena
 ARENA_BUFFER_SIZE   = _ARENA_SCANLINES    ; PF buffer size for largest arena
 
+;===============================================================================
+; Define custom Macros
+;----------------------------------------
+;   These functions appear at the same position in both banks of 6507 code
+;===============================================================================
+
+
+; (none)
+
+
+;===============================================================================
+; Define other macros (use anywhere)
+;===============================================================================
 
         MAC CHECK_ARENA_BUFFER_SIZE
         ; trigger a compile time error if the arena buffer need to be increased
@@ -178,140 +206,19 @@ offsetSK            ds 1        ; for calculating the SK slot address
                     SEG CODE
                     ORG 0
 
-                    incbin "cdfdriver20190317.bin"
+    include "configure_cdfjplus.h"
 
 SIZEOF_CDFJ_DRIVER = *
         echo "CDFJ driver = $0 - ", *, "(",[*]d, "bytes)"
 
 ;===============================================================================
-; ARM user code
-; Banks 0 thru n
-;----------------------------------------
-;   The ARM code starts at $0800 and grows into bank 0+
-;===============================================================================
 
-;                    ORG $0800
-ARM_CODE
-
-                    incbin "main/bin/armcode.bin"
-
-SIZEOF_ARM_CODE = * - ARM_CODE
-        echo "C (ARM code) =", ARM_CODE, "-", *, "(",[SIZEOF_ARM_CODE]d, "bytes)"
-
-
-;===============================================================================
-; ARM Indirect Data
-;----------------------------------------
-;   Data that the C code indirectly accesses can be stored immediately after the
-;   custom ARM code.
-;===============================================================================
-
-;    echo "---->"
-;    echo "ARM INDIRECT DATA starts at", *
-
-SPEECH_DATA
-
-    IF __ENABLE_ATARIVOX
-
-        include "atarivox/speechData.asm"
-SIZEOF_SPEECH_DATA = * - SPEECH_DATA
-        echo "Speech data =", SPEECH_DATA, "-", *, "(",[SIZEOF_SPEECH_DATA]d, "bytes)"
-
-    ENDIF
-
-
-END_OF_INDIRECT_DATA
-;    echo "ARM INDIRECT DIRECT DATA ends @", *
-;    echo "<----"
-
-
-;===============================================================================
-; ARM Direct Data
-;----------------------------------------
-;   I find it easier, and more space efficient, to store some of the data the
-;   C code needs to access in the 6507 code instead of the C code.  Because the
-;   build process is:
-;
-;       1) assemble 6507 code to create defines_from_dasm_for_c.h
-;       2) compile C code to create ARM routines
-;       3) assemble 6507 to create final ROM
-;
-;   the ARM code could change size between steps 1 and 3, which would shift data
-;   that immediately comes after it. So the data that C directly accesses needs
-;   to be after an ORG to prevent it from moving.
-;
-;   The _IMAGE_GRAPHICS, _IMAGE_COLORS, etc data tables are directly access by
-;   the C code so must be in the Direct Data area. The data they point to is
-;   indirectly accessed by the C code, so they can go in the Indirect Data area.
-;   Note the labels for the tables are prefixed by _ so they'll end up in the
-;   defines_from_dasm_for_c.h file, while the labels for the data the tables
-;   point to are not prefixed by _
-
-;CHAR_SIZE = 21
-;TITLESCREEN_DATA = (4 * 198)
-;CHAR_COUNT = 55
-
-
-; .DIRECT_DATA_SIZE .SET TITLESCREEN_DATA
-
-; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (__WORD_COUNT * 2)
-; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + __COPYRIGHT_ROWS * 6
-; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (CHAR_COUNT * CHAR_SIZE)
-
-;     echo .DIRECT_DATA_SIZE, "bytes of ARM_DIRECT_DATA expected, consisting of..."
-
-
-; 6507 code lives at the end of the ROM, so we ORG it to ~$7FFF - its length
-; It "grows" down - the bigger it is, the lower the address. We can exact-fit it
-; so that the "kernel bytes available" is 0.  The C code grows UP to the ORG
-; address here. The delta between end of the C code and this ORG is free space
-
-    echo "FREE C-SPACE = ", [ARM_DIRECT_DATA - *]d, "bytes"
-
-BASE_6507_START SET $73C0+22
-#if __ENABLE_ATARIVOX
-BASE_6507_START SET BASE_6507_START
-#endif
-
-    ORG BASE_6507_START
-
-ARM_DIRECT_DATA
-
-;    echo "CHAFF SPACE = ", [* - END_OF_INDIRECT_DATA]d, "bytes"
-
-;    echo "ARM DIRECT DATA starts at", *
-
-
-
-;███████████████████████████████████████████████████████████████████████████████
-
-WASTE SET 0
-
-    IF * < $7000
-        echo "shifted 6502 as it was too early @", *
-WASTE SET $7000 - *
-        ORG $7000
-    ELSE
-    ENDIF
-
-    echo "6502 origin is ", *
-    IF WASTE
-        echo "  --> wastage", WASTE
-    ENDIF
-
-;    IF * > $7000
-;OVERUSE = * - $7000
-;        echo "  --> 'EA' potential, overuse", (OVERUSE)d, "bytes"
-;    ENDIF
-
-
-
+                    ORG $0800
+                    RORG $F000
 
 START6502
 
 ; PLACE THESE EARLY IF POSSIBLE, SO THAT THE $EA-WAIT LOOP HAS PLENTY OF LEEWAY/TIME
-
-
 
 ; idleProcess first calls the OS/VB (passed in Y) and then the idle routine. It continues
 ; to call idle until the timer is approaching the auto-sync time. The less 6507 cycles
@@ -2219,8 +2126,6 @@ startAnyKernel      ldx kernel
                     pha
                     rts
 
-
-
 KernelVectorLo      .byte <(KernelCopyright-1)
                     .byte <(KernelMenu-1)
                     .byte <(KernelGame-1)
@@ -2231,42 +2136,156 @@ KernelVectorHi      .byte >(KernelCopyright-1)
                     .byte >(KernelGame-1)
                     .byte >(KernelStatus-1)
 
-
-
     include "normalKernel.asm"
 
 
-;    echo "Kernels end @", * - 1
-
-
-
-
-FREE_INDIRECT = ARM_DIRECT_DATA - END_OF_INDIRECT_DATA
-
- ;   echo "----", *, " (end of kernels)"
-
- ;   echo "----", [$7FED-*]d, " kernel bytes available"
- ;   echo "----", [FREE_INDIRECT]d, " indirect bytes available"
-
-;    echo "TOTAL free ROM space =", [FREE_INDIRECT + ($7FEd - *)]d, "bytes"
+    echo "Kernels end @", * - 1
 
 
 FREE_SPACE = ARM_DIRECT_DATA_END - $8000 - *
     echo "FREE END-SPACE =", (FREE_SPACE)d, "bytes"
 
+
+        echo "---- @", *, " with ",($FFF0 - *) , "bytes left in bank 0"
+
+
+; NOTE: if Reset or BRK are triggered in this bank the game will crash...
+
+    ORG     $17F0
+    RORG    $FFF0
+    DC.B    0, 0, 0, 0          ; CDFJ Hotspots
+    DC.L    C_STACK             ; $F4   C Stack
+    DC.L    _PC_ARM_CODE+1      ; $F8   C Code (+1 for THUMB Mode)
+    DC.W    InitSystem          ; $FC   Reset
+    DC.W    InitSystem          ; $FE   BRK
+
+;===============================================================================
+; Bank 1 - 6507 code
+;----------------------------------------
+; Game Kernels
 ;===============================================================================
 
-    ORG $7FED
-    RORG $FFED
+    ;     ORG $1800
+    ;     RORG $F000
+
+    ; ORG     $17F0
+    ; RORG    $FFF0
+    ; DC.B    0, 0, 0, 0          ; CDFJ Hotspots
+    ; DC.L    C_STACK             ; $F4   C Stack
+    ; DC.L    _PC_ARM_CODE+1      ; $F8   C Code (+1 for THUMB Mode)
+    ; DC.W    InitSystem          ; $FC   Reset
+    ; DC.W    InitSystem          ; $FE   BRK
+
+;===============================================================================
+; ARM user code
+;----------------------------------------
+;   Starting location for the ARM code depends upon which bank you decided
+;   to start it in.
+;       Bank1   $1800
+;       Bank2   $2800
+;       Bank3   $3800
+;       Bank4   $4800
+;       Bank5   $5800
+;       Bank6   $6800
+;       C Code  $7800
+;===============================================================================
+
+        ORG $1800
+        RORG $1800
+
+ARM_DIRECT_DATA:
+;        include arm_direct_data.asm  ; ?? none
+    echo "----",[* - ARM_DIRECT_DATA] , "bytes of ARM Direct Data"
 
 ARM_DIRECT_DATA_END
 
-                    jmp InitSystem
+;===============================================================================
+; ARM code
+;----------------------------------------
+;
+;===============================================================================
+    align 4         ; need to check if align 2 is OK for this
+_PC_ARM_CODE:
+    ; include the custom ARM code.
+        INCBIN "main/bin/armcode.bin"
 
-                    ds 12, 0                         ; reserve space for CDFJ registers
+_PC_ARM_CODE_SIZE = . - _PC_ARM_CODE;
+    echo "---- C CODE", (_PC_ARM_CODE_SIZE)d, "bytes"
 
-                    .WORD InitSystem
-                    .WORD InitSystem
+;===============================================================================
+; ARM Indirect Data
+;----------------------------------------
+;   Data that the C code indirectly accesses can be stored immediately after the
+;   custom ARM code.
+;===============================================================================
+
+
+SPEECH_DATA
+
+    IF __ENABLE_ATARIVOX
+
+        include "atarivox/speechData.asm"
+SIZEOF_SPEECH_DATA = * - SPEECH_DATA
+        echo "Speech data =", SPEECH_DATA, "-", *, "(",[SIZEOF_SPEECH_DATA]d, "bytes)"
+
+    ENDIF
+
+
+END_OF_INDIRECT_DATA
+;    echo "ARM INDIRECT DIRECT DATA ends @", *
+;    echo "<----"
+
+
+
+    echo "---- ROM", (_PC_ROM_SIZE * 1024 - .)d, "bytes free"
+
+    ds _PC_ROM_SIZE * 1024 - ., $FF
+
+
+;===============================================================================
+; ARM Direct Data
+;----------------------------------------
+;   I find it easier, and more space efficient, to store some of the data the
+;   C code needs to access in the 6507 code instead of the C code.  Because the
+;   build process is:
+;
+;       1) assemble 6507 code to create defines_from_dasm_for_c.h
+;       2) compile C code to create ARM routines
+;       3) assemble 6507 to create final ROM
+;
+;   the ARM code could change size between steps 1 and 3, which would shift data
+;   that immediately comes after it. So the data that C directly accesses needs
+;   to be after an ORG to prevent it from moving.
+;
+;   The _IMAGE_GRAPHICS, _IMAGE_COLORS, etc data tables are directly access by
+;   the C code so must be in the Direct Data area. The data they point to is
+;   indirectly accessed by the C code, so they can go in the Indirect Data area.
+;   Note the labels for the tables are prefixed by _ so they'll end up in the
+;   defines_from_dasm_for_c.h file, while the labels for the data the tables
+;   point to are not prefixed by _
+
+;CHAR_SIZE = 21
+;TITLESCREEN_DATA = (4 * 198)
+;CHAR_COUNT = 55
+
+
+; .DIRECT_DATA_SIZE .SET TITLESCREEN_DATA
+
+; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (__WORD_COUNT * 2)
+; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + __COPYRIGHT_ROWS * 6
+; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (CHAR_COUNT * CHAR_SIZE)
+
+;     echo .DIRECT_DATA_SIZE, "bytes of ARM_DIRECT_DATA expected, consisting of..."
+
+
+; 6507 code lives at the end of the ROM, so we ORG it to ~$7FFF - its length
+; It "grows" down - the bigger it is, the lower the address. We can exact-fit it
+; so that the "kernel bytes available" is 0.  The C code grows UP to the ORG
+; address here. The delta between end of the C code and this ORG is free space
+
+    echo "FREE C-SPACE = ", [ARM_DIRECT_DATA - *]d, "bytes"
+
+
 
 ;===============================================================================
 ; Display Data
