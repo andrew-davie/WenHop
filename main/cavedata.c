@@ -60,12 +60,50 @@ const unsigned char caveA[] = {
 
     4,
     CH_BLANK, 60, 255, 0, 255, 10,
-    CH_PEBBLE1, 150, 0, 240, 0, 20,
-    CH_PEBBLE2, 150, 0, 240, 0, 20,
+    CH_PEBBLE1, 120, 0, 240, 0, 20,
+    CH_PEBBLE2, 120, 0, 240, 0, 20,
     CH_ROCK, 10, 0, 240, 0, 20,
 
     0xFE, CH_FLIP_GRAVITY_0, 16, 8,
     0xFE, CH_FLIP_GRAVITY_0, 8, 12,
+
+        0xFE,CH_PUSH_DOWN,16,9,
+    //    0xFE,CH_PUSH_DOWN,7,1,
+        0xFE,CH_PUSH_RIGHT,17,8,
+      //  0xFE,CH_PUSH_DOWN,9,1,
+        0xFE,CH_PUSH_LEFT,15,8,
+        //0xFE,CH_PUSH_DOWN,11,1,
+        0xFE,CH_PUSH_UP,16,7,
+        //0xFE,CH_PUSH_DOWN,13,1,
+        0xFE, CH_HUB, 16,8,
+
+
+
+        // 0xFE, CH_HORIZONTAL_BAR, 0,3,
+        // 0xFE, CH_HORIZONTAL_BAR, 1,3,
+        // 0xFE, CH_TAP_0, 2,2,
+        // 0xFE, CH_HUB, 2,3,
+        // 0xFE, CH_OUTLET, 2,4,
+
+
+        0xFE, CH_HORIZONTAL_BAR, 3,3,
+        0xFE, CH_HORIZONTAL_BAR, 4,3,
+        0xFE, CH_TAP_0, 5,2,
+        0xFE, CH_HUB, 5,3,
+        0xFE, CH_OUTLET, 5,4,
+
+
+        // 0xFE, CH_HORIZONTAL_BAR, 6,3,
+        // 0xFE, CH_HORIZONTAL_BAR, 7,3,
+        // 0xFE, CH_TAP_0, 8,2,
+        // 0xFE, CH_HUB, 8,3,
+        // 0xFE, CH_OUTLET, 8,4,
+
+        // 0xFE, CH_HORIZONTAL_BAR, 9,3,
+        // 0xFE, CH_HORIZONTAL_BAR, 10,3,
+        // 0xFE, CH_TAP_0, 11,2,
+        // 0xFE, CH_HUB, 11,3,
+        // 0xFE, CH_OUTLET, 11,4,
 
 
     // CH_FLIP_GRAVITY_0,   100, 10, 10, 10, 10,
@@ -139,7 +177,8 @@ const unsigned char caveA[] = {
 
     // LINE+CH_BLANK,30,15,4,5,
 
-    0xFE, CH_DOORCLOSED, 38, 16, 0xFE, CH_MELLON_HUSK_BIRTH, 2, 9,
+    0xFE, CH_DOORCLOSED, 38, 16, 0xFE,
+    CH_MELLON_HUSK_BIRTH, 4, 2,
 
     // 0xFE, CH_GRINDER_0, 4, 9,
     // 0xFE, CH_GRINDER_0, 5, 8,
@@ -200,7 +239,9 @@ const unsigned char caveA[] = {
 
     //    0xFE, CH_WATER_0, 1, 20,
 
-    0xFE, CH_LAVA_0, 1, 20,
+//    0xFE, CH_LAVA_0, 1, 20,
+
+    0xFE, CH_WATER_0, 1, 20,
 
     // 0xFE, CH_BRICKWALL, 20,10,
     // 0xFE, CH_BRICKWALL, 21,10,
@@ -252,26 +293,74 @@ const unsigned char caveA2[] = {
 
     CAVEDEF_PARALLAX, STEEL, CH_BLANK,
 
-    4, CH_PUSH_LEFT, 0, 10, 5, 0, 20, CH_PUSH_RIGHT, 0, 10, 5, 0, 20, CH_PUSH_UP, 0, 10, 5, 0, 20,
+    5,
+    CH_DIRT, 50, 10, 5, 0, 20,
+    CH_GEODOGE, 50, 10, 5, 0, 20,
+    CH_PUSH_RIGHT, 0, 10, 5, 0, 20,
+    CH_PUSH_UP, 0, 10, 5, 0, 20,
     CH_PUSH_DOWN, 0, 10, 5, 0, 20,
+
     //   CH_BLANK,       60, 255,   0, 255,  10,
     //     CH_ROCK,     90,   0, 240,   0,  20,
 
-    0x80 + CH_STEELWALL, 10, 5, 20, 12, CH_DIRT,
+    //0x80 + CH_STEELWALL, 10, 5, 20, 12, CH_DIRT,
+
+        0xFE,CH_PUSH_DOWN,6,9,
+    //    0xFE,CH_PUSH_DOWN,7,1,
+        0xFE,CH_PUSH_RIGHT,7,8,
+      //  0xFE,CH_PUSH_DOWN,9,1,
+        0xFE,CH_PUSH_LEFT,5,8,
+        //0xFE,CH_PUSH_DOWN,11,1,
+        0xFE,CH_PUSH_UP,6,7,
+        //0xFE,CH_PUSH_DOWN,13,1,
+        0xFE, CH_HUB, 6,8,
 
     //    0xFE, CH_DOORCLOSED,38,16,
     0xFE, CH_MELLON_HUSK_BIRTH, 16, 6,
 
-    0xFE, CH_WYRM_HEAD_U, 11, 6, 0xFE, CH_WYRM_HEAD_U, 12, 6, 0xFE, CH_WYRM_HEAD_U, 13, 6, 0xFE,
-    CH_WYRM_HEAD_U, 14, 6, 0xFE, CH_WYRM_HEAD_U, 15, 6,
-
-    // 0xFE, CH_WYRM_HEAD_U, 11, 9,
-    // 0xFE, CH_WYRM_HEAD_U, 12, 9,
-    // 0xFE, CH_WYRM_HEAD_U, 13, 9,
-    // 0xFE, CH_WYRM_HEAD_U, 14, 9,
-    // 0xFE, CH_WYRM_HEAD_U, 15, 9,
-
+    0xFE, CH_WYRM_HEAD_U, 11, 6,
+    0xFE, CH_WYRM_HEAD_U, 12, 6,
+    0xFE, CH_WYRM_HEAD_U, 13, 6,
+    0xFE, CH_WYRM_HEAD_U, 14, 6,
     0xFF,
+
+    0xFE, CH_GRINDER_0, 4, 9,
+    0xFE, CH_GRINDER_0, 5, 8,
+    0xFE, CH_GRINDER_0, 6, 6,
+    0xFE, CH_GRINDER_0, 7, 6,
+    0xFE, CH_GRINDER_0, 8, 5,
+
+    0xFE, CH_GRINDER_0, 8, 9,
+    0xFE, CH_GRINDER_1, 9, 9,
+    0xFE, CH_GRINDER_0, 9, 8,
+    0xFE, CH_GRINDER_1, 10, 8,
+    0xFE, CH_GRINDER_0, 10, 7,
+
+    0xFE, CH_GRINDER_1, 11, 12,
+    0xFE, CH_BELT_0, 12, 12,
+    0xFE, CH_BELT_1, 13, 12,
+    0xFE, CH_GRINDER_1, 14, 12,
+    0xFE, CH_BELT_1, 15, 12,
+    0xFE, CH_BELT_0, 16, 12,
+    0xFE, CH_GRINDER_1, 17, 12,
+    0xFE, CH_BELT_1, 18, 12,
+    0xFE, CH_BELT_0, 19, 12,
+    0xFE, CH_GRINDER_1, 20, 12,
+
+    0xFE, CH_HUB_1, 20, 8,
+     0xFE, CH_PUSH_DOWN, 20, 9,
+
+    0xFE, CH_GRINDER_0, 15, 15,
+    0xFE, CH_BELT_0, 16, 15,
+    0xFE, CH_BELT_1, 17, 15,
+    0xFE, CH_BELT_0, 18, 15,
+    0xFE, CH_BELT_1, 19, 15,
+    0xFE, CH_BELT_0, 20, 15,
+    0xFE, CH_BELT_1, 21, 15,
+    0xFE, CH_GRINDER_0, 22, 15,
+
+    0xFE, CH_LAVA_0, 1, 20,
+
 
     // EXTRAS
     // LEVEL 0
@@ -431,7 +520,7 @@ const unsigned char caveA4[] = {
 
 const unsigned char *caveList[] = {
 
-    caveA, caveA4,
+    caveA, caveA2, caveA4,
 
     caveA3,
     // caveA2,

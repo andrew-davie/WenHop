@@ -44,12 +44,16 @@ enum ObjectType {
     TYPE_GRINDER,               // 30
     TYPE_HUB,                   // 31
     TYPE_WATER,                 // 32
-    TYPE_WATERFLOW,             // 33
-    TYPE_TAP,                   // 34
-    TYPE_OUTLET,                // 35
-    TYPE_GRINDER_1,             // 36
-    TYPE_BELT,                  // 37
-    TYPE_BELT_1,                // 38
+    TYPE_WATERFLOW0,            // 33
+    TYPE_WATERFLOW1,            // 34
+    TYPE_WATERFLOW2,            // 35
+    TYPE_WATERFLOW3,            // 36
+    TYPE_WATERFLOW4,            // 37
+    TYPE_TAP,                   // 38
+    TYPE_OUTLET,                // 39
+    TYPE_GRINDER_1,             // 40
+    TYPE_BELT,                  // 41
+    TYPE_BELT_1,                // 42
 
     TYPE_MAX
 };
@@ -166,11 +170,11 @@ enum ChName {
     CH_WATER_1,               // 103
     CH_WATER_2,               // 104
     CH_WATER_3,               // 105
-    CH_WATERFLOW_0,           // 106
-    CH_WATERFLOW_1,           // 107
-    CH_WATERFLOW_2,           // 108
-    CH_WATERFLOW_3,           // 109
-    CH_WATERFLOW_4,           // 110
+    CH_WATERFLOW_0,           // 106 must be grouped
+    CH_WATERFLOW_1,           // 107 .
+    CH_WATERFLOW_2,           // 108 .
+    CH_WATERFLOW_3,           // 109 .
+    CH_WATERFLOW_4,           // 110 /
     CH_TAP_0,                 // 111
     CH_HUB_1,                 // 112
     CH_OUTLET,                // 113
@@ -219,6 +223,7 @@ enum ChName {
 #define ATT_PIPE (1 << 20)
 #define ATT_GRIND (1 << 19)
 #define ATT_CONVEYOR (1 << 18)
+#define ATT_WATERFLOW (1 << 17)
 
 #define RKF ATT_BLANKISH
 #define MIN ATT_MINE
@@ -249,14 +254,13 @@ enum ChName {
 #define PIP ATT_PIPE
 #define GND ATT_GRIND
 #define CVY ATT_CONVEYOR
+#define WTF ATT_WATERFLOW
 
 #define PH1 ATT_PHASE1
 #define PH2 ATT_PHASE2
 #define PH4 ATT_PHASE4
 
-
 #define VALUE_CONVERT_GEODE_TO_DOGE 10
 #define VALUE_BREAK_GEODE 25
-
 
 #endif

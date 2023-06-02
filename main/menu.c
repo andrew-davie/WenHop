@@ -1195,22 +1195,22 @@ const char wordDifficulty[] = {
 
 
 const char wordProto2[] = {
-    XXX___XX, __XXX__X, XX______, XX__XXXX, ____XXX_, _X______,
-    __XX_X__, X___XX__, _XX____X, __X_X___, ______XX, _X__X___,
-    __X__X__, X___X___, XX_____X, __X_XXX_, ______X_, _X__X___,
-    _X___X__, X__X____, _XX____X, __X____X, _____X__, _XXXX___,
-    XXXX_XXX, X_XXXX_X, XXX_XX_X, XXX_XXXX, _XX_XXXX, ___XX___,
-    XXXX__XX, __XXXX_X, XX__XX__, XX__XXX_, _XX_XXXX, ___XX___,
+    XXX___XX, __XXX__X, XX______, XX___XXX, _____XX_, _XXX____,
+    __XX_X__, X___XX__, _XX____X, __X_X___, ____X__X, ___XX___,
+    __X__X__, X___X___, XX_____X, __X_XXX_, ____X__X, ___X____,
+    _X___X__, X__X____, _XX____X, __X_X__X, ____X__X, __X_____,
+    XXXX_XXX, X_XXXX_X, XXX_XX_X, XXX_XXXX, _XX_XXXX, _XXXX___,
+    XXXX__XX, __XXXX_X, XX__XX__, XX___XX_, _XX__XX_, _XXXX___,
 };
 
 
 const char wordProto[] = {
-    XXX__XXX, ___XX__X, XXXX__XX, ____X__X, ________, __X_____,
-    XXXX_XX_, X_X__X_X, XXXX_X__, X___XX_X, ________, _XX_____,
-    X__X_X__, X_X__X__, _X___X__, X___XX_X, __XX____, _XX_____,
-    XXX__XXX, __X__X__, _X___X__, X___X_XX, _X__X___, __X_____,
-    X____X_X, __XXXX__, _X___XXX, X___X_XX, _XXXX_XX, _XXX____,
-    X____X__, X__XX___, _X____XX, ____X__X, __XX__XX, _XXX____,
+    XXXX_XXX, __X__X__, _XXXX_X_, _X__XX__, X___X___, ________,
+    ___X_X__, X_X__X__, XX____X_, _X_X__X_, X___X___, ________,
+    __X__XXX, X_XXXX__, _XXX__XX, XX_X__X_, X_X_X___, ________,
+    _X___XXX, __XXXX__, ___XX_XX, XX_X__X_, XXXXX___, ________,
+    XXXX_X__, __X__X__, XXXXX_X_, _X_XXXX_, XX_XX___, ________,
+    XXXX_X__, __X__X__, XXXX__X_, _X__XX__, X___X___, ________,
 };
 
 // clang-format on

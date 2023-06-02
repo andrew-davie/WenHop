@@ -179,8 +179,7 @@ bool checkHighPriorityMove(int dir) {
                     lavaSurface = 21 * TRILINES;
             }
 
-            *(meOffset + _BOARD_COLS) =
-                (GET(*(meOffset + _BOARD_COLS)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
+            *(meOffset + _1ROW) = (GET(*(meOffset + _1ROW)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
             startPlayerAnimation(ID_Push);
 
             waitForNothing = 6;
@@ -288,8 +287,9 @@ bool checkHighPriorityMove(int dir) {
 
                 *me = udlrChar[udlr];
 
-                if (*me == CH_HUB_1 && Attribute[CharToType[GET(*(me - _BOARD_COLS))]] & ATT_BLANK)
-                    *(me - _BOARD_COLS) = CH_TAP_0;
+                // if (*me == CH_HUB_1 && Attribute[CharToType[GET(*(me - _BOARD_COLS))]] &
+                // ATT_BLANK)
+                //     *(me - _BOARD_COLS) = CH_TAP_0;
 
                 showTool = true;
             }
@@ -373,7 +373,7 @@ bool checkLowPriorityMove(int dir) {
                             ? CH_CONVERT_GEODE_TO_DOGE | FLAG_THISFRAME
                             : CH_DUST_0;
 
-            fixSurroundingConglomerates(meOffset);
+            // fixSurroundingConglomerates(meOffset);
 
             waitForNothing = 6;
             startPlayerAnimation(ID_Stand);
@@ -411,7 +411,7 @@ void bubbles(int count, int dripX, int dripY, int age, int speed) {
         int idx = sphereDot(dripX << 8, dripY << 16, 1, age, speed);
         if (idx >= 0) {
             rainSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
-            rainSpeedX[idx] >>= 2;
+            rainSpeedX[idx] >>= 4;
         }
     }
 }
@@ -433,13 +433,12 @@ void movePlayer(unsigned char *me) {
     static int breath;
     if (showWater && playerY * TRILINES > lavaSurface) {
 
-        ADDAUDIO(SFX_BUBBLER);
-
         breath++;
         if (!(breath & 35) && (breath & 63) < 21) {
             int x = (playerX * 5) + 3;
             int y = (playerY * TRILINES) + 4;
-            bubbles(4, x, y, 200, 0x80000);
+            bubbles(2, x, y, 200, 0x80000);
+            ADDAUDIO(SFX_BUBBLER);
         }
     }
 

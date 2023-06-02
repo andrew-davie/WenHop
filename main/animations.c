@@ -1,5 +1,6 @@
 #include "animations.h"
 #include "attribute.h"
+#include "random.h"
 
 const char *Animate[TYPE_MAX];
 char AnimCount[TYPE_MAX];
@@ -18,15 +19,59 @@ static const char AnimateBelt1[] = {
     ANIM_LOOP,
 };
 
-static const char AnimateWaterFlow[] = {
 
-    CH_WATERFLOW_4, 3,
-    CH_WATERFLOW_3, 3,
-    CH_WATERFLOW_2, 3,
-    CH_WATERFLOW_1, 3,
-    CH_WATERFLOW_0, 3,
+#define TRICKLE 5
+
+static const char AnimateWaterFlow0[] = {
+
+    CH_WATERFLOW_4, TRICKLE,
+    CH_WATERFLOW_3, TRICKLE,
+    CH_WATERFLOW_2, TRICKLE,
+    CH_WATERFLOW_1, TRICKLE,
+    CH_WATERFLOW_0, TRICKLE,
     ANIM_LOOP,
 };
+
+static const char AnimateWaterFlow1[] = {
+
+    CH_WATERFLOW_3, TRICKLE,
+    CH_WATERFLOW_2, TRICKLE,
+    CH_WATERFLOW_1, TRICKLE,
+    CH_WATERFLOW_0, TRICKLE,
+    CH_WATERFLOW_4, TRICKLE,
+    ANIM_LOOP,
+};
+
+static const char AnimateWaterFlow2[] = {
+
+    CH_WATERFLOW_2, TRICKLE,
+    CH_WATERFLOW_1, TRICKLE,
+    CH_WATERFLOW_0, TRICKLE,
+    CH_WATERFLOW_4, TRICKLE,
+    CH_WATERFLOW_3, TRICKLE,
+    ANIM_LOOP,
+};
+
+static const char AnimateWaterFlow3[] = {
+
+    CH_WATERFLOW_1, TRICKLE,
+    CH_WATERFLOW_0, TRICKLE,
+    CH_WATERFLOW_4, TRICKLE,
+    CH_WATERFLOW_3, TRICKLE,
+    CH_WATERFLOW_2, TRICKLE,
+    ANIM_LOOP,
+};
+
+static const char AnimateWaterFlow4[] = {
+
+    CH_WATERFLOW_0, TRICKLE,
+    CH_WATERFLOW_4, TRICKLE,
+    CH_WATERFLOW_3, TRICKLE,
+    CH_WATERFLOW_2, TRICKLE,
+    CH_WATERFLOW_1, TRICKLE,
+    ANIM_LOOP,
+};
+
 
 static const char AnimateGrinder[] = {
 
@@ -162,12 +207,16 @@ const char *const AnimateBase[TYPE_MAX] = {
     AnimateGrinder,      // 30 TYPE_GRINDER
     0,                   // 31 TYPE_HUB
     0,                   // 32 TYPE_WATER
-    AnimateWaterFlow,    // 33 TYPE_WATERFLOW
-    0,                   // 34 TYPE_TAP
-    0,                   // 35 TYPE_OUTLET
-    AnimateGrinder1,     // 36 TYPE_GRINDER1
-    AnimateBelt,         // 37 TYPE_BELT
-    AnimateBelt1,        // 38 TYPE_BELT1
+    AnimateWaterFlow0,   // 33 TYPE_WATERFLOW0
+    AnimateWaterFlow1,   // 34 TYPE_WATERFLOW1
+    AnimateWaterFlow2,   // 35 TYPE_WATERFLOW2
+    AnimateWaterFlow3,   // 36 TYPE_WATERFLOW3
+    AnimateWaterFlow4,   // 37 TYPE_WATERFLOW4
+    0,                   // 38 TYPE_TAP
+    0,                   // 39 TYPE_OUTLET
+    AnimateGrinder1,     // 40 TYPE_GRINDER1
+    AnimateBelt,         // 41 TYPE_BELT
+    AnimateBelt1,        // 42 TYPE_BELT1
 };
 
 void initCharAnimations() {
@@ -180,16 +229,11 @@ void startCharAnimation(int type, const char *idx) {
 
     if (idx) {
 
-        if ((int)(*idx) == ANIM_LOOP)
+        if ((int)*idx == ANIM_LOOP)
             idx = AnimateBase[type];
 
         Animate[type] = idx++;
-
-        int count = *idx;
-        // if (count == ANIM_RNDSPEED)
-        //     count = (getRandom32() >> 25) | 7;
-
-        AnimCount[type] = count;
+        AnimCount[type] = *idx;
     }
 }
 

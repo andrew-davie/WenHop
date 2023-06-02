@@ -99,6 +99,15 @@ bool showingWords;
 int exitMode;
 int frameCounter;
 int selectorCounter;
+int activated;
+
+static const int isActive[] = {
+
+    PH1 | PH2, // 0
+    PH1 | PH4, // 1
+    PH1 | PH2, // 2
+    PH1,       // 3
+};
 
 unsigned char enableParallax;
 
@@ -228,7 +237,7 @@ void SystemReset() {
         worst[i] = 0;
 #endif
 
-    // #if _ENABLE_ATARIVOX
+    // #if __ENABLE_ATARIVOX
     // RAM[_BUF_SPEECH] = 0xFF;
     // #endif
 }
@@ -327,7 +336,7 @@ void initNextLife() {
 
     setJumpVectors(_NORMAL_KERNEL, _EXIT_KERNEL);
 
-#if _ENABLE_WATER
+#if __ENABLE_WATER
     //    water = 0;
     //    lava = 0;
     lastWater = 0;
@@ -500,7 +509,7 @@ void drawWord(const unsigned char *string, int y) {
 //     togt++;
 
 //     if (
-// #if _ENABLE_DEMO
+// #if __ENABLE_DEMO
 //         !demoMode &&
 // #endif
 //         displayMode != DISPLAY_OVERVIEW && uncoverTimer > 1 && uncoverTimer <
@@ -612,7 +621,7 @@ void initGameDataStreams() {
         {_DS_COLUP1, _BUF_COLUP1},
         {_DS_GRP0a, _BUF_GRP0A},
         {_DS_GRP1a, _BUF_GRP1A},
-#if _ENABLE_ATARIVOX
+#if __ENABLE_ATARIVOX
         {_DS_SPEECH, _BUF_SPEECH},
 #endif
         {0x21, _BUF_JUMP1},
@@ -668,7 +677,7 @@ void handleCaveCompletion() {
 
         else {
 
-#if _ENABLE_DEMO
+#if __ENABLE_DEMO
             if (!demoMode) {
 #endif
                 if (doges < 0) {
@@ -728,7 +737,7 @@ void handleCaveCompletion() {
 
                 if (!--exitMode)
                     caveCompleted = true;
-#if _ENABLE_DEMO
+#if __ENABLE_DEMO
             }
 #endif
         }
@@ -744,7 +753,7 @@ void GameOverscan() {
 
     availableIdleTime = 99000 - 1000;
 
-#if _ENABLE_ATARIVOX
+#if __ENABLE_ATARIVOX
     if (RAM[_BUF_SPEECH] != 0xFF)
         availableIdleTime = 30000;
 #endif
@@ -876,7 +885,7 @@ void GameOverscan() {
 
     drawOverscanThings();
 
-#if _ENABLE_DEMO
+#if __ENABLE_DEMO
 //    checkDemoFinished();
 #endif
 
@@ -900,14 +909,14 @@ void handleSelectReset() {
 
         caveCompleted = false;
 
-#if _ENABLE_DEMO
+#if __ENABLE_DEMO
         if (demoMode)
             initKernel(KERNEL_MENU);
         else {
 #endif
 
             if (++cave >= caveCount) {
-#if !_ENABLE_TRAINER
+#if !__ENABLE_TRAINER
                 if (level < 4)
                     ++level;
 #endif
@@ -915,7 +924,7 @@ void handleSelectReset() {
             }
 
             initKernel(KERNEL_STATS);
-#if _ENABLE_DEMO
+#if __ENABLE_DEMO
         }
 #endif
     }
@@ -929,7 +938,7 @@ void GameVerticalBlank() {
     showingWords = false;
     availableIdleTime = 120000 - 1000;
 
-#if _ENABLE_ATARIVOX
+#if __ENABLE_ATARIVOX
     processSpeech();
 #endif
 
@@ -981,19 +990,15 @@ void GameVerticalBlank() {
     }
 }
 
-void conglomerate(unsigned char *me, int att) {
+void conglomerate(unsigned char *me) {
 
-    int chr = GET(*me);
-    int type = CharToType[chr];
-    if ((Attribute[type] & att)) {
+    if ((Attribute[CharToType[GET(*me)]] & ATT_GEODOGE)) {
 
         int cong = CH_GEODOGE | (*me & FLAG_THISFRAME);
 
-        for (int i = 0; i < 4; i++) {
-            int ch = *(me + dirOffset[i]);
-            if (Attribute[CharToType[GET(ch)]] & ATT_GEODOGE)
+        for (int i = 0; i < 4; i++)
+            if (Attribute[CharToType[GET(*(me + dirOffset[i]))]] & ATT_GEODOGE)
                 cong += 1 << i;
-        }
 
         *me = cong;
     }
@@ -1005,8 +1010,7 @@ void setupBoard() {
     if (frameCounter >= gameSpeed) {
         // #endif
 
-        selectorCounter++;
-        selectorCounter &= 3;
+        activated = isActive[++selectorCounter & 3];
 
         // if (++frameCounter >= gameSpeed)
         frameCounter = 0;
@@ -1057,14 +1061,15 @@ void setupBoard() {
         if (boardRow < 0) {
             boardRow = _BOARD_ROWS - 1;
             boardCol = _BOARD_COLS - 1;
+
+            me = RAM + _BOARD + _BOARD_ROWS * _BOARD_COLS - 1;
         }
 
         else {
             boardCol = -1;
             boardRow = 0;
+            me = RAM + _BOARD;
         }
-
-        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
 
         gameSchedule = SCHEDULE_PROCESSBOARD;
 
@@ -1112,12 +1117,12 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
 
 void doRoll(unsigned char *me, unsigned char creature) {
 
-    if (rangeRandom(50) || !(TYPEOF(*(me + _BOARD_COLS)) == TYPE_GRINDER ||
-                             CharToType[GET(*(me + _BOARD_COLS))] == TYPE_GRINDER_1))
+    if (rangeRandom(50) || !(TYPEOF(*(me + _1ROW)) == TYPE_GRINDER ||
+                             CharToType[GET(*(me + _1ROW))] == TYPE_GRINDER_1))
         return;
 
-    // if (!((CharToType[GET(*(me + _BOARD_COLS))] == TYPE_GRINDER)
-    //     || (CharToType[GET(*(this+ _BOARD_COLS))] == TYPE_GRINDER_1))
+    // if (!((CharToType[GET(*(me + _1ROW))] == TYPE_GRINDER)
+    //     || (CharToType[GET(*(this+ _1ROW))] == TYPE_GRINDER_1))
     //     && (!shakeTime || rangeRandom(50)))
     //     return;
 
@@ -1129,7 +1134,7 @@ void doRoll(unsigned char *me, unsigned char creature) {
             unsigned char sideType = CharToType[GET(*side)];
             if (Attribute[sideType] & ATT_BLANK) {
 
-                unsigned char sideDownType = CharToType[GET(*(side + _BOARD_COLS))];
+                unsigned char sideDownType = CharToType[GET(*(side + _1ROW))];
                 if (Attribute[sideDownType] & ATT_BLANK) {
 
                     int creatureType = CharToType[GET(creature)];
@@ -1137,11 +1142,6 @@ void doRoll(unsigned char *me, unsigned char creature) {
                         (Attribute[creatureType] & (ATT_ROCK | ATT_GEODOGE)) ? CH_DUST_0 : CH_BLANK;
                     *me = replacement | FLAG_THISFRAME;
                     *(me + offset) = creature | FLAG_THISFRAME;
-
-                    // for (int i = 0; i < 4; i++)
-                    //     conglomerate(me + dirOffset[i],
-                    //                  (ATT_GEODOGE | ATT_GRAB));
-
                     return;
                 }
             }
@@ -1151,8 +1151,8 @@ void doRoll(unsigned char *me, unsigned char creature) {
 
 void fixSurroundingConglomerates(unsigned char *pos) {
 
-    for (int i = 0; i < 4; i++)
-        conglomerate(pos + dirOffset[i], ATT_GEODOGE);
+    // for (int i = 0; i < 4; i++)
+    //     conglomerate(pos + dirOffset[i]);
 }
 
 void chainReact_GeoDogeToDoge() {
@@ -1175,7 +1175,7 @@ void chainReact_GeoDogeToDoge() {
             // dogeBlockCount++;
             // cumulativeBlockCount++;
 
-            fixSurroundingConglomerates(pos);
+            //            fixSurroundingConglomerates(pos);
         }
         //    }
     }
@@ -1184,23 +1184,23 @@ void chainReact_GeoDogeToDoge() {
         killAudio(SFX_UNCOVER);
 }
 
-void chainReact_DogeToGeoDoge() {
-    return;
-    for (int i = 0; i < 4; i++) {
+// void chainReact_DogeToGeoDoge() {
+//     return;
+//     for (int i = 0; i < 4; i++) {
 
-        unsigned char *pos = me + dirOffset[i];
-        unsigned char chr = *pos;
-        //        if (!(chr & FLAG_THISFRAME)) {
-        int type = CharToType[GET(chr)];
-        if (Attribute[type] & ATT_GRAB) {
-            *me = CH_GEODOGE_CONVERT | ((dirOffset[i] > 0) ? FLAG_THISFRAME : 0) |
-                  (chr & FLAG_THISFRAME);
+//         unsigned char *pos = me + dirOffset[i];
+//         unsigned char chr = *pos;
+//         //        if (!(chr & FLAG_THISFRAME)) {
+//         int type = CharToType[GET(chr)];
+//         if (Attribute[type] & ATT_GRAB) {
+//             *me = CH_GEODOGE_CONVERT | ((dirOffset[i] > 0) ? FLAG_THISFRAME : 0) |
+//                   (chr & FLAG_THISFRAME);
 
-            fixSurroundingConglomerates(me + dirOffset[i]);
-        }
-        //        }
-    }
-}
+//             fixSurroundingConglomerates(me + dirOffset[i]);
+//         }
+//         //        }
+//     }
+// }
 
 void genericPush(int offsetX, int offsetY) {
 
@@ -1260,8 +1260,7 @@ void genericPush(int offsetX, int offsetY) {
             //         // *pushPos = CH_BLANK;
 
             //         // for (int i = 0; i < 4; i++)
-            //         //     conglomerate(pushPos + dirOffset[i],
-            //         //                  (ATT_GEODOGE | ATT_GRAB));
+            //         //     conglomerate(pushPos + dirOffset[i]);
 
             //         *pushPos = CH_DOGE_01 | FLAG_THISFRAME;
 
@@ -1307,17 +1306,348 @@ void genericPushReverse(int offsetX, int offsetY) {
     }
 }
 
+unsigned char creature;
+unsigned char *prev;
+unsigned char *next;
+unsigned int type;
+
+void processDoge() {
+
+    int attrNext = ATTRIBUTE(*next);
+
+    if (attrNext & ATT_BLANK) {
+        *me = CH_DUST_0 | FLAG_THISFRAME;
+        *next = CH_DOGE_FALLING | FLAG_THISFRAME;
+    }
+
+    else if (attrNext & ATT_ROLL)
+        doRoll(me, CH_DOGE_FALLING);
+}
+
+void processPebble() {
+
+    // don't form way above player
+    if (boardCol == playerX && boardRow < playerY)
+        return;
+
+    int chance = 50;
+
+    for (int i = 0; i < 4; i++)
+        if (TYPEOF(*(me + dirOffset[i])) == TYPE_MELLON_HUSK) {
+            chance = 5;
+            break;
+        }
+
+    if (!rangeRandom((chance))) {
+        *me = CH_PEBBLE_ROCK | FLAG_THISFRAME;
+        nDots(10, boardCol, boardRow, 2, 20 + rangeRandom(30), 3, 5, rangeRandom(0xC000));
+    }
+}
+
+void processWater() {
+
+    if ((boardRow - 1) * TRILINES >= lavaSurface) {
+
+        for (int i = 0; i < 4; i++) {
+            unsigned char *neighbour = me + dirOffset[i];
+            if (Attribute[CharToType[GET(*neighbour)]] & ATT_DISSOLVES)
+                *neighbour = CH_DUST_0;
+        }
+    }
+}
+
+void processLava() {
+
+    if (*me == CH_LAVA_2) {
+        if (!rangeRandom(20))
+            *me = rangeRandom(4) + CH_LAVA_0;
+    }
+
+    else {
+        *me = rangeRandom(4) + CH_LAVA_0;
+
+        if (!rangeRandom(105) && (*me == CH_LAVA_2))
+            nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50, 3, 4, 0x8000);
+    }
+
+    if ((boardRow - 1) * TRILINES >= lavaSurface) {
+
+        for (int i = 0; i < 4; i++) {
+            unsigned char *neighbour = me + dirOffset[i];
+            if (!(*neighbour & FLAG_THISFRAME)) {
+
+                int type = CharToType[GET(*neighbour)];
+                int att = Attribute[type];
+
+                if (att & ATT_DISSOLVES) {
+                    *neighbour = CH_LAVA_0;
+                    return;
+                }
+
+                if (att & ATT_MELTS && !rangeRandom(50)) {
+
+                    *neighbour = (att & ATT_GEODOGE) ? CH_DOGE_00 | FLAG_THISFRAME
+                                                     : CH_DUST_0 | FLAG_THISFRAME;
+                    nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4, 0x10000);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+void processWaterFlow() {
+
+    int line = (boardRow + 1) * TRILINES;
+
+    if (line < lavaSurface) {
+        if (boardRow < 20) {
+
+            if (!(Attribute[CharToType[GET(*(me - _BOARD_COLS))]] & ATT_WATERFLOW)) {
+                *me = CH_BLANK;
+                return;
+            }
+
+            int typeNext = CharToType[GET(*next)];
+
+            int att = Attribute[typeNext];
+            if (typeNext != TYPE_DUST_0 && (att & (ATT_DISSOLVES | ATT_BLANK))) {
+
+                unsigned char rollWater = *me - 1;
+
+                if (rollWater < CH_WATERFLOW_0)
+                    rollWater = CH_WATERFLOW_4;
+
+                *next = rollWater; //| FLAG_THISFRAME;
+
+                // if (GET(*(next + _1ROW)) & ATT_BLANK)
+                //     *(next + _1ROW) = CH_DUST_0;
+            }
+
+            else {
+                nDots(6, boardCol, boardRow, 2, 40, rangeRandom(6), 11, 0x10000);
+            }
+        }
+    }
+}
+// else {
+//     //     *me = CH_WATER_0;
+//     nDots(1, boardCol, 0, 2, 100, rangeRandom(6), lavaSurface, 0x8000);
+// }
+
+void processCharBeltAndGrinder() {
+
+    if (creature == CH_GRINDER_1)
+        conveyorDirection = 1;
+    else if (creature == CH_GRINDER_0)
+        conveyorDirection = -1;
+
+    unsigned char *up = me - _BOARD_COLS;
+    unsigned char *up2 = me - _BOARD_COLS + conveyorDirection;
+
+    if (ATTRIBUTE_BIT(*up, ATT_CONVEYOR) && (ATTRIBUTE_BIT(*up2, ATT_BLANK | ATT_DISSOLVES)) &&
+        !(*up & FLAG_THISFRAME)) {
+        *up2 = (*up) | FLAG_THISFRAME;
+        *up = CH_DUST_0;
+    }
+}
+
+void processOutlet() {
+
+    if ((boardRow + 2) * TRILINES <= lavaSurface) {
+
+        if (GET(*(me - _BOARD_COLS * 2)) == CH_TAP_0) {
+
+            unsigned char under = GET(*(me + _1ROW));
+
+            if (under != CH_WATERFLOW_0) {
+
+                if (Attribute[CharToType[under]] & ATT_PERMEABLE)
+                    *(me + _1ROW) = CH_WATERFLOW_0;
+
+                else
+                    nDots(1, boardCol, boardRow, 2, 30, rangeRandom(3) + 2, 10, 0x8000);
+            }
+        }
+
+        else if (GET(*(me - _BOARD_COLS * 2)) == CH_TAP_1) {
+            // FLASH(0x42, 2);
+            if (GET(*me + _1ROW) != CH_WATERFLOW_0)
+                *(me + _1ROW) = CH_BLANK;
+        }
+    }
+}
+
+void processCharGeoDogeAndRock() {
+
+    // if (GET(*me) == CH_CONGLOMERATE_15 &&
+    //     *Animate[TYPE_GEODOGE_CRITICAL] == CH_CONGLOMERATE_15 &&
+    //     !rangeRandom(4)) {
+
+    //     bool close = ((boardCol - playerX) * (boardCol - playerX) +
+    //                       (boardRow - playerY) * (boardRow - playerY) <
+    //                   7);
+
+    //     int pulse = 3 + rangeRandom(RAINHAILSHINE / 2);
+    //     if (pulse && close) {
+    //         pulsePlayerColour += 32;
+    //         //                            FLASH(0x42, 10);
+    //     }
+
+    //     nDots(pulse, boardCol, boardRow, 2, 25, 3, 4, 0x10000);
+    // }
+
+    unsigned char typeDown = CharToType[GET(*next)];
+
+    if (Attribute[typeDown] & ATT_BLANK) {
+
+        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
+            *next = CH_GEODOGE_FALLING | FLAG_THISFRAME;
+        else
+            *next = CH_ROCK_FALLING | FLAG_THISFRAME;
+
+        *me = CH_DUST_0 | FLAG_THISFRAME;
+
+        // int att = Attribute[CharToType[GET(*(next + _1ROW))]];
+        // if (!(att & ATT_NOROCKNOISE))
+        //     ADDAUDIO(att & ATT_HARD ? SFX_ROCK : SFX_ROCK2);
+    }
+
+    else if (Attribute[typeDown] & ATT_ROLL) {
+
+        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
+            doRoll(me, CH_GEODOGE_FALLING);
+        else
+            doRoll(me, CH_ROCK_FALLING);
+    }
+
+    // Don't conglomerate if not visible
+
+    if (!playerDead) {
+        int deltaX = playerX - boardCol;
+        if (deltaX > 6 | deltaX < -6)
+            return;
+
+        int deltaY = playerY - boardRow;
+        if (deltaY > 5 || deltaY < -5)
+            return;
+    }
+
+    if (Attribute[CharToType[GET(*me)]] & ATT_GEODOGE)
+        for (int i = 0; i < 5; i++)
+            conglomerate(me + dirOffset[i]);
+}
+
+void processCharFallingThings() {
+    unsigned char typeDown = CharToType[GET(*next)];
+    if (Attribute[typeDown] & ATT_BLANK) {
+
+        *me = CH_DUST_0 | FLAG_THISFRAME;
+
+        *next = creature | FLAG_THISFRAME;
+
+        unsigned char *nextNext = next + _1ROW;
+        unsigned char downCh = GET(*nextNext);
+        typeDown = CharToType[downCh];
+        int attNextNext = Attribute[typeDown];
+
+        if (downCh != CH_ROCK_FALLING && downCh != CH_DOGE_FALLING &&
+            downCh != CH_GEODOGE_FALLING) {
+
+            int sfx = 0;
+
+            // if (!(attNextNext & ATT_NOROCKNOISE)) {
+
+            //     if (creature == CH_ROCK_FALLING)
+            //         sfx = attNextNext & ATT_HARD ? SFX_ROCK :
+            //         SFX_ROCK2;
+            //     else
+            //         sfx = SFX_DOGE;
+            // }
+
+            if (attNextNext & ATT_HARD) {
+                if (creature == CH_ROCK_FALLING || creature == CH_GEODOGE_FALLING) {
+
+                    sfx = SFX_ROCK;
+
+                    unsigned char *dL = me + _1ROW - 1;
+                    unsigned char *dR = dL + 2;
+
+                    if (!CharToType[GET(*dR)]) {
+                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
+                    }
+
+                    if (!CharToType[GET(*dL)]) {
+                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
+                    }
+                }
+                // else
+                //     sfx = SFX_DOGE;
+            }
+
+            if (sfx)
+                ADDAUDIO(sfx);
+        }
+    }
+
+    else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
+        Explode(next, CH_DUST_0 | FLAG_THISFRAME);
+
+    else {
+
+        // stop falling
+        unsigned char sfx = 0;
+        int att = ATTRIBUTE(*next);
+
+        switch (creature) {
+
+        case CH_ROCK_FALLING: {
+            *me = CH_ROCK;
+            sfx = att & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
+            break;
+        }
+
+        case CH_GEODOGE_FALLING: {
+            *me = CH_GEODOGE;
+            break;
+        }
+
+        case CH_DOGE_FALLING: {
+            *me = CH_DOGE_00;
+            sfx = SFX_DOGE;
+            break;
+        }
+        }
+
+        if (creature != CH_DOGE_FALLING)
+            nDots(4, boardCol, boardRow, 2, 40, getRandom32() & 3, 10, 0x10000);
+
+        if (att & ATT_ROLL)
+            doRoll(me, creature);
+
+        if (sfx && !(att & ATT_NOROCKNOISE))
+            ADDAUDIO(sfx);
+    }
+}
+
+void convertWaterAndLavaObjects() {
+
+    // Any blanks/dissolves underwater/lava gets transformed to
+    // water/lava chars
+
+    if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES))
+        if (boardRow * TRILINES >= lavaSurface)
+            if (!(*me & FLAG_THISFRAME)) {
+
+                // int rr = getRandom32() & 0b1111;
+                // if (!(rr & 0b1100))
+                *me = showLava ? CH_LAVA_2 : CH_WATER_0; // + (rr & 0b11);
+            }
+}
+
 void processBoardSquares() {
 
     while (true) {
-
-        //        if (T1TC >= availableIdleTime) {
-        //            setScore(lastCreature);
-        //            FLASH(0x42,4);
-        //            return;
-        //        }
-
-        rndX = getRandom32();
 
         int lastBoardRow = boardRow;
         int lastBoardCol = boardCol;
@@ -1328,40 +1658,16 @@ void processBoardSquares() {
             if (boardCol < 0) {
                 boardCol = _BOARD_COLS - 1;
                 boardRow--;
-                me--;
             }
 
             else {
                 boardCol = 0;
                 boardRow++;
-                me++;
             }
 
             if (boardRow > _BOARD_ROWS - 1 || boardRow < 0) {
 
                 processWyrms();
-
-                // int lastCumulative = cumulativeBlockCount;
-                // if (!dogeBlockCount && cumulativeBlockCount) {
-
-                //     int val = 0;
-
-                //     if (cumulativeBlockCount < 10)
-                //         val = cumulativeBlockCount;
-                //     else if (cumulativeBlockCount < 20)
-                //         val = cumulativeBlockCount * 10;
-                //     else
-                //         val = cumulativeBlockCount * 100;
-
-                //     // addScore(val);
-
-                //     cumulativeBlockCount = 0;
-                // }
-                // dogeBlockCount = 0;
-
-                // if (!cumulativeBlockCount && lastCumulative) {
-                //     killAudio(SFX_UNCOVER);
-                // }
 
                 gameSchedule = SCHEDULE_START;
 
@@ -1409,162 +1715,48 @@ void processBoardSquares() {
             }
         }
 
-        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
-        // lastCreature = GET(*me);
+        //        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
 
-        // pcount++;
-        // if (displayMode == DISPLAY_OVERVIEW)
-        //     setScore(pcount);
-
-        // if (CharToType[lastCreature] >= TYPE_MAX) {
-        //     setScore(lastCreature);
-        //     FLASH(0xD2,20);
-        //     boardRow = lastBoardRow;
-        //     boardCol = lastBoardCol;
-        //     return;
-        // }
-
-#if WORST_TIMING
-
-        int startCreatureTime = T1TC;
-        int worstCreature = GET(*me);
-#endif
-
-        if (T1TC + 0x1000 /*worstRequiredTime[CharToType[GET(*me)]]*/ >= availableIdleTime) {
+        if (T1TC >= availableIdleTime) {
 
             boardRow = lastBoardRow;
             boardCol = lastBoardCol;
             return;
         }
 
-        unsigned char creature = *me;
-
-#if WORST_TIMING
-//        worstEverCreature = creature;
-#endif
-
-        unsigned char *prev = me - _BOARD_COLS * gravity;
-        unsigned char *next = me + _BOARD_COLS * gravity;
+        creature = *me;
+        prev = me - _1ROW * gravity;
+        next = me + _1ROW * gravity;
 
         if (!(creature & FLAG_THISFRAME)) {
 
-            int type = CharToType[creature];
+            type = CharToType[creature];
+            convertWaterAndLavaObjects();
 
-            //    #if SCHEDULER==1
-
-            static const int isActive[] = {
-
-                PH1 | PH2, // 0
-                PH1 | PH4, // 1
-                PH1 | PH2, // 2
-                PH1,       // 3
-            };
-
-            if (Attribute[type] & isActive[selectorCounter]) {
+            if (Attribute[type] & activated) {
                 switch (type) {
 
                 case TYPE_DOGE: {
-
-                    //                    chainReact_DogeToGeoDoge();
-
-                    int attrNext = ATTRIBUTE(*next);
-
-                    if (attrNext & ATT_BLANK) {
-                        *me = CH_DUST_0 | FLAG_THISFRAME;
-                        *next = CH_DOGE_FALLING | FLAG_THISFRAME;
-                        break;
-                    }
-
-                    if (attrNext & ATT_ROLL)
-                        doRoll(me, CH_DOGE_FALLING);
-
+                    processDoge();
                     break;
                 }
 
                 case TYPE_PEBBLE1:
                 case TYPE_PEBBLE2: {
 
-                    // don't form way above player
-                    if (boardCol == playerX && boardRow < playerY - 1)
-                        break;
-
-                    int chance = 50;
-
-                    for (int i = 0; i < 4; i++)
-                        if (TYPEOF(*(me + dirOffset[i])) == TYPE_MELLON_HUSK) {
-                            chance = 5;
-                            break;
-                        }
-
-                    if (!rangeRandom((chance))) {
-                        *me = CH_PEBBLE_ROCK | FLAG_THISFRAME;
-                        nDots(10, boardCol, boardRow, 2, 20 + rangeRandom(30), 3, 5,
-                              rangeRandom(0xC000));
-                    }
-
+                    processPebble();
                     break;
                 }
 
                 case TYPE_WATER: {
 
-                    if ((boardRow - 1) * TRILINES >= lavaSurface) {
-
-                        for (int i = 0; i < 4; i++) {
-                            unsigned char *neighbour = me + dirOffset[i];
-
-                            int type = CharToType[GET(*neighbour)];
-                            int att = Attribute[type];
-
-                            if (att & ATT_DISSOLVES) {
-                                *neighbour = CH_DUST_0;
-                                break;
-                            }
-                        }
-                    }
+                    processWater();
                     break;
                 }
 
                 case TYPE_LAVA: {
 
-                    if (*me == CH_LAVA_2) {
-                        if (!rangeRandom(20))
-                            *me = rangeRandom(4) + CH_LAVA_0;
-                        ;
-                    }
-
-                    else {
-                        *me = rangeRandom(4) + CH_LAVA_0;
-
-                        if (!rangeRandom(105) && (*me == CH_LAVA_2))
-                            nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50, 3, 4, 0x8000);
-                    }
-
-                    if ((boardRow - 1) * TRILINES >= lavaSurface) {
-
-                        for (int i = 0; i < 4; i++) {
-                            unsigned char *neighbour = me + dirOffset[i];
-                            if (!(*neighbour & FLAG_THISFRAME)) {
-
-                                int type = CharToType[GET(*neighbour)];
-                                int att = Attribute[type];
-
-                                if (att & ATT_DISSOLVES) {
-                                    *neighbour = CH_LAVA_0;
-                                    break;
-                                }
-
-                                if (att & ATT_MELTS && !rangeRandom(50)) {
-
-                                    *neighbour = (att & ATT_GEODOGE) ? CH_DOGE_00 | FLAG_THISFRAME
-                                                                     : CH_DUST_0 | FLAG_THISFRAME;
-                                    nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4,
-                                          0x10000);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
+                    processLava();
                     break;
                 }
 
@@ -1580,63 +1772,31 @@ void processBoardSquares() {
 
                 switch (creature) {
 
+                case CH_WATERFLOW_0:
+                case CH_WATERFLOW_1:
+                case CH_WATERFLOW_2:
+                case CH_WATERFLOW_3:
+                case CH_WATERFLOW_4: {
+                    processWaterFlow();
+                    break;
+                }
+
                 case CH_BELT_0:
                 case CH_BELT_1:
                 case CH_GRINDER_0:
                 case CH_GRINDER_1: {
 
-                    if (creature == CH_GRINDER_1)
-                        conveyorDirection = 1;
-                    else if (creature == CH_GRINDER_0)
-                        conveyorDirection = -1;
-
-                    unsigned char *up = me - _BOARD_COLS;
-                    unsigned char *up2 = me - _BOARD_COLS + conveyorDirection;
-
-                    if (ATTRIBUTE_BIT(*up, ATT_CONVEYOR) &&
-                        (ATTRIBUTE_BIT(*up2, ATT_BLANK | ATT_DISSOLVES)) &&
-                        !(*up & FLAG_THISFRAME)) {
-                        *up2 = (*up) | FLAG_THISFRAME;
-                        *up = CH_DUST_0;
-                    }
-
+                    processCharBeltAndGrinder();
                     break;
                 }
+
+                case CH_OUTLET:
+                    processOutlet();
+                    break;
 
                 case CH_HUB:
-
-                    if ((boardRow + 2) * TRILINES <= lavaSurface) {
-
-                        if (GET(*(me + 80)) != CH_WATERFLOW_0)
-                            *(me + 80) = CH_WATERFLOW_0 | FLAG_THISFRAME;
-
-                        nDots(4, boardCol, boardRow + 2, 2, 50, rangeRandom(2) * 5, rangeRandom(7),
-                              0x10000);
-                    }
-                    break;
-
                 case CH_HUB_1:
-
-                    if (GET(*(me + 80)) == CH_WATERFLOW_0)
-                        *(me + 80) = CH_BLANK;
                     break;
-
-                case CH_WATERFLOW_0: {
-
-                    int line = boardRow * TRILINES;
-                    if (!(gameFrame & 7)) {
-
-                        if (boardRow < 20 && line < lavaSurface)
-                            *(me + _BOARD_COLS) = CH_WATERFLOW_0;
-
-                        else
-                            *me = CH_BLANK;
-                    }
-
-                    if (line >= lavaSurface)
-                        nDots(1, boardCol, boardRow, 2, 100, 5 * rangeRandom(2), 10, 0x10000);
-                    break;
-                }
 
                 case CH_PEBBLE_ROCK:
                     *me = CH_GEODOGE | FLAG_THISFRAME;
@@ -1751,51 +1911,7 @@ void processBoardSquares() {
 
                 case CH_GEODOGE: {
 
-                    // if (GET(*me) == CH_CONGLOMERATE_15 &&
-                    //     *Animate[TYPE_GEODOGE_CRITICAL] == CH_CONGLOMERATE_15 &&
-                    //     !rangeRandom(4)) {
-
-                    //     bool close = ((boardCol - playerX) * (boardCol - playerX) +
-                    //                       (boardRow - playerY) * (boardRow - playerY) <
-                    //                   7);
-
-                    //     int pulse = 3 + rangeRandom(RAINHAILSHINE / 2);
-                    //     if (pulse && close) {
-                    //         pulsePlayerColour += 32;
-                    //         //                            FLASH(0x42, 10);
-                    //     }
-
-                    //     nDots(pulse, boardCol, boardRow, 2, 25, 3, 4, 0x10000);
-                    // }
-
-                    unsigned char typeDown = CharToType[GET(*next)];
-
-                    if (Attribute[typeDown] & ATT_BLANK) {
-
-                        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
-                            *next = CH_GEODOGE_FALLING | FLAG_THISFRAME;
-                        else
-                            *next = CH_ROCK_FALLING | FLAG_THISFRAME;
-
-                        *me = CH_DUST_0 | FLAG_THISFRAME;
-
-                        // int att = Attribute[CharToType[GET(*(next + _BOARD_COLS))]];
-                        // if (!(att & ATT_NOROCKNOISE))
-                        //     ADDAUDIO(att & ATT_HARD ? SFX_ROCK : SFX_ROCK2);
-                    }
-
-                    else if (Attribute[typeDown] & ATT_ROLL) {
-
-                        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
-                            doRoll(me, CH_GEODOGE_FALLING);
-                        else
-                            doRoll(me, CH_ROCK_FALLING);
-                    }
-
-                    if (creature != CH_ROCK)
-                        for (int i = 0; i < 5; i++)
-                            conglomerate(me + dirOffset[i], ATT_GEODOGE);
-
+                    processCharGeoDogeAndRock();
                     break;
                 }
 
@@ -1803,96 +1919,7 @@ void processBoardSquares() {
                 case CH_ROCK_FALLING:
                 case CH_GEODOGE_FALLING: {
 
-                    unsigned char typeDown = CharToType[GET(*next)];
-                    if (Attribute[typeDown] & ATT_BLANK) {
-
-                        *me = CH_DUST_0 | FLAG_THISFRAME;
-
-                        *next = creature | FLAG_THISFRAME;
-
-                        unsigned char *nextNext = next + _BOARD_COLS;
-                        unsigned char downCh = GET(*nextNext);
-                        typeDown = CharToType[downCh];
-                        int attNextNext = Attribute[typeDown];
-
-                        if (downCh != CH_ROCK_FALLING && downCh != CH_DOGE_FALLING &&
-                            downCh != CH_GEODOGE_FALLING) {
-
-                            int sfx = 0;
-
-                            // if (!(attNextNext & ATT_NOROCKNOISE)) {
-
-                            //     if (creature == CH_ROCK_FALLING)
-                            //         sfx = attNextNext & ATT_HARD ? SFX_ROCK :
-                            //         SFX_ROCK2;
-                            //     else
-                            //         sfx = SFX_DOGE;
-                            // }
-
-                            if (attNextNext & ATT_HARD) {
-                                if (creature == CH_ROCK_FALLING || creature == CH_GEODOGE_FALLING) {
-
-                                    sfx = SFX_ROCK;
-
-                                    unsigned char *dL = me + _BOARD_COLS - 1;
-                                    unsigned char *dR = dL + 2;
-
-                                    if (!CharToType[GET(*dR)]) {
-                                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
-                                    }
-
-                                    if (!CharToType[GET(*dL)]) {
-                                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
-                                    }
-                                }
-                                // else
-                                //     sfx = SFX_DOGE;
-                            }
-
-                            if (sfx)
-                                ADDAUDIO(sfx);
-                        }
-                    }
-
-                    else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS)
-                        Explode(next, CH_DUST_0 | FLAG_THISFRAME);
-
-                    else {
-
-                        // stop falling
-                        unsigned char sfx = 0;
-                        int att = ATTRIBUTE(*next);
-
-                        switch (creature) {
-                        case CH_ROCK_FALLING: {
-                            *me = CH_ROCK;
-                            sfx = att & ATT_HARD ? SFX_ROCK : SFX_ROCK2;
-                            break;
-                        }
-
-                        case CH_GEODOGE_FALLING: {
-                            *me = CH_GEODOGE;
-                            break;
-                        }
-
-                        case CH_DOGE_FALLING: {
-                            *me = CH_DOGE_00;
-                            sfx = SFX_DOGE;
-                            break;
-                        }
-                        }
-
-                        if (creature != CH_DOGE_FALLING)
-                            nDots(4, boardCol, boardRow, 2, 40, getRandom32() & 3, 10, 0x10000);
-
-                        if (att & ATT_ROLL)
-                            doRoll(me, creature);
-
-                        if (sfx && !(att & ATT_NOROCKNOISE))
-                            ADDAUDIO(sfx);
-                    }
-
-                    // conglomerate();
+                    processCharFallingThings();
                     break;
                 }
 
@@ -1905,12 +1932,9 @@ void processBoardSquares() {
 
                 case CH_MELLON_HUSK_BIRTH:
 
-                    // playerX = boardCol;
-                    // playerY = boardRow;
-
                     if (
 #if CIRCLE
-                        checkSwipeFinished() ||
+                        checkSwipeFinished() &&
 #endif
                         (!isScrolling())) {
 
@@ -1932,19 +1956,7 @@ void processBoardSquares() {
                 }
             }
 
-            // Any blanks/dissolves underwater/lava gets transformed to
-            // water/lava chars
-
-            if (boardRow * TRILINES >= lavaSurface) {
-                if (!(*me & FLAG_THISFRAME)) {
-                    if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES)) {
-                        if (!rangeRandom(4)) {
-                            int rr = getRandom32() & 3;
-                            *me = showLava ? CH_LAVA_2 : CH_WATER_0 + rr;
-                        }
-                    }
-                }
-            }
+            // convertWaterAndLavaObjects();
         }
 
         // Clear any "scanned this frame" objects on the previous line
@@ -1968,6 +1980,8 @@ void processBoardSquares() {
             doges = worstEverCreature;
         }
 #endif
+
+        me += gravity;
     }
 }
 

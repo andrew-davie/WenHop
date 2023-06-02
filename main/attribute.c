@@ -113,11 +113,11 @@ const unsigned char CharToType[CH_MAX] = {
     TYPE_WATER,                 // 103 CH_WATER_1
     TYPE_WATER,                 // 104 CH_WATER_2
     TYPE_WATER,                 // 105 CH_WATER_3
-    TYPE_WATERFLOW,             // 106 CH_WATERFLOW_0
-    TYPE_WATERFLOW,             // 107 CH_WATERFLOW_1
-    TYPE_WATERFLOW,             // 108 CH_WATERFLOW_2
-    TYPE_WATERFLOW,             // 109 CH_WATERFLOW_3
-    TYPE_WATERFLOW,             // 110 CH_WATERFLOW_4
+    TYPE_WATERFLOW0,            // 106 CH_WATERFLOW_0
+    TYPE_WATERFLOW1,            // 107 CH_WATERFLOW_1
+    TYPE_WATERFLOW2,            // 108 CH_WATERFLOW_2
+    TYPE_WATERFLOW3,            // 109 CH_WATERFLOW_3
+    TYPE_WATERFLOW4,            // 110 CH_WATERFLOW_4
     TYPE_TAP,                   // 111 CH_TAP_0
     TYPE_HUB,                   // 112 CH_HUB_1
     TYPE_OUTLET,                // 113 CH_OUTLET
@@ -193,13 +193,17 @@ const int Attribute[TYPE_MAX] = {
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 29 TYPE_BLOCK
     _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 30 TYPE_GRINDER
     _ | _ | _ | _ | _ | _ | _ | _ |PH4|PIP| _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 31 TYPE_HUB
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC| _ |XPD| _ | _  , // 32 TYPE_WATER
-    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |XPD| _ | _  , // 33 TYPE_WATERFLOW
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 34 TYPE_TAP
-    _ | _ | _ | _ | _ | _ | _ | _ |PH4|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 35 TYPE_OUTLET
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 36 TYPE_GRINDER1
-    _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 37 TYPE_BELT
-    _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 38 TYPE_BELT_1
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 32 TYPE_WATER
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 33 TYPE_WATERFLOW0
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 34 TYPE_WATERFLOW1
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 35 TYPE_WATERFLOW2
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 36 TYPE_WATERFLOW3
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PER|XPD| _ | _  , // 37 TYPE_WATERFLOW4
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 38 TYPE_TAP
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ |WTF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 39 TYPE_OUTLET
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 40 TYPE_GRINDER1
+    _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 41 TYPE_BELT
+    _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 42 TYPE_BELT_1
 // ---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 
     // clang-format on

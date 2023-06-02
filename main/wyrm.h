@@ -1,7 +1,7 @@
 #ifndef __WYRM_H
 #define __WYRM_H
 
-#define WYRM_POP 4
+#define WYRM_POP 10
 #define WYRM_MAX 25
 
 extern int wyrmNum;

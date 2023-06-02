@@ -48,7 +48,7 @@ void grab(int frac, int size) {
                 udlr |= DIR_U;
             if (ATTRIBUTE_BIT(p[base + 1], ATT_CORNER))
                 udlr |= DIR_R;
-            if (ATTRIBUTE_BIT(p[base + _BOARD_COLS], ATT_CORNER))
+            if (ATTRIBUTE_BIT(p[base + _1ROW], ATT_CORNER))
                 udlr |= DIR_D;
             if (ATTRIBUTE_BIT(p[base - 1], ATT_CORNER))
                 udlr |= DIR_L;
@@ -214,7 +214,7 @@ void rain() {
                 }
 
                 x += rangeRandom(2) - 1;
-                rainSpeedX[i] = (rainSpeedX[i] * 3) >> 2;
+                rainSpeedX[i] = (rainSpeedX[i] * 15) >> 4;
             }
 
             if (!drawBit(x, y))
