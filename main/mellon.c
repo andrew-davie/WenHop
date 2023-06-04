@@ -62,6 +62,13 @@ const unsigned char mineAnimation[] = {
     ID_Push,
 };
 
+const unsigned char tapAnimation[] = {
+    ID_TapUp,
+    ID_TapPush,
+    ID_TapDown,
+    ID_TapPush,
+};
+
 const unsigned char WalkAnimation[] = {
     ID_WalkUp,   // U
     ID_Walk,     // R
@@ -149,6 +156,7 @@ void grabDoge(/* unsigned char *where*/) {
 }
 
 int playerSlow = 0;
+int tapDelay = 0;
 
 bool checkHighPriorityMove(int dir) {
 
@@ -169,21 +177,26 @@ bool checkHighPriorityMove(int dir) {
         //        bool grabbed = false;
         int type = CharToType[GET(*meOffset)];
 
+        if (tapDelay)
+            tapDelay--;
+
         // turn on/off a tap
-        if (type == TYPE_TAP) {
+        if (!tapDelay && type == TYPE_TAP) {
             *meOffset = *meOffset ^ (CH_TAP_1 ^ CH_TAP_0);
             if (*meOffset == CH_TAP_1) {
                 showWater = true;
                 showLava = false;
-                if (21 * TRILINES < lavaSurface)
-                    lavaSurface = 21 * TRILINES;
+                if (21 * TRILINES < lavaSurfaceTrixel)
+                    lavaSurfaceTrixel = 21 * TRILINES;
             }
 
             *(meOffset + _1ROW) = (GET(*(meOffset + _1ROW)) == CH_HUB) ? CH_HUB_1 : CH_HUB;
-            startPlayerAnimation(ID_Push);
+
+            startPlayerAnimation(tapAnimation[dir]);
+            tapDelay = 10;
 
             waitForNothing = 6;
-            startPlayerAnimation(ID_Stand);
+            //            startPlayerAnimation(ID_Stand);
             handled = true;
         }
 
@@ -431,7 +444,7 @@ void movePlayer(unsigned char *me) {
 
     // breath bubbles
     static int breath;
-    if (showWater && playerY * TRILINES > lavaSurface) {
+    if (showWater && playerY * TRILINES > lavaSurfaceTrixel) {
 
         breath++;
         if (!(breath & 35) && (breath & 63) < 21) {
@@ -447,8 +460,10 @@ void movePlayer(unsigned char *me) {
 
     static unsigned char lastUsableSWCHA = 0;
 
-    if (usableSWCHA != lastUsableSWCHA)
+    if (usableSWCHA != lastUsableSWCHA) {
         waitForNothing = 0;
+        // tapDelay = 0;
+    }
 
     if (waitForNothing) {
         --waitForNothing;
@@ -486,8 +501,8 @@ void movePlayer(unsigned char *me) {
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
 
-    if (*(me - _BOARD_COLS) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
-        *(me - _BOARD_COLS) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
+    if (*(me - _1ROW) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
+        *(me - _1ROW) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

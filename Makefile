@@ -95,13 +95,15 @@ armcode_defines: gfx $(asmSrcs)
 	@printf $(OPTION_COLOR)
 	$(DASM) $(PROJECT).asm -p100 -f3 -v0 -s$(PROJECT).sym -l$(PROJECT).lst -o$(PROJECT).bin
 	@echo "// Do not change this file. It is auto-generated during the make process" > main/$(DASM_TO_C)
-	awk '$$0 ~ /^_/ {printf "#define %-25s 0x%s\n", $$1, $$2}' $(PROJECT).sym >> main/$(DASM_TO_C)x
-	awk 'FNR==NR {exclude[$$0]; next} {found=0; for (str in exclude) if (index($$0, str)==1) found=1} !found' excluded_strings.txt main/$(DASM_TO_C)x >> main/$(DASM_TO_C)
+	awk '$$0 ~ /^_/ {printf "#define %-25s 0x%s\n", $$1, $$2}' $(PROJECT).sym >> main/$(DASM_TO_C)
+
+
+
+#	awk 'FNR==NR {exclude[$$0]; next} {found=0; for (str in exclude) if (index($$0, str)==1) found=1} !found' excluded_strings.txt main/$(DASM_TO_C)x >> main/$(DASM_TO_C)
 
 
 #	awk 'FNR==NR {exclude[$$0]; next} {found=0; for (str in exclude) if (index($$0, str) != 0) found=1} !found' excluded_strings.txt main/$(DASM_TO_C)x >> main/$(DASM_TO_C)
 
-# awk '$$0 ~ /^_/ {printf "#define %-25s 0x%s\n", $$1, $$2}' $(PROJECT).sym >> main/$(DASM_TO_C)
 
 	@printf $(INFO_COLOR)
 	@echo "Step 2/3 - Create ARM BIN"

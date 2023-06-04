@@ -164,7 +164,7 @@ const unsigned char caveA[] = {
     //     0xFE, CH_HUB, 2,6+VS*2,
     //     0xFE, CH_HUB, 3,6+VS*2,
 
-       0xFE, CH_WYRM_HEAD_U, 3, 6,
+//       0xFE, CH_WYRM_HEAD_U, 3, 6,
 
     // LINE + CH_BRICKWALL,1,7,2,31,
     // LINE + CH_BRICKWALL,8,14,2,31,

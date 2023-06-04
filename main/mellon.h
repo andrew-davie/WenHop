@@ -25,5 +25,8 @@ extern bool playerDead;
 extern const signed char xInc[];
 extern const signed char yInc[];
 
+void grabDoge();
+
+
 #endif
 // EOF

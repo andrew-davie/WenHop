@@ -91,6 +91,9 @@ enum AnimationIdent {
     ID_WalkDown, // 10
     ID_MineUp,   // 11
     ID_MineDown, // 12
+    ID_TapUp,    // 13
+    ID_TapDown,  // 14
+    ID_TapPush,  // 15
 };
 
 extern int autoMoveX;

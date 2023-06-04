@@ -1370,28 +1370,28 @@ void handleMenuScreen() {
 
     drawString(0, y + 8, dLine, colour);
 
-    static int protoTime = 0;
-    if (++protoTime < 200) {
+    // static int protoTime = 0;
+    // if (++protoTime < 200) {
 
-        drawSmallString(180, wordProto);
-        drawSmallString(188, wordProto2);
+    //     drawSmallString(180, wordProto);
+    //     drawSmallString(188, wordProto2);
 
-        for (int line = 179; line < 194; line++) {
-            RAM[_BUF_MENU_COLUP0 + line] = 0x8;
-        }
-    }
+    //     for (int line = 179; line < 194; line++) {
+    //         RAM[_BUF_MENU_COLUP0 + line] = 0x8;
+    //     }
+    // }
 
-    else {
+    // else {
 
-        for (int line = 179; line < 194; line++)
-            for (int i = 0; i < 6; i++)
-                RAM[_BUF_MENU_GRP0A + _ARENA_SCANLINES * i + line] = 0;
-    }
+    //     for (int line = 179; line < 194; line++)
+    //         for (int i = 0; i < 6; i++)
+    //             RAM[_BUF_MENU_GRP0A + _ARENA_SCANLINES * i + line] = 0;
+    // }
 
     // Draw ICC menu PF background
 
     interleaveColour();
-    setTitleMarqueeColours(); // 41, 78);
+    setTitleMarqueeColours();
 
     const unsigned char *logo0a = (const unsigned char *)_TITLE_SCREEN;
     unsigned char *pf1L = RAM + _BUF_MENU_PF1_LEFT;

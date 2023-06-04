@@ -298,7 +298,7 @@ int decodeExplicitData(int sfx) {
 
 void StoreObject(int x, int y, objectType anObject) {
 
-    unsigned char *me = RAM + _BOARD + x + y * _BOARD_COLS;
+    unsigned char *me = RAM + _BOARD + x + y * _1ROW;
     unsigned char type = TYPEOF(anObject);
 
     if (TYPEOF(*me) == TYPE_DOGE)
@@ -315,8 +315,8 @@ void StoreObject(int x, int y, objectType anObject) {
 
         showLava = true;
         int line = y * TRILINES;
-        if (lavaSurface > 0 && line < lavaSurface)
-            lavaSurface = line;
+        if (lavaSurfaceTrixel > 0 && line < lavaSurfaceTrixel)
+            lavaSurfaceTrixel = line;
 
         break;
     }
@@ -325,8 +325,8 @@ void StoreObject(int x, int y, objectType anObject) {
 
         showWater = true;
         int line = y * TRILINES;
-        if (lavaSurface > 0 && line < lavaSurface)
-            lavaSurface = line;
+        if (lavaSurfaceTrixel > 0 && line < lavaSurfaceTrixel)
+            lavaSurfaceTrixel = line;
 
         break;
     }

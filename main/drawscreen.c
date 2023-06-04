@@ -44,7 +44,7 @@ void grab(int frac, int size) {
 
         if (ATTRIBUTE_BIT(p[base], ATT_PAD)) {
 
-            if (ATTRIBUTE_BIT(p[base - _BOARD_COLS], ATT_CORNER))
+            if (ATTRIBUTE_BIT(p[base - _1ROW], ATT_CORNER))
                 udlr |= DIR_U;
             if (ATTRIBUTE_BIT(p[base + 1], ATT_CORNER))
                 udlr |= DIR_R;
@@ -208,7 +208,7 @@ void rain() {
 
             if (rainType[i] == RAINTYPE_BUBBLE) {
 
-                if ((rainY[i] >> 16) < lavaSurface) {
+                if ((rainY[i] >> 16) < lavaSurfaceTrixel) {
                     rainX[i] = -1;
                     continue;
                 }

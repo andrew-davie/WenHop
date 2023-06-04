@@ -41,7 +41,7 @@ void processWyrms() {
         if (headPos < 0)
             continue;
 
-        bool belowSurface = (wyrm->y[0] * TRILINES > lavaSurface);
+        bool belowSurface = (wyrm->y[0] * TRILINES > lavaSurfaceTrixel);
 
         int x = wyrm->x[headPos];
         int y = wyrm->y[headPos];
@@ -78,7 +78,7 @@ void processWyrms() {
             }
         }
 
-        bool candidateBelowSurface = (candidateY * TRILINES > lavaSurface);
+        bool candidateBelowSurface = (candidateY * TRILINES > lavaSurfaceTrixel);
         if (!candidateBelowSurface && candidateBelowSurface != belowSurface)
             moveable = false;
 
@@ -149,7 +149,8 @@ void processWyrms() {
 
             if (headPos >= wyrm->length) {
 
-                if (whatsThere != TYPE_DOGE || wyrm->length > WYRM_MAX - 2) {
+                if (!(Attribute[whatsThere] & (ATT_WATERFLOW | ATT_GRAB)) ||
+                    wyrm->length > WYRM_MAX - 2) {
                     unsigned char *tailPos = RAM + _BOARD + wyrm->y[0] * 40 + wyrm->x[0];
                     *tailPos = CH_DUST_0;
 
@@ -165,7 +166,7 @@ void processWyrms() {
                     wyrm->length++;
                 }
 
-                if (wyrm->y[0] * TRILINES > lavaSurface) {
+                if (wyrm->y[0] * TRILINES > lavaSurfaceTrixel) {
                     if (!rangeRandom(50)) {
                         newWyrm(wyrm->x[0], wyrm->y[0]);
                     }

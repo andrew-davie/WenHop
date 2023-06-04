@@ -165,7 +165,7 @@ void drawPlayerSprite() { // --> 3171 cycles
         {0x20, 0x30, 0x40, 0x50},
     };
 
-    int rooted = c[showWater ? 0 : 1][(root >> 3) & 3];
+    int rooted = c[1][(root >> 3) & 3];
 
     if (pulsePlayerColour) {
         if (!(--pulsePlayerColour & 7)) {
@@ -176,6 +176,7 @@ void drawPlayerSprite() { // --> 3171 cycles
     }
 
     else {
+        rooted = c[0][(root >> 3) & 3];
         for (int i = 0; i < 16; i++)
             postProcessPlayerColours[i] = playerBaseColour[i] & 0xF0;
     }
@@ -210,7 +211,7 @@ void drawPlayerSprite() { // --> 3171 cycles
         int frameOffset = *(const signed char *)spr++;
         int frameYOffset = *(const signed char *)spr++;
 
-        int lavaLine = (lavaSurface - (scrollY >> 16)) * 3;
+        int lavaLine = (lavaSurfaceTrixel - (scrollY >> 16)) * 3;
         playerSpriteY = ypos - frameYOffset - 1;
 
         int pX = (xpos)*4 + (faceDirection * (frameOffset + frameAdjustX + autoMoveX)) + 2;

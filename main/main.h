@@ -52,7 +52,7 @@ void drawWord(const unsigned char *string, int y);
 void conglomerate(unsigned char *me);
 void bubbles(int count, int dripX, int dripY, int age, int speed);
 int dirFromCoords(int x, int y, int prevX, int prevY);
-void fixSurroundingConglomerates(unsigned char *pos);
+// void fixSurroundingConglomerates(unsigned char *pos);
 
 extern const unsigned char BitRev[];
 
@@ -123,7 +123,7 @@ extern unsigned char enableParallax;
 extern unsigned char enableICC;
 
 extern bool caveCompleted;
-extern int lavaSurface;
+extern int lavaSurfaceTrixel;
 extern bool showLava, showWater;
 
 extern const signed char dirOffset[];

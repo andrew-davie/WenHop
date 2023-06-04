@@ -46,6 +46,17 @@ const signed char AnimationPush[] = {
     ACTION_LOOP,
 };
 
+const signed char AnimationTapPush[] = {
+
+    ACTION_SFX, SFX_PICKAXE,
+    ACTION_POSITION, 5, 0,
+    FRAME_PUSH, 8,
+    FRAME_PUSH2, 5,
+    FRAME_STAND, 5,
+    ACTION_STOP,
+};
+
+
 const signed char AnimationMineUp[] = {
 
     ACTION_SFX, SFX_PICKAXE,
@@ -64,6 +75,24 @@ const signed char AnimationMineDown[] = {
     FRAME_MINE_DOWN_0, 5,
     FRAME_STAND, 5,
     ACTION_LOOP,
+};
+
+const signed char AnimationTapUp[] = {
+
+    ACTION_SFX, SFX_PICKAXE,
+    FRAME_MINE_UP_1, 30,
+    FRAME_MINE_UP_0, 8,
+    ACTION_STOP,
+};
+
+const signed char AnimationTapDown[] = {
+
+    //    FRAME_MINE_DOWN_0, 2,
+    ACTION_SFX, SFX_PICKAXE,
+    ACTION_POSITION, 0, -10,
+    FRAME_MINE_DOWN_1, 30,
+    FRAME_MINE_DOWN_0, 5,
+    ACTION_STOP,
 };
 
 const signed char AnimationLocked[] = {
@@ -372,6 +401,9 @@ const signed char *const AnimationVector[] = {
     AnimationWalkDown, // 10 ID_WalkDown
     AnimationMineUp,   // 11 ID_MineUp
     AnimationMineDown, // 12 ID_MineDown
+    AnimationTapUp,    // 13 ID_TapUp
+    AnimationTapDown,  // 14 ID_TapDown
+    AnimationTapPush,  // 15 ID_TapPush
 };
 
 enum AnimationIdent playerAnimationID = ID_Stand;
