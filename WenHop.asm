@@ -223,8 +223,8 @@ END_OF_INDIRECT_DATA
 
 ; .DIRECT_DATA_SIZE .SET TITLESCREEN_DATA
 
-; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (__WORD_COUNT * 2)
-; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + __COPYRIGHT_ROWS * 6
+; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (ooWORD_COUNT * 2)
+; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + ooCOPYRIGHT_ROWS * 6
 ; .DIRECT_DATA_SIZE .SET .DIRECT_DATA_SIZE + (CHAR_COUNT * CHAR_SIZE)
 
 ;     echo .DIRECT_DATA_SIZE, "bytes of ARM_DIRECT_DATA expected, consisting of..."
@@ -319,7 +319,7 @@ CallArmCode
 
     ; Y = function to run
 
-                    ldx #<_DS_TO_ARM
+                    ldx #<_DS_TooARM
                     stx DSPTR
                     stx DSPTR
 
@@ -351,31 +351,31 @@ SPEECH_TABLE
      .word SPEAK_{1}
      ENDM
 
-__WORD_COUNT SET 0
+ooWORD_COUNT SET 0
 
     IF _ENABLE_ATARIVOX
 
-__WORD_COUNT SET 9
+ooWORD_COUNT SET 9
 
-__WORD_NULL         = 0
+ooWORD_NULL         = 0
 
-__WORD_BOO          = 1
-__WORD_WATCHOUT     = 2
-__WORD_GETREADY     = 3
-__WORD_AARGH        = 4
-__WORD_WET          = 5
-__WORD_TOO_LATE     = 6
-__WORD_LETSGOBABY   = 7
-__WORD_TRAP         = 8
-__WORD_DOSOMETHING  = 9
-__WORD_RAGEQUIT     = 10
-__WORD_GOODBYE      = 11
-__WORD_SOSAD        = 12
-__WORD_WENHOP  = 13
-__WORD_CAVE_ONE     = 14
+ooWORD_BOO          = 1
+ooWORD_WATCHOUT     = 2
+ooWORD_GETREADY     = 3
+ooWORD_AARGH        = 4
+ooWORD_WET          = 5
+ooWORD_TOooLATE     = 6
+ooWORD_LETSGOBABY   = 7
+ooWORD_TRAP         = 8
+ooWORD_DOSOMETHING  = 9
+ooWORD_RAGEQUIT     = 10
+ooWORD_GOODBYE      = 11
+ooWORD_SOSAD        = 12
+ooWORD_WENHOP  = 13
+ooWORD_CAVE_ONE     = 14
 
 
-__SPEECH_ADDRESS
+ooSPEECH_ADDRESS
 
     WORDIS NULL
     WORDIS BOO
@@ -383,7 +383,7 @@ __SPEECH_ADDRESS
     WORDIS GETREADY
     WORDIS AARGH
     WORDIS WET
-    WORDIS TOO_LATE
+    WORDIS TOooLATE
     WORDIS LETSGOBABY
     WORDIS TRAP
     WORDIS DOSOMETHING
@@ -398,11 +398,11 @@ __SPEECH_ADDRESS
     ENDIF
 
 
-; __COPYRIGHT_START
+; ooCOPYRIGHT_START
 
 ;     include "copyright.asm"
 
-;    echo "   - COPYRIGHT DATA from", __COPYRIGHT_START, "to", *, "(", (* - __COPYRIGHT_START) , "bytes)"
+;    echo "   - COPYRIGHT DATA from", ooCOPYRIGHT_START, "to", *, "(", (* - ooCOPYRIGHT_START) , "bytes)"
 
 
 #if _ENABLE_DEMO
@@ -416,7 +416,7 @@ NONE = 4
 
 
 
-__DEMO_JOYSTICK
+ooDEMooJOYSTICK
 
     MAC M ; a,b
         dc {1} * 16 + {2}
@@ -587,7 +587,7 @@ BUT = 0x80
  M    0,   0
 
 
-    echo "   - DEMO JOYSTICK Cfrom", __DEMO_JOYSTICK, "to", *, "(", [* - __DEMO_JOYSTICK) , "bytes)"
+    echo "   - DEMO JOYSTICK Cfrom", ooDEMooJOYSTICK, "to", *, "(", [* - ooDEMooJOYSTICK) , "bytes)"
 #ENDIF
 
 
@@ -600,7 +600,7 @@ _COLOUR_POOL
 ;ffbf8bbc
 ;b4460202
 
-; __COMPATIBLE_COMPATIBLE_PALETTE = 1
+; ooCOMPATIBLE_COMPATIBLE_PALETTE = 1
 _PALETTE_COUNT = 16
 
  ;   dc $14, 0x94, 4, 4
@@ -769,11 +769,11 @@ _PALETTE_COUNT = 16
 
 ;     ; 14 tan rock purple soil aqua doge good glint
 ; ;    dc 0xD8, 0x54, 0x44, 0x34
-;     dc __COMPATIBLE_COMPATIBLE_PALETTE + 0xA6, 0x48, 0xA2, 0xA2 ;0x46, 0xA2, 0xA2, 0xA2
+;     dc ooCOMPATIBLE_COMPATIBLE_PALETTE + 0xA6, 0x48, 0xA2, 0xA2 ;0x46, 0xA2, 0xA2, 0xA2
 ; ;    dc 4, 8, 10, 10
 
 ;     ; 15 purple rock light blue doge green mortar good glint *
-;     dc __COMPATIBLE_COMPATIBLE_PALETTE + 0xA8, 0xC4, 0x26, 0x94
+;     dc ooCOMPATIBLE_COMPATIBLE_PALETTE + 0xA8, 0xC4, 0x26, 0x94
 ; ;x    dc 0x3A, 0xA4, 0x54, 0x54 ;0x46, 0xA2, 0xA2, 0xA2
 ; ;    dc 0x50, 0y08, 0y04, 0y04
 
@@ -784,753 +784,753 @@ _PALETTE_COUNT = 16
 
 ;    echo "   - CHARACTER SET DATA from", CHAR_BLOCK_START, "to", *, "(", [(* - CHAR_BLOCK2_START)]d , " bytes, ", [(* - CHAR_BLOCK2_START) / CHAR_SIZE]d, "characters)"
 
-________ = 0
-_______X = 1
-______X_ = 2
-______XX = 3
-_____X__ = 4
-_____X_X = 5
-_____XX_ = 6
-_____XXX = 7
-____X___ = 8
-____X__X = 9
-____X_X_ = 10
-____X_XX = 11
-____XX__ = 12
-____XX_X = 13
-____XXX_ = 14
-____XXXX = 15
-___X____ = 16
-___X___X = 17
-___X__X_ = 18
-___X__XX = 19
-___X_X__ = 20
-___X_X_X = 21
-___X_XX_ = 22
-___X_XXX = 23
-___XX___ = 24
-___XX__X = 25
-___XX_X_ = 26
-___XX_XX = 27
-___XXX__ = 28
-___XXX_X = 29
-___XXXX_ = 30
-___XXXXX = 31
-__X_____ = 32
-__X____X = 33
-__X___X_ = 34
-__X___XX = 35
-__X__X__ = 36
-__X__X_X = 37
-__X__XX_ = 38
-__X__XXX = 39
-__X_X___ = 40
-__X_X__X = 41
-__X_X_X_ = 42
-__X_X_XX = 43
-__X_XX__ = 44
-__X_XX_X = 45
-__X_XXX_ = 46
-__X_XXXX = 47
-__XX____ = 48
-__XX___X = 49
-__XX__X_ = 50
-__XX__XX = 51
-__XX_X__ = 52
-__XX_X_X = 53
-__XX_XX_ = 54
-__XX_XXX = 55
-__XXX___ = 56
-__XXX__X = 57
-__XXX_X_ = 58
-__XXX_XX = 59
-__XXXX__ = 60
-__XXXX_X = 61
-__XXXXX_ = 62
-__XXXXXX = 63
-_X______ = 64
-_X_____X = 65
-_X____X_ = 66
-_X____XX = 67
-_X___X__ = 68
-_X___X_X = 69
-_X___XX_ = 70
-_X___XXX = 71
-_X__X___ = 72
-_X__X__X = 73
-_X__X_X_ = 74
-_X__X_XX = 75
-_X__XX__ = 76
-_X__XX_X = 77
-_X__XXX_ = 78
-_X__XXXX = 79
-_X_X____ = 80
-_X_X___X = 81
-_X_X__X_ = 82
-_X_X__XX = 83
-_X_X_X__ = 84
-_X_X_X_X = 85
-_X_X_XX_ = 86
-_X_X_XXX = 87
-_X_XX___ = 88
-_X_XX__X = 89
-_X_XX_X_ = 90
-_X_XX_XX = 91
-_X_XXX__ = 92
-_X_XXX_X = 93
-_X_XXXX_ = 94
-_X_XXXXX = 95
-_XX_____ = 96
-_XX____X = 97
-_XX___X_ = 98
-_XX___XX = 99
-_XX__X__ = 100
-_XX__X_X = 101
-_XX__XX_ = 102
-_XX__XXX = 103
-_XX_X___ = 104
-_XX_X__X = 105
-_XX_X_X_ = 106
-_XX_X_XX = 107
-_XX_XX__ = 108
-_XX_XX_X = 109
-_XX_XXX_ = 110
-_XX_XXXX = 111
-_XXX____ = 112
-_XXX___X = 113
-_XXX__X_ = 114
-_XXX__XX = 115
-_XXX_X__ = 116
-_XXX_X_X = 117
-_XXX_XX_ = 118
-_XXX_XXX = 119
-_XXXX___ = 120
-_XXXX__X = 121
-_XXXX_X_ = 122
-_XXXX_XX = 123
-_XXXXX__ = 124
-_XXXXX_X = 125
-_XXXXXX_ = 126
-_XXXXXXX = 127
-X_______ = 128
-X______X = 129
-X_____X_ = 130
-X_____XX = 131
-X____X__ = 132
-X____X_X = 133
-X____XX_ = 134
-X____XXX = 135
-X___X___ = 136
-X___X__X = 137
-X___X_X_ = 138
-X___X_XX = 139
-X___XX__ = 140
-X___XX_X = 141
-X___XXX_ = 142
-X___XXXX = 143
-X__X____ = 144
-X__X___X = 145
-X__X__X_ = 146
-X__X__XX = 147
-X__X_X__ = 148
-X__X_X_X = 149
-X__X_XX_ = 150
-X__X_XXX = 151
-X__XX___ = 152
-X__XX__X = 153
-X__XX_X_ = 154
-X__XX_XX = 155
-X__XXX__ = 156
-X__XXX_X = 157
-X__XXXX_ = 158
-X__XXXXX = 159
-X_X_____ = 160
-X_X____X = 161
-X_X___X_ = 162
-X_X___XX = 163
-X_X__X__ = 164
-X_X__X_X = 165
-X_X__XX_ = 166
-X_X__XXX = 167
-X_X_X___ = 168
-X_X_X__X = 169
-X_X_X_X_ = 170
-X_X_X_XX = 171
-X_X_XX__ = 172
-X_X_XX_X = 173
-X_X_XXX_ = 174
-X_X_XXXX = 175
-X_XX____ = 176
-X_XX___X = 177
-X_XX__X_ = 178
-X_XX__XX = 179
-X_XX_X__ = 180
-X_XX_X_X = 181
-X_XX_XX_ = 182
-X_XX_XXX = 183
-X_XXX___ = 184
-X_XXX__X = 185
-X_XXX_X_ = 186
-X_XXX_XX = 187
-X_XXXX__ = 188
-X_XXXX_X = 189
-X_XXXXX_ = 190
-X_XXXXXX = 191
-XX______ = 192
-XX_____X = 193
-XX____X_ = 194
-XX____XX = 195
-XX___X__ = 196
-XX___X_X = 197
-XX___XX_ = 198
-XX___XXX = 199
-XX__X___ = 200
-XX__X__X = 201
-XX__X_X_ = 202
-XX__X_XX = 203
-XX__XX__ = 204
-XX__XX_X = 205
-XX__XXX_ = 206
-XX__XXXX = 207
-XX_X____ = 208
-XX_X___X = 209
-XX_X__X_ = 210
-XX_X__XX = 211
-XX_X_X__ = 212
-XX_X_X_X = 213
-XX_X_XX_ = 214
-XX_X_XXX = 215
-XX_XX___ = 216
-XX_XX__X = 217
-XX_XX_X_ = 218
-XX_XX_XX = 219
-XX_XXX__ = 220
-XX_XXX_X = 221
-XX_XXXX_ = 222
-XX_XXXXX = 223
-XXX_____ = 224
-XXX____X = 225
-XXX___X_ = 226
-XXX___XX = 227
-XXX__X__ = 228
-XXX__X_X = 229
-XXX__XX_ = 230
-XXX__XXX = 231
-XXX_X___ = 232
-XXX_X__X = 233
-XXX_X_X_ = 234
-XXX_X_XX = 235
-XXX_XX__ = 236
-XXX_XX_X = 237
-XXX_XXX_ = 238
-XXX_XXXX = 239
-XXXX____ = 240
-XXXX___X = 241
-XXXX__X_ = 242
-XXXX__XX = 243
-XXXX_X__ = 244
-XXXX_X_X = 245
-XXXX_XX_ = 246
-XXXX_XXX = 247
-XXXXX___ = 248
-XXXXX__X = 249
-XXXXX_X_ = 250
-XXXXX_XX = 251
-XXXXXX__ = 252
-XXXXXX_X = 253
-XXXXXXX_ = 254
+oooooooo = 0
+oooooooX = 1
+ooooooXo = 2
+ooooooXX = 3
+oooooXoo = 4
+oooooXoX = 5
+oooooXXo = 6
+oooooXXX = 7
+ooooXooo = 8
+ooooXooX = 9
+ooooXoXo = 10
+ooooXoXX = 11
+ooooXXoo = 12
+ooooXXoX = 13
+ooooXXXo = 14
+ooooXXXX = 15
+oooXoooo = 16
+oooXoooX = 17
+oooXooXo = 18
+oooXooXX = 19
+oooXoXoo = 20
+oooXoXoX = 21
+oooXoXXo = 22
+oooXoXXX = 23
+oooXXooo = 24
+oooXXooX = 25
+oooXXoXo = 26
+oooXXoXX = 27
+oooXXXoo = 28
+oooXXXoX = 29
+oooXXXXo = 30
+oooXXXXX = 31
+ooXooooo = 32
+ooXooooX = 33
+ooXoooXo = 34
+ooXoooXX = 35
+ooXooXoo = 36
+ooXooXoX = 37
+ooXooXXo = 38
+ooXooXXX = 39
+ooXoXooo = 40
+ooXoXooX = 41
+ooXoXoXo = 42
+ooXoXoXX = 43
+ooXoXXoo = 44
+ooXoXXoX = 45
+ooXoXXXo = 46
+ooXoXXXX = 47
+ooXXoooo = 48
+ooXXoooX = 49
+ooXXooXo = 50
+ooXXooXX = 51
+ooXXoXoo = 52
+ooXXoXoX = 53
+ooXXoXXo = 54
+ooXXoXXX = 55
+ooXXXooo = 56
+ooXXXooX = 57
+ooXXXoXo = 58
+ooXXXoXX = 59
+ooXXXXoo = 60
+ooXXXXoX = 61
+ooXXXXXo = 62
+ooXXXXXX = 63
+oXoooooo = 64
+oXoooooX = 65
+oXooooXo = 66
+oXooooXX = 67
+oXoooXoo = 68
+oXoooXoX = 69
+oXoooXXo = 70
+oXoooXXX = 71
+oXooXooo = 72
+oXooXooX = 73
+oXooXoXo = 74
+oXooXoXX = 75
+oXooXXoo = 76
+oXooXXoX = 77
+oXooXXXo = 78
+oXooXXXX = 79
+oXoXoooo = 80
+oXoXoooX = 81
+oXoXooXo = 82
+oXoXooXX = 83
+oXoXoXoo = 84
+oXoXoXoX = 85
+oXoXoXXo = 86
+oXoXoXXX = 87
+oXoXXooo = 88
+oXoXXooX = 89
+oXoXXoXo = 90
+oXoXXoXX = 91
+oXoXXXoo = 92
+oXoXXXoX = 93
+oXoXXXXo = 94
+oXoXXXXX = 95
+oXXooooo = 96
+oXXooooX = 97
+oXXoooXo = 98
+oXXoooXX = 99
+oXXooXoo = 100
+oXXooXoX = 101
+oXXooXXo = 102
+oXXooXXX = 103
+oXXoXooo = 104
+oXXoXooX = 105
+oXXoXoXo = 106
+oXXoXoXX = 107
+oXXoXXoo = 108
+oXXoXXoX = 109
+oXXoXXXo = 110
+oXXoXXXX = 111
+oXXXoooo = 112
+oXXXoooX = 113
+oXXXooXo = 114
+oXXXooXX = 115
+oXXXoXoo = 116
+oXXXoXoX = 117
+oXXXoXXo = 118
+oXXXoXXX = 119
+oXXXXooo = 120
+oXXXXooX = 121
+oXXXXoXo = 122
+oXXXXoXX = 123
+oXXXXXoo = 124
+oXXXXXoX = 125
+oXXXXXXo = 126
+oXXXXXXX = 127
+Xooooooo = 128
+XooooooX = 129
+XoooooXo = 130
+XoooooXX = 131
+XooooXoo = 132
+XooooXoX = 133
+XooooXXo = 134
+XooooXXX = 135
+XoooXooo = 136
+XoooXooX = 137
+XoooXoXo = 138
+XoooXoXX = 139
+XoooXXoo = 140
+XoooXXoX = 141
+XoooXXXo = 142
+XoooXXXX = 143
+XooXoooo = 144
+XooXoooX = 145
+XooXooXo = 146
+XooXooXX = 147
+XooXoXoo = 148
+XooXoXoX = 149
+XooXoXXo = 150
+XooXoXXX = 151
+XooXXooo = 152
+XooXXooX = 153
+XooXXoXo = 154
+XooXXoXX = 155
+XooXXXoo = 156
+XooXXXoX = 157
+XooXXXXo = 158
+XooXXXXX = 159
+XoXooooo = 160
+XoXooooX = 161
+XoXoooXo = 162
+XoXoooXX = 163
+XoXooXoo = 164
+XoXooXoX = 165
+XoXooXXo = 166
+XoXooXXX = 167
+XoXoXooo = 168
+XoXoXooX = 169
+XoXoXoXo = 170
+XoXoXoXX = 171
+XoXoXXoo = 172
+XoXoXXoX = 173
+XoXoXXXo = 174
+XoXoXXXX = 175
+XoXXoooo = 176
+XoXXoooX = 177
+XoXXooXo = 178
+XoXXooXX = 179
+XoXXoXoo = 180
+XoXXoXoX = 181
+XoXXoXXo = 182
+XoXXoXXX = 183
+XoXXXooo = 184
+XoXXXooX = 185
+XoXXXoXo = 186
+XoXXXoXX = 187
+XoXXXXoo = 188
+XoXXXXoX = 189
+XoXXXXXo = 190
+XoXXXXXX = 191
+XXoooooo = 192
+XXoooooX = 193
+XXooooXo = 194
+XXooooXX = 195
+XXoooXoo = 196
+XXoooXoX = 197
+XXoooXXo = 198
+XXoooXXX = 199
+XXooXooo = 200
+XXooXooX = 201
+XXooXoXo = 202
+XXooXoXX = 203
+XXooXXoo = 204
+XXooXXoX = 205
+XXooXXXo = 206
+XXooXXXX = 207
+XXoXoooo = 208
+XXoXoooX = 209
+XXoXooXo = 210
+XXoXooXX = 211
+XXoXoXoo = 212
+XXoXoXoX = 213
+XXoXoXXo = 214
+XXoXoXXX = 215
+XXoXXooo = 216
+XXoXXooX = 217
+XXoXXoXo = 218
+XXoXXoXX = 219
+XXoXXXoo = 220
+XXoXXXoX = 221
+XXoXXXXo = 222
+XXoXXXXX = 223
+XXXooooo = 224
+XXXooooX = 225
+XXXoooXo = 226
+XXXoooXX = 227
+XXXooXoo = 228
+XXXooXoX = 229
+XXXooXXo = 230
+XXXooXXX = 231
+XXXoXooo = 232
+XXXoXooX = 233
+XXXoXoXo = 234
+XXXoXoXX = 235
+XXXoXXoo = 236
+XXXoXXoX = 237
+XXXoXXXo = 238
+XXXoXXXX = 239
+XXXXoooo = 240
+XXXXoooX = 241
+XXXXooXo = 242
+XXXXooXX = 243
+XXXXoXoo = 244
+XXXXoXoX = 245
+XXXXoXXo = 246
+XXXXoXXX = 247
+XXXXXooo = 248
+XXXXXooX = 249
+XXXXXoXo = 250
+XXXXXoXX = 251
+XXXXXXoo = 252
+XXXXXXoX = 253
+XXXXXXXo = 254
 XXXXXXXX = 255
 
 _DIGIT_SHAPE
 
-       dc __X__X__
-       dc __X_XXX_
-       dc _XX_XXX_
-       dc _XX_XXX_
-       dc _XX_X_X_
-       dc _XX_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc __X__X__
-       dc ________
+       dc ooXooXoo
+       dc ooXoXXXo
+       dc oXXoXXXo
+       dc oXXoXXXo
+       dc oXXoXoXo
+       dc oXXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc ooXooXoo
+       dc oooooooo
 
 
-       dc _X___X__
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc X_X_X_X_
-       dc __X___X_
-       dc __X___X_
-       dc _XX___X_
-       dc _X___XX_
-       dc _XX_XXX_
-       dc _XX_XX__
-       dc __X_X___
-       dc __X_X___
-       dc X_X_X_X_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc _X__XXX_
-       dc ________
+       dc oXoooXoo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XoXoXoXo
+       dc ooXoooXo
+       dc ooXoooXo
+       dc oXXoooXo
+       dc oXoooXXo
+       dc oXXoXXXo
+       dc oXXoXXoo
+       dc ooXoXooo
+       dc ooXoXooo
+       dc XoXoXoXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc oXooXXXo
+       dc oooooooo
 
 
-       dc XXX_X___
-       dc XXX_X___
-       dc XXX_X___
-       dc X_X_X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc XX__X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_XXX_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc X_X_XXX_
-       dc X_X___X_
-       dc XXX___X_
-       dc XXX___X_
-       dc XXX___X_
-       dc XXX___X_
-       dc _X____X_
-       dc ________
+       dc XXXoXooo
+       dc XXXoXooo
+       dc XXXoXooo
+       dc XoXoXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XXooXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXXXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc XoXoXXXo
+       dc XoXoooXo
+       dc XXXoooXo
+       dc XXXoooXo
+       dc XXXoooXo
+       dc XXXoooXo
+       dc oXooooXo
+       dc oooooooo
 
 
-       dc XXX__X__
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc X_X_X_X_
-       dc __X_X___
-       dc __X_XX__
-       dc __X_XXX_
-       dc __X_XXX_
-       dc _XX_XXX_
-       dc _X__X_X_
-       dc _X__X_X_
-       dc _X__X_X_
-       dc _X__X_X_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X___X__
-       dc ________
+       dc XXXooXoo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XoXoXoXo
+       dc ooXoXooo
+       dc ooXoXXoo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc oXXoXXXo
+       dc oXooXoXo
+       dc oXooXoXo
+       dc oXooXoXo
+       dc oXooXoXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXoooXoo
+       dc oooooooo
 
 
-       dc _X___X__
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_XXX_
-       dc XXX__X__
-       dc XXX__X__
-       dc _XX_XXX_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc X_X_X_X_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc _X___X__
-       dc ________
+       dc oXoooXoo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXXXo
+       dc XXXooXoo
+       dc XXXooXoo
+       dc oXXoXXXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc XoXoXoXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc oXoooXoo
+       dc oooooooo
 
 
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
 
 
-    ;    dc _X___X__
-    ;    dc _X___X__
-    ;    dc _X___X__
-    ;    dc _X______
-    ;    dc _X__XXX_
-    ;    dc _X__XXX_
-    ;    dc _X__XXX_
-    ;    dc _X__XXX_
-    ;    dc _X___X__
-    ;    dc _X___X__
-    ;    dc _X___X__
-    ;    dc _____X__
-    ;    dc ____X_X_
-    ;    dc ____X_X_
-    ;    dc _X__X_X_
-    ;    dc _X__X_X_
-    ;    dc _X__X_X_
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
+    ;    dc oXoooXoo
+    ;    dc oXoooXoo
+    ;    dc oXoooXoo
+    ;    dc oXoooooo
+    ;    dc oXooXXXo
+    ;    dc oXooXXXo
+    ;    dc oXooXXXo
+    ;    dc oXooXXXo
+    ;    dc oXoooXoo
+    ;    dc oXoooXoo
+    ;    dc oXoooXoo
+    ;    dc oooooXoo
+    ;    dc ooooXoXo
+    ;    dc ooooXoXo
+    ;    dc oXooXoXo
+    ;    dc oXooXoXo
+    ;    dc oXooXoXo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
 
 
-       dc ___XXX__
-       dc ___XXX__
-       dc ___XXX__
-       dc ___X_XX_
-       dc ___X__X_
-       dc ___X__X_
-       dc __XXX_X_
-       dc __XXX_X_
-       dc __XXX_X_
-       dc __XXX_X_
-       dc __XXX_X_
-       dc __XXX_X_
-       dc ___X__X_
-       dc ___X__X_
-       dc ___X_XX_
-       dc ___XXX__
-       dc ___XXX__
-       dc ___XXX__
-       dc ________
-       dc ________
+       dc oooXXXoo
+       dc oooXXXoo
+       dc oooXXXoo
+       dc oooXoXXo
+       dc oooXooXo
+       dc oooXooXo
+       dc ooXXXoXo
+       dc ooXXXoXo
+       dc ooXXXoXo
+       dc ooXXXoXo
+       dc ooXXXoXo
+       dc ooXXXoXo
+       dc oooXooXo
+       dc oooXooXo
+       dc oooXoXXo
+       dc oooXXXoo
+       dc oooXXXoo
+       dc oooXXXoo
+       dc oooooooo
+       dc oooooooo
 
 
-       dc XX___X__
-       dc XXX__X__
-       dc XXX__X__
-       dc XXX_XXX_
-       dc X_X_XXX_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc XXX_X_X_
-       dc XX__X_X_
-       dc XXX_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XX__X_X_
-       dc ________
+       dc XXoooXoo
+       dc XXXooXoo
+       dc XXXooXoo
+       dc XXXoXXXo
+       dc XoXoXXXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XXXoXoXo
+       dc XXooXoXo
+       dc XXXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXooXoXo
+       dc oooooooo
 
 
-       dc X____XX_
-       dc XX___XX_
-       dc XX__XXX_
-       dc XXX_XXX_
-       dc XXX_XX__
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X_X_
-       dc X_X_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XX___XX_
-       dc ________
+       dc XooooXXo
+       dc XXoooXXo
+       dc XXooXXXo
+       dc XXXoXXXo
+       dc XXXoXXoo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXoXo
+       dc XoXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXoooXXo
+       dc oooooooo
 
 
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc X___X___
-       dc X___X___
-       dc X___XX__
-       dc X___XX__
-       dc XX__XX__
-       dc XX__XX__
-       dc XX__X___
-       dc XX__X___
-       dc X___X___
-       dc X___XXX_
-       dc X___XXX_
-       dc X___XXX_
-       dc X___XXX_
-       dc X___XXX_
-       dc X___XXX_
-       dc ________
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XoooXooo
+       dc XoooXooo
+       dc XoooXXoo
+       dc XoooXXoo
+       dc XXooXXoo
+       dc XXooXXoo
+       dc XXooXooo
+       dc XXooXooo
+       dc XoooXooo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc oooooooo
 
 
-       dc X_X__X__
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_X_X_
-       dc X_X_X___
-       dc X_X_X___
-       dc X_X_X___
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X__XX_
-       dc ________
+       dc XoXooXoo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXoXo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XoXoXooo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXooXXo
+       dc oooooooo
 
-       dc __X_XXX_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc __X__X__
-       dc __X__X__
-       dc __X__X__
-       dc __X__X__
-       dc __X__X__
-       dc __X__X__
-       dc __X__X__
-       dc __X__X__
-       dc X_X__X__
-       dc X_X_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc _X__XXX_
-       dc ________
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc ooXooXoo
+       dc XoXooXoo
+       dc XoXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc oXooXXXo
+       dc oooooooo
 
-       dc X___X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc X___XXX_
-       dc X___XX__
-       dc X___XX__
-       dc X___XX__
-       dc X___XX__
-       dc X___XXX_
-       dc X_X_XXX_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc ________
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XoooXXXo
+       dc XoooXXoo
+       dc XoooXXoo
+       dc XoooXXoo
+       dc XoooXXoo
+       dc XoooXXXo
+       dc XoXoXXXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc oooooooo
 
-    ;    dc XX__X_X_
-    ;    dc XX__X_X_
-    ;    dc XX__X_X_
-    ;    dc XXX_XXX_
-    ;    dc XXX_XXX_
-    ;    dc XXX_XXX_
-    ;    dc XXX_XXX_
-    ;    dc X_X_XXX_
-    ;    dc X_X_XXX_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
+    ;    dc XXooXoXo
+    ;    dc XXooXoXo
+    ;    dc XXooXoXo
+    ;    dc XXXoXXXo
+    ;    dc XXXoXXXo
+    ;    dc XXXoXXXo
+    ;    dc XXXoXXXo
+    ;    dc XoXoXXXo
+    ;    dc XoXoXXXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
 
-       dc __X_X_X_
-       dc __X_X_X_
-       dc X_X_X_X_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc X___X_X_
-       dc ________
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc XoXoXoXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc XoooXoXo
+       dc oooooooo
 
 
-       dc XX___X__
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XX__X_X_
-       dc X___XXX_
-       dc X___XXX_
-       dc X___XXX_
-       dc X___XXX_
-       dc X____X__
-       dc ________
+       dc XXoooXoo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXooXoXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XoooXXXo
+       dc XooooXoo
+       dc oooooooo
 
-       dc XX___X__
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XX__X_X_
-       dc XX__X_X_
-       dc XXX_X_X_
-       dc XXX_X___
-       dc X_X_X_X_
-       dc X_X_X_XX
-       dc X_X_XXXX
-       dc X_X_XXXX
-       dc X_X_XX_X
-       dc X_X__X_X
-       dc ________
+       dc XXoooXoo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXooXoXo
+       dc XXooXoXo
+       dc XXXoXoXo
+       dc XXXoXooo
+       dc XoXoXoXo
+       dc XoXoXoXX
+       dc XoXoXXXX
+       dc XoXoXXXX
+       dc XoXoXXoX
+       dc XoXooXoX
+       dc oooooooo
 
-       dc XXX__XX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc XXX_X_X_
-       dc XX__X___
-       dc _X__XX__
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X___XX_
-       dc _X____X_
-       dc _X____X_
-       dc _X____X_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XX__
-       dc ________
+       dc XXXooXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XXXoXoXo
+       dc XXooXooo
+       dc oXooXXoo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXoooXXo
+       dc oXooooXo
+       dc oXooooXo
+       dc oXooooXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXoo
+       dc oooooooo
 
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X__XXX_
-       dc _X___X__
-       dc ________
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXooXXXo
+       dc oXoooXoo
+       dc oooooooo
 
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc _X__X_X_
-       dc _X__X_X_
-       dc _X__X_X_
-       dc XXX_XXX_
-       dc XXX_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_XXX_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc X_X_X_X_
-       dc ________
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc oXooXoXo
+       dc oXooXoXo
+       dc oXooXoXo
+       dc XXXoXXXo
+       dc XXXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXXXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc XoXoXoXo
+       dc oooooooo
 
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc XXX_X_X_
-       dc __X_X_X_
-       dc __X_X_X_
-       dc __X_XXX_
-       dc __X_XXX_
-       dc _XX_XXX_
-       dc XXX_XXX_
-       dc XXX__X__
-       dc XX___X__
-       dc X____X__
-       dc X____X__
-       dc X____X__
-       dc X____X__
-       dc XXX__X__
-       dc XXX__X__
-       dc XXX__X__
-       dc ________
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc XXXoXoXo
+       dc ooXoXoXo
+       dc ooXoXoXo
+       dc ooXoXXXo
+       dc ooXoXXXo
+       dc oXXoXXXo
+       dc XXXoXXXo
+       dc XXXooXoo
+       dc XXoooXoo
+       dc XooooXoo
+       dc XooooXoo
+       dc XooooXoo
+       dc XooooXoo
+       dc XXXooXoo
+       dc XXXooXoo
+       dc XXXooXoo
+       dc oooooooo
 
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc ________
-    ;    dc XX__XX__
-    ;    dc XXX_XXX_
-    ;    dc XXX_XXX_
-    ;    dc X_X_XXX_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc X_X_X_X_
-    ;    dc XXX_X_X_
-    ;    dc XX__X_X_
-    ;    dc X_______
-    ;    dc X_______
-    ;    dc X_______
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc oooooooo
+    ;    dc XXooXXoo
+    ;    dc XXXoXXXo
+    ;    dc XXXoXXXo
+    ;    dc XoXoXXXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XoXoXoXo
+    ;    dc XXXoXoXo
+    ;    dc XXooXoXo
+    ;    dc Xooooooo
+    ;    dc Xooooooo
+    ;    dc Xooooooo
 
 
 ;    echo "   - 3PIX DIGIT SHAPES from", _DIGIT_SHAPE, "to", *, "(", [(* - _DIGIT_SHAPE)]d , " bytes"
@@ -1965,7 +1965,7 @@ TimerVB         dc VB_TIM64T, VB_TIM64T+30, VB_TIM64T, VB_TIM64T+30
 
 KernelGame
 
-;                    ldx #<_DS_TO_ARM            ; assumed 0
+;                    ldx #<_DS_TooARM            ; assumed 0
 
                     ldx #0
                     stx NUSIZ0
@@ -2023,7 +2023,7 @@ VerticalSync:
                     stx CTRLPF
                     stx COLUBK
 
-                    ldy #<_DS_TO_ARM
+                    ldy #<_DS_TooARM
                     sty DSPTR
                     sty DSPTR
                     sty DSWRITE                     ; DUMMY
@@ -2053,7 +2053,7 @@ VerticalSync:
 
 
                     ldx #1
-                    lda #DSCOMM     ; = _P1_X
+                    lda #DSCOMM     ; = _P1oX
 
 
 
@@ -2091,7 +2091,7 @@ DivideLoop2         sbc #15
                     sta AUDF0
 
 
-                    lda #DSCOMM     ; = _P0_X
+                    lda #DSCOMM     ; = _P0oX
 
 
                     sec
@@ -2247,7 +2247,7 @@ ARM_DIRECT_DATA_END
     SEG.U DISPLAYDATA
     ORG $0000
 
-_DS_TO_ARM
+_DS_TooARM
 
 _RUN_FUNC           ds 1        ; function to run
 _SWCHA              ds 1        ; joystick directions to ARM code
@@ -2381,10 +2381,10 @@ _BUFFER_BLOCK_SIZE = * - _BUFFERS
 ; ;----------------------------------------
 ;     ORG OverlapDisplayDataRam
 ; ; Game datastream buffers
-; _EVERY_FRAME_ZERO_START:
+; _EVERY_FRAME_ZERooSTART:
 
 ;     align 4 ; need to be 4 byte aligned to use myMemsetInt
-; _EVERY_FRAME_ZERO_COUNT=*-_EVERY_FRAME_ZERO_START   ; end of zeroed out data
+; _EVERY_FRAME_ZERooCOUNT=*-_EVERY_FRAME_ZERooSTART   ; end of zeroed out data
 
 
 

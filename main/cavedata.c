@@ -92,6 +92,27 @@ const unsigned char caveA[] = {
         0xFE, CH_HUB, 5,3,
         0xFE, CH_OUTLET, 5,4,
 
+        0xFE, CH_TAP_0, 6,2,
+        0xFE, CH_HUB, 6,3,
+        0xFE, CH_OUTLET, 6,4,
+
+
+        0xFE, CH_TAP_0, 7,2,
+        0xFE, CH_HUB, 7,3,
+        0xFE, CH_OUTLET, 7,4,
+
+
+        0xFE, CH_TAP_0, 8,2,
+        0xFE, CH_HUB, 8,3,
+        0xFE, CH_OUTLET, 8,4,
+
+        0xFE, CH_TAP_0, 9,2,
+        0xFE, CH_HUB, 9,3,
+        0xFE, CH_OUTLET, 9,4,
+
+        0xFE, CH_TAP_0, 10,2,
+        0xFE, CH_HUB, 10,3,
+        0xFE, CH_OUTLET, 10,4,
 
         // 0xFE, CH_HORIZONTAL_BAR, 6,3,
         // 0xFE, CH_HORIZONTAL_BAR, 7,3,
@@ -164,7 +185,7 @@ const unsigned char caveA[] = {
     //     0xFE, CH_HUB, 2,6+VS*2,
     //     0xFE, CH_HUB, 3,6+VS*2,
 
-//       0xFE, CH_WYRM_HEAD_U, 3, 6,
+      0xFE, CH_WYRM_HEAD_U, 3, 6,
 
     // LINE + CH_BRICKWALL,1,7,2,31,
     // LINE + CH_BRICKWALL,8,14,2,31,
@@ -235,11 +256,11 @@ const unsigned char caveA[] = {
     // 0xFE, CH_HORIZ_ZAP_3, 3,8,
     // 0xFE, CH_HORIZ_ZAP_3, 3,9,
 
-    // LINER(CH_LAVA_0, 1,20,10,R)
+    // LINER(CH_LAVA_BLANK, 1,20,10,R)
 
     //    0xFE, CH_WATER_0, 1, 20,
 
-//    0xFE, CH_LAVA_0, 1, 20,
+//    0xFE, CH_LAVA_BLANK, 1, 20,
 
     0xFE, CH_WATER_0, 1, 20,
 
@@ -316,13 +337,13 @@ const unsigned char caveA2[] = {
         0xFE, CH_HUB, 6,8,
 
     //    0xFE, CH_DOORCLOSED,38,16,
-    0xFE, CH_MELLON_HUSK_BIRTH, 16, 6,
+    0xFE, CH_MELLON_HUSK_BIRTH, 17, 6,
 
     0xFE, CH_WYRM_HEAD_U, 11, 6,
-    0xFE, CH_WYRM_HEAD_U, 12, 6,
-    0xFE, CH_WYRM_HEAD_U, 13, 6,
-    0xFE, CH_WYRM_HEAD_U, 14, 6,
-    0xFF,
+    // 0xFE, CH_WYRM_HEAD_U, 12, 6,
+    // 0xFE, CH_WYRM_HEAD_U, 13, 6,
+    // 0xFE, CH_WYRM_HEAD_U, 14, 6,
+//    0xFF,
 
     0xFE, CH_GRINDER_0, 4, 9,
     0xFE, CH_GRINDER_0, 5, 8,
@@ -359,7 +380,7 @@ const unsigned char caveA2[] = {
     0xFE, CH_BELT_1, 21, 15,
     0xFE, CH_GRINDER_0, 22, 15,
 
-    0xFE, CH_LAVA_0, 1, 20,
+    0xFE, CH_LAVA_BLANK, 1, 20,
 
 
     // EXTRAS
@@ -371,6 +392,77 @@ const unsigned char caveA2[] = {
     0xFF,
 
     'M', 'E', 'R', 'C', 'U', 'R', 'Y', END_STRING};
+
+
+
+const unsigned char caveA5[] = {
+
+    20,     // milling
+    10, 15, // doge $
+    5,      //              ,          // rain
+
+    10, 11, 50, 56, 8, // randomiser[level]
+    25, 12, 12, 12, 12, 200, 200, 200, 200, 200,
+    // 70,65,60,55,50,
+
+    CAVEDEF_PARALLAX, STEEL, CH_BLANK,
+
+    0,
+    // CH_DIRT, 50, 10, 5, 0, 20,
+    // CH_GEODOGE, 50, 10, 5, 0, 20,
+    // CH_PUSH_RIGHT, 0, 10, 5, 0, 20,
+    // CH_PUSH_UP, 0, 10, 5, 0, 20,
+    // CH_PUSH_DOWN, 0, 10, 5, 0, 20,
+
+    //    0xFE, CH_DOORCLOSED,38,16,
+    0xFE, CH_MELLON_HUSK_BIRTH, 7, 6,
+
+    0xFE, CH_WYRM_HEAD_U, 11, 6,
+    0xFE, CH_WYRM_HEAD_U, 12, 6,
+    0xFE, CH_WYRM_HEAD_U, 13, 6,
+    0xFE, CH_WYRM_HEAD_U, 14, 6,
+    0xFE, CH_WYRM_HEAD_U, 15, 6,
+    0xFE, CH_WYRM_HEAD_U, 16, 6,
+    0xFE, CH_WYRM_HEAD_U, 17, 6,
+    0xFE, CH_WYRM_HEAD_U, 18, 6,
+    0xFE, CH_WYRM_HEAD_U, 19, 6,
+    0xFE, CH_WYRM_HEAD_U, 20, 6,
+    0xFE, CH_WYRM_HEAD_U, 21, 6,
+    0xFE, CH_WYRM_HEAD_U, 22, 6,
+    0xFE, CH_WYRM_HEAD_U, 23, 6,
+    0xFE, CH_WYRM_HEAD_U, 24, 6,
+    0xFE, CH_WYRM_HEAD_U, 25, 6,
+    0xFE, CH_WYRM_HEAD_U, 26, 6,
+
+    0xFE, CH_WYRM_HEAD_U, 21, 6,
+    0xFE, CH_WYRM_HEAD_U, 22, 6,
+    0xFE, CH_WYRM_HEAD_U, 23, 6,
+    0xFE, CH_WYRM_HEAD_U, 24, 6,
+    0xFE, CH_WYRM_HEAD_U, 25, 6,
+    0xFE, CH_WYRM_HEAD_U, 26, 6,
+    0xFE, CH_WYRM_HEAD_U, 27, 6,
+    0xFE, CH_WYRM_HEAD_U, 28, 6,
+    0xFE, CH_WYRM_HEAD_U, 29, 6,
+    0xFE, CH_WYRM_HEAD_U, 30, 6,
+    0xFE, CH_WYRM_HEAD_U, 31, 6,
+    0xFE, CH_WYRM_HEAD_U, 32, 6,
+    0xFE, CH_WYRM_HEAD_U, 33, 6,
+    0xFE, CH_WYRM_HEAD_U, 34, 6,
+    0xFE, CH_WYRM_HEAD_U, 35, 6,
+    0xFE, CH_WYRM_HEAD_U, 36, 6,
+
+
+
+    // EXTRAS
+    // LEVEL 0
+    0xFF, // LEVEL 1
+    0xFF, // LEVEL 2
+    0xFF, // LEVEL 3
+    0xFF, // LEVEL 4
+    0xFF,
+
+    'M', 'E', 'R', 'C', 'U', 'R', 'Y', END_STRING};
+
 
 const unsigned char caveA3[] = {
 
@@ -520,7 +612,7 @@ const unsigned char caveA4[] = {
 
 const unsigned char *caveList[] = {
 
-    caveA, caveA2, caveA4,
+    caveA, caveA2, caveA5, caveA4,
 
     caveA3,
     // caveA2,

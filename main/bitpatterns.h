@@ -1,3 +1,6 @@
+#ifndef __BITPATTERNS_H
+#define __BITPATTERNS_H
+
 #define ________ 0
 #define _______X 1
 #define ______X_ 2
@@ -254,3 +257,5 @@
 #define XXXXXX_X 253
 #define XXXXXXX_ 254
 #define XXXXXXXX 255
+
+#endif

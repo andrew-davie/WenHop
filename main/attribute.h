@@ -22,38 +22,38 @@ enum ObjectType {
     TYPE_MELLON_HUSK_PRE,       // 08
     TYPE_MELLON_HUSK,           // 09
     TYPE_PEBBLE1,               // 10
-    TYPE_PEBBLE2,               // 11
-    TYPE_GRAB,                  // 12
-    TYPE_DUST_0,                // 13
-    TYPE_DOGE_FALLING,          // 14
-    TYPE_ROCK_FALLING,          // 15
-    TYPE_DUST_ROCK,             // 16
-    TYPE_CONVERT_GEODE_TO_DOGE, // 17
-    TYPE_SWITCH,                // 18
-    TYPE_PUSHER,                // 19
-    TYPE_PUSHER_VERT,           // 20
-    TYPE_WYRM,                  // 21
-    TYPE_GEODOGE,               // 22
-    TYPE_GEODOGE_FALLING,       // 23
-    TYPE_GEODOGE_CRITICAL,      // 24 depreacted
-    TYPE_LAVA,                  // 25
-    TYPE_PEBBLE_ROCK,           // 26
-    TYPE_FLIP_GRAVITY,          // 27
-    TYPE_BLOCK,                 // 28
-    TYPE_PACMAN_DOT,            // 29
-    TYPE_GRINDER,               // 30
-    TYPE_HUB,                   // 31
-    TYPE_WATER,                 // 32
-    TYPE_WATERFLOW0,            // 33
-    TYPE_WATERFLOW1,            // 34
-    TYPE_WATERFLOW2,            // 35
-    TYPE_WATERFLOW3,            // 36
-    TYPE_WATERFLOW4,            // 37
-    TYPE_TAP,                   // 38
-    TYPE_OUTLET,                // 39
-    TYPE_GRINDER_1,             // 40
-    TYPE_BELT,                  // 41
-    TYPE_BELT_1,                // 42
+    TYPE_GRAB,                  // 11
+    TYPE_DUST_0,                // 12
+    TYPE_DOGE_FALLING,          // 13
+    TYPE_ROCK_FALLING,          // 14
+    TYPE_DUST_ROCK,             // 15
+    TYPE_CONVERT_GEODE_TO_DOGE, // 16
+    TYPE_SWITCH,                // 17
+    TYPE_PUSHER,                // 18
+    TYPE_PUSHER_VERT,           // 19
+    TYPE_WYRM,                  // 20
+    TYPE_GEODOGE,               // 21
+    TYPE_GEODOGE_FALLING,       // 22
+    TYPE_GEODOGE_CRITICAL,      // 23 depreacted
+    TYPE_LAVA,                  // 24
+    TYPE_PEBBLE_ROCK,           // 25
+    TYPE_FLIP_GRAVITY,          // 26
+    TYPE_BLOCK,                 // 27
+    TYPE_PACMAN_DOT,            // 28
+    TYPE_GRINDER,               // 29
+    TYPE_HUB,                   // 30
+    TYPE_WATER,                 // 31
+    TYPE_WATERFLOW0,            // 32
+    TYPE_WATERFLOW1,            // 33
+    TYPE_WATERFLOW2,            // 34
+    TYPE_WATERFLOW3,            // 35
+    TYPE_WATERFLOW4,            // 36
+    TYPE_TAP,                   // 37
+    TYPE_OUTLET,                // 38
+    TYPE_GRINDER_1,             // 39
+    TYPE_BELT,                  // 40
+    TYPE_BELT_1,                // 41
+    TYPE_CONVERT_PIPE,          // 42
 
     TYPE_MAX
 };
@@ -78,10 +78,10 @@ enum ChName {
     CH_DOGE_00,               // 011
     CH_DOGE_FALLING,          // 012          +2 offset assumed by code
     CH_MELLON_HUSK_BIRTH,     // 013
-    CH_LAVA_0,                // 014
-    CH_LAVA_1,                // 015
-    CH_LAVA_2,                // 016
-    CH_LAVA_3,                // 017
+    CH_LAVA_BLANK,            // 014
+    CH_LAVA_SMALL,            // 015
+    CH_LAVA_MEDIUM,           // 016
+    CH_LAVA_LARGE,            // 017
     CH_MELLON_HUSK,           // 018
     CH_DOGE_01,               // 019
     CH_DOGE_02,               // 020
@@ -165,25 +165,27 @@ enum ChName {
     CH_BLOCK,                 // 098
     CH_PACMAN_DOT,            // 099
     CH_GRINDER_0,             // 100
-    CH_HUB,                   // 101
-    CH_WATER_0,               // 102
-    CH_WATER_1,               // 103
-    CH_WATER_2,               // 104
-    CH_WATER_3,               // 105
-    CH_WATERFLOW_0,           // 106 must be grouped
-    CH_WATERFLOW_1,           // 107 .
-    CH_WATERFLOW_2,           // 108 .
-    CH_WATERFLOW_3,           // 109 .
-    CH_WATERFLOW_4,           // 110 /
-    CH_TAP_0,                 // 111
-    CH_HUB_1,                 // 112
-    CH_OUTLET,                // 113
-    CH_TAP_1,                 // 114
-    CH_GRINDER_1,             // 115
-    CH_BELT_0,                // 116
-    CH_BELT_1,                // 117
-    CH_PUSH_DOWN2,            // 118
-    CH_GEODOGE_CONVERT,       // 119
+    CH_GRINDER_1,             // 101
+    CH_HUB,                   // 102
+    CH_WATER_0,               // 103
+    CH_WATERFLOW_0,           // 104 must be grouped
+    CH_WATERFLOW_1,           // 105 .
+    CH_WATERFLOW_2,           // 106 .
+    CH_WATERFLOW_3,           // 107 .
+    CH_WATERFLOW_4,           // 108 /
+    CH_TAP_0,                 // 109
+    CH_HUB_1,                 // 110
+    CH_OUTLET,                // 111
+    CH_TAP_1,                 // 112
+    CH_BELT_0,                // 113
+    CH_BELT_1,                // 114
+    CH_PUSH_DOWN2,            // 115
+    CH_GEODOGE_CONVERT,       // 116
+    CH_CONVERT_PIPE,          // 117
+    CH_WYRM_TAIL_U,           // 118
+    CH_WYRM_TAIL_R,           // 119
+    CH_WYRM_TAIL_D,           // 120
+    CH_WYRM_TAIL_L,           // 121
 
     // 127 is limit
 
@@ -216,6 +218,7 @@ enum ChName {
 #define ATT_DISSOLVES (1 << 25)
 #define ATT_PULL (1 << 24)
 
+
 #define ATT_PHASE1 (1 << 23)
 #define ATT_PHASE2 (1 << 22)
 #define ATT_PHASE4 (1 << 21)
@@ -224,6 +227,9 @@ enum ChName {
 #define ATT_GRIND (1 << 19)
 #define ATT_CONVEYOR (1 << 18)
 #define ATT_WATERFLOW (1 << 17)
+
+#define ATT_PUSH                (1 << 8)
+
 
 #define RKF ATT_BLANKISH
 #define MIN ATT_MINE
@@ -251,6 +257,7 @@ enum ChName {
 #define MLT ATT_MELTS
 #define DIS ATT_DISSOLVES
 #define PUL ATT_PULL
+#define PSH ATT_PUSH
 #define PIP ATT_PIPE
 #define GND ATT_GRIND
 #define CVY ATT_CONVEYOR

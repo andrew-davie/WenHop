@@ -185,38 +185,38 @@ const char *const AnimateBase[TYPE_MAX] = {
     0,                   // 08 TYPE_MELLON_HUSK_PRE
     AnimMellonHusk,      // 09 TYPE_MELLON_HUSK
     0,                   // 10 TYPE_PEBBLE1
-    0,                   // 11 TYPE_PEBBLE2
-    AnimGrab,            // 12 TYPE_GRAB
-    0,                   // 13 TYPE_DUST_0
-    0,                   // 14 TYPE_DOGE_FALLING
-    0,                   // 15 TYPE_ROCK_FALLING
-    0,                   // 16 TYPE_DUST_ROCK
-    0,                   // 17 TYPE_CONVERT_GEODE_TO_DOGE
-    AnimSwitch,          // 18 TYPE_SWITCH
-    0,                   // 19 TYPE_PUSHER
-    0,                   // 20 TYPE_PUSHER_VERT
-    0,                   // 21 TYPE_WYRM
-    0,                   // 22 TYPE_GEODOGE
-    0,                   // 23 TYPE_GEODOGE_FALLING
-    AnimConglomerateMid, // 24 TYPE_GEODOGE_CRITICAL (deprecated)
-    0,                   // 25 TYPE_LAVA
-    0,                   // 26 TYPE_PEBBLE_ROCK
-    AnimateGravity,      // 27 TYPE_FLIP_GRAVITY
-    0,                   // 28 TYPE_BLOCK
-    0,                   // 29 TYPE_PACMAN_DOT
-    AnimateGrinder,      // 30 TYPE_GRINDER
-    0,                   // 31 TYPE_HUB
-    0,                   // 32 TYPE_WATER
-    AnimateWaterFlow0,   // 33 TYPE_WATERFLOW0
-    AnimateWaterFlow1,   // 34 TYPE_WATERFLOW1
-    AnimateWaterFlow2,   // 35 TYPE_WATERFLOW2
-    AnimateWaterFlow3,   // 36 TYPE_WATERFLOW3
-    AnimateWaterFlow4,   // 37 TYPE_WATERFLOW4
-    0,                   // 38 TYPE_TAP
-    0,                   // 39 TYPE_OUTLET
-    AnimateGrinder1,     // 40 TYPE_GRINDER1
-    AnimateBelt,         // 41 TYPE_BELT
-    AnimateBelt1,        // 42 TYPE_BELT1
+    AnimGrab,            // 11 TYPE_GRAB
+    0,                   // 12 TYPE_DUST_0
+    0,                   // 13 TYPE_DOGE_FALLING
+    0,                   // 14 TYPE_ROCK_FALLING
+    0,                   // 15 TYPE_DUST_ROCK
+    0,                   // 16 TYPE_CONVERT_GEODE_TO_DOGE
+    AnimSwitch,          // 17 TYPE_SWITCH
+    0,                   // 18 TYPE_PUSHER
+    0,                   // 19 TYPE_PUSHER_VERT
+    0,                   // 20 TYPE_WYRM
+    0,                   // 21 TYPE_GEODOGE
+    0,                   // 22 TYPE_GEODOGE_FALLING
+    AnimConglomerateMid, // 23 TYPE_GEODOGE_CRITICAL (deprecated)
+    0,                   // 24 TYPE_LAVA
+    0,                   // 25 TYPE_PEBBLE_ROCK
+    AnimateGravity,      // 26 TYPE_FLIP_GRAVITY
+    0,                   // 27 TYPE_BLOCK
+    0,                   // 28 TYPE_PACMAN_DOT
+    AnimateGrinder,      // 29 TYPE_GRINDER
+    0,                   // 30 TYPE_HUB
+    0,                   // 31 TYPE_WATER
+    AnimateWaterFlow0,   // 32 TYPE_WATERFLOW0
+    AnimateWaterFlow1,   // 33 TYPE_WATERFLOW1
+    AnimateWaterFlow2,   // 34 TYPE_WATERFLOW2
+    AnimateWaterFlow3,   // 35 TYPE_WATERFLOW3
+    AnimateWaterFlow4,   // 36 TYPE_WATERFLOW4
+    0,                   // 37 TYPE_TAP
+    0,                   // 38 TYPE_OUTLET
+    AnimateGrinder1,     // 39 TYPE_GRINDER1
+    AnimateBelt,         // 40 TYPE_BELT
+    AnimateBelt1,        // 41 TYPE_BELT1
+    0,                   // 42 TYPE_CONVERT_PIPE
 };
 
 void initCharAnimations() {

@@ -49,7 +49,7 @@ SRCS =  characterset.c	joystick.c	random.c	swipeCircle.c \
 OPTIMIZATION =  -Os
 CFLAGS = -g3 -gdwarf-4 -gstrict-dwarf -mcpu=arm7tdmi -march=armv4t -mthumb # -mthumb-interwork
 CFLAGS += -Wall -Wextra -Wunused-macros -ffunction-sections # -save-temps #-mlong-calls
-CFLAGS += $(OPTIMIZATION) $(INCLUDES)
+CFLAGS += $(OPTIMIZATION)
 CFLAGS += -Wl,--print-memory-usage,--build-id=none -flto -mno-thumb-interwork -fextended-identifiers
 
 

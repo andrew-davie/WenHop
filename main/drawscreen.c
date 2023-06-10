@@ -1,12 +1,13 @@
 #include "defines.h"
 #include "defines_cdfj.h"
+// #include "defines_from_dasm_for_c.h"
+
 #include <stdbool.h>
 
 #include "main.h"
 
 #include "animations.h"
 #include "attribute.h"
-#include "bitpatterns.h"
 #include "cavedata.h"
 #include "characterset.h"
 #include "colour.h"
@@ -31,8 +32,8 @@ void grab(int frac, int size) {
     for (int col = 0; col < size; col++) {
 
         int base = frac + col;
-        while (base >= _BOARD_COLS)
-            base -= _BOARD_COLS;
+        // while (base >= _BOARD_COLS)
+        //     base -= _BOARD_COLS;
 
         unsigned char p2 = GET2(p[base]);
         int type = CharToType[p2];

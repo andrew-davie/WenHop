@@ -1,4 +1,5 @@
 #include "defines_cdfj.h"
+// #include "defines_from_dasm_for_c.h"
 
 #include "decodecaves.h"
 
@@ -65,7 +66,13 @@ void decodeCave(int cave) {
 
     wyrmNum = 0;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
+
     theCave = (struct CAVE_DEFINITION *)(((int)caveList[cave]) & 0xFFFF);
+
+#pragma GCC diagnostic pop
 
     decodeState = DECODE_NONE;
 
@@ -332,13 +339,21 @@ void StoreObject(int x, int y, objectType anObject) {
     }
 
     case TYPE_DOGE: {
-
         totalDogePossible++;
         break;
     }
 
     default:
         break;
+    }
+
+    // ensure parity on gears
+    // wtf? on non-functional if using shorter way
+    if (anObject == CH_GRINDER_0) {
+        if ((x + y) & 1)
+            anObject = CH_GRINDER_0;
+        else
+            anObject = CH_GRINDER_1;
     }
 
     *me = anObject;

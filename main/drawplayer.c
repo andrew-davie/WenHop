@@ -1,9 +1,9 @@
+// #include "defines_from_dasm_for_c.h"
 #include <stdbool.h>
 
 #include "main.h"
 
 #include "attribute.h"
-#include "bitpatterns.h"
 #include "colour.h"
 #include "defines.h"
 #include "defines_cdfj.h"

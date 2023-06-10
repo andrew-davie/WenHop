@@ -2,14 +2,13 @@
 
 #include "defines.h"
 #include "defines_cdfj.h"
-#include "defines_from_dasm_for_c.h"
+// #include "defines_from_dasm_for_c.h"
 
 #include "main.h"
 
 #include "animations.h"
 #include "atarivox.h"
 #include "attribute.h"
-#include "bitpatterns.h"
 #include "cavedata.h"
 #include "characterset.h"
 #include "colour.h"
@@ -35,8 +34,10 @@ int worstEverCreature = -1;
 
 int togt;
 int pulsePlayerColour;
-
+int waterDir = 0;
 int conveyorDirection;
+// static int destroy = 0;
+// int destroyInc = 10;
 
 ////////////////////////////////////////////////////////////////////////////////
 // CONFIGURABLE UX
@@ -242,6 +243,19 @@ void SystemReset() {
     // #endif
 }
 
+bool visible(int col, int row) {
+
+    int x = ((scrollX + shakeX) * 5) >> 16;
+    int deltaX = col * 5 - x;
+    if (deltaX < -4 || deltaX >= 40)
+        return false;
+
+    int y = (scrollY + shakeY) >> 16;
+    int deltaY = row * (PIECE_DEPTH / 3) - y;
+
+    return (deltaY >= -_ARENA_SCANLINES / 3 + 1 && deltaY < _ARENA_SCANLINES / 3);
+}
+
 int sphereDot(int dripX, int dripY, int type, int age, int speed) {
 
     int idx = -1;
@@ -289,7 +303,7 @@ void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int 
         sphereDot((dripX * 5 + offsetX) << 8, (dripY * TRILINES + y) << 16, type, age, speed);
 }
 
-void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed) {
+void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed) {
 
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX << 8, dripY << 16, 2, age, speed);
@@ -751,7 +765,10 @@ void GameOverscan() {
     T1TC = 0;
     T1TCR = 1;
 
-    availableIdleTime = 99000 - 1000;
+    // destroy += destroyInc;
+    // actualScore = destroy;
+
+    availableIdleTime = 90000; // + destroy; // 99000 - 1000;
 
 #if __ENABLE_ATARIVOX
     if (RAM[_BUF_SPEECH] != 0xFF)
@@ -935,8 +952,10 @@ void GameVerticalBlank() {
     T1TC = 0;
     T1TCR = 1;
 
+    // destroy += destroyInc;
+
     showingWords = false;
-    availableIdleTime = 120000 - 1000;
+    availableIdleTime = 90000; // + destroy; // 120000 - 1000;
 
 #if __ENABLE_ATARIVOX
     processSpeech();
@@ -990,17 +1009,32 @@ void GameVerticalBlank() {
     }
 }
 
-void conglomerate(unsigned char *me) {
+void conglomerate() {
 
-    if (ATTRIBUTE_BIT(*me, ATT_GEODOGE)) {
+    // Don't conglomerate if not visible!
 
-        int cong = CH_GEODOGE | (*me & FLAG_THISFRAME);
+    if (visible(boardCol, boardRow)) {
 
-        for (int i = 0; i < 4; i++)
-            if (ATTRIBUTE_BIT(*(me + dirOffset[i]), ATT_GEODOGE))
-                cong += 1 << i;
+        if (CharToType[GET(*me)] == TYPE_GEODOGE) {
 
-        *me = cong;
+            int x = ((scrollX + shakeX) * 5) >> 16;
+            int deltaX = boardCol * 5 - x;
+            if (playerDead || (deltaX >= 0 && deltaX < 40)) {
+
+                int y = (scrollY + shakeY) >> 16;
+                int deltaY = boardRow * (PIECE_DEPTH / 3) - y;
+                if (playerDead || (deltaY >= 0 && deltaY < _ARENA_SCANLINES / 3)) {
+
+                    int cong = CH_GEODOGE | (*me & FLAG_THISFRAME);
+
+                    for (int i = 0; i < 4; i++)
+                        if (ATTRIBUTE_BIT(*(me + dirOffset[i]), ATT_GEODOGE))
+                            cong += 1 << i;
+
+                    *me = cong;
+                }
+            }
+        }
     }
 }
 
@@ -1020,10 +1054,9 @@ void setupBoard() {
             if (lavaSurfaceTrixel && !(gameFrame & 15))
                 lavaSurfaceTrixel -= gravity;
 
-            if (!rangeRandom(3)) {
-                int posX = ((scrollX * 5) >> 16) + rangeRandom(_BOARD_COLS);
-                nDotsAtPixel(4, posX, lavaSurfaceTrixel + 1, 40, 0x10000);
-            }
+            // Surface lava "bubbles"
+            int posX = ((scrollX * 5) >> 16) + rangeRandom(_BOARD_COLS);
+            nDotsAtTrixel(1, posX, lavaSurfaceTrixel + 1, 20, 0x10000);
         }
 
         if (showWater) {
@@ -1193,110 +1226,77 @@ void chainReact_GeoDogeToDoge() {
         killAudio(SFX_UNCOVER);
 }
 
-// void chainReact_DogeToGeoDoge() {
-//     return;
-//     for (int i = 0; i < 4; i++) {
+void chainReact_Pipe() {
 
-//         unsigned char *pos = me + dirOffset[i];
-//         unsigned char chr = *pos;
-//         //        if (!(chr & FLAG_THISFRAME)) {
-//         int type = CharToType[GET(chr)];
-//         if (Attribute[type] & ATT_GRAB) {
-//             *me = CH_GEODOGE_CONVERT | ((dirOffset[i] > 0) ? FLAG_THISFRAME : 0) |
-//                   (chr & FLAG_THISFRAME);
+    bool ongoing = false;
+    *me = CH_DUST_0 | FLAG_THISFRAME;
 
-//             fixSurroundingConglomerates(me + dirOffset[i]);
-//         }
-//         //        }
-//     }
-// }
+    static unsigned char thisFrame[] = {0, FLAG_THISFRAME, FLAG_THISFRAME, 0};
+
+    for (int i = 0; i < 4; i++) {
+
+        unsigned char *newDogeCandidate = me + dirOffset[i];
+
+        if (ATTRIBUTE_BIT(*newDogeCandidate, ATT_PIPE)) {
+
+            *newDogeCandidate = CH_CONVERT_PIPE | thisFrame[i];
+            ADDAUDIO(SFX_UNCOVER);
+            ongoing = true;
+        }
+    }
+
+    if (!ongoing)
+        killAudio(SFX_UNCOVER);
+}
 
 void genericPush(int offsetX, int offsetY) {
 
     if (switchOn) {
 
-        int adjustOffset = offsetY * _BOARD_COLS + offsetX;
-
-        unsigned char *playerPos = RAM + _BOARD + playerY * _BOARD_COLS + playerX;
+        int adjustOffset = offsetY * _1ROW + offsetX;
         unsigned char *pushPos = me + adjustOffset;
 
-        if (playerPos == pushPos && (!(*playerPos & FLAG_THISFRAME))) {
+        int attPushPos = Attribute[CharToType[GET(*pushPos)]];
 
-            pulsePlayerColour = 20;
-            //            shakeTime = 3;
-            ADDAUDIO(SFX_EXPLODE_QUIET);
+        if (!(GET(*pushPos) & FLAG_THISFRAME)) {
 
             unsigned char *pushPosFurther = pushPos + adjustOffset;
+            int attPushPosFurther = Attribute[CharToType[GET(*pushPosFurther)]];
 
-            if (ATTRIBUTE_BIT(*pushPosFurther, ATT_BLANK | ATT_GRAB)) {
+            if ((attPushPos & ATT_PERMEABLE) ||
+                ((attPushPos & ATT_PUSH) && (attPushPosFurther & ATT_PERMEABLE))) {
 
-                // Note we may have a lagging flag clear until next frame but
-                // who cares
-                *pushPosFurther = *pushPos | FLAG_THISFRAME;
-                *pushPos = CH_BLANK | FLAG_THISFRAME;
+                // Note we may have a lagging flag clear until next frame but who cares
 
-                autoMoveY = 0;
-                autoMoveY = 0;
-                autoMoveFrameCount = 0;
-                playerX += offsetX;
-                playerY += offsetY;
+                if (attPushPosFurther & ATT_PERMEABLE)
+                    *pushPosFurther = *pushPos | FLAG_THISFRAME;
 
-                nDots(6, boardCol + offsetX, boardRow + offsetY, 2, -150, 3, 4, 0x10000);
+                *pushPos = *me | FLAG_THISFRAME;
+                *me = offsetX ? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
+
+                unsigned char *playerPos = RAM + _BOARD + playerY * _1ROW + playerX;
+                if (playerPos == pushPos) {
+
+                    pulsePlayerColour = 20;
+                    ADDAUDIO(SFX_EXPLODE_QUIET);
+
+                    if (attPushPosFurther & ATT_BLANK) {
+
+                        autoMoveY = 0;
+                        autoMoveY = 0;
+                        autoMoveFrameCount = 0;
+                        playerX += offsetX;
+                        playerY += offsetY;
+                    }
+                }
+
+                if (!(attPushPos & ATT_PERMEABLE))
+                    nDots(6, boardCol + offsetX, boardRow + offsetY, 2, -150, 3, 4, 0x10000);
+                return;
             }
         }
 
-        int att = ATTRIBUTE(*pushPos);
-        if ((GET(*pushPos) == CH_CONVERT_GEODE_TO_DOGE) ||
-            att & (ATT_PERMEABLE | ATT_GRAB | ATT_GEODOGE | ATT_ROCK)) {
-
-            // // dots for the disappearing object
-            // if (!(att & ATT_BLANK)) {
-
-            //     if (rangeRandom(15)) {
-            //         *pushPos |= FLAG_THISFRAME;
-            //         //          shakeTime = 2;
-            //         return;
-            //     }
-
-            //     FLASH(0x32, 4);
-
-            //     shakeTime = 10;
-            //     nDots(5, boardCol + offsetX, boardRow + offsetY, 2, 75, 3, 5, 0x8000);
-
-            //     if (att & ATT_GEODOGE) {
-            //         nDots(5, boardCol + offsetX, boardRow + offsetY, 2, 75, 3, 5, 0x8000);
-
-            //         // *pushPos = CH_BLANK;
-
-            //         // for (int i = 0; i < 4; i++)
-            //         //     conglomerate(pushPos + dirOffset[i]);
-
-            //         *pushPos = CH_DOGE_01 | FLAG_THISFRAME;
-
-            //         return;
-            //     }
-            // }
-
-            *pushPos = *me | FLAG_THISFRAME;
-            *me = offsetX ? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
-
-            // // dots for a solid impact on NEXT move
-            // att = Attribute[CharToType[GET(*(pushPos + adjustOffset))]];
-            // if (!(att & ATT_BLANK)) {
-
-            //     // shakeTime = 10;
-
-            //     // int x[] = {4, 3, 0};
-            //     // int y[] = {8, 4, 0};
-
-            //     // nDots(3, boardCol + offsetX * 2, boardRow + offsetY * 2, 2,
-            //     // 50,
-            //     //     x[offsetX + 1], y[offsetY + 1], 0x10000);
-            // }
-        }
-
-        else
-            *me = (*me) + 1; // reverse
+        *me = (*me) + 1; // reverse
     }
 }
 
@@ -1324,11 +1324,6 @@ void processDoge() {
 
     int attrNext = ATTRIBUTE(*next);
 
-    // if (TYPEOF(*next) == TYPE_MELLON_HUSK) {
-    //     *me = CH_DUST_0 | FLAG_THISFRAME;
-    // }
-
-    // else
     if (attrNext & ATT_BLANK) {
         *me = CH_DUST_0 | FLAG_THISFRAME;
         *next = CH_DOGE_FALLING | FLAG_THISFRAME;
@@ -1361,52 +1356,62 @@ void processPebble() {
 void processWater() {
 
     if ((boardRow - 1) * TRILINES >= lavaSurfaceTrixel) {
-
-        for (int i = 0; i < 4; i++) {
-            unsigned char *neighbour = me + dirOffset[i];
-            if (Attribute[CharToType[GET(*neighbour)]] & ATT_DISSOLVES)
-                *neighbour = CH_DUST_0;
-        }
+        unsigned char *neighbour = me + dirOffset[waterDir & 3];
+        if (Attribute[CharToType[GET(*neighbour)]] & ATT_DISSOLVES)
+            *neighbour = CH_DUST_0;
     }
 }
 
 void processLava() {
 
-    int rand = getRandom32();
+    if (visible(boardCol, boardRow)) {
 
-    if (!(rand & 31)) {
+        int rand = getRandom32();
+        if ((boardRow - 1) * TRILINES >= lavaSurfaceTrixel) {
 
-        *me = rangeRandom(4) + CH_LAVA_0;
+            int i = waterDir & 3;
 
-        if (!(rand & 127) && (*me == CH_LAVA_2))
-            nDots(rangeRandom(4) + 2, boardCol, boardRow, 2, 50, 3, 4, 0x8000);
-    }
-
-    if ((boardRow - 1) * TRILINES >= lavaSurfaceTrixel) {
-
-        for (int i = 0; i < 4; i++) {
             unsigned char *neighbour = me + dirOffset[i];
             int att = Attribute[CharToType[GET(*neighbour)]];
 
             if (att & ATT_DISSOLVES) {
-                *neighbour = CH_LAVA_0;
-                return;
+                *neighbour = CH_LAVA_BLANK;
             }
 
-            if (att & ATT_MELTS && !(rand & 63)) {
+            else if (att & ATT_MELTS && !(rand & 63)) {
 
                 *neighbour = FLAG_THISFRAME | (att & ATT_GEODOGE) ? CH_DOGE_00 : CH_DUST_0;
                 nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4, 0x10000);
-                return;
             }
+        }
+
+        // Animate lava bubble
+        switch (*me) {
+        case CH_LAVA_BLANK: {
+            if (!(rand & (63 << 7))) {
+                (*me)++;
+                nDots((rand & 3) + 3, boardCol, boardRow, 2, 50, 3, 5, 0x8000);
+            }
+            break;
+        case CH_LAVA_SMALL:
+            *me = CH_LAVA_MEDIUM;
+            break;
+        case CH_LAVA_MEDIUM:
+            *me = CH_LAVA_LARGE;
+            break;
+        case CH_LAVA_LARGE:
+            *me = CH_LAVA_BLANK;
+            break;
+        }
         }
     }
 }
 
 void processWaterFlow() {
 
+    // Lag the interruption of water flowing downwards
     unsigned char above = *(me - _1ROW);
-    if (!(above & FLAG_THISFRAME) && !(Attribute[CharToType[above]] & ATT_WATERFLOW)) {
+    if (!(above & FLAG_THISFRAME) && !(Attribute[CharToType[GET(above)]] & ATT_WATERFLOW)) {
         *me = CH_BLANK | FLAG_THISFRAME;
         return;
     }
@@ -1425,9 +1430,12 @@ void processWaterFlow() {
                     if (rollWater < CH_WATERFLOW_0)
                         rollWater = CH_WATERFLOW_4;
 
+                    // flag enables slow leading edge
                     *next = rollWater | FLAG_THISFRAME;
 
                 } else
+
+                    // Water has hit something below
                     nDots(3, boardCol, boardRow, 2, 40, 2 + rangeRandom(3), 11, 0x10000);
             }
         }
@@ -1459,10 +1467,10 @@ void processOutlet() {
 
             unsigned char under = GET(*(me + _1ROW));
 
-            if (under != CH_WATERFLOW_0) {
+            if (!(Attribute[CharToType[under]] & ATT_WATERFLOW)) {
 
                 if (Attribute[CharToType[under]] & ATT_PERMEABLE)
-                    *(me + _1ROW) = CH_WATERFLOW_0;
+                    *(me + _1ROW) = CH_WATERFLOW_0 + (getRandom32() & 3);
 
                 else
                     nDots(1, boardCol, boardRow, 2, 30, rangeRandom(3) + 2, 10, 0x8000);
@@ -1470,7 +1478,7 @@ void processOutlet() {
         }
 
         else if (GET(*(me - _1ROW * 2)) == CH_TAP_1) {
-            if (GET(*(me + _1ROW)) == CH_WATERFLOW_0)
+            if (Attribute[CharToType[GET(*(me + _1ROW))]] & ATT_BLANK)
                 *(me + _1ROW) = CH_BLANK;
         }
     }
@@ -1479,7 +1487,7 @@ void processOutlet() {
 void processCharGeoDogeAndRock() {
 
     unsigned char typeDown = CharToType[GET(*next)];
-    int typeofMe = CharToType[GET(*me)];
+    // int typeofMe = CharToType[GET(*me)];
 
     if (Attribute[typeDown] & ATT_BLANK) {
 
@@ -1489,6 +1497,9 @@ void processCharGeoDogeAndRock() {
             *next = CH_ROCK_FALLING | FLAG_THISFRAME;
 
         *me = CH_DUST_0 | FLAG_THISFRAME;
+
+        // if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
+        //     conglomerate();
 
     }
 
@@ -1605,6 +1616,7 @@ void processCharFallingThings() {
 
         case CH_GEODOGE_FALLING: {
             *me = CH_GEODOGE;
+            conglomerate();
             break;
         }
 
@@ -1628,17 +1640,13 @@ void processCharFallingThings() {
 
 void convertWaterAndLavaObjects() {
 
-    // Any blanks/dissolves underwater/lava gets transformed to
-    // water/lava chars
+    // Any blanks/dissolves underwater/lava gets transformed to water/lava chars
 
-    if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES))
-        if (boardRow * TRILINES >= lavaSurfaceTrixel)
-            if (!(*me & FLAG_THISFRAME)) {
-
-                // int rr = getRandom32() & 0b1111;
-                // if (!(rr & 0b1100))
-                *me = showLava ? CH_LAVA_2 : CH_WATER_0; // + (rr & 0b11);
-            }
+    if (boardRow * TRILINES >= lavaSurfaceTrixel)
+        if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES) &&
+            (type != TYPE_LAVA && type != TYPE_WATER))
+            // if (!(*me & FLAG_THISFRAME))
+            *me = showLava ? CH_LAVA_BLANK : CH_WATER_0; // + (rr & 0b11);
 }
 
 void processBoardSquares() {
@@ -1662,6 +1670,8 @@ void processBoardSquares() {
             }
 
             if (boardRow > _BOARD_ROWS - 1 || boardRow < 0) {
+
+                waterDir++;
 
                 processWyrms();
 
@@ -1713,7 +1723,27 @@ void processBoardSquares() {
 
         //        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
 
+        // if (T1TC >= availableIdleTime) {
+        //     FLASH(0xD2, 2);
+        //     destroyInc = -1;
+        // }
+
+        // else
+        //     while (T1TC < availableIdleTime) // tmp
+        //         destroyInc = 1;
+
+        // static int maxT1 = 0;
+        // static int resetter = 500;
+        // static int lastT1 = 0;
+
+        // if (T1TC - lastT1 > maxT1) {
+        //     maxT1 = T1TC - lastT1;
+        // }
+        // lastT1 = T1TC;
+
         if (T1TC >= availableIdleTime) {
+
+            // actualScore = maxT1;
 
             boardRow = lastBoardRow;
             boardCol = lastBoardCol;
@@ -1727,7 +1757,9 @@ void processBoardSquares() {
         if (!(creature & FLAG_THISFRAME)) {
 
             type = CharToType[creature];
-            convertWaterAndLavaObjects();
+
+            if (visible(boardCol, boardRow))
+                convertWaterAndLavaObjects();
 
             if (Attribute[type] & activated) {
                 switch (type) {
@@ -1737,8 +1769,8 @@ void processBoardSquares() {
                     break;
                 }
 
-                case TYPE_PEBBLE1:
-                case TYPE_PEBBLE2: {
+                case TYPE_PEBBLE1: {
+                    // case TYPE_PEBBLE2: {
 
                     processPebble();
                     break;
@@ -1792,10 +1824,18 @@ void processBoardSquares() {
 
                 case CH_HUB:
                 case CH_HUB_1:
+
+                    // if (!rangeRandom(20)) {
+
+                    //     *me = *me ^ (CH_HUB ^ CH_HUB_1);
+                    //     *(me - _1ROW) ^= (CH_TAP_0 ^ CH_TAP_1);
+                    // }
+
                     break;
 
                 case CH_PEBBLE_ROCK:
                     *me = CH_GEODOGE | FLAG_THISFRAME;
+                    conglomerate();
                     break;
 
                 case CH_PUSH_LEFT:
@@ -1869,6 +1909,10 @@ void processBoardSquares() {
                     chainReact_GeoDogeToDoge();
                     break;
 
+                case CH_CONVERT_PIPE:
+                    chainReact_Pipe();
+                    break;
+
                 case CH_GEODOGE_CONVERT:
                     // *me = CH_GEODOGE | FLAG_THISFRAME;
                     // chainReact_DogeToGeoDoge();
@@ -1904,13 +1948,16 @@ void processBoardSquares() {
                 case CH_CONGLOMERATE_14:
                 case CH_CONGLOMERATE_15:
 
-                case CH_ROCK:
-
                 case CH_GEODOGE: {
 
                     processCharGeoDogeAndRock();
+                    conglomerate();
                     break;
                 }
+
+                case CH_ROCK:
+                    processCharGeoDogeAndRock();
+                    break;
 
                 case CH_DOGE_FALLING:
                 case CH_ROCK_FALLING:
@@ -1972,19 +2019,7 @@ void processBoardSquares() {
         }
 #endif
 
-        // Don't conglomerate if not visible
-
-        // if (!playerDead) {
-        //     int deltaX = playerX - boardCol;
-        //     if (deltaX > 6 | deltaX < -6)
-        //         return;
-
-        //     int deltaY = playerY - boardRow;
-        //     if (deltaY > 5 || deltaY < -5)
-        //         return;
-        // }
-
-        conglomerate(me);
+        //        conglomerate();
 
         // Clear any "scanned this frame" objects on the previous line
         // note: we need to also do the last row ... or do we? if it's steel

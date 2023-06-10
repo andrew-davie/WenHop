@@ -1,5 +1,6 @@
 #include "defines.h"
 #include "defines_cdfj.h"
+// #include "defines_from_dasm_for_c.h"
 
 #include "main.h"
 
@@ -184,8 +185,8 @@ bool checkHighPriorityMove(int dir) {
         if (!tapDelay && type == TYPE_TAP) {
             *meOffset = *meOffset ^ (CH_TAP_1 ^ CH_TAP_0);
             if (*meOffset == CH_TAP_1) {
-                showWater = true;
-                showLava = false;
+                // showWater = true;
+                // showLava = false;
                 if (21 * TRILINES < lavaSurfaceTrixel)
                     lavaSurfaceTrixel = 21 * TRILINES;
             }
@@ -312,9 +313,10 @@ bool checkHighPriorityMove(int dir) {
 
             playerSlow = 0;
             if (!autoMoveFrameCount &&
-                ((Attribute[destType] & ATT_DIRT) || destType == TYPE_LAVA)) {
+                ((Attribute[destType] & (ATT_DIRT | ATT_WATERFLOW)) || destType == TYPE_LAVA)) {
 
-                playerSlow = 1;
+                playerSlow = ((Attribute[destType] & ATT_WATERFLOW)) ? 2 : 1;
+
                 ADDAUDIO(SFX_DIRT);
                 // dirtFlag = true;
                 startCharAnimation(TYPE_MELLON_HUSK, AnimateBase[TYPE_MELLON_HUSK]);
@@ -322,9 +324,7 @@ bool checkHighPriorityMove(int dir) {
                 nDots(6, playerX, playerY, 2, 25, 2, 5, 0x10000);
             }
 
-            int dir2 = dir;
-            if (gravity < 0) // && dir2 > 1)
-                dir2 ^= 2;
+            int dir2 = (gravity < 0) ? dir ^ 2 : dir;
 
             if (playerAnimationID != WalkAnimation[dir2])
                 startPlayerAnimation(WalkAnimation[dir2]);
@@ -362,7 +362,7 @@ bool checkLowPriorityMove(int dir) {
     unsigned char destType = CharToType[GET(*meOffset)];
 
 #if 1 // disable push
-    if (/*faceDirectionDef[dir] && */ (Attribute[destType] & ATT_MINE)) {
+    if (/*faceDirectionDef[dir] && */ (Attribute[destType] & (ATT_MINE | ATT_PIPE))) {
 
         if (++pushCounter > 1) {
             int anim = mineAnimation[dir];
@@ -379,12 +379,18 @@ bool checkLowPriorityMove(int dir) {
 
         if (pushCounter > 10) {
 
-            addScore(VALUE_BREAK_GEODE);
+            if (Attribute[destType] & ATT_MINE) {
+                addScore(VALUE_BREAK_GEODE);
 
-            //            pushCounter = 2;
-            *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE)
-                            ? CH_CONVERT_GEODE_TO_DOGE | FLAG_THISFRAME
-                            : CH_DUST_0;
+                //            pushCounter = 2;
+                *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE)
+                                ? CH_CONVERT_GEODE_TO_DOGE | FLAG_THISFRAME
+                                : CH_DUST_0;
+            }
+
+            else {
+                *meOffset = CH_CONVERT_PIPE | FLAG_THISFRAME;
+            }
 
             // fixSurroundingConglomerates(meOffset);
 

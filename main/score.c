@@ -3,12 +3,12 @@
 
 #include "defines.h"
 #include "defines_cdfj.h"
+// #include "defines_from_dasm_for_c.h"
 
 #include "main.h"
 
 #include "score.h"
 
-#include "bitpatterns.h"
 #include "cavedata.h"
 #include "colour.h"
 #include "decodecaves.h"
