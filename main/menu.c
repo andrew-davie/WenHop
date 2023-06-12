@@ -1698,10 +1698,11 @@ void handleMenuVB() {
 // tmp    doPlayer();
 #endif
 
-    for (int i = 0; i < 6; i++)
-        if (!RGB[i] || !rangeRandom(64))
-            RGB[i] = (mm_tv_type == SECAM) ? (rangeRandom(7) + 1) << 1
-                                           : LUMINANCE_TITLE | (getRandom32() << 4);
+    // tmp...
+    //  for (int i = 0; i < 6; i++)
+    //      if (!RGB[i] || !rangeRandom(64))
+    //          RGB[i] = (mm_tv_type == SECAM) ? (rangeRandom(7) + 1) << 1
+    //                                         : LUMINANCE_TITLE | (getRandom32() << 4);
 
     int negJoy = (SWCHA >> 4) ^ 0xF;
 
@@ -1747,10 +1748,11 @@ void handleMenuVB() {
             }
         }
 
-        if (dir) {
-            resetMode();
-            ADDAUDIO(SFX_BLIP);
-        }
+        // tmp...
+        //  if (dir) {
+        //      resetMode();
+        //      ADDAUDIO(SFX_BLIP);
+        //  }
     }
 
     else if (!negJoy && (INPT4 & 0x80))
@@ -1786,7 +1788,7 @@ void MenuVerticalBlank() {
         // tmp        initKernel(KERNEL_GAME);
         //  tmop        }
 
-        handleSelectReset();
+        // tmp        handleSelectReset();
         break;
 
         // case KERNEL_COPYRIGHT: // VBlank

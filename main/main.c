@@ -211,7 +211,6 @@ int worst[TYPE_MAX];
 #endif
 
 void SystemReset() {
-    return; // tmp
 
     initRandom();
     initAudio();
@@ -221,6 +220,7 @@ void SystemReset() {
         _QINC[i] = 0x100; // data stream increments -> 1.0
 
     initKernel(KERNEL_COPYRIGHT);
+    return; // tmp
 
     rageQuit = false;
     ARENA_COLOUR = 0;
@@ -898,7 +898,7 @@ void GameOverscan() {
 //    checkDemoFinished();
 #endif
 
-    handleSelectReset();
+    // tmp    handleSelectReset();
 }
 
 void handleSelectReset() {
