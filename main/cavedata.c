@@ -612,9 +612,9 @@ const unsigned char caveA4[] = {
 
 const unsigned char *caveList[] = {
 
-    caveA, caveA2, caveA5, caveA4,
+    caveA, caveA2, caveA5, //caveA4,
 
-    caveA3,
+    //caveA3,
     // caveA2,
 };
 

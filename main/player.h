@@ -94,6 +94,7 @@ enum AnimationIdent {
     ID_TapUp,    // 13
     ID_TapDown,  // 14
     ID_TapPush,  // 15
+    ID_Xray,     // 16
 };
 
 extern int autoMoveX;

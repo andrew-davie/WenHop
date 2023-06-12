@@ -187,6 +187,8 @@ enum ChName {
     CH_WYRM_TAIL_D,           // 120
     CH_WYRM_TAIL_L,           // 121
 
+    CH_WYRM_BODY2,            // 122
+
     // 127 is limit
 
     CH_MAX

@@ -273,6 +273,17 @@ const signed char AnimationWalkDown[] = {
 //     ACTION_STOP,
 // };
 
+
+const signed char AnimationXray[] = {
+
+    FRAME_SKELETON1, 15,
+    FRAME_STAND,3,
+    FRAME_SKELETON1, 3,
+    FRAME_STAND,3,
+    FRAME_SKELETON1, 3,
+    ACTION_STOP,
+};
+
 const signed char AnimationSkeleton[] = {
 
     FRAME_SKELETON1, 8,
@@ -404,6 +415,7 @@ const signed char *const AnimationVector[] = {
     AnimationTapUp,    // 13 ID_TapUp
     AnimationTapDown,  // 14 ID_TapDown
     AnimationTapPush,  // 15 ID_TapPush
+    AnimationXray,     // 16 ID_Xray
 };
 
 enum AnimationIdent playerAnimationID = ID_Stand;

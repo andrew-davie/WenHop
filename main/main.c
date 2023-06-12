@@ -1253,16 +1253,26 @@ void genericPush(int offsetX, int offsetY) {
 
     if (switchOn) {
 
+        bool atEdge = (boardCol < 3) || (boardCol > 36) || (boardRow < 3) || (boardRow > 18);
+        unsigned char *playerPos = RAM + _BOARD + playerY * _1ROW + playerX;
+
         int adjustOffset = offsetY * _1ROW + offsetX;
         unsigned char *pushPos = me + adjustOffset;
+
+        unsigned char alternate = CH_STEELWALL;
+        unsigned char *pushPosFurther = atEdge ? &alternate : pushPos + adjustOffset;
+        int attPushPosFurther = Attribute[CharToType[GET(*pushPosFurther)]];
+
+        if (playerPos == pushPos && (atEdge || !(attPushPosFurther & ATT_PERMEABLE))) {
+            // shakeTime = 20;
+            FLASH(0x42, 8);
+            startPlayerAnimation(ID_Xray);
+            nDots(6, boardCol + offsetX, boardRow + offsetY, 2, 50, 3, 4, 0x18000);
+        }
 
         int attPushPos = Attribute[CharToType[GET(*pushPos)]];
 
         if (!(GET(*pushPos) & FLAG_THISFRAME)) {
-
-            unsigned char *pushPosFurther = pushPos + adjustOffset;
-            int attPushPosFurther = Attribute[CharToType[GET(*pushPosFurther)]];
-
             if ((attPushPos & ATT_PERMEABLE) ||
                 ((attPushPos & ATT_PUSH) && (attPushPosFurther & ATT_PERMEABLE))) {
 
@@ -1274,7 +1284,6 @@ void genericPush(int offsetX, int offsetY) {
                 *pushPos = *me | FLAG_THISFRAME;
                 *me = offsetX ? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
 
-                unsigned char *playerPos = RAM + _BOARD + playerY * _1ROW + playerX;
                 if (playerPos == pushPos) {
 
                     pulsePlayerColour = 20;
@@ -1390,14 +1399,14 @@ void processLava() {
         case CH_LAVA_BLANK: {
             if (!(rand & (63 << 7))) {
                 (*me)++;
-                nDots((rand & 3) + 3, boardCol, boardRow, 2, 50, 3, 5, 0x8000);
+                nDots(4, boardCol, boardRow, 2, 30, 2, 5, 0xC000);
             }
             break;
         case CH_LAVA_SMALL:
             *me = CH_LAVA_MEDIUM;
             break;
         case CH_LAVA_MEDIUM:
-            *me = CH_LAVA_LARGE;
+            *me = CH_LAVA_BLANK;
             break;
         case CH_LAVA_LARGE:
             *me = CH_LAVA_BLANK;
@@ -1644,7 +1653,7 @@ void convertWaterAndLavaObjects() {
 
     if (boardRow * TRILINES >= lavaSurfaceTrixel)
         if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES) &&
-            (type != TYPE_LAVA && type != TYPE_WATER))
+            (type != TYPE_LAVA && type != TYPE_WATER && type != TYPE_DUST_0))
             // if (!(*me & FLAG_THISFRAME))
             *me = showLava ? CH_LAVA_BLANK : CH_WATER_0; // + (rr & 0b11);
 }

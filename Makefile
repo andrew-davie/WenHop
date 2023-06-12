@@ -53,7 +53,6 @@ CFLAGS += $(OPTIMIZATION)
 CFLAGS += -Wl,--print-memory-usage,--build-id=none -flto -mno-thumb-interwork -fextended-identifiers
 
 
-
 # Search path
 VPATH += $(BASE):$(SRC)
 SERIAL_DATE := $(shell date +"const int serialNumberDate = %y%m%d;")

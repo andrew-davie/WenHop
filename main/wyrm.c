@@ -148,13 +148,13 @@ void processWyrms() {
                 *segment = wyrmChar[dir];
             }
 
-            // TODO: CHECK WORM TOO BIG
             if (headPos >= wyrm->length) {
 
-                if (!(Attribute[whatsThere] & (ATT_WATERFLOW | ATT_GRAB)) ||
+                if (true /*tmp*/ || !(Attribute[whatsThere] & (ATT_WATERFLOW | ATT_GRAB)) ||
                     wyrm->length > WYRM_MAX - 2) {
                     unsigned char *tailPos = RAM + _BOARD + wyrm->y[0] * _1ROW + wyrm->x[0];
-                    *tailPos = CH_WATER_0;
+
+                    *tailPos = CH_DUST_0;
 
                     for (int i = 0; i < WYRM_MAX - 1; i++) {
                         wyrm->x[i] = wyrm->x[i + 1];
@@ -169,7 +169,7 @@ void processWyrms() {
                 }
 
                 if (wyrm->y[0] * TRILINES > lavaSurfaceTrixel) {
-                    if (!rangeRandom(50)) {
+                    if (!rangeRandom(500)) {
                         newWyrm(wyrm->x[0], wyrm->y[0]);
                     }
                 }
@@ -205,21 +205,18 @@ void processWyrms() {
 
             *tailPos = tail;
 
-            if (headPos > 0) {
+            unsigned char headChar = CH_WYRM_HEAD_U;
+            if (wyrm->x[headPos] < wyrm->x[headPos - 1])
+                headChar = CH_WYRM_HEAD_L;
+            else if (wyrm->x[headPos] > wyrm->x[headPos - 1])
+                headChar = CH_WYRM_HEAD_R;
+            else if (wyrm->y[headPos] < wyrm->y[headPos - 1])
+                headChar = CH_WYRM_HEAD_U;
+            if (wyrm->y[headPos] > wyrm->y[headPos - 1])
+                headChar = CH_WYRM_HEAD_D;
 
-                unsigned char headChar;
-                if (wyrm->x[headPos] < wyrm->x[headPos - 1])
-                    headChar = CH_WYRM_HEAD_L;
-                else if (wyrm->x[headPos] > wyrm->x[headPos - 1])
-                    headChar = CH_WYRM_HEAD_R;
-                else if (wyrm->y[headPos] < wyrm->y[headPos - 1])
-                    headChar = CH_WYRM_HEAD_U;
-                if (wyrm->y[headPos] > wyrm->y[headPos - 1])
-                    headChar = CH_WYRM_HEAD_D;
-
-                unsigned char *head = RAM + _BOARD + wyrm->y[headPos] * _1ROW + wyrm->x[headPos];
-                *head = headChar;
-            }
+            unsigned char *head = RAM + _BOARD + wyrm->y[headPos] * _1ROW + wyrm->x[headPos];
+            *head = headChar;
         }
     }
 }
