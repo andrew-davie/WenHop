@@ -194,6 +194,7 @@ void startCharAnimation(int type, const char *idx) {
 }
 
 void processCharAnimations() {
+    return; // tmp
 
     for (int type = 0; type < TYPE_MAX; type++)
         if (AnimateBase[type] && AnimCount[type] != ANIM_HALT)

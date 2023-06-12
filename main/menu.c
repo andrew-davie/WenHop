@@ -150,6 +150,7 @@ void detectConsoleType() {
 
 void clearBuffer(int *buffer, int size) {
 
+    return; // tmp
     for (int i = 0; i < size; i++)
         buffer[i] = 0;
 }
@@ -1340,6 +1341,7 @@ void setTitleMarqueeColours() { // int a, int b) {
 }
 
 void handleMenuScreen() {
+    return; // tmp
 
     // if (!(SWCHA & 0xF0)) // UDLR at same time!
     //     drawString(0, 182, "ZPH001", 0);
@@ -1454,16 +1456,17 @@ void initKernel(int kernel) {
     KERNEL = kernel;
     setJumpVectors(_MENU_KERNEL, _EXIT_MENU_KERNEL);
 
-    killRepeatingAudio();
+    // tmp    killRepeatingAudio();
     gameSchedule = SCHEDULE_START;
 
     ARENA_COLOUR = 0;
 
-    if (rageQuit) {
-        rageQuit = false;
-        SAY(__WORD_RAGEQUIT);
-        FLASH(0x48, 8);
-    }
+    // tmp...
+    //  if (rageQuit) {
+    //      rageQuit = false;
+    //      SAY(__WORD_RAGEQUIT);
+    //      FLASH(0x48, 8);
+    //  }
 
     P0_X = 80;
     P1_X = 88;
@@ -1474,8 +1477,8 @@ void initKernel(int kernel) {
 
     // clearMenuPlayfield();
     // clearMenuSprites();
-    clearBuffer((int *)(RAM + _BUF_MENU_PF1_LEFT), 10 * _ARENA_SCANLINES / 4);
-    //    setCopyrightScreenPalette();
+    // tmp    clearBuffer((int *)(RAM + _BUF_MENU_PF1_LEFT), 10 * _ARENA_SCANLINES / 4);
+    //     setCopyrightScreenPalette();
 
     switch (kernel) {
 
@@ -1495,13 +1498,14 @@ void initKernel(int kernel) {
 
         // initDemoMode(false);
 
-        chooseColourScheme();
+        // tmp        chooseColourScheme();
 
         mustWatchDelay = MUSTWATCH_MENU;
         break;
 
     case KERNEL_STATS: {
 
+        break; // tmp
         mustWatchDelay = MUSTWATCH_STATS;
         caveUnpackComplete = false;
         thumbnailSpeed = -10;
@@ -1536,6 +1540,7 @@ void initKernel(int kernel) {
 }
 
 void MenuOverscan() {
+    return; // tmp
 
     initMenuDatastreams();
 
@@ -1687,10 +1692,10 @@ void handleMenuVB() {
     // }
     // #endif
 
-    doFlash();
+    // tmp    doFlash();
 
 #if ENABLE_ANIMATING_MAN
-    doPlayer();
+// tmp    doPlayer();
 #endif
 
     for (int i = 0; i < 6; i++)
@@ -1778,8 +1783,8 @@ void MenuVerticalBlank() {
                 else if (!waitRelease) {
                     */
         waitRelease = true;
-        initKernel(KERNEL_GAME);
-        // tmop        }
+        // tmp        initKernel(KERNEL_GAME);
+        //  tmop        }
 
         handleSelectReset();
         break;

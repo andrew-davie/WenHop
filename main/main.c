@@ -194,10 +194,10 @@ void (*const runFunc[])() = {
     MenuOverscan,      // _FN_MENU_OS
     MenuVerticalBlank, // _FN_MENU_VB
     SchedulerMenu,     // _FN_MENU_IDLE
-    initNextLife,      // _FN_INIT_GAME_KERNEL
-    GameOverscan,      // _FN_GAME_OS
-    GameVerticalBlank, // _FN_GAME_VB
-    Scheduler,         // _FN_GAME_IDLE
+    // initNextLife,      // _FN_INIT_GAME_KERNEL
+    // GameOverscan,      // _FN_GAME_OS
+    // GameVerticalBlank, // _FN_GAME_VB
+    // Scheduler,         // _FN_GAME_IDLE
 };
 
 int main() { // <-- 6507/ARM interfaced here!
@@ -211,6 +211,7 @@ int worst[TYPE_MAX];
 #endif
 
 void SystemReset() {
+    return; // tmp
 
     initRandom();
     initAudio();
@@ -334,6 +335,7 @@ void initNewGame() {
 }
 
 void initNextLife() {
+    return; // tmp
 
     //    KERNEL = KERNEL_GAME;
 
@@ -452,6 +454,8 @@ void Scheduler() {
         processBoardSquares, // SCHEDULE_PROCESSBOARD
         scheduleUnpackCave,  // SCHEDULE_UNPACK_CAVE
     };
+
+    gameSchedule = 0; // tmp
 
     (*scheduleFunc[gameSchedule])();
 }
@@ -648,6 +652,7 @@ void bigStuff(int amount) {
 }
 
 void handleCaveCompletion() {
+    return; // tmp
 
     if (exitMode) {
 
@@ -750,6 +755,7 @@ void handleCaveCompletion() {
 }
 
 void GameOverscan() {
+    return; // tmp
 
     T1TC = 0;
     T1TCR = 1;
@@ -934,6 +940,7 @@ void handleSelectReset() {
 }
 
 void GameVerticalBlank() {
+    return; // tmp
 
     T1TC = 0;
     T1TCR = 1;
@@ -1012,6 +1019,7 @@ void conglomerate(unsigned char *me, int att) {
 }
 
 void setupBoard() {
+    return; // tmp
 
     // #if SCHEDULER==0
     if (frameCounter >= gameSpeed) {
@@ -1318,6 +1326,8 @@ void genericPushReverse(int offsetX, int offsetY) {
 }
 
 void processBoardSquares() {
+
+    return; // tmp
 
     while (true) {
 

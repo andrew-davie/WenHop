@@ -126,6 +126,7 @@ void initSwipeCircle(int zoom) {
 }
 
 void swipeCircle() {
+    return; // tmp
 
     if (!checkSwipeFinished()) {
         //        displayMode = DISPLAY_NORMAL;

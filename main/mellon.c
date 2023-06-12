@@ -426,12 +426,13 @@ void bubbles(int count, int dripX, int dripY, int age, int speed) {
 }
 
 void movePlayer(unsigned char *me) {
+    return; // tmp
 
     handled = false;
 
     // lasso
     // if (!(inpt4 & 0x80)) {        // fire button
-    //     // shakeTime += 10;
+    //     // shakeTime sc 10;
 
     //     if (Attribute[CharToType[GET(*(me + 1))]] & ATT_BLANK)
     //         *(me + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;

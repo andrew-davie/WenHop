@@ -167,6 +167,7 @@ void initSprites() {
 // };
 
 void drawPlayerSprite() { // --> 3171 cycles
+    return;               // tmp
 
     static int root = 0;
     root++;

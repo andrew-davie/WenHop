@@ -1,26 +1,31 @@
 OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 
+INCLUDE main/symbols_from_dasm_for_lds.h
+
+_BOOT_SIZE = 0x60;
+_DD_START = 0x40000800;
+_DRIVER_SIZE = 0x800;
+
+
 /* Entry Point  */
 ENTRY(Custom)
 
-/* LPC2103 memory areas  */
+/* Memory Areas  */
 MEMORY
 {
-    boot (RX)   : ORIGIN = 0x800     , LENGTH = 0x80    /* C-runtime booter */
-    C_code (RX) : ORIGIN = 0x880     , LENGTH = 26911  /* C code (26K) */
+    boot (RX)   : 	ORIGIN = _PC_ARM_CODE ,	/* C-runtime booter */
+			LENGTH = _BOOT_SIZE
 
-    ram         : ORIGIN = 0x40001660, LENGTH = 0x95B   /* $95E free RAM */
+    C_code (RX) : 	ORIGIN = _PC_ARM_CODE + _BOOT_SIZE ,
+			LENGTH = _PC_ROM_SIZE * 1024 - _PC_ARM_CODE - _BOOT_SIZE
 
-/*    ram         : ORIGIN = 0x40001800, LENGTH = 0x800 */   /* 2K free RAM */
-/*    ram         : ORIGIN = 0x40001400, LENGTH = 0xC00 */  /* 3K free RAM, took 1K from Display Data */
-/*    ram         : ORIGIN = 0x40001300, LENGTH = 0xD00 */  /* 3.25K free RAM, took 1.25K from Display Data */
-/*    ram         : ORIGIN = 0x400012C0, LENGTH = 0xD40 */  /* 3392 bytes free RAM, took 1344 from Display Data */
+    ram         : 	ORIGIN = _DD_START + _PC_DD_SIZE ,
+			LENGTH = _PC_RAM_SIZE * 1024 - _PC_DD_SIZE - _DRIVER_SIZE
 
 }
 
-/* Global symbol _stack_end */
-_stack_end = 0x40001FDC;
+
 
 /* Output sections  */
 SECTIONS

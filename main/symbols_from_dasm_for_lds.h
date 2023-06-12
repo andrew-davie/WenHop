@@ -1,6 +1,6 @@
 /* Do not change this file. It is auto-generated during the make process */
-_PC_ARM_CODE              = 0x1800;
-_PC_ARM_CODE_SIZE         = 0x6448;
+_PC_ARM_CODE              = 0x2800;
+_PC_ARM_CODE_SIZE         = 0x02bc;
 _PC_CDFJ_FF               = 0x0000;
 _PC_DD_SIZE               = 0x0e00;
 _PC_FF_OFFSET             = 0x0080;

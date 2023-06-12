@@ -258,6 +258,7 @@ const char *planetName[] = {
 // clang-format on
 
 void drawPlanetName() {
+    return; // tmp
 
     static int col = 0;
     col++;
@@ -285,6 +286,7 @@ void drawPlanetName() {
 }
 
 void drawSpeedRun() {
+    return; // tmp
 
     static int speedCycle;
     speedCycle -= 12;
@@ -296,6 +298,7 @@ void drawSpeedRun() {
 
 void drawDoge() {
 
+    return; // tmp
     scoreLineNew[1] = DIGIT_PLUS;
     scoreLineNew[0] = DIGIT_DOGE;
     scoreLineColour[1] = scoreLineColour[0] = RGB_GREEN;
@@ -303,6 +306,7 @@ void drawDoge() {
 }
 
 void drawTime() {
+    return; // tmp
 
     int tPos = 0; // time >= 0xA00 ? time >= 0x6400 ? 5 : 6 : 7;
 
@@ -316,6 +320,8 @@ void drawTime() {
 
 void drawLives() {
 
+    return; // tmp
+
     scoreLineNew[1] = LETTER('L');
     scoreLineColour[1] = RGB_BLUE;
 
@@ -323,7 +329,7 @@ void drawLives() {
 }
 
 void drawTheScore(int score) {
-
+    return; // tmp
     int notLeadingZero = 0;
     for (int digit = 5; digit >= 0; digit--) {
 
@@ -343,6 +349,8 @@ void drawTheScore(int score) {
 }
 
 void drawScore() {
+
+    return; // tmp
 
     static int scc = 0;
     scc++;

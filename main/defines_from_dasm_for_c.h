@@ -157,8 +157,8 @@
 #define _NORMAL_KERNEL            0xfbd3
 #define _P0_X                     0x0005
 #define _P1_X                     0x0004
-#define _PC_ARM_CODE              0x1800
-#define _PC_ARM_CODE_SIZE         0x6448
+#define _PC_ARM_CODE              0x2800
+#define _PC_ARM_CODE_SIZE         0x02bc
 #define _PC_CDFJ_FF               0x0000
 #define _PC_DD_SIZE               0x0e00
 #define _PC_FF_OFFSET             0x0080

@@ -1,12 +1,8 @@
 /******************************************************************************
 File: custom.S
-Description: Harmony Custom C Code Booter
-(C) Copyright 2016 - Chris Walton, Fred Quimby, Darrell Spice Jr
-used, modified, and distributed with permission (April 2033)
 ******************************************************************************/
 
-/* Start in ARM mode */
-.arm
+.thumb
 
 /* Put code in boot section */
 .section  .boot,"ax",%progbits
@@ -16,15 +12,10 @@ used, modified, and distributed with permission (April 2033)
 .func     Custom
 Custom:
 
-  /* Switch to THUMB mode */
-  add     r0, pc, #1
-  bx      r0
-.thumb
-
   /* Fetch value from CU header */
   ldr     r0, =0x40000024
   ldr     r2, [r0]
-  
+
   /* Skip if data already copied */
   cmp     r2, #0
   bmi     SkipCopy
@@ -58,19 +49,22 @@ CopyLoop:
   bne     CopyLoop
 SkipCopy:
 
-  /* Push return addess on stack */
+  /* Push return address on stack */
   push    {lr}
-  
-  /* Put ReturnToBUS address in LR */
-  ldr     r0, =ReturnToBUS+1
+
+  /* Put ReturnToCDFJ address in LR */
+  ldr     r0, =ReturnToCDFJ+1
   mov     lr, r0
 
   /* Jump to main in C code */
   ldr     r0, =main
   bx      r0
 
-ReturnToBUS:
-  /* Return to BUS (switch to ARM mode) */
+ReturnToCDFJ:
+  /* Return to CDFJ (switch to ARM mode) */
   pop     {r0}
   bx      r0
+
+
+
 

@@ -72,6 +72,7 @@ static int decodeFlasher;
 // int last_prng_b;
 
 void decodeCave(int cave) {
+    return; // tmp
 
     wyrmNum = 0;
 
@@ -111,6 +112,7 @@ unsigned char theObject;
 // unsigned int restore_prng_a, restore_prng_b;
 
 int decodeExplicitData(int sfx) {
+    return; // tmp
 
     // restore_prng_a = prng_a;
     // restore_prng_b = prng_b;

@@ -106,6 +106,8 @@ static unsigned char rollDirect[3][PIECE_DEPTH] = {
 
 void drawScreen(int side) { // --> cycles 44743 (@20221216)
 
+    return; // tmp
+
     static unsigned char *const arenas[] = {
         RAM + _BUF_PF0_LEFT,
         RAM + _BUF_PF0_RIGHT,

@@ -199,12 +199,26 @@ offsetSK            ds 1        ; for calculating the SK slot address
 ;===============================================================================
 ; Define Start of Cartridge
 ;----------------------------------------
-;   CDFJ cartridges must start with the Harmony/Melody driver.  The driver is
-;   the ARM code that emulates the CDFJ coprocessor.
+;   CDFJ+ cartridges must start with the Harmony/Melody driver.  The driver is
+;   the ARM code that emulates the CDFJ+ coprocessor.
+;
+;   The configure_cdfjplus.h file will:
+;       1) validate the values in the Project Configuration constants
+;           _PC_ROM_SIZE
+;           _PC_DD_SIZE
+;           _PC_CDFJ_FF
+;           _PC_FF_OFFSET
+;
+;       2) define additional Project Configuration constants, such as:
+;           _PC_RAM_SIZE
+;           C_STACK
+;           _PC_TABLE_SIZE
+;
+;       3) include the appropriate version of the CDFJ+ driver for this project.
 ;===============================================================================
 
-                    SEG CODE
-                    ORG 0
+        SEG CODE
+        ORG $0000
 
     include "configure_cdfjplus.h"
 
@@ -2165,16 +2179,16 @@ FREE_SPACE = ARM_DIRECT_DATA_END - $8000 - *
 ; Game Kernels
 ;===============================================================================
 
-    ;     ORG $1800
-    ;     RORG $F000
+         ORG $1800
+         RORG $F000
 
-    ; ORG     $17F0
-    ; RORG    $FFF0
-    ; DC.B    0, 0, 0, 0          ; CDFJ Hotspots
-    ; DC.L    C_STACK             ; $F4   C Stack
-    ; DC.L    _PC_ARM_CODE+1      ; $F8   C Code (+1 for THUMB Mode)
-    ; DC.W    InitSystem          ; $FC   Reset
-    ; DC.W    InitSystem          ; $FE   BRK
+    ORG     $27F0
+    RORG    $FFF0
+    DC.B    0, 0, 0, 0          ; CDFJ Hotspots
+    DC.L    C_STACK             ; $F4   C Stack
+    DC.L    _PC_ARM_CODE+1      ; $F8   C Code (+1 for THUMB Mode)
+    DC.W    InitSystem          ; $FC   Reset
+    DC.W    InitSystem          ; $FE   BRK
 
 ;===============================================================================
 ; ARM user code
@@ -2190,8 +2204,12 @@ FREE_SPACE = ARM_DIRECT_DATA_END - $8000 - *
 ;       C Code  $7800
 ;===============================================================================
 
-        ORG $1800
-        RORG $1800
+
+
+
+
+        ORG $2800
+        RORG $2800
 
 ARM_DIRECT_DATA:
 ;        include arm_direct_data.asm  ; ?? none

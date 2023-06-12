@@ -32,6 +32,7 @@ static int targetScrollSpeed, targetYScrollSpeed;
 int isScrolling() { return (scrollSpeedX | scrollSpeedY); }
 
 void Scroll() {
+    return; // tmp
 
     if (playerDead && !waitRelease && *playerAnimation == FRAME_BLANK) {
 
