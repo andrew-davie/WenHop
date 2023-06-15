@@ -3,8 +3,8 @@
 
 void drawScreen();
 void drawIconScreen(int startRow, int endRow);
-void initIconPalette();
 void rain();
+void initCharVector();
 
 #endif
 // EOF

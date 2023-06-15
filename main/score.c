@@ -152,25 +152,25 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
         for (int line = 0; line < DIGIT_SIZE; line++) {
 
             rdl2 = ((dig[line] >> shift) & 0xF) << shift2;
-            rdl = ~rdl2;
-            if (!(colour & 7 & dbase))
-                rdl2 = 0;
-            if (blackBackground)
-                rdl = ~pmask;
-            dbase = (dbase << 1) | (dbase >> 2);
-            p[line] = (p[line] & BitRev[rdl]) | BitRev[rdl2];
+            //        rdl = ~rdl2;
+            // if (!(colour & 7 & dbase))
+            //     rdl2 = 0;
+            // if (blackBackground)
+            //     rdl = ~pmask;
+            //          dbase = (dbase << 1) | (dbase >> 2);
+            p[line] = (p[line] & BitRev[(unsigned char)~rdl]) | BitRev[rdl2];
         }
     } else {
         for (int line = 0; line < DIGIT_SIZE; line++) {
 
             rdl2 = ((dig[line] >> shift) & 0xF) << shift2;
-            rdl = ~rdl2;
-            if (!(colour & 7 & dbase))
-                rdl2 = 0;
-            if (blackBackground)
-                rdl = pmask;
-            dbase = (dbase << 1) | (dbase >> 2);
-            p[line] = (p[line] & rdl) | rdl2;
+            // rdl = ~rdl2;
+            // if (!(colour & 7 & dbase))
+            //     rdl2 = 0;
+            // if (blackBackground)
+            //     rdl = pmask;
+            //            dbase = (dbase << 1) | (dbase >> 2);
+            p[line] = (p[line] & ~rdl) | rdl2;
         }
     }
 

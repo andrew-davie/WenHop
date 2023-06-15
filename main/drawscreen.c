@@ -27,64 +27,72 @@ const unsigned char *img[5];
 const unsigned char *corner[5];
 const unsigned char *p;
 
-void grab(int frac, int size) {
+unsigned char revectorChar[128];
 
-    for (int col = 0; col < size; col++) {
+void initCharVector() {
+
+    for (int i = 0; i < 128; i++)
+        revectorChar[i] = i;
+}
+
+void grab(int frac) {
+
+    for (int col = 0; col < 5; col++) {
 
         int base = frac + col;
-        // while (base >= _BOARD_COLS)
-        //     base -= _BOARD_COLS;
 
-        unsigned char p2 = GET2(p[base]);
-        int type = CharToType[p2];
+        unsigned char p2 = GET(p[base]);
+        unsigned char type = CharToType[p2];
+
         if (Animate[type])
             p2 = *Animate[type];
-        img[col] = charSet[p2];
-
-        int udlr = 0;
+        img[col] = charSet[revectorChar[p2]];
 
         if (ATTRIBUTE_BIT(p[base], ATT_PAD)) {
 
-            if (ATTRIBUTE_BIT(p[base - _1ROW], ATT_CORNER))
-                udlr |= DIR_U;
-            if (ATTRIBUTE_BIT(p[base + 1], ATT_CORNER))
-                udlr |= DIR_R;
-            if (ATTRIBUTE_BIT(p[base + _1ROW], ATT_CORNER))
-                udlr |= DIR_D;
-            if (ATTRIBUTE_BIT(p[base - 1], ATT_CORNER))
-                udlr |= DIR_L;
+            const int roundedCorner[] = {
+
+                0,            // 00
+                0,            // 01 U
+                0,            // 02 R
+                CH_CORNER_RU, // 03 RU
+                0,            // 04 D
+                0,            // 05 DU
+                CH_CORNER_6,  // 06 RD
+                CH_CORNER_7,  // 07 URD
+                0,            // 08 L
+                CH_CORNER_9,  // 09 LU
+                0,            // 10 LR
+                CH_CORNER_11, // 11 LUR
+                CH_CORNER_12, // 12 LD
+                CH_CORNER_13, // 13 LDU
+                CH_CORNER_14, // 14 LRD
+                CH_CORNER_15, // 15 LURD
+            };
+
+            int udlr = (ATTRIBUTE_BIT(p[base - _1ROW], ATT_CORNER) >> 31) |
+                       (ATTRIBUTE_BIT(p[base + 1], ATT_CORNER) >> 30) |
+                       (ATTRIBUTE_BIT(p[base + _1ROW], ATT_CORNER) >> 29) |
+                       (ATTRIBUTE_BIT(p[base - 1], ATT_CORNER) >> 28);
+
+            corner[col] = charSet[revectorChar[roundedCorner[udlr]]];
         }
 
-        static const unsigned char blank[] = {
-            CH_BLANK,     // 00
-            CH_BLANK,     // 01 U
-            CH_BLANK,     // 02 R
-            CH_CORNER_3,  // 03 RU
-            CH_BLANK,     // 04 D
-            CH_BLANK,     // 05
-            CH_CORNER_6,  // 06 RD
-            CH_CORNER_7,  // 07 URD
-            CH_BLANK,     // 08 L
-            CH_CORNER_9,  // 09 LU
-            CH_BLANK,     // 10 LR
-            CH_CORNER_11, // 11 LUR
-            CH_CORNER_12, // 12 LD
-            CH_CORNER_13, // 13 L
-            CH_CORNER_14, // 14 LRD
-            CH_CORNER_15, // 15 LURD
-        };
-
-        corner[col] = charSet[blank[udlr]];
+        else
+            corner[col] = charSet[0];
     }
 
-    p += size;
+    p += 5;
 }
 
-static unsigned char rollDirect[3][PIECE_DEPTH] = {
+const unsigned char rollDirect[3][PIECE_DEPTH] = {
+
     {2,  0,  1,  5,  3,  4,  8,  6,  7,  11, 9,  10, 14, 12, 13,
      17, 15, 16, 20, 18, 19, 23, 21, 22, 26, 24, 25, 29, 27, 28},
+
     {0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14,
      15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
+
     {1,  2,  0,  4,  5,  3,  7,  8,  6,  10, 11, 9,  13, 14, 12,
      16, 17, 15, 19, 20, 18, 22, 23, 21, 25, 26, 24, 28, 29, 27},
 };
@@ -114,8 +122,8 @@ void drawScreen(int side) { // --> cycles 44743 (@20221216)
 
         for (int half = side; half < side + 1; half++) {
 
-            p = RAM + _BOARD + row * _BOARD_COLS + half * 4;
-            grab(characterX, 5);
+            p = RAM + _BOARD + row * _1ROW + half * 4;
+            grab(characterX);
 
             unsigned char *pf0 = arenas[half] + scanline;
 

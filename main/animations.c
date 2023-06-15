@@ -2,18 +2,18 @@
 #include "attribute.h"
 #include "random.h"
 
-const char *Animate[TYPE_MAX];
+const unsigned char *Animate[TYPE_MAX];
 char AnimCount[TYPE_MAX];
 
 // clang-format off
 
-static const char AnimateBelt[] = {
+const unsigned char AnimateBelt[] = {
     CH_BELT_0, 12,
     CH_BELT_1, 12,
     ANIM_LOOP,
 };
 
-static const char AnimateBelt1[] = {
+const unsigned char AnimateBelt1[] = {
     CH_BELT_1, 12,
     CH_BELT_0, 12,
     ANIM_LOOP,
@@ -22,7 +22,7 @@ static const char AnimateBelt1[] = {
 
 #define TRICKLE 5
 
-static const char AnimateWaterFlow0[] = {
+const unsigned char AnimateWaterFlow0[] = {
 
     CH_WATERFLOW_4, TRICKLE,
     CH_WATERFLOW_3, TRICKLE,
@@ -32,7 +32,7 @@ static const char AnimateWaterFlow0[] = {
     ANIM_LOOP,
 };
 
-static const char AnimateWaterFlow1[] = {
+const unsigned char AnimateWaterFlow1[] = {
 
     CH_WATERFLOW_3, TRICKLE,
     CH_WATERFLOW_2, TRICKLE,
@@ -42,7 +42,7 @@ static const char AnimateWaterFlow1[] = {
     ANIM_LOOP,
 };
 
-static const char AnimateWaterFlow2[] = {
+const unsigned char AnimateWaterFlow2[] = {
 
     CH_WATERFLOW_2, TRICKLE,
     CH_WATERFLOW_1, TRICKLE,
@@ -52,7 +52,7 @@ static const char AnimateWaterFlow2[] = {
     ANIM_LOOP,
 };
 
-static const char AnimateWaterFlow3[] = {
+const unsigned char AnimateWaterFlow3[] = {
 
     CH_WATERFLOW_1, TRICKLE,
     CH_WATERFLOW_0, TRICKLE,
@@ -62,7 +62,7 @@ static const char AnimateWaterFlow3[] = {
     ANIM_LOOP,
 };
 
-static const char AnimateWaterFlow4[] = {
+const unsigned char AnimateWaterFlow4[] = {
 
     CH_WATERFLOW_0, TRICKLE,
     CH_WATERFLOW_4, TRICKLE,
@@ -73,14 +73,14 @@ static const char AnimateWaterFlow4[] = {
 };
 
 
-static const char AnimateGrinder[] = {
+const unsigned char AnimateGrinder[] = {
 
     CH_GRINDER_0, 12,
     CH_GRINDER_1, 12,
     ANIM_LOOP,
 };
 
-static const char AnimateGrinder1[] = {
+const unsigned char AnimateGrinder1[] = {
 
     CH_GRINDER_1, 12,
     CH_GRINDER_0, 12,
@@ -88,7 +88,7 @@ static const char AnimateGrinder1[] = {
 };
 
 
-static const char AnimateGravity[] = {
+const unsigned char AnimateGravity[] = {
 
     CH_FLIP_GRAVITY_2, 30,
     CH_FLIP_GRAVITY_1, 4,
@@ -97,7 +97,7 @@ static const char AnimateGravity[] = {
     ANIM_LOOP,
 };
 
-static const char AnimGrab[] = {
+const unsigned char AnimGrab[] = {
 
     CH_DOGE_GRAB,8,
     CH_DUST_2, 6,
@@ -106,7 +106,7 @@ static const char AnimGrab[] = {
     CH_BLANK, ANIM_HALT,
 };
 
-static const char AnimConglomerateMid[] = {
+const unsigned char AnimConglomerateMid[] = {
 
     CH_CONGLOMERATE_15, SPEED_BASE * 2,
     CH_CONGLOMERATE_MID, SPEED_BASE,
@@ -115,21 +115,21 @@ static const char AnimConglomerateMid[] = {
 };
 
 
-static const char AnimSwitch[] = {
+const unsigned char AnimSwitch[] = {
     CH_SWITCH_LEFT_OFF, 20,
     CH_SWITCH_LEFT_ON, 20,
     ANIM_LOOP
 };
 
 
-static const char AnimFlashOut[] = {
+const unsigned char AnimFlashOut[] = {
 
     CH_DOOROPEN_0,20,
     CH_BLANK,20,
     ANIM_LOOP
 };
 
-static const char AnimPulseDoge[] = {
+const unsigned char AnimPulseDoge[] = {
 
     CH_DOGE_00, 12, //ANIM_RNDSPEED,
     CH_DOGE_01, 8,
@@ -147,7 +147,7 @@ static const char AnimPulseDoge[] = {
 };
 
 
-static const char AnimMellonHusk[] = {
+const unsigned char AnimMellonHusk[] = {
 
     // Note that mellon.c indexes into this with an offset so this must be kept synched
 
@@ -166,7 +166,7 @@ static const char AnimMellonHusk[] = {
 
 // clang-format on
 
-const char *const AnimateBase[TYPE_MAX] = {
+const unsigned char *const AnimateBase[TYPE_MAX] = {
 
     // indexed by object TYPE (def: ObjectType in attribute.h)
     // =0 if object does not auto-animate
@@ -202,7 +202,6 @@ const char *const AnimateBase[TYPE_MAX] = {
     0,                   // 25 TYPE_PEBBLE_ROCK
     AnimateGravity,      // 26 TYPE_FLIP_GRAVITY
     0,                   // 27 TYPE_BLOCK
-    0,                   // 28 TYPE_PACMAN_DOT
     AnimateGrinder,      // 29 TYPE_GRINDER
     0,                   // 30 TYPE_HUB
     0,                   // 31 TYPE_WATER
@@ -225,7 +224,7 @@ void initCharAnimations() {
         startCharAnimation(type, AnimateBase[type]);
 }
 
-void startCharAnimation(int type, const char *idx) {
+void startCharAnimation(int type, const unsigned char *idx) {
 
     if (idx) {
 

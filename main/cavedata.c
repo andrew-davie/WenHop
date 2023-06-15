@@ -530,7 +530,6 @@ const unsigned char caveA3[] = {
 
     //    0xFE, CH_DOORCLOSED,38,16,
     0xFE, CH_MELLON_HUSK_BIRTH, 11, 7,
-    // 0xFE, CH_PACMAN_DOT, 11, 8,
 
     //    0xFE, CH_WYRM_HEAD_U, 16, 9,
 

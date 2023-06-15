@@ -213,6 +213,7 @@ void SystemReset() {
     initRandom();
     initAudio();
     initMenuDatastreams();
+    initCharVector();
 
     for (int i = 0; i <= 34; i++)
         QINC[i] = 0x100; // data stream increments -> 1.0
@@ -1325,12 +1326,13 @@ void genericPushReverse(int offsetX, int offsetY) {
 }
 
 unsigned char creature;
-unsigned char *prev;
-unsigned char *next;
+unsigned char *prevx;
+unsigned char *nextx;
 unsigned int type;
 
 void processDoge() {
 
+    unsigned char *next = me + _1ROW * gravity;
     int attrNext = ATTRIBUTE(*next);
 
     if (attrNext & ATT_BLANK) {
@@ -1429,6 +1431,7 @@ void processWaterFlow() {
     if (line < lavaSurfaceTrixel) {
         if (boardRow < 20) {
 
+            unsigned char *next = me + _1ROW * gravity;
             int att = Attribute[CharToType[GET(*next)]];
             if (!(att & ATT_WATERFLOW)) {
 
@@ -1495,6 +1498,7 @@ void processOutlet() {
 
 void processCharGeoDogeAndRock() {
 
+    unsigned char *next = me + _1ROW * gravity;
     unsigned char typeDown = CharToType[GET(*next)];
     // int typeofMe = CharToType[GET(*me)];
 
@@ -1543,6 +1547,7 @@ void processCharGeoDogeAndRock() {
 
 void processCharFallingThings() {
 
+    unsigned char *next = me + _1ROW * gravity;
     unsigned char typeDown = CharToType[GET(*next)];
     if (Attribute[typeDown] & ATT_BLANK) {
 
@@ -1553,7 +1558,7 @@ void processCharFallingThings() {
 
         *next = creature | FLAG_THISFRAME;
 
-        unsigned char *nextNext = next + _1ROW;
+        unsigned char *nextNext = next + _1ROW * gravity;
         unsigned char downCh = GET(*nextNext);
         typeDown = CharToType[downCh];
         int attNextNext = Attribute[typeDown];
@@ -1658,110 +1663,331 @@ void convertWaterAndLavaObjects() {
             *me = showLava ? CH_LAVA_BLANK : CH_WATER_0; // + (rr & 0b11);
 }
 
+void restartBoardScan() {
+
+    waterDir++;
+
+    processWyrms();
+
+    gameSchedule = SCHEDULE_START;
+
+    if (!autoMoveFrameCount) { // delay until fully in new square
+
+        //                    chooseIdleAnimation();
+
+        bool oldDead = playerDead;
+
+        unsigned char *man = RAM + _BOARD + (playerY << 5) + (playerY << 3) + playerX;
+
+        int what = GET(*man);
+
+        if (invincible)
+            what = *man = CH_MELLON_HUSK;
+
+        int type = CharToType[what];
+        playerDead = (type != TYPE_MELLON_HUSK && type != TYPE_MELLON_HUSK_PRE && !exitMode);
+
+        if (explodeCount > 0) {
+            nDots(2, playerX, playerY, 1, -1, 2, 0, 0x10000);
+            --explodeCount;
+        }
+
+        if (oldDead != playerDead) {
+            //                        sphereDot(playerX, playerY, 1,
+            //                        -100, 2, 0);
+            explodeCount = 4;
+            startPlayerAnimation(ID_Die);
+            waitRelease = true;
+            lives--;
+            lockDisplay = false;
+
+            sound_max_volume = VOLUME_NONPLAYING;
+            // killAudio(SFX_TICK);            // no heartbeat
+            // playerDeadRelease = false;
+        }
+
+        if (playerDead && *playerAnimation)
+            nDots(4, playerX, playerY, 1, -100, 2, 8, 0x10000);
+    }
+}
+
+void processTypes() {
+
+    switch (type) {
+
+    case TYPE_DOGE: {
+        processDoge();
+        break;
+    }
+
+    case TYPE_PEBBLE1: {
+        // case TYPE_PEBBLE2: {
+
+        processPebble();
+        break;
+    }
+
+    case TYPE_WATER: {
+
+        processWater();
+        break;
+    }
+
+    case TYPE_LAVA: {
+
+        processLava();
+        break;
+    }
+
+    case TYPE_MELLON_HUSK:
+
+        if (!exitMode)
+            movePlayer(me);
+        break;
+
+    default:
+        break;
+    }
+}
+
+void processCreatures() {
+
+    switch (creature) {
+
+    case CH_WATERFLOW_0:
+    case CH_WATERFLOW_1:
+    case CH_WATERFLOW_2:
+    case CH_WATERFLOW_3:
+    case CH_WATERFLOW_4: {
+        processWaterFlow();
+        break;
+    }
+
+    case CH_BELT_0:
+    case CH_BELT_1:
+    case CH_GRINDER_0:
+    case CH_GRINDER_1: {
+
+        processCharBeltAndGrinder();
+        break;
+    }
+
+    case CH_OUTLET:
+        processOutlet();
+        break;
+
+    case CH_HUB:
+    case CH_HUB_1:
+
+        // if (!rangeRandom(20)) {
+
+        //     *me = *me ^ (CH_HUB ^ CH_HUB_1);
+        //     *(me - _1ROW) ^= (CH_TAP_0 ^ CH_TAP_1);
+        // }
+
+        break;
+
+    case CH_PEBBLE_ROCK:
+        *me = CH_GEODOGE | FLAG_THISFRAME;
+        conglomerate();
+        break;
+
+    case CH_PUSH_LEFT:
+        genericPush(-1, 0);
+        break;
+
+    case CH_PUSH_LEFT_REVERSE:
+        genericPushReverse(1, 0);
+        break;
+
+    case CH_PUSH_RIGHT:
+        genericPush(1, 0);
+        break;
+
+    case CH_PUSH_RIGHT_REVERSE:
+        genericPushReverse(-1, 0);
+        break;
+
+    case CH_PUSH_UP:
+        genericPush(0, -1);
+        break;
+
+    case CH_PUSH_UP_REVERSE:
+        genericPushReverse(0, 1);
+        break;
+
+    case CH_PUSH_DOWN:
+        //                    *me = CH_PUSH_DOWN2;
+        genericPush(0, 1);
+        break;
+
+        // case CH_PUSH_DOWN2:
+        //     *me = CH_PUSH_DOWN;
+        //     genericPush(0, 1);
+        //     break;
+
+    case CH_PUSH_DOWN_REVERSE:
+        genericPushReverse(0, -1);
+        break;
+
+    case CH_DUST_2:
+        *me = CH_BLANK;
+        break;
+
+    case CH_DUST_ROCK_2:
+        *me = CH_DOGE_00;
+        ADDAUDIO(SFX_UNCOVER);
+        break;
+
+    case CH_DUST_0:
+    case CH_DUST_1:
+    case CH_DUST_ROCK_0:
+    case CH_DUST_ROCK_1:
+        (*me)++;
+        break;
+
+    case CH_EXPLODETOBLANK_0:
+    case CH_EXPLODETOBLANK_1:
+    case CH_EXPLODETOBLANK_2:
+    case CH_EXPLODETOBLANK_3:
+        *me = (creature + 1) | FLAG_THISFRAME;
+        break;
+
+    case CH_EXPLODETOBLANK_4:
+        *me = CH_BLANK | FLAG_THISFRAME;
+        break;
+
+    case CH_CONVERT_GEODE_TO_DOGE:
+
+        *me = CH_DOGE_00 | FLAG_THISFRAME;
+        chainReact_GeoDogeToDoge();
+        break;
+
+    case CH_CONVERT_PIPE:
+        chainReact_Pipe();
+        break;
+
+    case CH_GEODOGE_CONVERT:
+        // *me = CH_GEODOGE | FLAG_THISFRAME;
+        // chainReact_DogeToGeoDoge();
+        break;
+
+    case CH_FLIP_GRAVITY_0:
+    case CH_FLIP_GRAVITY_2:
+    case CH_FLIP_GRAVITY_1:
+
+    case CH_BLOCK: {
+
+        unsigned char *next = me + _1ROW * gravity;
+        unsigned char typeDown = CharToType[GET(*next)];
+        if (Attribute[typeDown] & ATT_BLANK) {
+            *next = *me | FLAG_THISFRAME;
+            *me = CH_DUST_0 | FLAG_THISFRAME;
+        }
+        break;
+    }
+
+    case CH_CONGLOMERATE_1:
+    case CH_CONGLOMERATE_2:
+    case CH_CONGLOMERATE_3:
+    case CH_CONGLOMERATE_4:
+    case CH_CONGLOMERATE_5:
+    case CH_CONGLOMERATE_6:
+    case CH_CONGLOMERATE_7:
+    case CH_CONGLOMERATE_8:
+    case CH_CONGLOMERATE_9:
+    case CH_CONGLOMERATE_10:
+    case CH_CONGLOMERATE_11:
+    case CH_CONGLOMERATE_12:
+    case CH_CONGLOMERATE_13:
+    case CH_CONGLOMERATE_14:
+    case CH_CONGLOMERATE_15:
+
+    case CH_GEODOGE: {
+
+        processCharGeoDogeAndRock();
+        conglomerate();
+        break;
+    }
+
+    case CH_ROCK:
+        processCharGeoDogeAndRock();
+        break;
+
+    case CH_DOGE_FALLING:
+    case CH_ROCK_FALLING:
+    case CH_GEODOGE_FALLING: {
+
+        processCharFallingThings();
+        break;
+    }
+
+    case CH_DOORCLOSED:
+        if (!doges) {
+            *me = CH_DOOROPEN_0;
+            FLASH(0x28, 10);
+        }
+        break;
+
+    case CH_MELLON_HUSK_BIRTH:
+
+        if (
+#if CIRCLE
+            checkSwipeFinished() &&
+#endif
+            (!isScrolling())) {
+
+            // SAY(__WORD_LETSGOBABY);
+
+            // ADDAUDIO(SFX_PUSH);
+            // startPlayerAnimation(ID_Shades); //(ID_Startup);
+            *me = CH_MELLON_HUSK; // | FLAG_THISFRAME;
+        }
+        break;
+
+    case CH_DOGE_GRAB:
+        if (*Animate[TYPE_GRAB] == CH_BLANK)
+            *me = CH_BLANK;
+        break;
+
+    default:
+        break;
+    }
+}
+
 void processBoardSquares() {
 
     while (true) {
 
-        int lastBoardRow = boardRow;
-        int lastBoardCol = boardCol;
+        if (T1TC >= availableIdleTime)
+            return;
 
         boardCol += gravity;
-        if (boardCol > (_BOARD_COLS - 1) || boardCol < 0) {
 
+        if (gravity < 0) {
             if (boardCol < 0) {
                 boardCol = _BOARD_COLS - 1;
-                boardRow--;
-            }
 
-            else {
-                boardCol = 0;
-                boardRow++;
-            }
-
-            if (boardRow > _BOARD_ROWS - 1 || boardRow < 0) {
-
-                waterDir++;
-
-                processWyrms();
-
-                gameSchedule = SCHEDULE_START;
-
-                if (!autoMoveFrameCount) { // delay until fully in new square
-
-                    //                    chooseIdleAnimation();
-
-                    bool oldDead = playerDead;
-
-                    unsigned char *man = RAM + _BOARD + (playerY << 5) + (playerY << 3) + playerX;
-
-                    int what = GET(*man);
-
-                    if (invincible)
-                        what = *man = CH_MELLON_HUSK;
-
-                    int type = CharToType[what];
-                    playerDead =
-                        (type != TYPE_MELLON_HUSK && type != TYPE_MELLON_HUSK_PRE && !exitMode);
-
-                    if (explodeCount > 0) {
-                        nDots(2, playerX, playerY, 1, -1, 2, 0, 0x10000);
-                        --explodeCount;
-                    }
-
-                    if (oldDead != playerDead) {
-                        //                        sphereDot(playerX, playerY, 1,
-                        //                        -100, 2, 0);
-                        explodeCount = 4;
-                        startPlayerAnimation(ID_Die);
-                        waitRelease = true;
-                        lives--;
-                        lockDisplay = false;
-
-                        sound_max_volume = VOLUME_NONPLAYING;
-                        // killAudio(SFX_TICK);            // no heartbeat
-                        // playerDeadRelease = false;
-                    }
-
-                    if (playerDead && *playerAnimation)
-                        nDots(4, playerX, playerY, 1, -100, 2, 8, 0x10000);
+                if (!--boardRow) {
+                    restartBoardScan();
+                    return;
                 }
-
-                return;
             }
         }
 
-        //        me = RAM + _BOARD + (boardRow * _BOARD_COLS) + boardCol;
-
-        // if (T1TC >= availableIdleTime) {
-        //     FLASH(0xD2, 2);
-        //     destroyInc = -1;
-        // }
-
-        // else
-        //     while (T1TC < availableIdleTime) // tmp
-        //         destroyInc = 1;
-
-        // static int maxT1 = 0;
-        // static int resetter = 500;
-        // static int lastT1 = 0;
-
-        // if (T1TC - lastT1 > maxT1) {
-        //     maxT1 = T1TC - lastT1;
-        // }
-        // lastT1 = T1TC;
-
-        if (T1TC >= availableIdleTime) {
-
-            // actualScore = maxT1;
-
-            boardRow = lastBoardRow;
-            boardCol = lastBoardCol;
-            return;
+        else {
+            if (boardCol > (_BOARD_COLS - 1)) {
+                boardCol = 0;
+                if (++boardRow > _BOARD_ROWS - 1) {
+                    restartBoardScan();
+                    return;
+                }
+            }
         }
 
         creature = *me;
-        prev = me - _1ROW * gravity;
-        next = me + _1ROW * gravity;
+        // prev = me - _1ROW * gravity;
+        // next = me + _1ROW * gravity;
 
         if (!(creature & FLAG_THISFRAME)) {
 
@@ -1771,270 +1997,29 @@ void processBoardSquares() {
                 convertWaterAndLavaObjects();
 
             if (Attribute[type] & activated) {
-                switch (type) {
 
-                case TYPE_DOGE: {
-                    processDoge();
-                    break;
-                }
-
-                case TYPE_PEBBLE1: {
-                    // case TYPE_PEBBLE2: {
-
-                    processPebble();
-                    break;
-                }
-
-                case TYPE_WATER: {
-
-                    processWater();
-                    break;
-                }
-
-                case TYPE_LAVA: {
-
-                    processLava();
-                    break;
-                }
-
-                case TYPE_MELLON_HUSK:
-
-                    if (!exitMode)
-                        movePlayer(me);
-                    break;
-
-                default:
-                    break;
-                }
-
-                switch (creature) {
-
-                case CH_WATERFLOW_0:
-                case CH_WATERFLOW_1:
-                case CH_WATERFLOW_2:
-                case CH_WATERFLOW_3:
-                case CH_WATERFLOW_4: {
-                    processWaterFlow();
-                    break;
-                }
-
-                case CH_BELT_0:
-                case CH_BELT_1:
-                case CH_GRINDER_0:
-                case CH_GRINDER_1: {
-
-                    processCharBeltAndGrinder();
-                    break;
-                }
-
-                case CH_OUTLET:
-                    processOutlet();
-                    break;
-
-                case CH_HUB:
-                case CH_HUB_1:
-
-                    // if (!rangeRandom(20)) {
-
-                    //     *me = *me ^ (CH_HUB ^ CH_HUB_1);
-                    //     *(me - _1ROW) ^= (CH_TAP_0 ^ CH_TAP_1);
-                    // }
-
-                    break;
-
-                case CH_PEBBLE_ROCK:
-                    *me = CH_GEODOGE | FLAG_THISFRAME;
-                    conglomerate();
-                    break;
-
-                case CH_PUSH_LEFT:
-                    genericPush(-1, 0);
-                    break;
-
-                case CH_PUSH_LEFT_REVERSE:
-                    genericPushReverse(1, 0);
-                    break;
-
-                case CH_PUSH_RIGHT:
-                    genericPush(1, 0);
-                    break;
-
-                case CH_PUSH_RIGHT_REVERSE:
-                    genericPushReverse(-1, 0);
-                    break;
-
-                case CH_PUSH_UP:
-                    genericPush(0, -1);
-                    break;
-
-                case CH_PUSH_UP_REVERSE:
-                    genericPushReverse(0, 1);
-                    break;
-
-                case CH_PUSH_DOWN:
-                    //                    *me = CH_PUSH_DOWN2;
-                    genericPush(0, 1);
-                    break;
-
-                    // case CH_PUSH_DOWN2:
-                    //     *me = CH_PUSH_DOWN;
-                    //     genericPush(0, 1);
-                    //     break;
-
-                case CH_PUSH_DOWN_REVERSE:
-                    genericPushReverse(0, -1);
-                    break;
-
-                case CH_DUST_2:
-                    *me = CH_BLANK;
-                    break;
-
-                case CH_DUST_ROCK_2:
-                    *me = CH_DOGE_00;
-                    ADDAUDIO(SFX_UNCOVER);
-                    break;
-
-                case CH_DUST_0:
-                case CH_DUST_1:
-                case CH_DUST_ROCK_0:
-                case CH_DUST_ROCK_1:
-                    (*me)++;
-                    break;
-
-                case CH_EXPLODETOBLANK_0:
-                case CH_EXPLODETOBLANK_1:
-                case CH_EXPLODETOBLANK_2:
-                case CH_EXPLODETOBLANK_3:
-                    *me = (creature + 1) | FLAG_THISFRAME;
-                    break;
-
-                case CH_EXPLODETOBLANK_4:
-                    *me = CH_BLANK | FLAG_THISFRAME;
-                    break;
-
-                case CH_CONVERT_GEODE_TO_DOGE:
-
-                    *me = CH_DOGE_00 | FLAG_THISFRAME;
-                    chainReact_GeoDogeToDoge();
-                    break;
-
-                case CH_CONVERT_PIPE:
-                    chainReact_Pipe();
-                    break;
-
-                case CH_GEODOGE_CONVERT:
-                    // *me = CH_GEODOGE | FLAG_THISFRAME;
-                    // chainReact_DogeToGeoDoge();
-                    break;
-
-                case CH_FLIP_GRAVITY_0:
-                case CH_FLIP_GRAVITY_2:
-                case CH_FLIP_GRAVITY_1:
-
-                case CH_BLOCK: {
-
-                    unsigned char typeDown = CharToType[GET(*next)];
-                    if (Attribute[typeDown] & ATT_BLANK) {
-                        *next = *me | FLAG_THISFRAME;
-                        *me = CH_DUST_0 | FLAG_THISFRAME;
-                    }
-                    break;
-                }
-
-                case CH_CONGLOMERATE_1:
-                case CH_CONGLOMERATE_2:
-                case CH_CONGLOMERATE_3:
-                case CH_CONGLOMERATE_4:
-                case CH_CONGLOMERATE_5:
-                case CH_CONGLOMERATE_6:
-                case CH_CONGLOMERATE_7:
-                case CH_CONGLOMERATE_8:
-                case CH_CONGLOMERATE_9:
-                case CH_CONGLOMERATE_10:
-                case CH_CONGLOMERATE_11:
-                case CH_CONGLOMERATE_12:
-                case CH_CONGLOMERATE_13:
-                case CH_CONGLOMERATE_14:
-                case CH_CONGLOMERATE_15:
-
-                case CH_GEODOGE: {
-
-                    processCharGeoDogeAndRock();
-                    conglomerate();
-                    break;
-                }
-
-                case CH_ROCK:
-                    processCharGeoDogeAndRock();
-                    break;
-
-                case CH_DOGE_FALLING:
-                case CH_ROCK_FALLING:
-                case CH_GEODOGE_FALLING: {
-
-                    processCharFallingThings();
-                    break;
-                }
-
-                case CH_DOORCLOSED:
-                    if (!doges) {
-                        *me = CH_DOOROPEN_0;
-                        FLASH(0x28, 10);
-                    }
-                    break;
-
-                case CH_MELLON_HUSK_BIRTH:
-
-                    if (
-#if CIRCLE
-                        checkSwipeFinished() &&
-#endif
-                        (!isScrolling())) {
-
-                        // SAY(__WORD_LETSGOBABY);
-
-                        // ADDAUDIO(SFX_PUSH);
-                        // startPlayerAnimation(ID_Shades); //(ID_Startup);
-                        *me = CH_MELLON_HUSK; // | FLAG_THISFRAME;
-                    }
-                    break;
-
-                case CH_DOGE_GRAB:
-                    if (*Animate[TYPE_GRAB] == CH_BLANK)
-                        *me = CH_BLANK;
-                    break;
-
-                default:
-                    break;
-                }
+                processTypes();
+                processCreatures();
             }
-
-            // convertWaterAndLavaObjects();
         }
-
-#if WORST_TIMING
-
-        //        setScore(worstEver);
-
-        int timeDelta = T1TC - startCreatureTime;
-        int type = CharToType[worstCreature];
-        if (timeDelta > worst[type])
-            worst[type] = timeDelta;
-
-        if (timeDelta > worstEver) {
-            worstEver = timeDelta;
-            worstEverCreature = worstCreature;
-            doges = worstEverCreature;
-        }
-#endif
-
-        //        conglomerate();
 
         // Clear any "scanned this frame" objects on the previous line
         // note: we need to also do the last row ... or do we? if it's steel
         // wall, no
-        if ((gravity > 0 && boardRow > 1) || (gravity < 0 && boardRow < _BOARD_ROWS - 1))
-            *prev &= ~FLAG_THISFRAME;
+
+        if (gravity > 0) {
+            if (boardRow > 1) {
+                unsigned char *prev = me - _1ROW;
+                *prev &= ~FLAG_THISFRAME;
+            }
+        }
+
+        else {
+            if (boardRow < _BOARD_ROWS - 1) {
+                unsigned char *prev = me + _1ROW;
+                *prev &= ~FLAG_THISFRAME;
+            }
+        }
 
         me += gravity;
     }

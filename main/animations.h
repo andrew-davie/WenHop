@@ -6,12 +6,12 @@
 #define ANIM_WATER 254
 // #define ANIM_RNDSPEED 254
 
-extern const char *const AnimateBase[];
-extern const char *Animate[];
+extern const unsigned char *const AnimateBase[];
+extern const unsigned char *Animate[];
 extern char AnimCount[];
 
 extern void initCharAnimations();
-extern void startCharAnimation(int type, const char *idx);
+extern void startCharAnimation(int type, const unsigned char *idx);
 extern void processCharAnimations();
 
 #endif

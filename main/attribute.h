@@ -3,7 +3,7 @@
 
 #include "main.h"
 
-extern const int Attribute[];
+extern const unsigned int Attribute[];
 extern const unsigned char CharToType[];
 
 enum ObjectType {
@@ -39,21 +39,20 @@ enum ObjectType {
     TYPE_PEBBLE_ROCK,           // 25
     TYPE_FLIP_GRAVITY,          // 26
     TYPE_BLOCK,                 // 27
-    TYPE_PACMAN_DOT,            // 28
-    TYPE_GRINDER,               // 29
-    TYPE_HUB,                   // 30
-    TYPE_WATER,                 // 31
-    TYPE_WATERFLOW0,            // 32
-    TYPE_WATERFLOW1,            // 33
-    TYPE_WATERFLOW2,            // 34
-    TYPE_WATERFLOW3,            // 35
-    TYPE_WATERFLOW4,            // 36
-    TYPE_TAP,                   // 37
-    TYPE_OUTLET,                // 38
-    TYPE_GRINDER_1,             // 39
-    TYPE_BELT,                  // 40
-    TYPE_BELT_1,                // 41
-    TYPE_CONVERT_PIPE,          // 42
+    TYPE_GRINDER,               // 28
+    TYPE_HUB,                   // 29
+    TYPE_WATER,                 // 30
+    TYPE_WATERFLOW0,            // 31
+    TYPE_WATERFLOW1,            // 32
+    TYPE_WATERFLOW2,            // 33
+    TYPE_WATERFLOW3,            // 34
+    TYPE_WATERFLOW4,            // 35
+    TYPE_TAP,                   // 36
+    TYPE_OUTLET,                // 37
+    TYPE_GRINDER_1,             // 38
+    TYPE_BELT,                  // 39
+    TYPE_BELT_1,                // 40
+    TYPE_CONVERT_PIPE,          // 41
 
     TYPE_MAX
 };
@@ -141,53 +140,43 @@ enum ChName {
     CH_WYRM_HEAD_R,           // 074
     CH_WYRM_HEAD_D,           // 075
     CH_WYRM_HEAD_L,           // 076
-    CH_CORNER_0,              // 077
-    CH_CORNER_1,              // 078
-    CH_CORNER_2,              // 079
-    CH_CORNER_3,              // 080
-    CH_CORNER_4,              // 081
-    CH_CORNER_5,              // 082
-    CH_CORNER_6,              // 083
-    CH_CORNER_7,              // 084
-    CH_CORNER_8,              // 085
-    CH_CORNER_9,              // 086
-    CH_CORNER_10,             // 087
-    CH_CORNER_11,             // 088
-    CH_CORNER_12,             // 089
-    CH_CORNER_13,             // 090
-    CH_CORNER_14,             // 091
-    CH_CORNER_15,             // 092
-    CH_CONGLOMERATE_MID,      // 093
-    CH_GEODOGE_FALLING,       // 094
-    CH_FLIP_GRAVITY_0,        // 095
-    CH_FLIP_GRAVITY_1,        // 096
-    CH_FLIP_GRAVITY_2,        // 097
-    CH_BLOCK,                 // 098
-    CH_PACMAN_DOT,            // 099
-    CH_GRINDER_0,             // 100
-    CH_GRINDER_1,             // 101
-    CH_HUB,                   // 102
-    CH_WATER_0,               // 103
-    CH_WATERFLOW_0,           // 104 must be grouped
-    CH_WATERFLOW_1,           // 105 .
-    CH_WATERFLOW_2,           // 106 .
-    CH_WATERFLOW_3,           // 107 .
-    CH_WATERFLOW_4,           // 108 /
-    CH_TAP_0,                 // 109
-    CH_HUB_1,                 // 110
-    CH_OUTLET,                // 111
-    CH_TAP_1,                 // 112
-    CH_BELT_0,                // 113
-    CH_BELT_1,                // 114
-    CH_PUSH_DOWN2,            // 115
-    CH_GEODOGE_CONVERT,       // 116
-    CH_CONVERT_PIPE,          // 117
-    CH_WYRM_TAIL_U,           // 118
-    CH_WYRM_TAIL_R,           // 119
-    CH_WYRM_TAIL_D,           // 120
-    CH_WYRM_TAIL_L,           // 121
-
-    CH_WYRM_BODY2,            // 122
+    CH_CORNER_RU,             // 077
+    CH_CORNER_6,              // 078
+    CH_CORNER_7,              // 079
+    CH_CORNER_9,              // 080
+    CH_CORNER_11,             // 081
+    CH_CORNER_12,             // 082
+    CH_CORNER_13,             // 083
+    CH_CORNER_14,             // 084
+    CH_CORNER_15,             // 085
+    CH_CONGLOMERATE_MID,      // 086
+    CH_GEODOGE_FALLING,       // 087
+    CH_FLIP_GRAVITY_0,        // 088
+    CH_FLIP_GRAVITY_1,        // 089
+    CH_FLIP_GRAVITY_2,        // 090
+    CH_BLOCK,                 // 091
+    CH_GRINDER_0,             // 093
+    CH_GRINDER_1,             // 094
+    CH_HUB,                   // 095
+    CH_WATER_0,               // 096
+    CH_WATERFLOW_0,           // 097 must be grouped
+    CH_WATERFLOW_1,           // 098 .
+    CH_WATERFLOW_2,           // 099 .
+    CH_WATERFLOW_3,           // 100 .
+    CH_WATERFLOW_4,           // 101 /
+    CH_TAP_0,                 // 102
+    CH_HUB_1,                 // 103
+    CH_OUTLET,                // 104
+    CH_TAP_1,                 // 105
+    CH_BELT_0,                // 106
+    CH_BELT_1,                // 107
+    CH_PUSH_DOWN2,            // 108
+    CH_GEODOGE_CONVERT,       // 109
+    CH_CONVERT_PIPE,          // 110
+    CH_WYRM_TAIL_U,           // 111
+    CH_WYRM_TAIL_R,           // 112
+    CH_WYRM_TAIL_D,           // 113
+    CH_WYRM_TAIL_L,           // 114
 
     // 127 is limit
 
