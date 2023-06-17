@@ -147,7 +147,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
     } else
         dig = bigDigitBuffer;
 
-    unsigned char rdl, rdl2;
+    unsigned char /*rdl,*/ rdl2;
     if (mirror[pos]) {
         for (int line = 0; line < DIGIT_SIZE; line++) {
 
@@ -158,7 +158,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
             // if (blackBackground)
             //     rdl = ~pmask;
             //          dbase = (dbase << 1) | (dbase >> 2);
-            p[line] = (p[line] & BitRev[(unsigned char)~rdl]) | BitRev[rdl2];
+            p[line] = (p[line] & reverseBits[(unsigned char)~rdl2]) | reverseBits[rdl2];
         }
     } else {
         for (int line = 0; line < DIGIT_SIZE; line++) {
@@ -170,7 +170,7 @@ void drawBigDigit(int digit, int pos, int offset, int colour, bool blackBackgrou
             // if (blackBackground)
             //     rdl = pmask;
             //            dbase = (dbase << 1) | (dbase >> 2);
-            p[line] = (p[line] & ~rdl) | rdl2;
+            p[line] = (p[line] & ~rdl2) | rdl2;
         }
     }
 

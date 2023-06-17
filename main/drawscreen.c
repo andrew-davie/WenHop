@@ -1,6 +1,6 @@
 #include "defines.h"
 #include "defines_cdfj.h"
-// #include "defines_from_dasm_for_c.h"
+#include "defines_from_dasm_for_c.h"
 
 #include <stdbool.h>
 
@@ -35,54 +35,383 @@ void initCharVector() {
         revectorChar[i] = i;
 }
 
-void grab(int frac) {
+const unsigned char _CHAR_INNER_CORNER_RU[] = {
+
+    // up + right soil
+
+    0b00011, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b00001, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b00000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00000, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b00000, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_6[] = {
+
+    // right+down soil
+
+    0b00000, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b00000, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b00000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00001, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b00011, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_7[] = {
+
+    // up+right+down soil
+
+    0b00001, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b00001, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b00000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00001, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b00011, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_9[] = {
+    // ul
+
+    0b11000, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b10000, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b10000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00000, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b00000, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_11[] = {
+
+    // up+left+right soil
+
+    0b11001, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b10001, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b10000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00000, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b00000, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_12[] = {
+
+    // ld
+
+    0b00000, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b00000, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b00000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00000, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b10000, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_13[] = {
+
+    // uld
+
+    0b11000, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b10000, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b10000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00000, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b10000, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_14[] = {
+
+    // lrd
+
+    0b00000, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b00000, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b00000, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00001, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b10011, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+const unsigned char _CHAR_INNER_CORNER_15[] = {
+
+    // udlr
+
+    0b11011, // 00 <
+    0b00000, // 01
+    0b00000, // 02
+    0b10001, // 03 <
+    0b00000, // 04
+    0b00000, // 05
+    0b10001, // 06 <
+    0b00000, // 07
+    0b00000, // 08
+    0b00000, // 09 <
+    0b00000, // 10
+    0b00000, // 11
+    0b00000, // 12 <
+    0b00000, // 13
+    0b00000, // 14
+    0b00000, // 15 <
+    0b00000, // 16
+    0b00000, // 17
+    0b00000, // 18 <
+    0b00000, // 19
+    0b00000, // 20
+    0b00000, // 21 <
+    0b00000, // 22
+    0b00000, // 23
+    0b00001, // 24 <
+    0b00000, // 25
+    0b00000, // 26
+    0b10011, // 27 <
+    0b00000, // 28
+    0b00000, // 29
+};
+
+extern const unsigned char shape_FRAME_BLANK[];
+#define _CHAR_BLANK (shape_FRAME_BLANK + 3)
+
+const unsigned char *const roundedCorner[] = {
+
+    _CHAR_BLANK,           // 00
+    _CHAR_BLANK,           // 01 U
+    _CHAR_BLANK,           // 02 R
+    _CHAR_INNER_CORNER_RU, // 03 RU
+    _CHAR_BLANK,           // 04 D
+    _CHAR_BLANK,           // 05 DU
+    _CHAR_INNER_CORNER_6,  // 06 RD
+    _CHAR_INNER_CORNER_7,  // 07 URD
+    _CHAR_BLANK,           // 08 L
+    _CHAR_INNER_CORNER_9,  // 09 LU
+    _CHAR_BLANK,           // 10 LR
+    _CHAR_INNER_CORNER_11, // 11 LUR
+    _CHAR_INNER_CORNER_12, // 12 LD
+    _CHAR_INNER_CORNER_13, // 13 LDU
+    _CHAR_INNER_CORNER_14, // 14 LRD
+    _CHAR_INNER_CORNER_15, // 15 LURD
+};
+
+void grabCharacters() {
+
+    unsigned char p2;
+    unsigned char type;
+    unsigned char udlr;
 
     for (int col = 0; col < 5; col++) {
 
-        int base = frac + col;
-
-        unsigned char p2 = GET(p[base]);
-        unsigned char type = CharToType[p2];
+        p2 = GET(p[col]);
+        type = CharToType[p2];
 
         if (Animate[type])
-            p2 = *Animate[type];
-        img[col] = charSet[revectorChar[p2]];
+            img[col] = charSet[revectorChar[*Animate[type]]];
+        else
+            img[col] = charSet[revectorChar[p2]];
 
-        if (ATTRIBUTE_BIT(p[base], ATT_PAD)) {
+        if (Attribute[type] & ATT_PAD) {
 
-            const int roundedCorner[] = {
+            udlr = ((Attribute[CharToType[GET(p[col - _1ROW])]] & ATT_CORNER) >> 31) |
+                   ((Attribute[CharToType[GET(p[col + 1])]] & ATT_CORNER) >> 30) |
+                   ((Attribute[CharToType[GET(p[col + _1ROW])]] & ATT_CORNER) >> 29) |
+                   ((Attribute[CharToType[GET(p[col - 1])]] & ATT_CORNER) >> 28);
 
-                0,            // 00
-                0,            // 01 U
-                0,            // 02 R
-                CH_CORNER_RU, // 03 RU
-                0,            // 04 D
-                0,            // 05 DU
-                CH_CORNER_6,  // 06 RD
-                CH_CORNER_7,  // 07 URD
-                0,            // 08 L
-                CH_CORNER_9,  // 09 LU
-                0,            // 10 LR
-                CH_CORNER_11, // 11 LUR
-                CH_CORNER_12, // 12 LD
-                CH_CORNER_13, // 13 LDU
-                CH_CORNER_14, // 14 LRD
-                CH_CORNER_15, // 15 LURD
-            };
-
-            int udlr = (ATTRIBUTE_BIT(p[base - _1ROW], ATT_CORNER) >> 31) |
-                       (ATTRIBUTE_BIT(p[base + 1], ATT_CORNER) >> 30) |
-                       (ATTRIBUTE_BIT(p[base + _1ROW], ATT_CORNER) >> 29) |
-                       (ATTRIBUTE_BIT(p[base - 1], ATT_CORNER) >> 28);
-
-            corner[col] = charSet[revectorChar[roundedCorner[udlr]]];
+            corner[col] = roundedCorner[udlr];
         }
 
         else
-            corner[col] = charSet[0];
+            corner[col] = _CHAR_BLANK;
     }
 
-    p += 5;
+    p += 4;
 }
 
 const unsigned char rollDirect[3][PIECE_DEPTH] = {
@@ -97,12 +426,12 @@ const unsigned char rollDirect[3][PIECE_DEPTH] = {
      16, 17, 15, 19, 20, 18, 22, 23, 21, 25, 26, 24, 28, 29, 27},
 };
 
-void drawScreen(int side) { // --> cycles 44743 (@20221216)
+static unsigned char *const arenas[] = {
+    RAM + _BUF_PF0_LEFT,
+    RAM + _BUF_PF0_RIGHT,
+};
 
-    static unsigned char *const arenas[] = {
-        RAM + _BUF_PF0_LEFT,
-        RAM + _BUF_PF0_RIGHT,
-    };
+void drawScreen() { // --> cycles 62870 (@20230616)
 
     extern int shakeX, shakeY;
     int lcount = -((scrollY + shakeY) >> 16) * 3;
@@ -120,10 +449,11 @@ void drawScreen(int side) { // --> cycles 44743 (@20221216)
 
         const int height = SCANLINES - scanline < PIECE_DEPTH ? SCANLINES - scanline : PIECE_DEPTH;
 
-        for (int half = side; half < side + 1; half++) {
+        p = RAM + _BOARD + row * _1ROW + characterX;
 
-            p = RAM + _BOARD + row * _1ROW + half * 4;
-            grab(characterX);
+        for (int half = 0; half < 2; half++) {
+
+            grabCharacters();
 
             unsigned char *pf0 = arenas[half] + scanline;
 
@@ -131,17 +461,17 @@ void drawScreen(int side) { // --> cycles 44743 (@20221216)
 
                 int lineColour = rollDirect[roller][y];
 
-                int p = ((unsigned int)(img[0][lineColour] | corner[0][lineColour]) << 27 >> 7) |
-                        ((unsigned int)(img[1][lineColour] | corner[1][lineColour]) << 27 >> 12) |
-                        ((unsigned int)(img[2][lineColour] | corner[2][lineColour]) << 27 >> 17) |
-                        ((unsigned int)(img[3][lineColour] | corner[3][lineColour]) << 27 >> 22) |
-                        ((unsigned int)(img[4][lineColour] | corner[4][lineColour]) << 27 >> 27);
+                int px = ((unsigned int)(img[0][lineColour] | corner[0][lineColour]) << 27 >> 7) |
+                         ((unsigned int)(img[1][lineColour] | corner[1][lineColour]) << 27 >> 12) |
+                         ((unsigned int)(img[2][lineColour] | corner[2][lineColour]) << 27 >> 17) |
+                         ((unsigned int)(img[3][lineColour] | corner[3][lineColour]) << 27 >> 22) |
+                         ((unsigned int)(img[4][lineColour] | corner[4][lineColour]) << 27 >> 27);
 
-                p >>= shift;
+                px >>= shift;
 
-                *(pf0 + (_ARENA_SCANLINES << 1)) = BitRev[(unsigned char)p];
-                *(pf0 + _ARENA_SCANLINES) = p >> 8;
-                *pf0++ = BitRev[p >> 16];
+                *(pf0 + (_ARENA_SCANLINES << 1)) = reverseBits[(unsigned char)px];
+                *(pf0 + _ARENA_SCANLINES) = px >> 8;
+                *pf0++ = reverseBits[px >> 16];
             }
         }
 
@@ -198,7 +528,7 @@ int rainSpeedY[RAINHAILSHINE];
 #define RAINTYPE_BUBBLE 1
 // #define RAINTYPE_DOT 2
 
-void rain() {
+void drawParticles() {
 
     for (int i = 0; i < RAINHAILSHINE; i++) {
         if (rainX[i] != -1) {

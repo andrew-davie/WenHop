@@ -10,6 +10,7 @@ enum ObjectType {
 
     // update Attribute[] in attribute.c
     // update AnimateBase[] in animations.c
+    // update processVec[] in main.c
 
     TYPE_SPACE,                 // 00      ASSUMED == 0 in code
     TYPE_DIRT,                  // 01
@@ -42,11 +43,11 @@ enum ObjectType {
     TYPE_GRINDER,               // 28
     TYPE_HUB,                   // 29
     TYPE_WATER,                 // 30
-    TYPE_WATERFLOW0,            // 31
-    TYPE_WATERFLOW1,            // 32
-    TYPE_WATERFLOW2,            // 33
-    TYPE_WATERFLOW3,            // 34
-    TYPE_WATERFLOW4,            // 35
+    TYPE_WATERFLOW_0,           // 31
+    TYPE_WATERFLOW_1,           // 32
+    TYPE_WATERFLOW_2,           // 33
+    TYPE_WATERFLOW_3,           // 34
+    TYPE_WATERFLOW_4,           // 35
     TYPE_TAP,                   // 36
     TYPE_OUTLET,                // 37
     TYPE_GRINDER_1,             // 38
@@ -140,92 +141,79 @@ enum ChName {
     CH_WYRM_HEAD_R,           // 074
     CH_WYRM_HEAD_D,           // 075
     CH_WYRM_HEAD_L,           // 076
-    CH_CORNER_RU,             // 077
-    CH_CORNER_6,              // 078
-    CH_CORNER_7,              // 079
-    CH_CORNER_9,              // 080
-    CH_CORNER_11,             // 081
-    CH_CORNER_12,             // 082
-    CH_CORNER_13,             // 083
-    CH_CORNER_14,             // 084
-    CH_CORNER_15,             // 085
-    CH_CONGLOMERATE_MID,      // 086
-    CH_GEODOGE_FALLING,       // 087
-    CH_FLIP_GRAVITY_0,        // 088
-    CH_FLIP_GRAVITY_1,        // 089
-    CH_FLIP_GRAVITY_2,        // 090
-    CH_BLOCK,                 // 091
-    CH_GRINDER_0,             // 093
-    CH_GRINDER_1,             // 094
-    CH_HUB,                   // 095
-    CH_WATER_0,               // 096
-    CH_WATERFLOW_0,           // 097 must be grouped
-    CH_WATERFLOW_1,           // 098 .
-    CH_WATERFLOW_2,           // 099 .
-    CH_WATERFLOW_3,           // 100 .
-    CH_WATERFLOW_4,           // 101 /
-    CH_TAP_0,                 // 102
-    CH_HUB_1,                 // 103
-    CH_OUTLET,                // 104
-    CH_TAP_1,                 // 105
-    CH_BELT_0,                // 106
-    CH_BELT_1,                // 107
-    CH_PUSH_DOWN2,            // 108
-    CH_GEODOGE_CONVERT,       // 109
-    CH_CONVERT_PIPE,          // 110
-    CH_WYRM_TAIL_U,           // 111
-    CH_WYRM_TAIL_R,           // 112
-    CH_WYRM_TAIL_D,           // 113
-    CH_WYRM_TAIL_L,           // 114
+    CH_CONGLOMERATE_MID,      // 077
+    CH_GEODOGE_FALLING,       // 078
+    CH_FLIP_GRAVITY_0,        // 079
+    CH_FLIP_GRAVITY_1,        // 080
+    CH_FLIP_GRAVITY_2,        // 081
+    CH_BLOCK,                 // 082
+    CH_GRINDER_0,             // 083
+    CH_GRINDER_1,             // 084
+    CH_HUB,                   // 085
+    CH_WATER,                 // 086
+    CH_WATERFLOW_0,           // 087 must be grouped
+    CH_WATERFLOW_1,           // 088 .
+    CH_WATERFLOW_2,           // 089 .
+    CH_WATERFLOW_3,           // 090 .
+    CH_WATERFLOW_4,           // 091 /
+    CH_TAP_0,                 // 092
+    CH_HUB_1,                 // 093
+    CH_OUTLET,                // 094
+    CH_TAP_1,                 // 095
+    CH_BELT_0,                // 096
+    CH_BELT_1,                // 097
+    CH_PUSH_DOWN2,            // 098
+    CH_GEODOGE_CONVERT,       // 099
+    CH_CONVERT_PIPE,          // 100
+    CH_WYRM_TAIL_U,           // 101
+    CH_WYRM_TAIL_R,           // 102
+    CH_WYRM_TAIL_D,           // 103
+    CH_WYRM_TAIL_L,           // 104
 
     // 127 is limit
 
     CH_MAX
 };
 
-#define ATT_ROLL 1 /*  falling objects roll off this object */
-///
-#define ATT_EXPLODABLE 4 /*  object can be destroyed by explosion */
-#define ATT_PERMEABLE 8
-#define ATT_BLANK 16 /*  blank square */
-#define ATT_DIRT 32
-#define ATT_GRAB 64      /*  grabbable object */
-#define ATT_EXPLODES 128 /*  object explodes if killed */
-// #define ATT_ACTIVE                256  /*  object requires checking/AI DISABLED!!!*/
-#define ATT_SQUASHABLE_TO_BLANKS 512
-#define ATT_HARD 1024        // 10
-#define ATT_EXIT 2048        // 11
-#define ATT_NOROCKNOISE 4096 // 12
-#define ATT_LAVA 8192        // 13
-#define ATT_BLANKISH 16384   // 14 Mellon Husk or blank
-#define ATT_DRIP 32768       // 15
-#define ATT_MINE (1 << 16)
-#define ATT_CORNER (1 << 31)
-#define ATT_PAD (1 << 30)
-#define ATT_SHOVE (1 << 29)
-#define ATT_ROCK (1 << 28)
-#define ATT_GEODOGE (1 << 27)
-#define ATT_MELTS (1 << 26)
-#define ATT_DISSOLVES (1 << 25)
-#define ATT_PULL (1 << 24)
+// clang-format off
 
+#define ATT_ROLL                    (1 <<  0)
+#define ATT_CONVERT                 (1 <<  1)
+#define ATT_EXPLODABLE              (1 <<  2)
+#define ATT_PERMEABLE               (1 <<  3)
+#define ATT_BLANK                   (1 <<  4)
+#define ATT_DIRT                    (1 <<  5)
+#define ATT_GRAB                    (1 <<  6)
+#define ATT_EXPLODES                (1 <<  7)
+#define ATT_PUSH                    (1 <<  8)
+#define ATT_SQUASHABLE_TO_BLANKS    (1 <<  9)
+#define ATT_HARD                    (1 << 10)
+#define ATT_EXIT                    (1 << 11)
+#define ATT_NOROCKNOISE             (1 << 12)
+//13
+#define ATT_BLANKISH                (1 << 14)
+#define ATT_DRIP                    (1 << 15)
+#define ATT_MINE                    (1 << 16)
+#define ATT_WATERFLOW               (1 << 17)
+#define ATT_CONVEYOR                (1 << 18)
+#define ATT_GRIND                   (1 << 19)
+#define ATT_PIPE                    (1 << 20)
+#define ATT_PHASE4                  (1 << 21)
+#define ATT_PHASE2                  (1 << 22)
+#define ATT_PHASE1                  (1 << 23)
+#define ATT_PULL                    (1 << 24)
+#define ATT_DISSOLVES               (1 << 25)
+#define ATT_MELTS                   (1 << 26)
+#define ATT_GEODOGE                 (1 << 27)
+#define ATT_ROCK                    (1 << 28)
+#define ATT_SHOVE                   (1 << 29)
+#define ATT_PAD                     (1 << 30)
+#define ATT_CORNER                  (1 << 31)
 
-#define ATT_PHASE1 (1 << 23)
-#define ATT_PHASE2 (1 << 22)
-#define ATT_PHASE4 (1 << 21)
-
-#define ATT_PIPE (1 << 20)
-#define ATT_GRIND (1 << 19)
-#define ATT_CONVEYOR (1 << 18)
-#define ATT_WATERFLOW (1 << 17)
-
-#define ATT_PUSH                (1 << 8)
-
+// clang-format on
 
 #define RKF ATT_BLANKISH
 #define MIN ATT_MINE
-#define WTR 0 /*ATT_WATER*/
-#define LAV 0 /*ATT_LAVA*/
 #define QUI ATT_NOROCKNOISE
 #define XIT ATT_EXIT
 #define HRD ATT_HARD
@@ -253,12 +241,12 @@ enum ChName {
 #define GND ATT_GRIND
 #define CVY ATT_CONVEYOR
 #define WTF ATT_WATERFLOW
+#define CVT ATT_CONVERT
 
 #define PH1 ATT_PHASE1
 #define PH2 ATT_PHASE2
 #define PH4 ATT_PHASE4
 
-#define VALUE_CONVERT_GEODE_TO_DOGE 10
 #define VALUE_BREAK_GEODE 25
 
 #endif

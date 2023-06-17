@@ -36,6 +36,10 @@ int togt;
 int pulsePlayerColour;
 int waterDir = 0;
 int conveyorDirection;
+
+unsigned char creature;
+unsigned int type;
+
 // static int destroy = 0;
 // int destroyInc = 10;
 
@@ -110,8 +114,6 @@ static const int isActive[] = {
     PH1,       // 3
 };
 
-unsigned char enableParallax;
-
 unsigned int availableIdleTime;
 unsigned int uncoverCount;
 bool invincible;
@@ -171,7 +173,7 @@ int shakeTime;
 // single-call It's effectively a recursive power-of-two call of the base RVS
 // macro
 
-const unsigned char BitRev[] = {
+const unsigned char reverseBits[] = {
     P8(0),
 };
 
@@ -223,7 +225,6 @@ void SystemReset() {
     rageQuit = false;
     ARENA_COLOUR = 0;
 
-    enableParallax = RIGHT_DIFFICULTY_A;
     enableICC = LEFT_DIFFICULTY_A;
 
     for (int i = 0; i < 5; i++)
@@ -252,9 +253,9 @@ bool visible(int col, int row) {
         return false;
 
     int y = (scrollY + shakeY) >> 16;
-    int deltaY = row * (PIECE_DEPTH / 3) - y;
+    int deltaY = row * TRILINES - y;
 
-    return (deltaY >= -_ARENA_SCANLINES / 3 + 1 && deltaY < _ARENA_SCANLINES / 3);
+    return (deltaY > -_ARENA_SCANLINES / 3 && deltaY < _ARENA_SCANLINES / 3);
 }
 
 int sphereDot(int dripX, int dripY, int type, int age, int speed) {
@@ -605,42 +606,41 @@ void drawOverscanThings() {
     // if (displayMode == DISPLAY_NORMAL) {
 
     // createParallaxCharset();
-    drawScreen(0);
-    drawScreen(1);
+    drawScreen();
     drawScore();
 
     drawPlayerSprite();
 }
 
-void initGameDataStreams() {
+struct ptrs {
+    unsigned char dataStream;
+    unsigned short buffer;
+};
 
-    struct ptrs {
-        unsigned char dataStream;
-        unsigned short buffer;
-    };
+static const struct ptrs streamInits[] = {
 
-    static const struct ptrs streamInits[] = {
-
-        {_DS_PF0_LEFT, _BUF_PF0_LEFT},
-        {_DS_PF1_LEFT, _BUF_PF1_LEFT},
-        {_DS_PF2_LEFT, _BUF_PF2_LEFT},
-        {_DS_PF0_RIGHT, _BUF_PF0_RIGHT},
-        {_DS_PF1_RIGHT, _BUF_PF1_RIGHT},
-        {_DS_PF2_RIGHT, _BUF_PF2_RIGHT},
-        {_DS_AUDV0, _BUF_AUDV},
-        {_DS_AUDC0, _BUF_AUDC},
-        {_DS_AUDF0, _BUF_AUDF},
-        {_DS_COLUPF, _BUF_COLUPF},
-        {_DS_COLUBK, _BUF_COLUBK},
-        {_DS_COLUP0, _BUF_COLUP0},
-        {_DS_COLUP1, _BUF_COLUP1},
-        {_DS_GRP0a, _BUF_GRP0A},
-        {_DS_GRP1a, _BUF_GRP1A},
+    {_DS_PF0_LEFT, _BUF_PF0_LEFT},
+    {_DS_PF1_LEFT, _BUF_PF1_LEFT},
+    {_DS_PF2_LEFT, _BUF_PF2_LEFT},
+    {_DS_PF0_RIGHT, _BUF_PF0_RIGHT},
+    {_DS_PF1_RIGHT, _BUF_PF1_RIGHT},
+    {_DS_PF2_RIGHT, _BUF_PF2_RIGHT},
+    {_DS_AUDV0, _BUF_AUDV},
+    {_DS_AUDC0, _BUF_AUDC},
+    {_DS_AUDF0, _BUF_AUDF},
+    {_DS_COLUPF, _BUF_COLUPF},
+    {_DS_COLUBK, _BUF_COLUBK},
+    {_DS_COLUP0, _BUF_COLUP0},
+    {_DS_COLUP1, _BUF_COLUP1},
+    {_DS_GRP0a, _BUF_GRP0A},
+    {_DS_GRP1a, _BUF_GRP1A},
 #if __ENABLE_ATARIVOX
-        {_DS_SPEECH, _BUF_SPEECH},
+    {_DS_SPEECH, _BUF_SPEECH},
 #endif
-        {0x21, _BUF_JUMP1},
-    };
+    {0x21, _BUF_JUMP1},
+};
+
+void initGameDataStreams() {
 
     for (unsigned int i = 0; i < sizeof(streamInits) / sizeof(struct ptrs); i++)
         setPointer(streamInits[i].dataStream, streamInits[i].buffer);
@@ -992,7 +992,7 @@ void GameVerticalBlank() {
         }
 
         drawScore();
-        rain();
+        drawParticles();
 
         if (showTool) {
 
@@ -1012,8 +1012,6 @@ void GameVerticalBlank() {
 
 void conglomerate() {
 
-    // Don't conglomerate if not visible!
-
     if (visible(boardCol, boardRow)) {
 
         if (CharToType[GET(*me)] == TYPE_GEODOGE) {
@@ -1023,7 +1021,7 @@ void conglomerate() {
             if (playerDead || (deltaX >= 0 && deltaX < 40)) {
 
                 int y = (scrollY + shakeY) >> 16;
-                int deltaY = boardRow * (PIECE_DEPTH / 3) - y;
+                int deltaY = boardRow * TRILINES - y;
                 if (playerDead || (deltaY >= 0 && deltaY < _ARENA_SCANLINES / 3)) {
 
                     int cong = CH_GEODOGE | (*me & FLAG_THISFRAME);
@@ -1041,18 +1039,15 @@ void conglomerate() {
 
 void setupBoard() {
 
-    // #if SCHEDULER==0
     if (frameCounter >= gameSpeed) {
-        // #endif
+
+        frameCounter = 0;
 
         activated = isActive[++selectorCounter & 3];
 
-        // if (++frameCounter >= gameSpeed)
-        frameCounter = 0;
-
         if (showLava) {
 
-            if (lavaSurfaceTrixel && !(gameFrame & 15))
+            if (gravity > 0 && lavaSurfaceTrixel && !(gameFrame & 15))
                 lavaSurfaceTrixel -= gravity;
 
             // Surface lava "bubbles"
@@ -1095,14 +1090,9 @@ void setupBoard() {
         if (boardRow < 0) {
             boardRow = _BOARD_ROWS - 1;
             boardCol = _BOARD_COLS - 1;
-
-            me = RAM + _BOARD + _BOARD_ROWS * _BOARD_COLS - 1;
-        }
-
-        else {
-            boardCol = -1;
+        } else {
+            boardCol = 0;
             boardRow = 0;
-            me = RAM + _BOARD;
         }
 
         gameSchedule = SCHEDULE_PROCESSBOARD;
@@ -1114,10 +1104,7 @@ void setupBoard() {
         // }
 
         processBoardSquares();
-
-        // #if SCHEDULER==0
     }
-    // #endif
 }
 
 void Explode(unsigned char *where, unsigned char explosionShape) {
@@ -1135,31 +1122,12 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
                 if (explosionShape == CH_DOGE_00)
                     totalDogePossible++;
             }
-            // if (type == TYPE_mellon_husk)
-            //     player = true;
         }
 
-    // if (player) {
-    //     FLASH(0x44, 8);
-    //     #if ENABLE_SHAKE
-    //         shakeTime += 50;
-    //     #endif
-    // }
-    // else
     FLASH(4, 4);
 }
 
 void doRoll(unsigned char *me, unsigned char creature) {
-
-    // if ((TYPEOF(creature) != TYPE_DOGE || TYPEOF(creature) != TYPE_DOGE_FALLING) &&
-    //     (rangeRandom(50) || !(TYPEOF(*(me + _1ROW)) == TYPE_GRINDER ||
-    //                           CharToType[GET(*(me + _1ROW))] == TYPE_GRINDER_1)))
-    //     return;
-
-    // if (!((CharToType[GET(*(me + _1ROW))] == TYPE_GRINDER)
-    //     || (CharToType[GET(*(this+ _1ROW))] == TYPE_GRINDER_1))
-    //     && (!shakeTime || rangeRandom(50)))
-    //     return;
 
     for (int offset = -1; offset < 2; offset += 2) {
 
@@ -1183,12 +1151,6 @@ void doRoll(unsigned char *me, unsigned char creature) {
         }
     }
 }
-
-// void fixSurroundingConglomerates(unsigned char *pos) {
-
-//     for (int i = 0; i < 4; i++)
-//         conglomerate(pos + dirOffset[i]);
-// }
 
 void chainReact_GeoDogeToDoge() {
 
@@ -1324,11 +1286,6 @@ void genericPushReverse(int offsetX, int offsetY) {
             *me = (*me) - 1;
     }
 }
-
-unsigned char creature;
-unsigned char *prevx;
-unsigned char *nextx;
-unsigned int type;
 
 void processDoge() {
 
@@ -1656,11 +1613,8 @@ void convertWaterAndLavaObjects() {
 
     // Any blanks/dissolves underwater/lava gets transformed to water/lava chars
 
-    if (boardRow * TRILINES >= lavaSurfaceTrixel)
-        if (Attribute[type] & (ATT_BLANK | ATT_DISSOLVES) &&
-            (type != TYPE_LAVA && type != TYPE_WATER && type != TYPE_DUST_0))
-            // if (!(*me & FLAG_THISFRAME))
-            *me = showLava ? CH_LAVA_BLANK : CH_WATER_0; // + (rr & 0b11);
+    if (boardRow * TRILINES >= lavaSurfaceTrixel && Attribute[type] & ATT_CONVERT)
+        *me = showLava ? CH_LAVA_BLANK : CH_WATER;
 }
 
 void restartBoardScan() {
@@ -1715,34 +1669,49 @@ void processTypes() {
 
     switch (type) {
 
-    case TYPE_DOGE: {
+    case TYPE_DOGE:
         processDoge();
         break;
-    }
 
-    case TYPE_PEBBLE1: {
-        // case TYPE_PEBBLE2: {
-
+    case TYPE_PEBBLE1:
         processPebble();
         break;
-    }
 
-    case TYPE_WATER: {
-
+    case TYPE_WATER:
         processWater();
         break;
-    }
 
-    case TYPE_LAVA: {
-
+    case TYPE_LAVA:
         processLava();
         break;
-    }
 
     case TYPE_MELLON_HUSK:
 
         if (!exitMode)
             movePlayer(me);
+        break;
+
+    case TYPE_WATERFLOW_0:
+    case TYPE_WATERFLOW_1:
+    case TYPE_WATERFLOW_2:
+    case TYPE_WATERFLOW_3:
+    case TYPE_WATERFLOW_4:
+        processWaterFlow();
+        break;
+
+    case TYPE_BELT:
+    case TYPE_BELT_1:
+    case TYPE_GRINDER:
+    case TYPE_GRINDER_1:
+        processCharBeltAndGrinder();
+        break;
+
+        // case TYPE_HUB:
+        //     break;
+
+    case TYPE_GEODOGE:
+        processCharGeoDogeAndRock();
+        conglomerate();
         break;
 
     default:
@@ -1754,37 +1723,8 @@ void processCreatures() {
 
     switch (creature) {
 
-    case CH_WATERFLOW_0:
-    case CH_WATERFLOW_1:
-    case CH_WATERFLOW_2:
-    case CH_WATERFLOW_3:
-    case CH_WATERFLOW_4: {
-        processWaterFlow();
-        break;
-    }
-
-    case CH_BELT_0:
-    case CH_BELT_1:
-    case CH_GRINDER_0:
-    case CH_GRINDER_1: {
-
-        processCharBeltAndGrinder();
-        break;
-    }
-
     case CH_OUTLET:
         processOutlet();
-        break;
-
-    case CH_HUB:
-    case CH_HUB_1:
-
-        // if (!rangeRandom(20)) {
-
-        //     *me = *me ^ (CH_HUB ^ CH_HUB_1);
-        //     *(me - _1ROW) ^= (CH_TAP_0 ^ CH_TAP_1);
-        // }
-
         break;
 
     case CH_PEBBLE_ROCK:
@@ -1872,9 +1812,9 @@ void processCreatures() {
         // chainReact_DogeToGeoDoge();
         break;
 
-    case CH_FLIP_GRAVITY_0:
-    case CH_FLIP_GRAVITY_2:
-    case CH_FLIP_GRAVITY_1:
+        // case CH_FLIP_GRAVITY_0:
+        // case CH_FLIP_GRAVITY_2:
+        // case CH_FLIP_GRAVITY_1:
 
     case CH_BLOCK: {
 
@@ -1884,29 +1824,6 @@ void processCreatures() {
             *next = *me | FLAG_THISFRAME;
             *me = CH_DUST_0 | FLAG_THISFRAME;
         }
-        break;
-    }
-
-    case CH_CONGLOMERATE_1:
-    case CH_CONGLOMERATE_2:
-    case CH_CONGLOMERATE_3:
-    case CH_CONGLOMERATE_4:
-    case CH_CONGLOMERATE_5:
-    case CH_CONGLOMERATE_6:
-    case CH_CONGLOMERATE_7:
-    case CH_CONGLOMERATE_8:
-    case CH_CONGLOMERATE_9:
-    case CH_CONGLOMERATE_10:
-    case CH_CONGLOMERATE_11:
-    case CH_CONGLOMERATE_12:
-    case CH_CONGLOMERATE_13:
-    case CH_CONGLOMERATE_14:
-    case CH_CONGLOMERATE_15:
-
-    case CH_GEODOGE: {
-
-        processCharGeoDogeAndRock();
-        conglomerate();
         break;
     }
 
@@ -1957,33 +1874,9 @@ void processCreatures() {
 
 void processBoardSquares() {
 
-    while (true) {
+    while (T1TC < availableIdleTime) {
 
-        if (T1TC >= availableIdleTime)
-            return;
-
-        boardCol += gravity;
-
-        if (gravity < 0) {
-            if (boardCol < 0) {
-                boardCol = _BOARD_COLS - 1;
-
-                if (!--boardRow) {
-                    restartBoardScan();
-                    return;
-                }
-            }
-        }
-
-        else {
-            if (boardCol > (_BOARD_COLS - 1)) {
-                boardCol = 0;
-                if (++boardRow > _BOARD_ROWS - 1) {
-                    restartBoardScan();
-                    return;
-                }
-            }
-        }
+        me = RAM + _BOARD + boardRow * _1ROW + boardCol;
 
         creature = *me;
         // prev = me - _1ROW * gravity;
@@ -1997,7 +1890,6 @@ void processBoardSquares() {
                 convertWaterAndLavaObjects();
 
             if (Attribute[type] & activated) {
-
                 processTypes();
                 processCreatures();
             }
@@ -2022,6 +1914,29 @@ void processBoardSquares() {
         }
 
         me += gravity;
+
+        boardCol += gravity;
+
+        if (gravity < 0) {
+            if (boardCol < 0) {
+                boardCol = _BOARD_COLS - 1;
+
+                if (!--boardRow) {
+                    restartBoardScan();
+                    return;
+                }
+            }
+        }
+
+        else {
+            if (boardCol > (_BOARD_COLS - 1)) {
+                boardCol = 0;
+                if (++boardRow > _BOARD_ROWS - 1) {
+                    restartBoardScan();
+                    return;
+                }
+            }
+        }
     }
 }
 

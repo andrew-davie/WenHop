@@ -53,7 +53,7 @@ void bubbles(int count, int dripX, int dripY, int age, int speed);
 int dirFromCoords(int x, int y, int prevX, int prevY);
 // void fixSurroundingConglomerates(unsigned char *pos);
 
-extern const unsigned char BitRev[];
+extern const unsigned char reverseBits[];
 
 struct Animation {
     signed char index;
@@ -118,7 +118,6 @@ extern int boardCol;
 extern bool lockDisplay;
 
 extern unsigned int triggerPressCounter;
-extern unsigned char enableParallax;
 extern unsigned char enableICC;
 
 extern bool caveCompleted;

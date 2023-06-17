@@ -155,17 +155,17 @@ void initSprites() {
 // },
 // };
 
+const unsigned char cx[][4] = {
+    {0x90, 0x90, 0x90, 0x90},
+    {0x20, 0x30, 0x40, 0x50},
+};
+
 void drawPlayerSprite() { // --> 3171 cycles
 
     static int root = 0;
     root++;
 
-    const unsigned char c[][4] = {
-        {0x90, 0x90, 0x90, 0x90},
-        {0x20, 0x30, 0x40, 0x50},
-    };
-
-    int rooted = c[1][(root >> 3) & 3];
+    int rooted = cx[1][(root >> 3) & 3];
 
     if (pulsePlayerColour) {
         if (!(--pulsePlayerColour & 7)) {
@@ -176,7 +176,7 @@ void drawPlayerSprite() { // --> 3171 cycles
     }
 
     else {
-        rooted = c[0][(root >> 3) & 3];
+        rooted = cx[0][(root >> 3) & 3];
         for (int i = 0; i < 16; i++)
             postProcessPlayerColours[i] = playerBaseColour[i] & 0xF0;
     }
@@ -248,8 +248,8 @@ void drawPlayerSprite() { // --> 3171 cycles
                 }
 
                 else {
-                    p0[destLine] = BitRev[(unsigned char)*spr++];
-                    p1[destLine] = BitRev[(unsigned char)*spr++];
+                    p0[destLine] = reverseBits[(unsigned char)*spr++];
+                    p1[destLine] = reverseBits[(unsigned char)*spr++];
                 }
 
                 int c1 = *spr >> 4;
@@ -288,7 +288,7 @@ void drawPlayerSprite() { // --> 3171 cycles
                 if (faceDirection == FACE_RIGHT)
                     p0[destLine] = *spr++;
                 else
-                    p0[destLine] = BitRev[(unsigned char)*spr++];
+                    p0[destLine] = reverseBits[(unsigned char)*spr++];
 
                 int c1 = *spr++ >> 4;
 

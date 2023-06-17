@@ -3,7 +3,7 @@
 
 void drawScreen();
 void drawIconScreen(int startRow, int endRow);
-void rain();
+void drawParticles();
 void initCharVector();
 
 #endif

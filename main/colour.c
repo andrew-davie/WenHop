@@ -121,8 +121,6 @@ void setBackgroundPalette(unsigned char *c) {
 
 void setPalette() {
 
-    int size = PIECE_DEPTH;
-
     int shift = 16;
 
     interleaveColour();
@@ -137,7 +135,7 @@ void setPalette() {
     int pfCharLine = 0;
 
     while (bgCharLine >= PIECE_DEPTH) {
-        bgCharLine -= size;
+        bgCharLine -= PIECE_DEPTH;
         pfCharLine++;
     }
 
@@ -154,12 +152,14 @@ void setPalette() {
     if (interleavedColour && --roll < 0)
         roll = 2;
 
-    unsigned char lavaColour[] = {0x24, 0x36, 0x46, 0x24};
-    const unsigned char waterColour[] = {0x88, 0x78, 0xC8, 0x88};
+    static unsigned char lavaColour[] = {0x24, 0x36, 0x46, 0x24};
+    static const unsigned char waterColour[] = {0x88, 0x78, 0xC8, 0x88};
 
-    const unsigned char wbg[] = {0x96, 0x96, 0x96, 0x94, 0x94, 0x94, 0x92, 0x92, 0x90, 0x90, 0x90};
+    static const unsigned char wbg[] = {0x96, 0x96, 0x96, 0x94, 0x94, 0x94,
+                                        0x92, 0x92, 0x90, 0x90, 0x90};
 
-    const unsigned char lbg[] = {0x46, 0x46, 0x46, 0x44, 0x44, 0x44, 0x42, 0x42, 0x40, 0x40, 0x40};
+    static const unsigned char lbg[] = {0x46, 0x46, 0x46, 0x44, 0x44, 0x44,
+                                        0x42, 0x42, 0x40, 0x40, 0x40};
 
     int lavaLine = (lavaSurfaceTrixel - (scrollY >> shift)) * 3;
     int lavab = 0;
@@ -182,7 +182,7 @@ void setPalette() {
         bkCol += 3;
 
         bgCharLine += 3;
-        if (bgCharLine >= size) {
+        if (bgCharLine >= PIECE_DEPTH) {
             bgCharLine = 0;
             rollColour[1] = rollColour[4] = bgPalette[++pfCharLine];
         }

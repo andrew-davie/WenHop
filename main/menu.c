@@ -33,7 +33,8 @@ unsigned int debugDelay = 0;
 
 void doubleSize(int x, int y, int letter);
 
-unsigned char enableICC;
+#define UNINITIALISED 255
+unsigned char enableICC = UNINITIALISED;
 int menuLineTVType;
 
 static int mustWatchDelay;
@@ -495,8 +496,8 @@ void doDrawBitmap(const unsigned short *shape, int y) {
 
             // pf1L[y] = (pf1L[y] & mask.mask2[3]) | gfx.g[3];
             pf1R[y] = (pf1R[y] & mask.mask2[1]) | gfx.g[1];
-            pf2R[y] = (pf2R[y] & BitRev[mask.mask2[0]]) | BitRev[gfx.g[0]];
-            // pf2L[y] = (pf2L[y] & BitRev[mask.mask2[2]]) | BitRev[gfx.g[2]];
+            pf2R[y] = (pf2R[y] & reverseBits[mask.mask2[0]]) | reverseBits[gfx.g[0]];
+            // pf2L[y] = (pf2L[y] & reverseBits[mask.mask2[2]]) | reverseBits[gfx.g[2]];
 
             if (++baseRoll > 2)
                 baseRoll = 0;
@@ -1546,10 +1547,8 @@ void MenuOverscan() {
         detectConsoleType();
         // initCopyrightScreen();
 
-        // if (enableParallax == 1) { // illegal, so a first-use/reboot
-        //     enableParallax = RIGHT_DIFFICULTY_A;
-        //     enableICC = LEFT_DIFFICULTY_A;
-        // }
+        if (enableICC == UNINITIALISED) // illegal, so a first-use/reboot
+            enableICC = LEFT_DIFFICULTY_A;
 
         if (!--mustWatchDelay)
             initKernel(KERNEL_MENU);

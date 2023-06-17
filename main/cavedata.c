@@ -262,7 +262,7 @@ const unsigned char caveA[] = {
 
 //    0xFE, CH_LAVA_BLANK, 1, 20,
 
-    0xFE, CH_WATER_0, 1, 20,
+    0xFE, CH_WATER, 1, 20,
 
     // 0xFE, CH_BRICKWALL, 20,10,
     // 0xFE, CH_BRICKWALL, 21,10,
