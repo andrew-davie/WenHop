@@ -1,9 +1,9 @@
 // Do not change this file. It is auto-generated during the make process
 #define _1ROW                     0x0028
-#define __COL0                    0x7aa2
-#define __COL1                    0x7b68
-#define __COL2                    0x7cf4
-#define __COL3                    0x7c2e
+#define __COL0                    0x7a84
+#define __COL1                    0x7b4a
+#define __COL2                    0x7cd6
+#define __COL3                    0x7c10
 #define _ARENA_COLOUR             0x0008
 #define _ARENA_SCANLINES          0x00c6
 #define _BOARD                    0x019e
@@ -48,7 +48,6 @@
 #define _CHAR_DOGE_03             0x7863
 #define _CHAR_DOGE_04             0x7878
 #define _CHAR_DOGE_05             0x7890
-#define _CHAR_DOGE_FALLING        0x78ae
 #define _CHAR_DUST_0              0x7792
 #define _CHAR_DUST_1              0x77b1
 #define _CHAR_DUST_2              0x77d0
@@ -67,7 +66,7 @@
 #define _CHAR_LADDER_1            0x7471
 #define _CHAR_LADDER_2            0x7486
 #define _CHAR_PARALLAXoTEMPLATE   0x77ee
-#define _CHAR_PEBBLE1             0x78cc
+#define _CHAR_PEBBLE1             0x78ae
 #define _CHAR_PEBBLE2             0x76dc
 #define _CHAR_ROCK                0x749b
 #define _CHAR_ROCK_D              0x7513
@@ -92,11 +91,11 @@
 #define _CHAR_SPARKLE_2           0x76b7
 #define _CHAR_SPARKLE_3           0x76c8
 #define _CHAR_STEELWALL           0x76fa
-#define _CHAR_WYRM_0              0x78ea
-#define _CHAR_WYRM_2              0x7908
-#define _CHAR_WYRM_3              0x7926
+#define _CHAR_WYRM_0              0x78cc
+#define _CHAR_WYRM_2              0x78ea
+#define _CHAR_WYRM_3              0x7908
 #define _COLOUR_POOL              0x741c
-#define _DIGIT_SHAPE              0x7926
+#define _DIGIT_SHAPE              0x7908
 #define _DS_AUDC0                 0x000f
 #define _DS_AUDF0                 0x0010
 #define _DS_AUDV0                 0x000e
@@ -126,8 +125,8 @@
 #define _ENABLE_TRAINER           0x0000
 #define _ENABLE_WATER             0x0000
 #define _ENABLE_WATER2            0x0001
-#define _EXIT_KERNEL              0x7fe3
-#define _EXIT_MENU_KERNEL         0x7ea3
+#define _EXIT_KERNEL              0x7fc5
+#define _EXIT_MENU_KERNEL         0x7e85
 #define _FN_GAME_IDLE             0x0007
 #define _FN_GAME_OS               0x0005
 #define _FN_GAME_VB               0x0006
@@ -138,13 +137,13 @@
 #define _FN_SYSTEM_RESET          0x0000
 #define _INPT4                    0x0003
 #define _KERNEL                   0x0007
-#define _MENU_KERNEL              0x7e68
-#define _NORMAL_KERNEL            0x7fa9
+#define _MENU_KERNEL              0x7e4a
+#define _NORMAL_KERNEL            0x7f8b
 #define _P0_X                     0x0005
 #define _P1_X                     0x0004
 #define _PALETTE_COUNT            0x0010
 #define _RUN_FUNC                 0x0000
 #define _SWCHA                    0x0001
 #define _SWCHB                    0x0002
-#define _TITLE_SCREEN             0x7aa2
+#define _TITLE_SCREEN             0x7a84
 #define _TV_TYPE                  0x0006

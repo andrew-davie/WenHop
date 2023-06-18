@@ -1293,8 +1293,9 @@ void processDoge() {
     int attrNext = ATTRIBUTE(*next);
 
     if (attrNext & ATT_BLANK) {
-        *me = CH_DUST_0 | FLAG_THISFRAME;
-        *next = CH_DOGE_FALLING | FLAG_THISFRAME;
+        //*me = CH_DUST_0 | FLAG_THISFRAME;
+        *me = CH_DOGE_FALLING_TOP | FLAG_THISFRAME;
+        *next = CH_DOGE_FALLING_BOTTOM | FLAG_THISFRAME;
     }
 
     else if (attrNext & ATT_ROLL)
@@ -1461,12 +1462,13 @@ void processCharGeoDogeAndRock() {
 
     if (Attribute[typeDown] & ATT_BLANK) {
 
-        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
-            *next = CH_GEODOGE_FALLING | FLAG_THISFRAME;
-        else
-            *next = CH_ROCK_FALLING | FLAG_THISFRAME;
-
-        *me = CH_DUST_0 | FLAG_THISFRAME;
+        if (ATTRIBUTE_BIT(*me, ATT_GEODOGE)) {
+            *next = CH_GEODOGE_FALLING_BOTTOM | FLAG_THISFRAME;
+            *me = CH_GEODOGE_FALLING_TOP | FLAG_THISFRAME;
+        } else {
+            *next = CH_ROCK_FALLING_BOTTOM | FLAG_THISFRAME;
+            *me = CH_ROCK_FALLING_TOP | FLAG_THISFRAME;
+        }
 
         // if (ATTRIBUTE_BIT(*me, ATT_GEODOGE))
         //     conglomerate();
@@ -1829,6 +1831,24 @@ void processCreatures() {
 
     case CH_ROCK:
         processCharGeoDogeAndRock();
+        break;
+
+    case CH_ROCK_FALLING_TOP:
+    case CH_GEODOGE_FALLING_TOP:
+    case CH_DOGE_FALLING_TOP:
+        *me = CH_DUST_0 | FLAG_THISFRAME;
+        break;
+
+    case CH_DOGE_FALLING_BOTTOM:
+        *me = CH_DOGE_FALLING | FLAG_THISFRAME;
+        break;
+
+    case CH_ROCK_FALLING_BOTTOM:
+        *me = CH_ROCK_FALLING | FLAG_THISFRAME;
+        break;
+
+    case CH_GEODOGE_FALLING_BOTTOM:
+        *me = CH_GEODOGE_FALLING | FLAG_THISFRAME;
         break;
 
     case CH_DOGE_FALLING:

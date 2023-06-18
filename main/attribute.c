@@ -112,6 +112,13 @@ const unsigned char CharToType[CH_MAX] = {
     TYPE_WYRM,                  // 102 CH_WYRM_HEAD_R,
     TYPE_WYRM,                  // 103 CH_WYRM_HEAD_D,
     TYPE_WYRM,                  // 104 CH_WYRM_HEAD_L,
+    TYPE_DOGE_FALLING,          // 105 CH_DOGE_FALLING_TOP,
+    TYPE_DOGE_FALLING,          // 106 CH_DOGE_FALLING_BOTTOM,
+    TYPE_ROCK_FALLING,          // 107 CH_ROCK_FALLING_TOP,
+    TYPE_ROCK_FALLING,          // 108 CH_ROCK_FALLING_BOTTOM,
+    TYPE_GEODOGE_FALLING,       // 109 CH_GEODOGE_FALLING_TOP,
+    TYPE_GEODOGE_FALLING,       // 110 CH_GEODOGE_FALLING_BOTTOM,
+
 };
 
 const unsigned int Attribute[TYPE_MAX] = {
@@ -159,8 +166,8 @@ const unsigned int Attribute[TYPE_MAX] = {
    CNR| _ | _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ | _ | _ | _ | _ | _ |DRT| _ |PER|XPD| _ | _  , // 10 TYPE_PEBBLE1,
     _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 11 TYPE_GRAB,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 12 TYPE_DUST_0,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 13 TYPE_DOGE_FALLING,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 14 TYPE_ROCK_FALLING,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 13 TYPE_DOGE_FALLING,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 14 TYPE_ROCK_FALLING,
     _ |PAD| _ | _ | _ |MLT| _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ | _  , // 15 TYPE_DUST_ROCK,
     _ |PAD| _ | _ | _ |MLT| _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 16 TYPE_CONVERT_GEODE_TO_DOGE, (deprecated)
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |GRB| _ | _ | _ | _ | _ | _  , // 17 TYPE_SWITCH,
@@ -168,7 +175,7 @@ const unsigned int Attribute[TYPE_MAX] = {
     _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 19 TYPE_PUSHER_VERT,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 20 TYPE_WYRM,
     _ |PAD|SHV|BOU|DGE|MLT| _ |PUL|PH2| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 21 TYPE_GEODOGE,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 22 TYPE_GEODOGE_FALLING,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 22 TYPE_GEODOGE_FALLING,
     _ |PAD|SHV|BOU|DGE| _ | _ | _ |PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 23 TYPE_GEODOGE_CRITICAL (deprecated)
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER| _ | _ | _  , // 24 TYPE_LAVA,
     _ |PAD| _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ |PER|XPD| _ | _  , // 25 TYPE_PEBBLE_ROCK,

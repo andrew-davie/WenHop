@@ -1602,38 +1602,38 @@ _CHAR_DOGE_05
      dc ooooO ; 29
 
 
-_CHAR_DOGE_FALLING ;
+; _CHAR_DOGE_FALLING
 
-     dc ooooX ; 00 <
-     dc ooooX ; 01
-     dc ooooX ; 02
-     dc ooooO ; 03 <
-     dc ooooO ; 04
-     dc ooooO ; 05
-     dc oooXo ; 06 <
-     dc oooXX ; 07
-     dc oooXX ; 08
-     dc ooXoo ; 09 <
-     dc ooXXX ; 10
-     dc ooXXX ; 11
-     dc ooooO ; 12 <
-     dc ooXXX ; 13
-     dc ooXXX ; 14
-     dc ooooO ; 15 <
-     dc oooXX ; 16
-     dc oooXX ; 17
-     dc ooooO ; 18 <
-     dc ooooX ; 19
-     dc ooooX ; 20
-     dc ooooO ; 21 <
-     dc ooooO ; 22
-     dc ooooO ; 23
-     dc ooooO ; 24 <
-     dc ooooO ; 25
-     dc ooooO ; 26
-     dc ooooO ; 27 <
-     dc ooooO ; 28
-     dc ooooO ; 29
+;      dc ooooX ; 00 <
+;      dc ooooX ; 01
+;      dc ooooX ; 02
+;      dc ooooO ; 03 <
+;      dc ooooO ; 04
+;      dc ooooO ; 05
+;      dc oooXo ; 06 <
+;      dc oooXX ; 07
+;      dc oooXX ; 08
+;      dc ooXoo ; 09 <
+;      dc ooXXX ; 10
+;      dc ooXXX ; 11
+;      dc ooooO ; 12 <
+;      dc ooXXX ; 13
+;      dc ooXXX ; 14
+;      dc ooooO ; 15 <
+;      dc oooXX ; 16
+;      dc oooXX ; 17
+;      dc ooooO ; 18 <
+;      dc ooooX ; 19
+;      dc ooooX ; 20
+;      dc ooooO ; 21 <
+;      dc ooooO ; 22
+;      dc ooooO ; 23
+;      dc ooooO ; 24 <
+;      dc ooooO ; 25
+;      dc ooooO ; 26
+;      dc ooooO ; 27 <
+;      dc ooooO ; 28
+;      dc ooooO ; 29
 
 
 

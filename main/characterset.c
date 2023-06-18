@@ -6,6 +6,155 @@
 
 static unsigned char char_parallaxBlank[PIECE_DEPTH];
 
+const unsigned char _CHAR_DOGE_FALLING_TOP[] = {
+
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+
+    0b00000, // 06 <
+    0b00000, // 07
+    0b00100, // 08
+    0b00000, // 09 <
+    0b00110, // 10
+    0b01110, // 11
+
+};
+
+const unsigned char _CHAR_DOGE_FALLING_BOTTOM[] = {
+
+    0b00000, // 12 <
+    0b00110, // 13
+    0b01110, // 14
+    0b00000, // 15 <
+    0b01110, // 16
+    0b01110, // 17
+    0b00000, // 18 <
+    0b00100, // 19
+    0b00100, // 20
+
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+};
+
+const unsigned char _CHAR_ROCK_FALLING_TOP[] = {
+
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+
+    0b00110, // 00 <
+    0b00000, // 01
+    0b00110, // 02
+    0b00000, // 03 <
+    0b00000, // 04
+    0b01110, // 05
+    0b00000, // 06 <
+    0b00001, // 07
+    0b01111, // 08
+    0b00001, // 09 <
+    0b00000, // 10
+    0b11111, // 11
+    0b00001, // 12 <
+    0b00000, // 13
+    0b11111, // 14
+
+};
+
+const unsigned char _CHAR_ROCK_FALLING_BOTTOM[] = {
+
+    0b00001, // 15 <
+    0b00000, // 16
+    0b11111, // 17
+    0b00001, // 18 <
+    0b00000, // 19
+    0b11111, // 20
+    0b00001, // 21 <
+    0b00000, // 22
+    0b11111, // 23
+    0b00001, // 24 <
+    0b00000, // 25
+    0b11111, // 26
+    0b00010, // 27 <
+    0b00000, // 28
+    0b01110, // 29
+
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+    0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b00000,
+};
+
+const unsigned char _CHAR_GEODOGE_FALLING_TOP[] = {
+
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+
+    0b00110, // 00 <
+    0b00110, // 01
+    0b00000, // 02
+    0b00000, // 03 <
+    0b01110, // 04
+    0b00000, // 05
+    0b00000, // 06 <
+    0b01111, // 07
+    0b00001, // 08
+    0b00001, // 09 <
+    0b11111, // 10
+    0b00101, // 11
+    0b00001, // 12 <
+    0b11111, // 13
+    0b01110, // 14
+
+};
+
+const unsigned char _CHAR_GEODOGE_FALLING_BOTTOM[] = {
+
+    0b00001, // 15 <
+    0b11111, // 16
+    0b01110, // 17
+    0b00001, // 18 <
+    0b11111, // 19
+    0b01110, // 20
+    0b00001, // 21 <
+    0b11111, // 22
+    0b00100, // 23
+    0b00001, // 24 <
+    0b11111, // 25
+    0b00000, // 26
+    0b00010, // 27 <
+    0b01110, // 28
+    0b00000, // 29
+
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+    0b00000, //
+
+};
+
 const unsigned char _CHAR_HUB[] = {
 
     0b01110, // 00 <
@@ -1685,10 +1834,16 @@ const unsigned char *const charSet[CH_MAX] = {
     C(_CHAR_PUSH_DOWN2),             // 098 CH_PUSH_DOWN2,
     C(_CHAR_GEODOGE),                // 099 CH_GEODOGE_CONVERT
     C(_CHAR_BLANK),                  // 100 CH_CONVERT_PIPE
-    C(_CHAR_WYRM_TAIL_U),            // 101 CH_WYRM_TAIL_U),
-    C(_CHAR_WYRM_TAIL_R),            // 102 CH_WYRM_TAIL_R),
-    C(_CHAR_WYRM_TAIL_D),            // 103 CH_WYRM_TAIL_D),
-    C(_CHAR_WYRM_TAIL_L),            // 104 CH_WYRM_TAIL_L),
+    C(_CHAR_WYRM_TAIL_U),            // 101 CH_WYRM_TAIL_U,
+    C(_CHAR_WYRM_TAIL_R),            // 102 CH_WYRM_TAIL_R,
+    C(_CHAR_WYRM_TAIL_D),            // 103 CH_WYRM_TAIL_D,
+    C(_CHAR_WYRM_TAIL_L),            // 104 CH_WYRM_TAIL_L,
+    C(_CHAR_DOGE_FALLING_TOP),       // 105 CH_DOGE_FALLING_TOP,
+    C(_CHAR_DOGE_FALLING_BOTTOM),    // 106 CH_DOGE_FALLING_BOTTOM,
+    C(_CHAR_ROCK_FALLING_TOP),       // 107 CH_ROCK_FALLING_TOP,
+    C(_CHAR_ROCK_FALLING_BOTTOM),    // 108 CH_ROCK_FALLING_BOTTOM,
+    C(_CHAR_GEODOGE_FALLING_TOP),    // 109 CH_GEODOGE_FALLING_TOP,
+    C(_CHAR_GEODOGE_FALLING_BOTTOM), // 110 CH_GEODOGE_FALLING_BOTTOM,
 
 };
 
