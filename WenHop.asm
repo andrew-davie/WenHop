@@ -230,8 +230,6 @@ SIZEOF_CDFJ_DRIVER = *
                     ORG $0800
                     RORG $F000
 
-START6502
-
 ; PLACE THESE EARLY IF POSSIBLE, SO THAT THE $EA-WAIT LOOP HAS PLENTY OF LEEWAY/TIME
 
 ; idleProcess first calls the OS/VB (passed in Y) and then the idle routine. It continues

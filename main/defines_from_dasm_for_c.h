@@ -158,7 +158,7 @@
 #define _P0_X                     0x0005
 #define _P1_X                     0x0004
 #define _PC_ARM_CODE              0x2800
-#define _PC_ARM_CODE_SIZE         0x01b4
+#define _PC_ARM_CODE_SIZE         0x3158
 #define _PC_CDFJ_FF               0x0000
 #define _PC_DD_SIZE               0x0e00
 #define _PC_FF_OFFSET             0x0080

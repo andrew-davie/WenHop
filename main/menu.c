@@ -1680,6 +1680,7 @@ const signed char yInc[] = {
 };
 
 void handleMenuVB() {
+    return; // tmp
 
     // #if __ENABLE_DEMO
     // if (!--mustWatchDelay) {
