@@ -245,7 +245,7 @@ bool checkHighPriorityMove(int dir) {
                 grabDoge(/* meOffset */);
                 //     grabbed = true;
                 // if (grabbed)
-                nDots(4, playerX, playerY, 2, -25, 3, 4, 0x10000);
+                nDots(4, playerX, playerY, 2, 25, 3, 4, 0x10000);
             }
 
             playerX += xdir[dir];

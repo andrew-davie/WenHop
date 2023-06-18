@@ -103,7 +103,7 @@ void processWyrms() {
 
         if (!moveable) {
 
-            if (wyrm->head > 2 && (gameFrame & 3)) {
+            if (wyrm->head > 2 && (gameFrame & 15)) {
 
                 unsigned char *segment = RAM + _BOARD + wyrm->y[0] * 40 + wyrm->x[0];
                 *segment = CH_DUST_0;
@@ -116,7 +116,7 @@ void processWyrms() {
                 wyrm->length--;
             }
 
-            if (!rangeRandom(5)) {
+            if (!rangeRandom(2)) {
                 // reverse wyrm
 
                 unsigned char tempX2[WYRM_MAX], tempY2[WYRM_MAX];
@@ -183,7 +183,7 @@ void processWyrms() {
             segment = RAM + _BOARD + candidateY * 40 + candidateX;
 
             if (TYPEOF(*segment) == TYPE_DOGE)
-                nDots(8, candidateX, candidateY, 2, -50, 3, 0, 0x10000);
+                nDots(8, candidateX, candidateY, 2, 50, 3, 0, 0x10000);
 
             *segment = wyrm->dir + CH_WYRM_HEAD_U;
         }
@@ -210,9 +210,9 @@ void processWyrms() {
                 headChar = CH_WYRM_HEAD_L;
             else if (wyrm->x[headPos] > wyrm->x[headPos - 1])
                 headChar = CH_WYRM_HEAD_R;
-            else if (wyrm->y[headPos] < wyrm->y[headPos - 1])
-                headChar = CH_WYRM_HEAD_U;
-            if (wyrm->y[headPos] > wyrm->y[headPos - 1])
+            // else if (wyrm->y[headPos] < wyrm->y[headPos - 1])
+            //     headChar = CH_WYRM_HEAD_U;
+            else if (wyrm->y[headPos] > wyrm->y[headPos - 1])
                 headChar = CH_WYRM_HEAD_D;
 
             unsigned char *head = RAM + _BOARD + wyrm->y[headPos] * _1ROW + wyrm->x[headPos];

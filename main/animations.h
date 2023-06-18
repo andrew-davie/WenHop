@@ -4,6 +4,7 @@
 #define ANIM_HALT 0
 #define ANIM_LOOP 255
 #define ANIM_WATER 254
+#define ANIM_DEFAULT,255
 // #define ANIM_RNDSPEED 254
 
 extern const unsigned char *const AnimateBase[];

@@ -170,13 +170,13 @@ const unsigned int Attribute[TYPE_MAX] = {
     _ |PAD|SHV|BOU|DGE|MLT| _ |PUL|PH2| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 21 TYPE_GEODOGE,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 22 TYPE_GEODOGE_FALLING,
     _ |PAD|SHV|BOU|DGE| _ | _ | _ |PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 23 TYPE_GEODOGE_CRITICAL (deprecated)
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER| _ | _ | _  , // 24 TYPE_LAVA,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER| _ | _ | _  , // 24 TYPE_LAVA,
     _ |PAD| _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ |PER|XPD| _ | _  , // 25 TYPE_PEBBLE_ROCK,
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ |DRT| _ |PER|XPD| _ | _  , // 26 TYPE_FLIP_GRAVITY
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 27 TYPE_BLOCK
     _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 28 TYPE_GRINDER
     _ | _ | _ | _ | _ | _ | _ | _ |PH4|PIP| _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 29 TYPE_HUB
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 30 TYPE_WATER
+    _ | _ | _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 30 TYPE_WATER
     _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 31 TYPE_WATERFLOW0
     _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 32 TYPE_WATERFLOW1
     _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 33 TYPE_WATERFLOW2

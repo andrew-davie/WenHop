@@ -399,10 +399,10 @@ void grabCharacters() {
 
         if (Attribute[type] & ATT_PAD) {
 
-            udlr = ((Attribute[CharToType[GET(p[col - _1ROW])]] & ATT_CORNER) >> 31) |
-                   ((Attribute[CharToType[GET(p[col + 1])]] & ATT_CORNER) >> 30) |
-                   ((Attribute[CharToType[GET(p[col + _1ROW])]] & ATT_CORNER) >> 29) |
-                   ((Attribute[CharToType[GET(p[col - 1])]] & ATT_CORNER) >> 28);
+            udlr = ((Attribute[CharToType[GET(*(p + col - _1ROW))]] & ATT_CORNER) >> 31) |
+                   ((Attribute[CharToType[GET(*(p + col + 1))]] & ATT_CORNER) >> 30) |
+                   ((Attribute[CharToType[GET(*(p + col + _1ROW))]] & ATT_CORNER) >> 29) |
+                   ((Attribute[CharToType[GET(*(p + col - 1))]] & ATT_CORNER) >> 28);
 
             corner[col] = roundedCorner[udlr];
         }
