@@ -58,24 +58,24 @@ const unsigned char caveA[] = {
 
     CAVEDEF_PARALLAX, STEEL, DIRT,
 
-    4,
+    2,
     CH_BLANK, 60, 255, 0, 255, 10,
-    CH_PEBBLE1, 120, 0, 240, 0, 20,
-    CH_PEBBLE2, 120, 0, 240, 0, 20,
-    CH_ROCK, 10, 0, 240, 0, 20,
+    // CH_PEBBLE1, 120, 0, 240, 0, 20,
+    // CH_PEBBLE2, 120, 0, 240, 0, 20,
+    CH_ROCK, 50, 0, 240, 0, 20,
 
-    0xFE, CH_FLIP_GRAVITY_0, 16, 8,
-    0xFE, CH_FLIP_GRAVITY_0, 8, 12,
+    // 0xFE, CH_FLIP_GRAVITY_0, 16, 8,
+    // 0xFE, CH_FLIP_GRAVITY_0, 8, 12,
 
-        0xFE,CH_PUSH_DOWN,16,9,
-    //    0xFE,CH_PUSH_DOWN,7,1,
-        0xFE,CH_PUSH_RIGHT,17,8,
-      //  0xFE,CH_PUSH_DOWN,9,1,
-        0xFE,CH_PUSH_LEFT,15,8,
-        //0xFE,CH_PUSH_DOWN,11,1,
-        0xFE,CH_PUSH_UP,16,7,
-        //0xFE,CH_PUSH_DOWN,13,1,
-        0xFE, CH_HUB, 16,8,
+    //     0xFE,CH_PUSH_DOWN,16,9,
+    // //    0xFE,CH_PUSH_DOWN,7,1,
+    //     0xFE,CH_PUSH_RIGHT,17,8,
+    //   //  0xFE,CH_PUSH_DOWN,9,1,
+    //     0xFE,CH_PUSH_LEFT,15,8,
+    //     //0xFE,CH_PUSH_DOWN,11,1,
+    //     0xFE,CH_PUSH_UP,16,7,
+    //     //0xFE,CH_PUSH_DOWN,13,1,
+    //     0xFE, CH_HUB, 16,8,
 
 
 
@@ -86,33 +86,33 @@ const unsigned char caveA[] = {
         // 0xFE, CH_OUTLET, 2,4,
 
 
-        0xFE, CH_HORIZONTAL_BAR, 3,3,
-        0xFE, CH_HORIZONTAL_BAR, 4,3,
-        0xFE, CH_TAP_0, 5,2,
-        0xFE, CH_HUB, 5,3,
-        0xFE, CH_OUTLET, 5,4,
+        // 0xFE, CH_HORIZONTAL_BAR, 3,3,
+        // 0xFE, CH_HORIZONTAL_BAR, 4,3,
+        // 0xFE, CH_TAP_0, 5,2,
+        // 0xFE, CH_HUB, 5,3,
+        // 0xFE, CH_OUTLET, 5,4,
 
-        0xFE, CH_TAP_0, 6,2,
-        0xFE, CH_HUB, 6,3,
-        0xFE, CH_OUTLET, 6,4,
-
-
-        0xFE, CH_TAP_0, 7,2,
-        0xFE, CH_HUB, 7,3,
-        0xFE, CH_OUTLET, 7,4,
+        // 0xFE, CH_TAP_0, 6,2,
+        // 0xFE, CH_HUB, 6,3,
+        // 0xFE, CH_OUTLET, 6,4,
 
 
-        0xFE, CH_TAP_0, 8,2,
-        0xFE, CH_HUB, 8,3,
-        0xFE, CH_OUTLET, 8,4,
+        // 0xFE, CH_TAP_0, 7,2,
+        // 0xFE, CH_HUB, 7,3,
+        // 0xFE, CH_OUTLET, 7,4,
 
-        0xFE, CH_TAP_0, 9,2,
-        0xFE, CH_HUB, 9,3,
-        0xFE, CH_OUTLET, 9,4,
 
-        0xFE, CH_TAP_0, 10,2,
-        0xFE, CH_HUB, 10,3,
-        0xFE, CH_OUTLET, 10,4,
+        // 0xFE, CH_TAP_0, 8,2,
+        // 0xFE, CH_HUB, 8,3,
+        // 0xFE, CH_OUTLET, 8,4,
+
+        // 0xFE, CH_TAP_0, 9,2,
+        // 0xFE, CH_HUB, 9,3,
+        // 0xFE, CH_OUTLET, 9,4,
+
+        // 0xFE, CH_TAP_0, 10,2,
+        // 0xFE, CH_HUB, 10,3,
+        // 0xFE, CH_OUTLET, 10,4,
 
         // 0xFE, CH_HORIZONTAL_BAR, 6,3,
         // 0xFE, CH_HORIZONTAL_BAR, 7,3,
@@ -500,7 +500,9 @@ const unsigned char caveA3[] = {
     CH_ROCK, 16, 13, 0xFE, CH_ROCK, 16, 14, 0xFE, CH_ROCK, 16, 15, 0xFE, CH_ROCK, 16, 16, 0xFE,
     CH_ROCK, 16, 17, 0xFE, CH_ROCK, 16, 18,
     // 0xFE, CH_DOGE_00, 16,18,
-    0xFE, CH_FLIP_GRAVITY_0, 16, 18, 0xFE, CH_FLIP_GRAVITY_0, 16, 19, 0xFE, CH_BLOCK, 16, 20,
+    0xFE, CH_FLIP_GRAVITY_0, 16, 18,
+    0xFE, CH_FLIP_GRAVITY_0, 16, 19,
+    0xFE, CH_BLOCK, 16, 20,
 
     //    0xFE, CH_ROCK, 16,9,
     0xFE, CH_FLIP_GRAVITY_0, 16, 8,

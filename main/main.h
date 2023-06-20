@@ -48,10 +48,10 @@ void InitializeNewGame();
 void updateAnimation();
 void pulseDoges(unsigned char *me);
 void drawWord(const unsigned char *string, int y);
-void conglomerate();
+void conglomerate(int col, int row);
 void bubbles(int count, int dripX, int dripY, int age, int speed);
 int dirFromCoords(int x, int y, int prevX, int prevY);
-// void fixSurroundingConglomerates(unsigned char *pos);
+void surroundingConglomerate(int col, int row);
 
 extern const unsigned char reverseBits[];
 

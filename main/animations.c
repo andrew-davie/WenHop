@@ -216,6 +216,7 @@ const unsigned char *const AnimateBase[TYPE_MAX] = {
     AnimateBelt,         // 40 TYPE_BELT
     AnimateBelt1,        // 41 TYPE_BELT1
     0,                   // 42 TYPE_CONVERT_PIPE
+    0,                   // 43 TYPE_DOGE_FALLING2
 };
 
 void initCharAnimations() {

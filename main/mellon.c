@@ -386,6 +386,8 @@ bool checkLowPriorityMove(int dir) {
                 *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE)
                                 ? CH_CONVERT_GEODE_TO_DOGE | FLAG_THISFRAME
                                 : CH_DUST_0;
+
+                surroundingConglomerate(playerX + xdir[dir], playerY + ydir[dir]);
             }
 
             else {

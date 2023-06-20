@@ -54,6 +54,7 @@ enum ObjectType {
     TYPE_BELT,                  // 39
     TYPE_BELT_1,                // 40
     TYPE_CONVERT_PIPE,          // 41
+    TYPE_DOGE_FALLING2,         // 42
 
     TYPE_MAX
 };
@@ -175,6 +176,12 @@ enum ChName {
     CH_ROCK_FALLING_BOTTOM,    // 108
     CH_GEODOGE_FALLING_TOP,    // 109
     CH_GEODOGE_FALLING_BOTTOM, // 110
+    CH_DOGE_FALLING_TOP2,      // 111
+    CH_DOGE_FALLING_BOTTOM2,   // 112
+    CH_DOGE_SIDE_1,            // 113
+    CH_DOGE_SIDE_3,            // 114
+    CH_DOGE_SIDE_2,            // 115
+    CH_DOGE_SIDE_4,            // 116
 
     // 127 is limit
 

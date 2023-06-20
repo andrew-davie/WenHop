@@ -118,6 +118,12 @@ const unsigned char CharToType[CH_MAX] = {
     TYPE_ROCK_FALLING,          // 108 CH_ROCK_FALLING_BOTTOM,
     TYPE_GEODOGE_FALLING,       // 109 CH_GEODOGE_FALLING_TOP,
     TYPE_GEODOGE_FALLING,       // 110 CH_GEODOGE_FALLING_BOTTOM,
+    TYPE_DOGE_FALLING2,         // 111 CH_DOGE_FALLING_TOP2,
+    TYPE_DOGE_FALLING2,         // 112 CH_DOGE_FALLING_BOTTOM2,
+    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_1
+    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_3
+    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_2
+    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_4
 
 };
 
@@ -159,7 +165,7 @@ const unsigned int Attribute[TYPE_MAX] = {
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 03 TYPE_OUTBOX_PRE,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |XIT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 04 TYPE_OUTBOX,
    CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 05 TYPE_STEELWALL,
-    _ |PAD|SHV|BOU| _ |MLT| _ |PUL|PH2| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 06 TYPE_ROCK,
+    _ |PAD|SHV|BOU| _ |MLT| _ |PUL|PH1| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 06 TYPE_ROCK,
     _ |PAD|SHV| _ | _ |MLT| _ |PUL|PH2| _ |GND|CVY| _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG|GRB| _ | _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 08 TYPE_MELLON_HUSK_PRE,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ |SQB|PSH| _ | _ | _ | _ | _ |XPD| _ | _  , // 09 TYPE_MELLON_HUSK,
@@ -169,7 +175,7 @@ const unsigned int Attribute[TYPE_MAX] = {
     _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 13 TYPE_DOGE_FALLING,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 14 TYPE_ROCK_FALLING,
     _ |PAD| _ | _ | _ |MLT| _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ | _  , // 15 TYPE_DUST_ROCK,
-    _ |PAD| _ | _ | _ |MLT| _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 16 TYPE_CONVERT_GEODE_TO_DOGE, (deprecated)
+    _ |PAD| _ | _ | _ |MLT| _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 16 TYPE_CONVERT_GEODE_TO_DOGE
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |GRB| _ | _ | _ | _ | _ | _  , // 17 TYPE_SWITCH,
     _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 18 TYPE_PUSHER,
     _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 19 TYPE_PUSHER_VERT,
@@ -195,6 +201,7 @@ const unsigned int Attribute[TYPE_MAX] = {
     _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 39 TYPE_BELT
     _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 40 TYPE_BELT_1
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 41 TYPE_CONVERT_PIPE
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 13 TYPE_DOGE_FALLING2
 // ---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 
     // clang-format on
