@@ -245,7 +245,7 @@ bool checkHighPriorityMove(int dir) {
                 grabDoge(/* meOffset */);
                 //     grabbed = true;
                 // if (grabbed)
-                nDots(4, playerX, playerY, 2, -25, 3, 4, 0x10000);
+                nDots(4, playerX, playerY, 2, 25, 3, 4, 0x10000);
             }
 
             playerX += xdir[dir];
@@ -309,7 +309,7 @@ bool checkHighPriorityMove(int dir) {
             }
 
             else
-                *me = CH_DUST_0 | FLAG_THISFRAME;
+                *me = CH_DUST_ROCK_0 | FLAG_THISFRAME;
 
             playerSlow = 0;
             if (!autoMoveFrameCount &&
@@ -429,7 +429,7 @@ bool checkLowPriorityMove(int dir) {
 
 void bubbles(int count, int dripX, int dripY, int age, int speed) {
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX << 8, dripY << 16, 1, age, speed);
+        int idx = sphereDot(dripX, dripY, 1, age, speed);
         if (idx >= 0) {
             rainSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
             rainSpeedX[idx] >>= 4;
@@ -458,7 +458,7 @@ void movePlayer(unsigned char *me) {
         if (!(breath & 35) && (breath & 63) < 21) {
             int x = (playerX * 5) + 3;
             int y = (playerY * TRILINES) + 4;
-            bubbles(2, x, y, 200, 0x80000);
+            bubbles(3, x, y, 200, 0x80000);
             ADDAUDIO(SFX_BUBBLER);
         }
     }
@@ -509,8 +509,8 @@ void movePlayer(unsigned char *me) {
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
 
-    if (*(me - _1ROW) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
-        *(me - _1ROW) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
+    if (*(me - _1ROW * gravity) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
+        *(me - _1ROW * gravity) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

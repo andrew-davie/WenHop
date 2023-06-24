@@ -46,6 +46,48 @@
 //  #define LEFT 6
 // #define UPLEFT 7
 
+
+const unsigned char caveFast[] = {
+
+    20,     // milling
+    10, 15, // doge $
+    5,      //              ,          // rain
+
+    10, 11, 50, 56, 8, // randomiser[level]
+    25, 12, 12, 12, 12, 200, 200, 200, 200, 200,
+    // 70,65,60,55,50,
+
+    CAVEDEF_PARALLAX, STEEL, DIRT,
+
+    0,
+    // CH_BLANK, 60, 255, 0, 255, 10,
+    // CH_PEBBLE1, 120, 0, 240, 0, 20,
+    // CH_PEBBLE2, 120, 0, 240, 0, 20,
+    // CH_ROCK, 50, 0, 240, 0, 20,
+
+
+    0xFE, CH_DOORCLOSED, 38, 16, 0xFE,
+    CH_MELLON_HUSK_BIRTH, 1, 15,
+
+
+    LINER(CH_BLANK, 0,15, 10, 2)
+    LINER(CH_BLANK, 10,15, 6, 0)
+
+
+    0xFF,
+
+    // EXTRAS
+    // LEVEL 0
+    0xFF, // LEVEL 1
+    0xFF, // LEVEL 2
+    0xFF, // LEVEL 3
+    0xFF, // LEVEL 4
+    0xFF,
+
+    'M', 'E', 'R', 'C', 'U', 'R', 'Y', END_STRING};
+
+
+
 const unsigned char caveA[] = {
 
     20,     // milling
@@ -58,10 +100,10 @@ const unsigned char caveA[] = {
 
     CAVEDEF_PARALLAX, STEEL, DIRT,
 
-    2,
+    4,
     CH_BLANK, 60, 255, 0, 255, 10,
-    // CH_PEBBLE1, 120, 0, 240, 0, 20,
-    // CH_PEBBLE2, 120, 0, 240, 0, 20,
+    CH_PEBBLE1, 120, 0, 240, 0, 20,
+    CH_PEBBLE2, 120, 0, 240, 0, 20,
     CH_ROCK, 50, 0, 240, 0, 20,
 
     // 0xFE, CH_FLIP_GRAVITY_0, 16, 8,
@@ -185,7 +227,7 @@ const unsigned char caveA[] = {
     //     0xFE, CH_HUB, 2,6+VS*2,
     //     0xFE, CH_HUB, 3,6+VS*2,
 
-      0xFE, CH_WYRM_HEAD_U, 3, 6,
+    //   0xFE, CH_WYRM_HEAD_U, 3, 6,
 
     // LINE + CH_BRICKWALL,1,7,2,31,
     // LINE + CH_BRICKWALL,8,14,2,31,
@@ -612,6 +654,8 @@ const unsigned char caveA4[] = {
     'M', 'E', 'R', 'C', 'U', 'R', 'Y', END_STRING};
 
 const unsigned char *caveList[] = {
+
+//    caveFast,
 
     caveA, caveA2, caveA5, //caveA4,
 

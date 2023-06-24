@@ -106,7 +106,7 @@ void processWyrms() {
             if (wyrm->head > 2 && (gameFrame & 3)) {
 
                 unsigned char *segment = RAM + _BOARD + wyrm->y[0] * 40 + wyrm->x[0];
-                *segment = CH_DUST_0;
+                *segment = CH_DUST_ROCK_0;
 
                 for (int i = 0; i < WYRM_MAX - 1; i++) {
                     wyrm->x[i] = wyrm->x[i + 1];
@@ -154,7 +154,7 @@ void processWyrms() {
                     wyrm->length > WYRM_MAX - 2) {
                     unsigned char *tailPos = RAM + _BOARD + wyrm->y[0] * _1ROW + wyrm->x[0];
 
-                    *tailPos = CH_DUST_0;
+                    *tailPos = CH_DUST_ROCK_0;
 
                     for (int i = 0; i < WYRM_MAX - 1; i++) {
                         wyrm->x[i] = wyrm->x[i + 1];
@@ -183,7 +183,7 @@ void processWyrms() {
             segment = RAM + _BOARD + candidateY * 40 + candidateX;
 
             if (TYPEOF(*segment) == TYPE_DOGE)
-                nDots(8, candidateX, candidateY, 2, -50, 3, 0, 0x10000);
+                nDots(8, candidateX, candidateY, 2, 50, 3, 0, 0x10000);
 
             *segment = wyrm->dir + CH_WYRM_HEAD_U;
         }

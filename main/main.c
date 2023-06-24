@@ -61,8 +61,8 @@ unsigned int type;
 ////////////////////////////////////////////////////////////////////////////////
 
 const signed char dirOffset[] = {-_1ROW, 1, _1ROW, -1, 0};
-const signed char xdir[] = {0, 1, 0, -1};
-const signed char ydir[] = {-1, 0, 1, 0};
+const signed char xdir[] = {0, 1, 0, -1, 0};
+const signed char ydir[] = {-1, 0, 1, 0, 0};
 
 int lavaSurfaceTrixel;
 bool showWater;
@@ -258,38 +258,34 @@ bool visible(int col, int row) {
     return (deltaY > -_ARENA_SCANLINES / 3 && deltaY < _ARENA_SCANLINES / 3);
 }
 
-int sphereDot(int dripX, int dripY, int type, int age, int speed) {
-
-    int idx = -1;
-
-    int line = ((dripY >> 16) - ((scrollY) >> 16)) * 3;
-    if (line < 0 || line >= _ARENA_SCANLINES - 3)
-        return idx;
-
-    int col = (dripX >> 8) - ((scrollX * 5) >> 16);
-    if (col < 0 || col > _BOARD_COLS - 1)
-        return idx;
+int sphereDot(int dotX, int dotY, int type, int age, int speed) {
 
     int whichDrop = -1;
-    int oldest = 0;
-    while (++whichDrop < RAINHAILSHINE) {
-        if (rainAge[whichDrop] < rainAge[oldest])
-            oldest = whichDrop;
-        if (rainX[whichDrop] == -1)
-            break;
+
+    int col = dotX - ((scrollX * 5) >> 16);
+    if (col >= 0 && col < 40 /*pixels*/) {
+
+        int line = dotY - (scrollY >> 16);
+        if (line >= 0 && line < (_ARENA_SCANLINES / 3 - 1)) {
+
+            int oldest = 0;
+            while (++whichDrop < RAINHAILSHINE && rainAge[whichDrop])
+                if (rainAge[whichDrop] < rainAge[oldest])
+                    oldest = whichDrop;
+
+            if (whichDrop == RAINHAILSHINE)
+                whichDrop = oldest;
+
+            rainType[whichDrop] = type;
+            rainX[whichDrop] = dotX << 8;
+
+            rainY[whichDrop] = dotY << 16;
+            rainSpeedX[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed) >> 16;
+            rainSpeedY[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed * 3 * 4) >> 11;
+
+            rainAge[whichDrop] = age;
+        }
     }
-
-    if (whichDrop == RAINHAILSHINE)
-        whichDrop = oldest; // rangeRandom(RAINHAILSHINE);
-
-    rainType[whichDrop] = type;
-    rainX[whichDrop] = dripX;
-
-    rainY[whichDrop] = dripY;
-    rainSpeedX[whichDrop] = (((int)(((rangeRandom(64) - 32) << 1))) * speed) >> 16;
-    rainSpeedY[whichDrop] = (((int)((rangeRandom(64) - 32) << 1)) * speed * 3 * 4) >> 11;
-
-    rainAge[whichDrop] = age < 0 ? -age : age; // rangeRandom(-age>>1) + (age >>1) : age;
 
     return whichDrop;
 }
@@ -297,18 +293,17 @@ int sphereDot(int dripX, int dripY, int type, int age, int speed) {
 void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY,
            int speed) {
 
-    int y = offsetY;
-    if (gravity < 0) {
-        y = TRILINES - y;
-    }
+    if (gravity < 0)
+        offsetY = TRILINES - offsetY;
+
     for (int i = 0; i < count; i++)
-        sphereDot((dripX * 5 + offsetX) << 8, (dripY * TRILINES + y) << 16, type, age, speed);
+        sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age, speed);
 }
 
 void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed) {
 
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX << 8, dripY << 16, 2, age, speed);
+        int idx = sphereDot(dripX, dripY, 2, age, speed);
         if (idx >= 0)
             rainSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
     }
@@ -426,7 +421,7 @@ void initNextLife() {
     initSprites();
 
     for (int i = 0; i < RAINHAILSHINE; i++)
-        rainX[i] = -1;
+        rainAge[i] = -1;
 
 #if CIRCLE
     initSwipeCircle(CIRCLE_ZOOM_ZERO + 1);
@@ -535,31 +530,6 @@ void drawWord(const unsigned char *string, int y) {
 //         static const unsigned char gameOver[] = {
 //         'G','A','M','E',NEW_LINE,'O','V','E','R',END_STRING };
 //         drawWord(gameOver, 70);
-//     }
-// }
-
-// void add1PixObject(int x, int y, int pix) {
-
-//     for (int whichDrop = 0; whichDrop < RAINHAILSHINE; whichDrop++) {
-//         if (rainX[whichDrop] == -1) {
-
-//             int dripX = x;
-//             int dripY = y;
-
-//             unsigned char *dripPos = RAM + _BOARD + (dripY * _BOARD_COLS) + dripX;
-
-//             rainType[whichDrop] = 2;
-//             rainX[whichDrop] = ((dripX << 2) + pix ) << 8;
-//             rainRow[whichDrop] = dripY;
-//             rainY[whichDrop] = 0x6FFFF;
-//             rainSpeedX[whichDrop] = ((((rangeRandom(8))<< 1) + 2) << 1) *
-//             FaceDirection; rainSpeedY[whichDrop] = -0x2300 +
-//             (rangeRandom(12000));
-
-//             rainAge[whichDrop] = 32;
-
-//             break;
-//         }
 //     }
 // }
 
@@ -1010,34 +980,6 @@ void GameVerticalBlank() {
     }
 }
 
-// void conglomerate(int col, int row) {
-
-//     if (visible(col, row)) {
-
-//         unsigned char *pos = RAM + _BOARD + row * _1ROW + col;
-//         if (CharToType[GET(*pos)] == TYPE_GEODOGE) {
-
-//             // int x = ((scrollX + shakeX) * 5) >> 16;
-//             // int deltaX = boardCol * 5 - x;
-//             // if (playerDead || (deltaX >= 0 && deltaX < 40)) {
-
-//             //     int y = (scrollY + shakeY) >> 16;
-//             //     int deltaY = boardRow * TRILINES - y;
-//             //     if (playerDead || (deltaY >= 0 && deltaY < _ARENA_SCANLINES / 3)) {
-
-//             int cong = CH_GEODOGE | (*pos & FLAG_THISFRAME);
-
-//             for (int i = 0; i < 4; i++)
-//                 if (ATTRIBUTE_BIT(*(pos + dirOffset[i]), ATT_GEODOGE))
-//                     cong += 1 << i;
-
-//             *pos = cong;
-//             //     }
-//             // }
-//         }
-//     }
-// }
-
 void surroundingConglomerate(int col, int row) {
 
     unsigned char *pos = RAM + _BOARD + row * _1ROW + col;
@@ -1149,7 +1091,7 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
     FLASH(4, 4);
 }
 
-void doRoll(unsigned char *me, unsigned char creature) {
+void doRoll() {
 
     for (int offset = -1; offset < 2; offset += 2) {
 
@@ -1165,10 +1107,18 @@ void doRoll(unsigned char *me, unsigned char creature) {
                     if (offset > 0) {
                         *me = CH_DOGE_SIDE_1 | FLAG_THISFRAME;
                         *(me + offset) = CH_DOGE_SIDE_3 | FLAG_THISFRAME;
+
                     } else {
                         *me = CH_DOGE_SIDE_2 | FLAG_THISFRAME;
                         *(me + offset) = CH_DOGE_SIDE_4 | FLAG_THISFRAME;
                     }
+
+                    int off = offset < 0 ? 4 : 0;
+
+                    nDots(1, boardCol, boardRow, 2, 15, offset * 2 + off, 4 * gravity, 0);
+                    nDots(1, boardCol, boardRow, 2, 20, offset * 4 + off, 4 * gravity, 0);
+                    nDots(1, boardCol, boardRow, 2, 25, offset * 6 + off, 7 * gravity, 0);
+                    nDots(1, boardCol, boardRow, 2, 30, offset * 7 + off, 10 * gravity, 0);
 
                     surroundingConglomerate(boardCol, boardRow);
                     return;
@@ -1283,7 +1233,7 @@ void genericPush(int offsetX, int offsetY) {
                 surroundingConglomerate(boardCol + offsetX, boardRow + offsetY);
 
                 if (!(attPushPos & ATT_PERMEABLE))
-                    nDots(6, boardCol + offsetX, boardRow + offsetY, 2, -150, 3, 4, 0x10000);
+                    nDots(6, boardCol + offsetX, boardRow + offsetY, 2, 150, 3, 4, 0x10000);
                 return;
             }
         }
@@ -1310,17 +1260,15 @@ void genericPushReverse(int offsetX, int offsetY) {
 void processDoge() {
 
     unsigned char *next = me + _1ROW * gravity;
-    int attrNext = ATTRIBUTE(*next);
+    int attrNext = Attribute[CharToType[GET(*next)]];
 
     if (attrNext & ATT_BLANK) {
-
         *me = CH_DOGE_FALLING_TOP | FLAG_THISFRAME;
         *next = CH_DOGE_FALLING_BOTTOM | FLAG_THISFRAME;
-
     }
 
     else if (attrNext & ATT_ROLL)
-        doRoll(me, CH_DOGE_FALLING);
+        doRoll();
 }
 
 void processPebble() {
@@ -1347,8 +1295,10 @@ void processWater() {
 
     if ((boardRow - 1) * TRILINES >= lavaSurfaceTrixel) {
         unsigned char *neighbour = me + dirOffset[waterDir & 3];
-        if (Attribute[CharToType[GET(*neighbour)]] & ATT_DISSOLVES)
+        if (Attribute[CharToType[GET(*neighbour)]] & ATT_DISSOLVES) {
+            // FLASH(0x44, 2);
             *neighbour = CH_DUST_0;
+        }
     }
 }
 
@@ -1378,9 +1328,9 @@ void processLava() {
         // Animate lava bubble
         switch (*me) {
         case CH_LAVA_BLANK: {
-            if (!(rand & (63 << 7))) {
+            if (!(rand & (15 << 7))) {
                 (*me)++;
-                nDots(4, boardCol, boardRow, 2, 30, 2, 5, 0xC000);
+                nDots(3, boardCol, boardRow, 2, 30, 2, 5, 0xC000);
             }
             break;
         case CH_LAVA_SMALL:
@@ -1490,6 +1440,11 @@ void processCharGeoDogeAndRock() {
             *next = CH_ROCK_FALLING_BOTTOM | FLAG_THISFRAME;
             *me = CH_ROCK_FALLING_TOP | FLAG_THISFRAME;
         }
+
+        // nDots(1, boardCol, boardRow, 2, 5, 2, 0, 0);
+        // nDots(1, boardCol, boardRow, 2, 15, 2, 3, 0);
+        // nDots(1, boardCol, boardRow, 2, 25, 2, 6, 0);
+        // nDots(1, boardCol, boardRow, 2, 35, 2, 9, 0);
 
         surroundingConglomerate(boardCol, boardRow);
     }
@@ -1681,7 +1636,7 @@ void restartBoardScan() {
         playerDead = (type != TYPE_MELLON_HUSK && type != TYPE_MELLON_HUSK_PRE && !exitMode);
 
         if (explodeCount > 0) {
-            nDots(2, playerX, playerY, 1, -1, 2, 0, 0x10000);
+            nDots(2, playerX, playerY, 1, 1, 2, 0, 0x10000);
             --explodeCount;
         }
 
@@ -1700,7 +1655,7 @@ void restartBoardScan() {
         }
 
         if (playerDead && *playerAnimation)
-            nDots(4, playerX, playerY, 1, -100, 2, 8, 0x10000);
+            nDots(4, playerX, playerY, 1, 100, 2, 8, 0x10000);
     }
 }
 
@@ -1744,9 +1699,6 @@ void processTypes() {
     case TYPE_GRINDER_1:
         processCharBeltAndGrinder();
         break;
-
-        // case TYPE_HUB:
-        //     break;
 
     case TYPE_GEODOGE:
         processCharGeoDogeAndRock();
@@ -1810,6 +1762,7 @@ void processCreatures() {
         break;
 
     case CH_DUST_2:
+    case CH_DUST_ROCK_2:
         *me = CH_BLANK;
         break;
 
@@ -1820,8 +1773,8 @@ void processCreatures() {
 
     case CH_DUST_0:
     case CH_DUST_1:
-        // case CH_DUST_ROCK_0:
-        // case CH_DUST_ROCK_1:
+    case CH_DUST_ROCK_0:
+    case CH_DUST_ROCK_1:
         (*me)++;
         break;
 
@@ -1871,8 +1824,11 @@ void processCreatures() {
         break;
 
     case CH_ROCK_FALLING_TOP:
+        *me = CH_DUST_ROCK_0 | FLAG_THISFRAME;
+        break;
+
     case CH_GEODOGE_FALLING_TOP:
-        *me = CH_DUST_0 | FLAG_THISFRAME;
+        *me = CH_DUST_ROCK_0 | FLAG_THISFRAME;
         break;
 
     case CH_DOGE_SIDE_1:
@@ -1938,10 +1894,10 @@ void processCreatures() {
         }
         break;
 
-    case CH_DOGE_GRAB:
-        if (*Animate[TYPE_GRAB] == CH_BLANK)
-            *me = CH_BLANK;
-        break;
+        // case CH_DOGE_GRAB:
+        //     if (*Animate[TYPE_GRAB] == CH_BLANK)
+        //         *me = CH_BLANK;
+        //     break;
 
     default:
         break;
@@ -1955,8 +1911,6 @@ void processBoardSquares() {
         me = RAM + _BOARD + boardRow * _1ROW + boardCol;
 
         creature = *me;
-        // prev = me - _1ROW * gravity;
-        // next = me + _1ROW * gravity;
 
         if (!(creature & FLAG_THISFRAME)) {
 
@@ -1972,8 +1926,7 @@ void processBoardSquares() {
         }
 
         // Clear any "scanned this frame" objects on the previous line
-        // note: we need to also do the last row ... or do we? if it's steel
-        // wall, no
+        // note: we need to also do the last row ... or do we? if it's steel wall, no
 
         if (gravity > 0) {
             if (boardRow > 1) {

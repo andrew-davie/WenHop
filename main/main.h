@@ -128,7 +128,7 @@ extern const signed char dirOffset[];
 extern const signed char xdir[];
 extern const signed char ydir[];
 
-#define RAINHAILSHINE 16
+#define RAINHAILSHINE 24
 
 extern unsigned char rainType[RAINHAILSHINE];
 extern unsigned char rainAge[RAINHAILSHINE];
@@ -158,6 +158,7 @@ void initNewGame();
 void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY, int speed);
 void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed);
 int sphereDot(int dripX, int dripY, int type, int age, int speed);
+void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed);
 
 // extern int actualScore;
 

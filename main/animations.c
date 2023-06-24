@@ -97,14 +97,14 @@ const unsigned char AnimateGravity[] = {
     ANIM_LOOP,
 };
 
-const unsigned char AnimGrab[] = {
+// const unsigned char AnimGrab[] = {
 
-    CH_DOGE_GRAB,8,
-    CH_DUST_2, 6,
-    CH_DUST_1, 6,
-    CH_DUST_0, 6,
-    CH_BLANK, ANIM_HALT,
-};
+//     CH_DOGE_GRAB,8,
+//     CH_DUST_2, 6,
+//     CH_DUST_1, 6,
+//     CH_DUST_0, 6,
+//     CH_BLANK, ANIM_HALT,
+// };
 
 const unsigned char AnimConglomerateMid[] = {
 
@@ -185,38 +185,37 @@ const unsigned char *const AnimateBase[TYPE_MAX] = {
     0,                   // 08 TYPE_MELLON_HUSK_PRE
     AnimMellonHusk,      // 09 TYPE_MELLON_HUSK
     0,                   // 10 TYPE_PEBBLE1
-    AnimGrab,            // 11 TYPE_GRAB
-    0,                   // 12 TYPE_DUST_0
-    0,                   // 13 TYPE_DOGE_FALLING
-    0,                   // 14 TYPE_ROCK_FALLING
-    0,                   // 15 TYPE_DUST_ROCK
-    0,                   // 16 TYPE_CONVERT_GEODE_TO_DOGE
-    AnimSwitch,          // 17 TYPE_SWITCH
-    0,                   // 18 TYPE_PUSHER
-    0,                   // 19 TYPE_PUSHER_VERT
-    0,                   // 20 TYPE_WYRM
-    0,                   // 21 TYPE_GEODOGE
-    0,                   // 22 TYPE_GEODOGE_FALLING
-    AnimConglomerateMid, // 23 TYPE_GEODOGE_CRITICAL (deprecated)
-    0,                   // 24 TYPE_LAVA
-    0,                   // 25 TYPE_PEBBLE_ROCK
-    AnimateGravity,      // 26 TYPE_FLIP_GRAVITY
-    0,                   // 27 TYPE_BLOCK
-    AnimateGrinder,      // 29 TYPE_GRINDER
-    0,                   // 30 TYPE_HUB
-    0,                   // 31 TYPE_WATER
-    AnimateWaterFlow0,   // 32 TYPE_WATERFLOW0
-    AnimateWaterFlow1,   // 33 TYPE_WATERFLOW1
-    AnimateWaterFlow2,   // 34 TYPE_WATERFLOW2
-    AnimateWaterFlow3,   // 35 TYPE_WATERFLOW3
-    AnimateWaterFlow4,   // 36 TYPE_WATERFLOW4
-    0,                   // 37 TYPE_TAP
-    0,                   // 38 TYPE_OUTLET
-    AnimateGrinder1,     // 39 TYPE_GRINDER1
-    AnimateBelt,         // 40 TYPE_BELT
-    AnimateBelt1,        // 41 TYPE_BELT1
-    0,                   // 42 TYPE_CONVERT_PIPE
-    0,                   // 43 TYPE_DOGE_FALLING2
+    0,                   // 11 TYPE_DUST_0
+    0,                   // 12 TYPE_DOGE_FALLING
+    0,                   // 13 TYPE_ROCK_FALLING
+    0,                   // 14 TYPE_DUST_ROCK
+    0,                   // 15 TYPE_CONVERT_GEODE_TO_DOGE
+    AnimSwitch,          // 16 TYPE_SWITCH
+    0,                   // 17 TYPE_PUSHER
+    0,                   // 18 TYPE_PUSHER_VERT
+    0,                   // 19 TYPE_WYRM
+    0,                   // 20 TYPE_GEODOGE
+    0,                   // 21 TYPE_GEODOGE_FALLING
+    AnimConglomerateMid, // 22 TYPE_GEODOGE_CRITICAL (deprecated)
+    0,                   // 23 TYPE_LAVA
+    0,                   // 24 TYPE_PEBBLE_ROCK
+    AnimateGravity,      // 25 TYPE_FLIP_GRAVITY
+    0,                   // 26 TYPE_BLOCK
+    AnimateGrinder,      // 27 TYPE_GRINDER
+    0,                   // 28 TYPE_HUB
+    0,                   // 29 TYPE_WATER
+    AnimateWaterFlow0,   // 30 TYPE_WATERFLOW0
+    AnimateWaterFlow1,   // 31 TYPE_WATERFLOW1
+    AnimateWaterFlow2,   // 32 TYPE_WATERFLOW2
+    AnimateWaterFlow3,   // 33 TYPE_WATERFLOW3
+    AnimateWaterFlow4,   // 34 TYPE_WATERFLOW4
+    0,                   // 35 TYPE_TAP
+    0,                   // 36 TYPE_OUTLET
+    AnimateGrinder1,     // 37 TYPE_GRINDER1
+    AnimateBelt,         // 38 TYPE_BELT
+    AnimateBelt1,        // 39 TYPE_BELT1
+    0,                   // 40 TYPE_CONVERT_PIPE
+    0,                   // 41 TYPE_DOGE_FALLING2
 };
 
 void initCharAnimations() {

@@ -38,92 +38,91 @@ const unsigned char CharToType[CH_MAX] = {
     TYPE_SPACE,                 // 028 CH_EXPLODETOBLANK_2,
     TYPE_SPACE,                 // 029 CH_EXPLODETOBLANK_3,
     TYPE_SPACE,                 // 030 CH_EXPLODETOBLANK_4,
-    TYPE_GRAB,                  // 031 CH_DOGE_GRAB,
-    TYPE_DUST_0,                // 032 CH_DUST_0,
-    TYPE_DUST_0,                // 033 CH_DUST_1,
-    TYPE_DUST_0,                // 034 CH_DUST_2,
-    TYPE_GEODOGE,               // 035 CH_CONGLOMERATE,
-    TYPE_GEODOGE,               // 036 CH_CONGLOMERATE_1,
-    TYPE_GEODOGE,               // 037 CH_CONGLOMERATE_2,
-    TYPE_GEODOGE,               // 038 CH_CONGLOMERATE_3,
-    TYPE_GEODOGE,               // 039 CH_CONGLOMERATE_4,
-    TYPE_GEODOGE,               // 040 CH_CONGLOMERATE_5,
-    TYPE_GEODOGE,               // 041 CH_CONGLOMERATE_6,
-    TYPE_GEODOGE,               // 042 CH_CONGLOMERATE_7,
-    TYPE_GEODOGE,               // 043 CH_CONGLOMERATE_8,
-    TYPE_GEODOGE,               // 044 CH_CONGLOMERATE_9,
-    TYPE_GEODOGE,               // 045 CH_CONGLOMERATE_10,
-    TYPE_GEODOGE,               // 046 CH_CONGLOMERATE_11,
-    TYPE_GEODOGE,               // 047 CH_CONGLOMERATE_12,
-    TYPE_GEODOGE,               // 048 CH_CONGLOMERATE_13,
-    TYPE_GEODOGE,               // 049 CH_CONGLOMERATE_14,
-    TYPE_GEODOGE,               // 050 CH_CONGLOMERATE_15,
-    TYPE_DUST_ROCK,             // 051 CH_DUST_ROCK_0,
-    TYPE_DUST_ROCK,             // 052 CH_DUST_ROCK_1,
-    TYPE_DUST_ROCK,             // 053 CH_DUST_ROCK_2,
-    TYPE_CONVERT_GEODE_TO_DOGE, // 054 CH_CONVERT_GEODE_TO_DOGE,
-    TYPE_SWITCH,                // 055 CH_SWITCH_LEFT_OFF,
-    TYPE_SWITCH,                // 056 CH_SWITCH_LEFT_ON,
-    TYPE_PUSHER,                // 057 CH_HORIZONTAL_BAR,
-    TYPE_PUSHER,                // 058 CH_PUSH_LEFT,
-    TYPE_PUSHER,                // 059 CH_PUSH_LEFT_REVERSE,
-    TYPE_PUSHER,                // 060 CH_PUSH_RIGHT,
-    TYPE_PUSHER,                // 061 CH_PUSH_RIGHT_REVERSE,
-    TYPE_PUSHER,                // 062 CH_VERTICAL_BAR,
-    TYPE_PUSHER,                // 063 CH_PUSH_UP,
-    TYPE_PUSHER,                // 064 CH_PUSH_UP_REVERSE,
-    TYPE_PUSHER,                // 065 CH_PUSH_DOWN,
-    TYPE_PUSHER,                // 066 CH_PUSH_DOWN_REVERSE,
-    TYPE_WYRM,                  // 067 CH_WYRM_BODY,
-    TYPE_WYRM,                  // 068 CH_WYRM_VERT_BODY,
-    TYPE_WYRM,                  // 069 CH_WYRM_CORNER_LD,
-    TYPE_WYRM,                  // 070 CH_WYRM_CORNER_RD,
-    TYPE_WYRM,                  // 071 CH_WYRM_CORNER_LU,
-    TYPE_WYRM,                  // 072 CH_WYRM_CORNER_RU,
-    TYPE_WYRM,                  // 073 CH_WYRM_HEAD_U,
-    TYPE_WYRM,                  // 074 CH_WYRM_HEAD_R,
-    TYPE_WYRM,                  // 075 CH_WYRM_HEAD_D,
-    TYPE_WYRM,                  // 076 CH_WYRM_HEAD_L,
-    TYPE_ROCK,                  // 077 CH_CONGLOMERATE_MID,
-    TYPE_GEODOGE_FALLING,       // 078 CH_GEODOGE_FALLING,
-    TYPE_FLIP_GRAVITY,          // 079 CH_FLIP_GRAVITY_0,
-    TYPE_FLIP_GRAVITY,          // 080 CH_FLIP_GRAVITY_1,
-    TYPE_FLIP_GRAVITY,          // 081 CH_FLIP_GRAVITY_2,
-    TYPE_BLOCK,                 // 082 CH_BLOCK,
-    TYPE_GRINDER,               // 083 CH_GRINDER_0,
-    TYPE_GRINDER_1,             // 084 CH_GRINDER_1
-    TYPE_HUB,                   // 085 CH_HUB,
-    TYPE_WATER,                 // 086 CH_WATER_0
-    TYPE_WATERFLOW_0,           // 087 CH_WATERFLOW_0
-    TYPE_WATERFLOW_1,           // 088 CH_WATERFLOW_1
-    TYPE_WATERFLOW_2,           // 089 CH_WATERFLOW_2
-    TYPE_WATERFLOW_3,           // 090 CH_WATERFLOW_3
-    TYPE_WATERFLOW_4,           // 091 CH_WATERFLOW_4
-    TYPE_TAP,                   // 092 CH_TAP_0
-    TYPE_HUB,                   // 093 CH_HUB_1
-    TYPE_OUTLET,                // 094 CH_OUTLET
-    TYPE_TAP,                   // 095 CH_TAP_1
-    TYPE_BELT,                  // 096 CH_BELT_0
-    TYPE_BELT_1,                // 097 CH_BELT_1
-    TYPE_PUSHER,                // 098 CH_PUSH_DOWN2
-    TYPE_CONVERT_GEODE_TO_DOGE, // 099 CH_GEODOGE_CONVERT  (deprecated)
-    TYPE_CONVERT_PIPE,          // 100 CH_CONVERT_PIPE
-    TYPE_WYRM,                  // 101 CH_WYRM_TAIL_U,
-    TYPE_WYRM,                  // 102 CH_WYRM_HEAD_R,
-    TYPE_WYRM,                  // 103 CH_WYRM_HEAD_D,
-    TYPE_WYRM,                  // 104 CH_WYRM_HEAD_L,
-    TYPE_DOGE_FALLING,          // 105 CH_DOGE_FALLING_TOP,
-    TYPE_DOGE_FALLING,          // 106 CH_DOGE_FALLING_BOTTOM,
-    TYPE_ROCK_FALLING,          // 107 CH_ROCK_FALLING_TOP,
-    TYPE_ROCK_FALLING,          // 108 CH_ROCK_FALLING_BOTTOM,
-    TYPE_GEODOGE_FALLING,       // 109 CH_GEODOGE_FALLING_TOP,
-    TYPE_GEODOGE_FALLING,       // 110 CH_GEODOGE_FALLING_BOTTOM,
-    TYPE_DOGE_FALLING2,         // 111 CH_DOGE_FALLING_TOP2,
-    TYPE_DOGE_FALLING2,         // 112 CH_DOGE_FALLING_BOTTOM2,
-    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_1
+    TYPE_DUST_0,                // 031 CH_DUST_0,
+    TYPE_DUST_0,                // 032 CH_DUST_1,
+    TYPE_DUST_0,                // 033 CH_DUST_2,
+    TYPE_GEODOGE,               // 034 CH_CONGLOMERATE,
+    TYPE_GEODOGE,               // 035 CH_CONGLOMERATE_1,
+    TYPE_GEODOGE,               // 036 CH_CONGLOMERATE_2,
+    TYPE_GEODOGE,               // 037 CH_CONGLOMERATE_3,
+    TYPE_GEODOGE,               // 038 CH_CONGLOMERATE_4,
+    TYPE_GEODOGE,               // 039 CH_CONGLOMERATE_5,
+    TYPE_GEODOGE,               // 040 CH_CONGLOMERATE_6,
+    TYPE_GEODOGE,               // 041 CH_CONGLOMERATE_7,
+    TYPE_GEODOGE,               // 042 CH_CONGLOMERATE_8,
+    TYPE_GEODOGE,               // 043 CH_CONGLOMERATE_9,
+    TYPE_GEODOGE,               // 044 CH_CONGLOMERATE_10,
+    TYPE_GEODOGE,               // 045 CH_CONGLOMERATE_11,
+    TYPE_GEODOGE,               // 046 CH_CONGLOMERATE_12,
+    TYPE_GEODOGE,               // 047 CH_CONGLOMERATE_13,
+    TYPE_GEODOGE,               // 048 CH_CONGLOMERATE_14,
+    TYPE_GEODOGE,               // 049 CH_CONGLOMERATE_15,
+    TYPE_DUST_ROCK,             // 050 CH_DUST_ROCK_0,
+    TYPE_DUST_ROCK,             // 051 CH_DUST_ROCK_1,
+    TYPE_DUST_ROCK,             // 052 CH_DUST_ROCK_2,
+    TYPE_CONVERT_GEODE_TO_DOGE, // 053 CH_CONVERT_GEODE_TO_DOGE,
+    TYPE_SWITCH,                // 054 CH_SWITCH_LEFT_OFF,
+    TYPE_SWITCH,                // 055 CH_SWITCH_LEFT_ON,
+    TYPE_PUSHER,                // 056 CH_HORIZONTAL_BAR,
+    TYPE_PUSHER,                // 057 CH_PUSH_LEFT,
+    TYPE_PUSHER,                // 058 CH_PUSH_LEFT_REVERSE,
+    TYPE_PUSHER,                // 059 CH_PUSH_RIGHT,
+    TYPE_PUSHER,                // 060 CH_PUSH_RIGHT_REVERSE,
+    TYPE_PUSHER,                // 061 CH_VERTICAL_BAR,
+    TYPE_PUSHER,                // 062 CH_PUSH_UP,
+    TYPE_PUSHER,                // 063 CH_PUSH_UP_REVERSE,
+    TYPE_PUSHER,                // 064 CH_PUSH_DOWN,
+    TYPE_PUSHER,                // 065 CH_PUSH_DOWN_REVERSE,
+    TYPE_WYRM,                  // 066 CH_WYRM_BODY,
+    TYPE_WYRM,                  // 067 CH_WYRM_VERT_BODY,
+    TYPE_WYRM,                  // 068 CH_WYRM_CORNER_LD,
+    TYPE_WYRM,                  // 069 CH_WYRM_CORNER_RD,
+    TYPE_WYRM,                  // 070 CH_WYRM_CORNER_LU,
+    TYPE_WYRM,                  // 071 CH_WYRM_CORNER_RU,
+    TYPE_WYRM,                  // 072 CH_WYRM_HEAD_U,
+    TYPE_WYRM,                  // 073 CH_WYRM_HEAD_R,
+    TYPE_WYRM,                  // 074 CH_WYRM_HEAD_D,
+    TYPE_WYRM,                  // 075 CH_WYRM_HEAD_L,
+    TYPE_ROCK,                  // 076 CH_CONGLOMERATE_MID,
+    TYPE_GEODOGE_FALLING,       // 077 CH_GEODOGE_FALLING,
+    TYPE_FLIP_GRAVITY,          // 078 CH_FLIP_GRAVITY_0,
+    TYPE_FLIP_GRAVITY,          // 079 CH_FLIP_GRAVITY_1,
+    TYPE_FLIP_GRAVITY,          // 080 CH_FLIP_GRAVITY_2,
+    TYPE_BLOCK,                 // 081 CH_BLOCK,
+    TYPE_GRINDER,               // 082 CH_GRINDER_0,
+    TYPE_GRINDER_1,             // 083 CH_GRINDER_1
+    TYPE_HUB,                   // 084 CH_HUB,
+    TYPE_WATER,                 // 085 CH_WATER_0
+    TYPE_WATERFLOW_0,           // 086 CH_WATERFLOW_0
+    TYPE_WATERFLOW_1,           // 087 CH_WATERFLOW_1
+    TYPE_WATERFLOW_2,           // 088 CH_WATERFLOW_2
+    TYPE_WATERFLOW_3,           // 089 CH_WATERFLOW_3
+    TYPE_WATERFLOW_4,           // 090 CH_WATERFLOW_4
+    TYPE_TAP,                   // 091 CH_TAP_0
+    TYPE_HUB,                   // 092 CH_HUB_1
+    TYPE_OUTLET,                // 093 CH_OUTLET
+    TYPE_TAP,                   // 094 CH_TAP_1
+    TYPE_BELT,                  // 095 CH_BELT_0
+    TYPE_BELT_1,                // 096 CH_BELT_1
+    TYPE_PUSHER,                // 097 CH_PUSH_DOWN2
+    TYPE_CONVERT_GEODE_TO_DOGE, // 098 CH_GEODOGE_CONVERT  (deprecated)
+    TYPE_CONVERT_PIPE,          // 099 CH_CONVERT_PIPE
+    TYPE_WYRM,                  // 100 CH_WYRM_TAIL_U,
+    TYPE_WYRM,                  // 101 CH_WYRM_HEAD_R,
+    TYPE_WYRM,                  // 102 CH_WYRM_HEAD_D,
+    TYPE_WYRM,                  // 103 CH_WYRM_HEAD_L,
+    TYPE_DOGE_FALLING,          // 104 CH_DOGE_FALLING_TOP,
+    TYPE_DOGE_FALLING,          // 105 CH_DOGE_FALLING_BOTTOM,
+    TYPE_ROCK_FALLING,          // 106 CH_ROCK_FALLING_TOP,
+    TYPE_ROCK_FALLING,          // 107 CH_ROCK_FALLING_BOTTOM,
+    TYPE_GEODOGE_FALLING,       // 108 CH_GEODOGE_FALLING_TOP,
+    TYPE_GEODOGE_FALLING,       // 109 CH_GEODOGE_FALLING_BOTTOM,
+    TYPE_DOGE_FALLING2,         // 110 CH_DOGE_FALLING_TOP2,
+    TYPE_DOGE_FALLING2,         // 111 CH_DOGE_FALLING_BOTTOM2,
+    TYPE_DOGE_FALLING2,         // 112 CH_DOGE_SIDE_1
     TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_3
-    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_2
-    TYPE_DOGE_FALLING2,         // 113 CH_DOGE_SIDE_4
+    TYPE_DOGE_FALLING2,         // 114 CH_DOGE_SIDE_2
+    TYPE_DOGE_FALLING2,         // 115 CH_DOGE_SIDE_4
 
 };
 
@@ -157,51 +156,50 @@ const unsigned int Attribute[TYPE_MAX] = {
 //                                    21
 //                                   22
 //  31  30  29  28  27  26  25  24  23  20  19  18  17  16  15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0
-// CNR PAD SHV BOU DGE MLT DIS PUL PH*     GND CVY     MIN DRP RKF     QUI XIT HRD SQB     BNG GRB DRT SPC PER XPD CVT ROL
+// CNR PAD         DGE MLT DIS PUL PH*     GND CVY     MIN DRP RKF     QUI XIT HRD SQB     BNG GRB DRT SPC PER XPD CVT ROL
 // ---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
-    _ |PAD| _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 00 TYPE_SPACE,
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 00 TYPE_SPACE,
    CNR| _ | _ | _ | _ | _ |DIS| _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ | _ | _ | _ | _ | _ |DRT| _ |PER|XPD|CVT| _  , // 01 TYPE_DIRT,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 02 TYPE_BRICKWALL,
     _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 03 TYPE_OUTBOX_PRE,
     _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |XIT| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 04 TYPE_OUTBOX,
    CNR| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 05 TYPE_STEELWALL,
-    _ |PAD|SHV|BOU| _ |MLT| _ |PUL|PH1| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 06 TYPE_ROCK,
-    _ |PAD|SHV| _ | _ |MLT| _ |PUL|PH2| _ |GND|CVY| _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG|GRB| _ | _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
+    _ |PAD| _ | _ | _ |MLT| _ |PUL|PH1| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 06 TYPE_ROCK,
+    _ |PAD| _ | _ | _ |MLT| _ |PUL|PH4| _ |GND|CVY| _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG|GRB| _ | _ | _ |XPD| _ |ROL , // 07 TYPE_DOGE,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 08 TYPE_MELLON_HUSK_PRE,
     _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ |SQB|PSH| _ | _ | _ | _ | _ |XPD| _ | _  , // 09 TYPE_MELLON_HUSK,
    CNR| _ | _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ |DRP| _ | _ | _ | _ | _ | _ | _ | _ | _ |DRT| _ |PER|XPD| _ | _  , // 10 TYPE_PEBBLE1,
-    _ |PAD|SHV| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 11 TYPE_GRAB,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 12 TYPE_DUST_0,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 13 TYPE_DOGE_FALLING,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 14 TYPE_ROCK_FALLING,
-    _ |PAD| _ | _ | _ |MLT| _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ | _  , // 15 TYPE_DUST_ROCK,
-    _ |PAD| _ | _ | _ |MLT| _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 16 TYPE_CONVERT_GEODE_TO_DOGE
-    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |GRB| _ | _ | _ | _ | _ | _  , // 17 TYPE_SWITCH,
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 18 TYPE_PUSHER,
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 19 TYPE_PUSHER_VERT,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 20 TYPE_WYRM,
-    _ |PAD|SHV|BOU|DGE|MLT| _ |PUL|PH2| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 21 TYPE_GEODOGE,
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 22 TYPE_GEODOGE_FALLING,
-    _ |PAD|SHV|BOU|DGE| _ | _ | _ |PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 23 TYPE_GEODOGE_CRITICAL (deprecated)
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER| _ | _ | _  , // 24 TYPE_LAVA,
-    _ |PAD| _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ |PER|XPD| _ | _  , // 25 TYPE_PEBBLE_ROCK,
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ |DRT| _ |PER|XPD| _ | _  , // 26 TYPE_FLIP_GRAVITY
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 27 TYPE_BLOCK
-    _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 28 TYPE_GRINDER
-    _ | _ | _ | _ | _ | _ | _ | _ |PH4|PIP| _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 29 TYPE_HUB
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 30 TYPE_WATER
-    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 31 TYPE_WATERFLOW0
-    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 32 TYPE_WATERFLOW1
-    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 33 TYPE_WATERFLOW2
-    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 34 TYPE_WATERFLOW3
-    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 35 TYPE_WATERFLOW4
-    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 36 TYPE_TAP
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ |WTF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 37 TYPE_OUTLET
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 38 TYPE_GRINDER1
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 39 TYPE_BELT
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 40 TYPE_BELT_1
-    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 41 TYPE_CONVERT_PIPE
-    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 13 TYPE_DOGE_FALLING2
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ |RKF| _ |QUI| _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 11 TYPE_DUST_0,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 12 TYPE_DOGE_FALLING,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 13 TYPE_ROCK_FALLING,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ |SPC|PER|XPD| _ | _  , // 14 TYPE_DUST_ROCK,
+    _ |PAD| _ | _ | _ |MLT| _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ | _ |XPD| _ |ROL , // 15 TYPE_CONVERT_GEODE_TO_DOGE
+    _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |GRB| _ | _ | _ | _ | _ | _  , // 16 TYPE_SWITCH,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 17 TYPE_PUSHER,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 18 TYPE_PUSHER_VERT,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 19 TYPE_WYRM,
+    _ |PAD| _ | _ |DGE|MLT| _ |PUL|PH2| _ |GND|CVY| _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 20 TYPE_GEODOGE,
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ | _  , // 21 TYPE_GEODOGE_FALLING,
+    _ |PAD| _ | _ |DGE| _ | _ | _ |PH2| _ | _ | _ | _ |MIN| _ | _ | _ | _ | _ |HRD| _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 22 TYPE_GEODOGE_CRITICAL
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER| _ | _ | _  , // 23 TYPE_LAVA,
+    _ |PAD| _ | _ | _ | _ |DIS| _ |PH4| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ | _ | _ |PER|XPD| _ | _  , // 24 TYPE_PEBBLE_ROCK,
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ |BNG| _ |DRT| _ |PER|XPD| _ | _  , // 25 TYPE_FLIP_GRAVITY
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 26 TYPE_BLOCK
+    _ |PAD| _ | _ | _ | _ | _ | _ |PHC| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 27 TYPE_GRINDER
+    _ | _ | _ | _ | _ | _ | _ | _ |PH4|PIP| _ | _ | _ | _ |DRP| _ | _ | _ | _ |HRD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 28 TYPE_HUB
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD| _ | _  , // 29 TYPE_WATER
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 30 TYPE_WATERFLOW0
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 31 TYPE_WATERFLOW1
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 32 TYPE_WATERFLOW2
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 33 TYPE_WATERFLOW3
+    _ | _ | _ | _ | _ | _ |DIS| _ |PH1| _ | _ | _ |WTF| _ | _ |RKF| _ | _ | _ | _ | _ | _ | _ | _ | _ |SPC|PER|XPD|CVT| _  , // 34 TYPE_WATERFLOW4
+    _ |PAD| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 35 TYPE_TAP
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1|PIP| _ | _ |WTF| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 36 TYPE_OUTLET
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH4| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 37 TYPE_GRINDER1
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 38 TYPE_BELT
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH2| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |ROL , // 39 TYPE_BELT_1
+    _ | _ | _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _  , // 40 TYPE_CONVERT_PIPE
+    _ |PAD| _ | _ | _ | _ | _ | _ |PH1| _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ | _ |PSH|BNG| _ | _ | _ | _ |XPD| _ |ROL , // 41 TYPE_DOGE_FALLING2
 // ---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
 
     // clang-format on

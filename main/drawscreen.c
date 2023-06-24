@@ -531,13 +531,9 @@ int rainSpeedY[RAINHAILSHINE];
 void drawParticles() {
 
     for (int i = 0; i < RAINHAILSHINE; i++) {
-        if (rainX[i] != -1) {
+        if (rainAge[i]) {
 
-            if (rainAge[i])
-                if (!--rainAge[i]) {
-                    rainX[i] = -1;
-                    continue;
-                }
+            --rainAge[i];
 
             rainX[i] += rainSpeedX[i];
             rainY[i] += rainSpeedY[i];
@@ -548,7 +544,7 @@ void drawParticles() {
             if (rainType[i] == RAINTYPE_BUBBLE) {
 
                 if ((rainY[i] >> 16) < lavaSurfaceTrixel) {
-                    rainX[i] = -1;
+                    rainAge[i] = 0;
                     continue;
                 }
 
@@ -557,7 +553,7 @@ void drawParticles() {
             }
 
             if (!drawBit(x, y))
-                rainX[i] = -1;
+                rainAge[i] = 0;
         }
     }
 }

@@ -10,7 +10,6 @@ enum ObjectType {
 
     // update Attribute[] in attribute.c
     // update AnimateBase[] in animations.c
-    // update processVec[] in main.c
 
     TYPE_SPACE,                 // 00      ASSUMED == 0 in code
     TYPE_DIRT,                  // 01
@@ -23,38 +22,37 @@ enum ObjectType {
     TYPE_MELLON_HUSK_PRE,       // 08
     TYPE_MELLON_HUSK,           // 09
     TYPE_PEBBLE1,               // 10
-    TYPE_GRAB,                  // 11
-    TYPE_DUST_0,                // 12
-    TYPE_DOGE_FALLING,          // 13
-    TYPE_ROCK_FALLING,          // 14
-    TYPE_DUST_ROCK,             // 15
-    TYPE_CONVERT_GEODE_TO_DOGE, // 16
-    TYPE_SWITCH,                // 17
-    TYPE_PUSHER,                // 18
-    TYPE_PUSHER_VERT,           // 19
-    TYPE_WYRM,                  // 20
-    TYPE_GEODOGE,               // 21
-    TYPE_GEODOGE_FALLING,       // 22
-    TYPE_GEODOGE_CRITICAL,      // 23 depreacted
-    TYPE_LAVA,                  // 24
-    TYPE_PEBBLE_ROCK,           // 25
-    TYPE_FLIP_GRAVITY,          // 26
-    TYPE_BLOCK,                 // 27
-    TYPE_GRINDER,               // 28
-    TYPE_HUB,                   // 29
-    TYPE_WATER,                 // 30
-    TYPE_WATERFLOW_0,           // 31
-    TYPE_WATERFLOW_1,           // 32
-    TYPE_WATERFLOW_2,           // 33
-    TYPE_WATERFLOW_3,           // 34
-    TYPE_WATERFLOW_4,           // 35
-    TYPE_TAP,                   // 36
-    TYPE_OUTLET,                // 37
-    TYPE_GRINDER_1,             // 38
-    TYPE_BELT,                  // 39
-    TYPE_BELT_1,                // 40
-    TYPE_CONVERT_PIPE,          // 41
-    TYPE_DOGE_FALLING2,         // 42
+    TYPE_DUST_0,                // 11
+    TYPE_DOGE_FALLING,          // 12
+    TYPE_ROCK_FALLING,          // 13
+    TYPE_DUST_ROCK,             // 14
+    TYPE_CONVERT_GEODE_TO_DOGE, // 15
+    TYPE_SWITCH,                // 16
+    TYPE_PUSHER,                // 17
+    TYPE_PUSHER_VERT,           // 18
+    TYPE_WYRM,                  // 19
+    TYPE_GEODOGE,               // 20
+    TYPE_GEODOGE_FALLING,       // 21
+    TYPE_GEODOGE_CRITICAL,      // 22
+    TYPE_LAVA,                  // 23
+    TYPE_PEBBLE_ROCK,           // 24
+    TYPE_FLIP_GRAVITY,          // 25
+    TYPE_BLOCK,                 // 26
+    TYPE_GRINDER,               // 27
+    TYPE_HUB,                   // 28
+    TYPE_WATER,                 // 29
+    TYPE_WATERFLOW_0,           // 30
+    TYPE_WATERFLOW_1,           // 31
+    TYPE_WATERFLOW_2,           // 32
+    TYPE_WATERFLOW_3,           // 33
+    TYPE_WATERFLOW_4,           // 34
+    TYPE_TAP,                   // 35
+    TYPE_OUTLET,                // 36
+    TYPE_GRINDER_1,             // 37
+    TYPE_BELT,                  // 38
+    TYPE_BELT_1,                // 39
+    TYPE_CONVERT_PIPE,          // 40
+    TYPE_DOGE_FALLING2,         // 41
 
     TYPE_MAX
 };
@@ -96,92 +94,91 @@ enum ChName {
     CH_EXPLODETOBLANK_2,       // 028
     CH_EXPLODETOBLANK_3,       // 029
     CH_EXPLODETOBLANK_4,       // 030
-    CH_DOGE_GRAB,              // 031
-    CH_DUST_0,                 // 032
-    CH_DUST_1,                 // 033
-    CH_DUST_2,                 // 034
-    CH_GEODOGE,                // 035
-    CH_CONGLOMERATE_1,         // 036
-    CH_CONGLOMERATE_2,         // 037
-    CH_CONGLOMERATE_3,         // 038
-    CH_CONGLOMERATE_4,         // 039
-    CH_CONGLOMERATE_5,         // 040
-    CH_CONGLOMERATE_6,         // 041
-    CH_CONGLOMERATE_7,         // 042
-    CH_CONGLOMERATE_8,         // 043
-    CH_CONGLOMERATE_9,         // 044
-    CH_CONGLOMERATE_10,        // 045
-    CH_CONGLOMERATE_11,        // 046
-    CH_CONGLOMERATE_12,        // 047
-    CH_CONGLOMERATE_13,        // 048
-    CH_CONGLOMERATE_14,        // 049
-    CH_CONGLOMERATE_15,        // 050
-    CH_DUST_ROCK_0,            // 051
-    CH_DUST_ROCK_1,            // 052
-    CH_DUST_ROCK_2,            // 053
-    CH_CONVERT_GEODE_TO_DOGE,  // 054
-    CH_SWITCH_LEFT_OFF,        // 055
-    CH_SWITCH_LEFT_ON,         // 056
-    CH_HORIZONTAL_BAR,         // 057
-    CH_PUSH_LEFT,              // 058       reverse must be +1
-    CH_PUSH_LEFT_REVERSE,      // 059
-    CH_PUSH_RIGHT,             // 060
-    CH_PUSH_RIGHT_REVERSE,     // 061
-    CH_VERTICAL_BAR,           // 062
-    CH_PUSH_UP,                // 063
-    CH_PUSH_UP_REVERSE,        // 064
-    CH_PUSH_DOWN,              // 065
-    CH_PUSH_DOWN_REVERSE,      // 066
-    CH_WYRM_BODY,              // 067
-    CH_WYRM_VERT_BODY,         // 068
-    CH_WYRM_CORNER_LD,         // 069
-    CH_WYRM_CORNER_RD,         // 070
-    CH_WYRM_CORNER_LU,         // 071
-    CH_WYRM_CORNER_RU,         // 072
-    CH_WYRM_HEAD_U,            // 073
-    CH_WYRM_HEAD_R,            // 074
-    CH_WYRM_HEAD_D,            // 075
-    CH_WYRM_HEAD_L,            // 076
-    CH_CONGLOMERATE_MID,       // 077
-    CH_GEODOGE_FALLING,        // 078
-    CH_FLIP_GRAVITY_0,         // 079
-    CH_FLIP_GRAVITY_1,         // 080
-    CH_FLIP_GRAVITY_2,         // 081
-    CH_BLOCK,                  // 082
-    CH_GRINDER_0,              // 083
-    CH_GRINDER_1,              // 084
-    CH_HUB,                    // 085
-    CH_WATER,                  // 086
-    CH_WATERFLOW_0,            // 087 must be grouped
-    CH_WATERFLOW_1,            // 088 .
-    CH_WATERFLOW_2,            // 089 .
-    CH_WATERFLOW_3,            // 090 .
-    CH_WATERFLOW_4,            // 091 /
-    CH_TAP_0,                  // 092
-    CH_HUB_1,                  // 093
-    CH_OUTLET,                 // 094
-    CH_TAP_1,                  // 095
-    CH_BELT_0,                 // 096
-    CH_BELT_1,                 // 097
-    CH_PUSH_DOWN2,             // 098
-    CH_GEODOGE_CONVERT,        // 099
-    CH_CONVERT_PIPE,           // 100
-    CH_WYRM_TAIL_U,            // 101
-    CH_WYRM_TAIL_R,            // 102
-    CH_WYRM_TAIL_D,            // 103
-    CH_WYRM_TAIL_L,            // 104
-    CH_DOGE_FALLING_TOP,       // 105
-    CH_DOGE_FALLING_BOTTOM,    // 106
-    CH_ROCK_FALLING_TOP,       // 107
-    CH_ROCK_FALLING_BOTTOM,    // 108
-    CH_GEODOGE_FALLING_TOP,    // 109
-    CH_GEODOGE_FALLING_BOTTOM, // 110
-    CH_DOGE_FALLING_TOP2,      // 111
-    CH_DOGE_FALLING_BOTTOM2,   // 112
-    CH_DOGE_SIDE_1,            // 113
-    CH_DOGE_SIDE_3,            // 114
-    CH_DOGE_SIDE_2,            // 115
-    CH_DOGE_SIDE_4,            // 116
+    CH_DUST_0,                 // 031
+    CH_DUST_1,                 // 032
+    CH_DUST_2,                 // 033
+    CH_GEODOGE,                // 034
+    CH_CONGLOMERATE_1,         // 035
+    CH_CONGLOMERATE_2,         // 036
+    CH_CONGLOMERATE_3,         // 037
+    CH_CONGLOMERATE_4,         // 038
+    CH_CONGLOMERATE_5,         // 039
+    CH_CONGLOMERATE_6,         // 040
+    CH_CONGLOMERATE_7,         // 041
+    CH_CONGLOMERATE_8,         // 042
+    CH_CONGLOMERATE_9,         // 043
+    CH_CONGLOMERATE_10,        // 044
+    CH_CONGLOMERATE_11,        // 045
+    CH_CONGLOMERATE_12,        // 046
+    CH_CONGLOMERATE_13,        // 047
+    CH_CONGLOMERATE_14,        // 048
+    CH_CONGLOMERATE_15,        // 049
+    CH_DUST_ROCK_0,            // 050
+    CH_DUST_ROCK_1,            // 051
+    CH_DUST_ROCK_2,            // 052
+    CH_CONVERT_GEODE_TO_DOGE,  // 053
+    CH_SWITCH_LEFT_OFF,        // 054
+    CH_SWITCH_LEFT_ON,         // 055
+    CH_HORIZONTAL_BAR,         // 056
+    CH_PUSH_LEFT,              // 057       reverse must be +1
+    CH_PUSH_LEFT_REVERSE,      // 058
+    CH_PUSH_RIGHT,             // 059
+    CH_PUSH_RIGHT_REVERSE,     // 060
+    CH_VERTICAL_BAR,           // 061
+    CH_PUSH_UP,                // 062
+    CH_PUSH_UP_REVERSE,        // 063
+    CH_PUSH_DOWN,              // 064
+    CH_PUSH_DOWN_REVERSE,      // 065
+    CH_WYRM_BODY,              // 066
+    CH_WYRM_VERT_BODY,         // 067
+    CH_WYRM_CORNER_LD,         // 068
+    CH_WYRM_CORNER_RD,         // 069
+    CH_WYRM_CORNER_LU,         // 070
+    CH_WYRM_CORNER_RU,         // 071
+    CH_WYRM_HEAD_U,            // 072
+    CH_WYRM_HEAD_R,            // 073
+    CH_WYRM_HEAD_D,            // 074
+    CH_WYRM_HEAD_L,            // 075
+    CH_CONGLOMERATE_MID,       // 076
+    CH_GEODOGE_FALLING,        // 077
+    CH_FLIP_GRAVITY_0,         // 078
+    CH_FLIP_GRAVITY_1,         // 079
+    CH_FLIP_GRAVITY_2,         // 080
+    CH_BLOCK,                  // 081
+    CH_GRINDER_0,              // 082
+    CH_GRINDER_1,              // 083
+    CH_HUB,                    // 084
+    CH_WATER,                  // 085
+    CH_WATERFLOW_0,            // 086 must be grouped
+    CH_WATERFLOW_1,            // 087 .
+    CH_WATERFLOW_2,            // 088 .
+    CH_WATERFLOW_3,            // 089 .
+    CH_WATERFLOW_4,            // 090 /
+    CH_TAP_0,                  // 091
+    CH_HUB_1,                  // 092
+    CH_OUTLET,                 // 093
+    CH_TAP_1,                  // 094
+    CH_BELT_0,                 // 095
+    CH_BELT_1,                 // 096
+    CH_PUSH_DOWN2,             // 097
+    CH_GEODOGE_CONVERT,        // 098
+    CH_CONVERT_PIPE,           // 099
+    CH_WYRM_TAIL_U,            // 100
+    CH_WYRM_TAIL_R,            // 101
+    CH_WYRM_TAIL_D,            // 102
+    CH_WYRM_TAIL_L,            // 103
+    CH_DOGE_FALLING_TOP,       // 104
+    CH_DOGE_FALLING_BOTTOM,    // 105
+    CH_ROCK_FALLING_TOP,       // 106
+    CH_ROCK_FALLING_BOTTOM,    // 107
+    CH_GEODOGE_FALLING_TOP,    // 108
+    CH_GEODOGE_FALLING_BOTTOM, // 109
+    CH_DOGE_FALLING_TOP2,      // 110
+    CH_DOGE_FALLING_BOTTOM2,   // 111
+    CH_DOGE_SIDE_1,            // 112
+    CH_DOGE_SIDE_3,            // 113
+    CH_DOGE_SIDE_2,            // 114
+    CH_DOGE_SIDE_4,            // 115
 
     // 127 is limit
 
@@ -218,8 +215,8 @@ enum ChName {
 #define ATT_DISSOLVES               (1 << 25)
 #define ATT_MELTS                   (1 << 26)
 #define ATT_GEODOGE                 (1 << 27)
-#define ATT_ROCK                    (1 << 28)
-#define ATT_SHOVE                   (1 << 29)
+// 28
+// 29
 #define ATT_PAD                     (1 << 30)
 #define ATT_CORNER                  (1 << 31)
 
@@ -243,8 +240,6 @@ enum ChName {
 #define DRT ATT_DIRT
 #define CNR ATT_CORNER
 #define PAD ATT_PAD
-#define SHV ATT_SHOVE
-#define BOU ATT_ROCK
 #define DGE ATT_GEODOGE
 #define MLT ATT_MELTS
 #define DIS ATT_DISSOLVES
