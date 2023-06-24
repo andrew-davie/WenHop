@@ -33,7 +33,7 @@
 ;                       fetcher use (and optionally LDX # and/or LDY #)
 ;===============================================================================
 
-_PC_ROM_SIZE    = 64
+_PC_ROM_SIZE    = 128
 _PC_DD_SIZE     = 4096 - 512
 _PC_CDFJ_FF     = FF_LDA
 _PC_FF_OFFSET   = $80
