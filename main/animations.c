@@ -174,28 +174,29 @@ const unsigned char *const AnimateBase[TYPE_MAX] = {
     // Note that the type number is an ID, not ordinal. That's because the continuity may
     // be compromised by the conditional compilation. Beware.
 
-    0,                   // 00 TYPE_SPACE
-    0,                   // 01 TYPE_DIRT
-    0,                   // 02 TYPE_BRICKWALL
-    0,                   // 03 TYPE_OUTBOX_PRE
-    AnimFlashOut,        // 04 TYPE_OUTBOX
-    0,                   // 05 TYPE_STEELWALL
-    0,                   // 06 TYPE_ROCK
-    AnimPulseDoge,       // 07 TYPE_DOGE
-    0,                   // 08 TYPE_MELLON_HUSK_PRE
-    AnimMellonHusk,      // 09 TYPE_MELLON_HUSK
-    0,                   // 10 TYPE_PEBBLE1
-    0,                   // 11 TYPE_DUST_0
-    0,                   // 12 TYPE_DOGE_FALLING
-    0,                   // 13 TYPE_ROCK_FALLING
-    0,                   // 14 TYPE_DUST_ROCK
-    0,                   // 15 TYPE_CONVERT_GEODE_TO_DOGE
-    AnimSwitch,          // 16 TYPE_SWITCH
-    0,                   // 17 TYPE_PUSHER
-    0,                   // 18 TYPE_PUSHER_VERT
-    0,                   // 19 TYPE_WYRM
-    0,                   // 20 TYPE_GEODOGE
-    0,                   // 21 TYPE_GEODOGE_FALLING
+    0,              // 00 TYPE_SPACE
+    0,              // 01 TYPE_DIRT
+    0,              // 02 TYPE_BRICKWALL
+    0,              // 03 TYPE_OUTBOX_PRE
+    AnimFlashOut,   // 04 TYPE_OUTBOX
+    0,              // 05 TYPE_STEELWALL
+    0,              // 06 TYPE_ROCK
+    AnimPulseDoge,  // 07 TYPE_DOGE
+    0,              // 08 TYPE_MELLON_HUSK_PRE
+    AnimMellonHusk, // 09 TYPE_MELLON_HUSK
+    0,              // 10 TYPE_PEBBLE1
+    0,              // 11 TYPE_DUST_0
+    0,              // 12 TYPE_DOGE_FALLING
+    0,              // 13 TYPE_ROCK_FALLING
+    0,              // 14 TYPE_DUST_ROCK
+    0,              // 15 TYPE_CONVERT_GEODE_TO_DOGE
+    AnimSwitch,     // 16 TYPE_SWITCH
+    0,              // 17 TYPE_PUSHER
+    0,              // 18 TYPE_PUSHER_VERT
+    0,              // 19 TYPE_WYRM
+    0,              // 20 TYPE_GEODOGE
+    0,              // 21 TYPE_GEODOGE_FALLING
+    0,
     AnimConglomerateMid, // 22 TYPE_GEODOGE_CRITICAL (deprecated)
     0,                   // 23 TYPE_LAVA
     0,                   // 24 TYPE_PEBBLE_ROCK
