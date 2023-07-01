@@ -1738,16 +1738,16 @@ void processCreatures() {
         (*me)++;
         break;
 
-    case CH_EXPLODETOBLANK_0:
-    case CH_EXPLODETOBLANK_1:
-    case CH_EXPLODETOBLANK_2:
-    case CH_EXPLODETOBLANK_3:
-        *me = FLAG(creature + 1);
-        break;
+        // case CH_EXPLODETOBLANK_0:
+        // case CH_EXPLODETOBLANK_1:
+        // case CH_EXPLODETOBLANK_2:
+        // case CH_EXPLODETOBLANK_3:
+        //     *me = FLAG(creature + 1);
+        //     break;
 
-    case CH_EXPLODETOBLANK_4:
-        *me = FLAG(CH_BLANK);
-        break;
+        // case CH_EXPLODETOBLANK_4:
+        //     *me = FLAG(CH_BLANK);
+        //     break;
 
     case CH_CONVERT_GEODE_TO_DOGE:
         *me = FLAG(CH_DOGE_00);

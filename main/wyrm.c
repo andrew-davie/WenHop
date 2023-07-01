@@ -9,6 +9,7 @@
 int wyrmNum;
 
 const unsigned char wyrmChar[] = {
+
     0,                 // 0
     CH_WYRM_VERT_BODY, // 1   U
     CH_WYRM_BODY,      // 2   R
@@ -82,8 +83,6 @@ void processWyrms() {
 
                 candidateX = x + xdir[rdir];
                 candidateY = y + ydir[rdir];
-
-                // bool candidateBelowSurface = (candidateY * TRILINES > lavaSurface);
 
                 newHead = RAM + _BOARD + candidateY * 40 + candidateX;
                 whatsThere = CharToType[GET(*newHead)];

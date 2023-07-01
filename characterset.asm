@@ -68,78 +68,78 @@ YY = %11000000
 
 
 
-_CHAR_LADDER_0
+; _CHAR_LADDER_0
 
-    dc XX | oo | XXXX ; 00 <
-    dc XX | YY | XXXX ; 01
-    dc oo | YY | XXXX ; 02
-    dc oo | oo | XooX ; 03 <
-    dc XX | YY | XooX ; 04
-    dc oo | oY | XooX ; 05
-    dc oo | oo | XooX ; 06 <
-    dc XX | YY | XooX ; 07
-    dc oo | oo | XooX ; 08
-    dc      oo | XooX ; 09 <
-    dc      YY | XooX ; 10
-    dc      oo | XooX ; 11
-    dc      oo | XooX ; 12 <
-    dc      YY | XooX ; 13
-    dc      oo | XooX ; 14
-    dc           XooX ; 15 <
-    dc           XooX ; 16
-    dc           XooX ; 17
-    dc           XooX ; 18 <
-    dc           XooX ; 19
-    dc           XooX ; 20
+;     dc XX | oo | XXXX ; 00 <
+;     dc XX | YY | XXXX ; 01
+;     dc oo | YY | XXXX ; 02
+;     dc oo | oo | XooX ; 03 <
+;     dc XX | YY | XooX ; 04
+;     dc oo | oY | XooX ; 05
+;     dc oo | oo | XooX ; 06 <
+;     dc XX | YY | XooX ; 07
+;     dc oo | oo | XooX ; 08
+;     dc      oo | XooX ; 09 <
+;     dc      YY | XooX ; 10
+;     dc      oo | XooX ; 11
+;     dc      oo | XooX ; 12 <
+;     dc      YY | XooX ; 13
+;     dc      oo | XooX ; 14
+;     dc           XooX ; 15 <
+;     dc           XooX ; 16
+;     dc           XooX ; 17
+;     dc           XooX ; 18 <
+;     dc           XooX ; 19
+;     dc           XooX ; 20
 
 
-_CHAR_LADDER_1
+; _CHAR_LADDER_1
 
-    dc XX | oo | XooX ; 00 <
-    dc XX | YY | XooX ; 01
-    dc oo | YY | XooX ; 02
-    dc oo | oo | XooX ; 03 <
-    dc XX | YY | XooX ; 04
-    dc oo | oY | XooX ; 05
-    dc oo | oo | XooX ; 06 <
-    dc XX | YY | XXXX ; 07
-    dc oo | oo | XXXX ; 08
-    dc      oo | XXXX ; 09 <
-    dc      YY | XooX ; 10
-    dc      oo | XooX ; 11
-    dc      oo | XooX ; 12 <
-    dc      YY | XooX ; 13
-    dc      oo | XooX ; 14
-    dc           XooX ; 15 <
-    dc           XooX ; 16
-    dc           XooX ; 17
-    dc           XooX ; 18 <
-    dc           XooX ; 19
-    dc           XooX ; 20
+;     dc XX | oo | XooX ; 00 <
+;     dc XX | YY | XooX ; 01
+;     dc oo | YY | XooX ; 02
+;     dc oo | oo | XooX ; 03 <
+;     dc XX | YY | XooX ; 04
+;     dc oo | oY | XooX ; 05
+;     dc oo | oo | XooX ; 06 <
+;     dc XX | YY | XXXX ; 07
+;     dc oo | oo | XXXX ; 08
+;     dc      oo | XXXX ; 09 <
+;     dc      YY | XooX ; 10
+;     dc      oo | XooX ; 11
+;     dc      oo | XooX ; 12 <
+;     dc      YY | XooX ; 13
+;     dc      oo | XooX ; 14
+;     dc           XooX ; 15 <
+;     dc           XooX ; 16
+;     dc           XooX ; 17
+;     dc           XooX ; 18 <
+;     dc           XooX ; 19
+;     dc           XooX ; 20
 
-_CHAR_LADDER_2
+; _CHAR_LADDER_2
 
-    dc XX | oo | XooX ; 00 <
-    dc XX | YY | XooX ; 01
-    dc oo | YY | XooX ; 02
-    dc oo | oo | XooX ; 03 <
-    dc XX | YY | XooX ; 04
-    dc oo | oY | XooX ; 05
-    dc oo | oo | XooX ; 06 <
-    dc XX | YY | XooX ; 07
-    dc oo | oo | XooX ; 08
-    dc      oo | XooX ; 09 <
-    dc      YY | XooX ; 10
-    dc      oo | XooX ; 11
-    dc      oo | XooX ; 12 <
-    dc      YY | XooX ; 13
-    dc      oo | XXXX ; 14
-    dc           XXXX ; 15 <
-    dc           XXXX ; 16
-    dc           XooX ; 17
-    dc           XooX ; 18 <
-    dc           XooX ; 19
-    dc           XooX ; 20
+;     dc XX | oo | XooX ; 00 <
+;     dc XX | YY | XooX ; 01
+;     dc oo | YY | XooX ; 02
+;     dc oo | oo | XooX ; 03 <
+;     dc XX | YY | XooX ; 04
+;     dc oo | oY | XooX ; 05
+;     dc oo | oo | XooX ; 06 <
+;     dc XX | YY | XooX ; 07
+;     dc oo | oo | XooX ; 08
+;     dc      oo | XooX ; 09 <
+;     dc      YY | XooX ; 10
+;     dc      oo | XooX ; 11
+;     dc      oo | XooX ; 12 <
+;     dc      YY | XooX ; 13
+;     dc      oo | XXXX ; 14
+;     dc           XXXX ; 15 <
+;     dc           XXXX ; 16
+;     dc           XooX ; 17
+;     dc           XooX ; 18 <
+;     dc           XooX ; 19
+;     dc           XooX ; 20
 
 
 _CHAR_ROCK
@@ -722,63 +722,6 @@ _CHAR_ROCK_URDL
     dc XXoXX ; 28
     dc ooXoo ; 29
 
-_CHAR_ROCK_URDL2
-
-    dc ooooO ; 00 <
-    dc XXoXX ; 01
-    dc ooXoo ; 02
-    dc ooooO ; 03 <
-    dc XXoXX ; 04
-    dc ooXoo ; 05
-    dc ooooO ; 06 <
-    dc XXoXX ; 07
-    dc ooXoo ; 08
-    dc ooooO ; 09 <
-    dc XXoXX ; 10
-    dc ooXoo ; 11
-    dc ooooO ; 12 <
-    dc ooooO ; 13
-    dc XXXXX ; 14
-    dc ooooO ; 15 <
-    dc ooooO ; 16
-    dc XXXXX ; 17
-    dc ooooO ; 18 <
-    dc ooooO ; 19
-    dc XXXXX ; 20
-    dc ooooO ; 21 <
-    dc XXoXX ; 22
-    dc ooXoo ; 23
-    dc ooooO ; 24 <
-    dc XXoXX ; 25
-    dc ooXoo ; 26
-    dc ooooO ; 27 <
-    dc XXoXX ; 28
-    dc ooXoo ; 29
-
-;        ooXXXooO,ooXXXooO,oooooooo,
-;        oXXXXXoo,oXXoXXoo,oooXoooo,
-;        oXXXXXoo,oXoooXoo,ooXXXooO,
-;        oXXXXXoo,oXoooXoo,ooXXXooO,
-;        oXXXXXoo,oXoooXoo,ooXXXooO,
-;        oXXXXXoo,oXoooXoo,ooXXXooO,
-;        oXXXXXoo,oXoooXoo,ooXXXooO,
-;        oXXXXXoo,oXXoXXoo,oooXoooo,
-;        ooXXXooO,ooXXXooO,oooooooo,
-;    },
-
-;    {  27,
-;        oooooooo,oooooooo,oooooooo,
-;        oooooooo,oooooooo,oooooooo,
-;        oooXoooo,oooXoooo,oooooooo,
-;        ooXXXooO,ooXXXooO,oooooooo,
-;        ooXoXooO,ooXXXooO,oooooooo,
-;        ooXoXooO,ooXXXooO,oooooooo,
-;        ooXXXooO,ooXXXooO,oooooooo,
-;        oooXoooo,oooXoooo,oooooooo,
-;        oooooooo,oooooooo,oooooooo,
-;    },
-
-
 
 ;CHARSET_END
 
@@ -787,7 +730,7 @@ CHAR_BLOCK2_START
 
 
 
-_CHAR_SPARKLE_0
+; _CHAR_SPARKLE_0
 
 ;     dc Xo | oo | oooo ; 00 <
 ;     dc Xo | oo | oooo ; 01
@@ -812,7 +755,7 @@ _CHAR_SPARKLE_0
 ;    dc           oooo ; 20
 
 
-_CHAR_SPARKLE_1
+; _CHAR_SPARKLE_1
 
 ;     dc oo | oo | oooo ; 00 <
 ;     dc oo | oo | oooo ; 01
@@ -837,53 +780,53 @@ _CHAR_SPARKLE_1
 ;    dc           oooo ; 20
 
 
-_CHAR_SPARKLE_2
+; _CHAR_SPARKLE_2
 
-    dc oX | oo | oooo ; 00 <
-    dc oX | oo | oooo ; 01
-    dc oo | oo | oooo ; 02
-    dc oo | oo | oooo ; 03 <
-    dc oo | oo | oooo ; 04
-    dc oo | oo | oooo ; 05
-    dc Xo | oo | oooo ; 06 <
-    dc Xo | oo | oooo ; 07
-    dc oo | oo | oooo ; 08
-    dc      oo | oooo ; 09 <
-    dc      oo | oooo ; 10
-    dc      oo | oooo ; 11
-    dc      Yo | oooo ; 12 <
-    dc      Yo | oXoo ; 13
-    dc      oo | oXoo ; 14
-    dc           oXoo ; 15 <
-    dc           oXoo ; 16
+;     dc oX | oo | oooo ; 00 <
+;     dc oX | oo | oooo ; 01
+;     dc oo | oo | oooo ; 02
+;     dc oo | oo | oooo ; 03 <
+;     dc oo | oo | oooo ; 04
+;     dc oo | oo | oooo ; 05
+;     dc Xo | oo | oooo ; 06 <
+;     dc Xo | oo | oooo ; 07
+;     dc oo | oo | oooo ; 08
+;     dc      oo | oooo ; 09 <
+;     dc      oo | oooo ; 10
+;     dc      oo | oooo ; 11
+;     dc      Yo | oooo ; 12 <
+;     dc      Yo | oXoo ; 13
+;     dc      oo | oXoo ; 14
+;     dc           oXoo ; 15 <
+;     dc           oXoo ; 16
 ;    dc           oooo ; 17
 ;    dc           oooo ; 18 <
 ;    dc           oooo ; 19
 ;    dc           oooo ; 20
 
 
-_CHAR_SPARKLE_3
+; _CHAR_SPARKLE_3
 
-    dc oo | oY | oooo ; 00 <
-    dc oo | oY | oooo ; 01
-    dc oo | oo | oooo ; 02
-    dc oo | oo | oooo ; 03 <
-    dc oo | oo | oooo ; 04
-    dc oo | oo | oooo ; 05
-    dc oo | oo | oooo ; 06 <
-    dc oo | oo | oooo ; 07
-    dc oo | oo | oooo ; 08
-    dc      oo | oooo ; 09 <
-    dc      oo | oooo ; 10
-    dc      oo | oooo ; 11
-    dc      oo | oooo ; 12 <
-    dc      oo | oooo ; 13
-    dc      oo | oooo ; 14
-    dc           oooo ; 15 <
-    dc           ooXo ; 16
-    dc           ooXo ; 17
-    dc           ooXo ; 18 <
-    dc           ooXo ; 19
+;     dc oo | oY | oooo ; 00 <
+;     dc oo | oY | oooo ; 01
+;     dc oo | oo | oooo ; 02
+;     dc oo | oo | oooo ; 03 <
+;     dc oo | oo | oooo ; 04
+;     dc oo | oo | oooo ; 05
+;     dc oo | oo | oooo ; 06 <
+;     dc oo | oo | oooo ; 07
+;     dc oo | oo | oooo ; 08
+;     dc      oo | oooo ; 09 <
+;     dc      oo | oooo ; 10
+;     dc      oo | oooo ; 11
+;     dc      oo | oooo ; 12 <
+;     dc      oo | oooo ; 13
+;     dc      oo | oooo ; 14
+;     dc           oooo ; 15 <
+;     dc           ooXo ; 16
+;     dc           ooXo ; 17
+;     dc           ooXo ; 18 <
+;     dc           ooXo ; 19
 ;    dc           oooo ; 20
 
 
@@ -1033,7 +976,7 @@ _CHAR_BRICKWALL
 
 
 
-_CHAR_EXPLODETO_0
+; _CHAR_EXPLODETO_0
 
     ;  dc oo | oY | ooXo ; 00 <
     ;  dc XX | oY | XoXo ; 01
@@ -1061,7 +1004,7 @@ _CHAR_EXPLODETO_0
 
 
 
-_CHAR_EXPLODETO_1
+; _CHAR_EXPLODETO_1
 
     ;  dc XX | oo | oooo ; 00 <
     ;  dc oo | Yo | oXoo ; 01
@@ -1088,83 +1031,83 @@ _CHAR_EXPLODETO_1
 
 
 
-_CHAR_EXPLODETO_3
+; _CHAR_EXPLODETO_3
 
-     dc XX | oY | oooo ; 00 <
-     dc XX | oY | XooO ; 01
-     dc XX | oY | XooO ; 02
-     dc oo | oo | XooO ; 03 <
-     dc XX | oo | oooo ; 04
-     dc oo | oo | oooo ; 05
-     dc XX | oY | ooXo ; 06 <
-     dc XX | oY | ooXo ; 07
-     dc oo | oY | ooXo ; 08
-     dc      oo | oooo ; 09 <
-     dc      oo | ooXo ; 10
-     dc      oo | ooXo ; 11
-     dc      oo | ooXo ; 12 <
-     dc      oo | oooo ; 13
-     dc      oo | oooX ; 14
-     dc           oooX ; 15 <
-     dc           oXoX ; 16
-     dc           oXoo ; 17
-     dc           oXoo ; 18 <
-;     dc           oooo ; 19
-;     dc           oooo ; 20
-
-
-
-
-_CHAR_EXPLODETO_4
-
-     dc oo | oo | oooo ; 00 <
-     dc oo | oo | oooo ; 01
-     dc oo | oo | oooo ; 02
-     dc XX | oo | oooo ; 03 <
-     dc XX | oo | ooXo ; 04
-     dc oo | oY | ooXo ; 05
-     dc oo | oY | ooXo ; 06 <
-     dc XX | oY | oooo ; 07
-     dc oo | oo | oooo ; 08
-     dc      oo | oooo ; 09 <
-     dc      oo | ooXo ; 10
-     dc      oo | XoXo ; 11
-     dc      oo | XoXo ; 12 <
-     dc      oo | XooO ; 13
-     dc      oo | oooo ; 14
-     dc           oooo ; 15 <
-     dc           oooo ; 16
-     dc           oooo ; 17
-     dc           oooX ; 18 <
-     dc           oooX ; 19
-     dc           oooX ; 20
+;      dc XX | oY | oooo ; 00 <
+;      dc XX | oY | XooO ; 01
+;      dc XX | oY | XooO ; 02
+;      dc oo | oo | XooO ; 03 <
+;      dc XX | oo | oooo ; 04
+;      dc oo | oo | oooo ; 05
+;      dc XX | oY | ooXo ; 06 <
+;      dc XX | oY | ooXo ; 07
+;      dc oo | oY | ooXo ; 08
+;      dc      oo | oooo ; 09 <
+;      dc      oo | ooXo ; 10
+;      dc      oo | ooXo ; 11
+;      dc      oo | ooXo ; 12 <
+;      dc      oo | oooo ; 13
+;      dc      oo | oooX ; 14
+;      dc           oooX ; 15 <
+;      dc           oXoX ; 16
+;      dc           oXoo ; 17
+;      dc           oXoo ; 18 <
+; ;     dc           oooo ; 19
+; ;     dc           oooo ; 20
 
 
 
 
-_CHAR_EXPLODETO_2
+; _CHAR_EXPLODETO_4
 
-     dc XX | oo | ooXo ; 00 <
-     dc XX | oo | ooXo ; 01
-     dc oo | oY | ooXo ; 02
-     dc XX | oY | oooo ; 03 <
-     dc oo | oY | ooXo ; 04
-     dc XX | Yo | XoXo ; 05
-     dc XX | Yo | XoXo ; 06 <
-     dc XX | Yo | XooO ; 07
-     dc oo | oo | oooo ; 08
-     dc      Yo | oooo ; 09 <
-     dc      Yo | ooXo ; 10
-     dc      Yo | XoXo ; 11
-     dc      oo | XoXo ; 12 <
-     dc      oo | XooO ; 13
-     dc      oo | oooX ; 14
-     dc           oooX ; 15 <
-     dc           oXoX ; 16
-     dc           oXoo ; 17
-     dc           oXoX ; 18 <
-     dc           oooX ; 19
-     dc           oooX ; 20
+;      dc oo | oo | oooo ; 00 <
+;      dc oo | oo | oooo ; 01
+;      dc oo | oo | oooo ; 02
+;      dc XX | oo | oooo ; 03 <
+;      dc XX | oo | ooXo ; 04
+;      dc oo | oY | ooXo ; 05
+;      dc oo | oY | ooXo ; 06 <
+;      dc XX | oY | oooo ; 07
+;      dc oo | oo | oooo ; 08
+;      dc      oo | oooo ; 09 <
+;      dc      oo | ooXo ; 10
+;      dc      oo | XoXo ; 11
+;      dc      oo | XoXo ; 12 <
+;      dc      oo | XooO ; 13
+;      dc      oo | oooo ; 14
+;      dc           oooo ; 15 <
+;      dc           oooo ; 16
+;      dc           oooo ; 17
+;      dc           oooX ; 18 <
+;      dc           oooX ; 19
+;      dc           oooX ; 20
+
+
+
+
+; _CHAR_EXPLODETO_2
+
+;      dc XX | oo | ooXo ; 00 <
+;      dc XX | oo | ooXo ; 01
+;      dc oo | oY | ooXo ; 02
+;      dc XX | oY | oooo ; 03 <
+;      dc oo | oY | ooXo ; 04
+;      dc XX | Yo | XoXo ; 05
+;      dc XX | Yo | XoXo ; 06 <
+;      dc XX | Yo | XooO ; 07
+;      dc oo | oo | oooo ; 08
+;      dc      Yo | oooo ; 09 <
+;      dc      Yo | ooXo ; 10
+;      dc      Yo | XoXo ; 11
+;      dc      oo | XoXo ; 12 <
+;      dc      oo | XooO ; 13
+;      dc      oo | oooX ; 14
+;      dc           oooX ; 15 <
+;      dc           oXoX ; 16
+;      dc           oXoo ; 17
+;      dc           oXoX ; 18 <
+;      dc           oooX ; 19
+;      dc           oooX ; 20
 
 
 
@@ -1335,72 +1278,72 @@ _CHAR_PARALLAXoTEMPLATE        ; squished in here - careful about count above/be
 ;        oooooooo, // 20
 
 
-_CHAR_DUST_RIGHT_1
-     dc ooooO ; 00 <
-     dc ooooO ; 01
-     dc ooooO ; 02
-     dc ooooO ; 03 <
-     dc ooooO ; 04
-     dc ooooO ; 05
-     dc ooooO ; 06 <
-     dc ooooO ; 07
-     dc ooooO ; 08
-     dc ooooO ; 09 <
-     dc ooooO ; 10
-     dc ooooO ; 11
-     dc ooooO ; 12 <
-     dc ooXoo ; 13
-     dc ooooO ; 14
-     dc ooooO ; 15 <
-     dc oXooO ; 16
-     dc ooooO ; 17
-     dc ooooO ; 18 <
-     dc ooXoo ; 19
-     dc ooooO ; 20
-     dc ooooO ; 21
-     dc ooooO ; 22 <
-     dc ooooO ; 23
-     dc ooooO ; 24
-     dc ooooO ; 25 <
-     dc ooooO ; 26
-     dc ooooO ; 27
-     dc ooooO ; 28 <
-     dc ooooO ; 29
+; _CHAR_DUST_RIGHT_1
+;      dc ooooO ; 00 <
+;      dc ooooO ; 01
+;      dc ooooO ; 02
+;      dc ooooO ; 03 <
+;      dc ooooO ; 04
+;      dc ooooO ; 05
+;      dc ooooO ; 06 <
+;      dc ooooO ; 07
+;      dc ooooO ; 08
+;      dc ooooO ; 09 <
+;      dc ooooO ; 10
+;      dc ooooO ; 11
+;      dc ooooO ; 12 <
+;      dc ooXoo ; 13
+;      dc ooooO ; 14
+;      dc ooooO ; 15 <
+;      dc oXooO ; 16
+;      dc ooooO ; 17
+;      dc ooooO ; 18 <
+;      dc ooXoo ; 19
+;      dc ooooO ; 20
+;      dc ooooO ; 21
+;      dc ooooO ; 22 <
+;      dc ooooO ; 23
+;      dc ooooO ; 24
+;      dc ooooO ; 25 <
+;      dc ooooO ; 26
+;      dc ooooO ; 27
+;      dc ooooO ; 28 <
+;      dc ooooO ; 29
 
 
 
-_CHAR_DUST_LEFT_1
+; _CHAR_DUST_LEFT_1
 
-     dc oooo ; 00 <
-     dc oooo ; 01
-     dc oooo ; 02
-     dc oooo ; 03 <
-     dc oooo ; 04
-     dc oooo ; 05
-     dc oooo ; 06 <
-     dc oooo ; 07
-     dc oooo ; 08
-     dc oooo ; 09 <
-     dc oooo ; 10
-     dc oooo ; 11
-     dc oooo ; 12 <
-     dc ooXo ; 13
-     dc oooo ; 14
-     dc oooo ; 15 <
-     dc oooX ; 16
-     dc oooo ; 17
-     dc oooo ; 18 <
-     dc ooXo ; 19
-     dc oooo ; 20 <
-     dc oooo ; 21
-     dc oooo ; 22
-     dc oooo ; 23 <
-     dc oooo ; 24
-     dc oooo ; 25
-     dc oooo ; 26 <
-     dc oooo ; 27
-     dc oooo ; 28
-     dc oooo ; 29 <
+;      dc oooo ; 00 <
+;      dc oooo ; 01
+;      dc oooo ; 02
+;      dc oooo ; 03 <
+;      dc oooo ; 04
+;      dc oooo ; 05
+;      dc oooo ; 06 <
+;      dc oooo ; 07
+;      dc oooo ; 08
+;      dc oooo ; 09 <
+;      dc oooo ; 10
+;      dc oooo ; 11
+;      dc oooo ; 12 <
+;      dc ooXo ; 13
+;      dc oooo ; 14
+;      dc oooo ; 15 <
+;      dc oooX ; 16
+;      dc oooo ; 17
+;      dc oooo ; 18 <
+;      dc ooXo ; 19
+;      dc oooo ; 20 <
+;      dc oooo ; 21
+;      dc oooo ; 22
+;      dc oooo ; 23 <
+;      dc oooo ; 24
+;      dc oooo ; 25
+;      dc oooo ; 26 <
+;      dc oooo ; 27
+;      dc oooo ; 28
+;      dc oooo ; 29 <
 
 
 _CHAR_DOGE_00 ; doged
@@ -1765,111 +1708,108 @@ _CHAR_WYRM_3
      ; dc           XXXX ; 20
 
 
-    IF _ENABLE_WATER
+;     IF _ENABLE_WATER
 
-_CHAR_WATER_0
+; _CHAR_WATER_0
 
-     dc XX | oo | oooo ; 00 <
-     dc oo | oo | oooo ; 01
-     dc oo | oo | oXXX ; 02
-     dc oo | oo | XXXX ; 03 <
-     dc oo | oo | XooO ; 04
-     dc oo | oo | oooo ; 05
-     dc oo | oo | oooo ; 06 <
-     dc oo | oo | oooo ; 07
-     dc oo | oo | oooo ; 08
-     dc      oo | oooo ; 09 <
-     dc      oo | oooo ; 10
-     dc      oo | oooo ; 11
-     dc      oo | XXoo ; 12 <
-     dc      oo | XXXX ; 13
-     dc      oo | oXXX ; 14
-     dc           oooX ; 15 <
-     dc           oooo ; 16
-     dc           oooo ; 17
-     dc           oooo ; 18 <
-     dc           oooo ; 19
-     dc           oooo ; 20
-
-
-_CHAR_WATER_1
-
-     dc oo | oo | oooo ; 00 <
-     dc XX | oo | ooXX ; 01
-     dc oo | oo | XXXX ; 02
-     dc oo | oo | XXoo ; 03 <
-     dc oo | oo | oooo ; 04
-     dc oo | oo | oooo ; 05
-     dc oo | oo | oooo ; 06 <
-     dc oo | oo | oooo ; 07
-     dc oo | oo | oooo ; 08
-     dc      oo | oooo ; 09 <
-     dc      oo | oooo ; 10
-     dc      oo | oooo ; 11
-     dc      oo | XXoo ; 12 <
-     dc      oo | XXXX ; 13
-     dc      oo | ooXX ; 14
-     dc           oooo ; 15 <
-     dc           oooo ; 16
-     dc           oooo ; 17
-     dc           oooo ; 18 <
-     dc           oooo ; 19
-     dc           oooo ; 20
+;      dc XX | oo | oooo ; 00 <
+;      dc oo | oo | oooo ; 01
+;      dc oo | oo | oXXX ; 02
+;      dc oo | oo | XXXX ; 03 <
+;      dc oo | oo | XooO ; 04
+;      dc oo | oo | oooo ; 05
+;      dc oo | oo | oooo ; 06 <
+;      dc oo | oo | oooo ; 07
+;      dc oo | oo | oooo ; 08
+;      dc      oo | oooo ; 09 <
+;      dc      oo | oooo ; 10
+;      dc      oo | oooo ; 11
+;      dc      oo | XXoo ; 12 <
+;      dc      oo | XXXX ; 13
+;      dc      oo | oXXX ; 14
+;      dc           oooX ; 15 <
+;      dc           oooo ; 16
+;      dc           oooo ; 17
+;      dc           oooo ; 18 <
+;      dc           oooo ; 19
+;      dc           oooo ; 20
 
 
-_CHAR_WATER_2
+; _CHAR_WATER_1
 
-     dc oo | oo | oooo ; 00 <
-     dc XX | oo | oooo ; 01
-     dc oo | oo | XooO ; 02
-     dc oo | oo | XXXo ; 03 <
-     dc oo | oo | oXXX ; 04
-     dc oo | oo | oooX ; 05
-     dc oo | oo | oooo ; 06 <
-     dc oo | oo | oooo ; 07
-     dc oo | oo | oooo ; 08
-     dc      oo | oooo ; 09 <
-     dc      oo | oooo ; 10
-     dc      oo | oooo ; 11
-     dc      oo | oooX ; 12 <
-     dc      oo | oXXX ; 13
-     dc      oo | XXXo ; 14
-     dc           XooO ; 15 <
-     dc           oooo ; 16
-     dc           oooo ; 17
-     dc           oooo ; 18 <
-     dc           oooo ; 19
-     dc           oooo ; 20
-
-
-_CHAR_WATER_3
-
-     dc oo | oo | oooo ; 00 <
-     dc XX | oo | oooo ; 01
-     dc oo | oo | oooo ; 02
-     dc oo | oo | XXoo ; 03 <
-     dc oo | oo | XXXX ; 04
-     dc oo | oo | ooXX ; 05
-     dc oo | oo | oooo ; 06 <
-     dc oo | oo | oooo ; 07
-     dc oo | oo | oooo ; 08
-     dc      oo | oooo ; 09 <
-     dc      oo | oooo ; 10
-     dc      oo | oooo ; 11
-     dc      oo | oooX ; 12 <
-     dc      oo | XXXX ; 13
-     dc      oo | XXXo ; 14
-     dc           oooo ; 15 <
-     dc           oooo ; 16
-     dc           oooo ; 17
-     dc           oooo ; 18 <
-     dc           oooo ; 19
-     dc           oooo ; 20
-
-    ENDIF ; ENABLE_WATER
+;      dc oo | oo | oooo ; 00 <
+;      dc XX | oo | ooXX ; 01
+;      dc oo | oo | XXXX ; 02
+;      dc oo | oo | XXoo ; 03 <
+;      dc oo | oo | oooo ; 04
+;      dc oo | oo | oooo ; 05
+;      dc oo | oo | oooo ; 06 <
+;      dc oo | oo | oooo ; 07
+;      dc oo | oo | oooo ; 08
+;      dc      oo | oooo ; 09 <
+;      dc      oo | oooo ; 10
+;      dc      oo | oooo ; 11
+;      dc      oo | XXoo ; 12 <
+;      dc      oo | XXXX ; 13
+;      dc      oo | ooXX ; 14
+;      dc           oooo ; 15 <
+;      dc           oooo ; 16
+;      dc           oooo ; 17
+;      dc           oooo ; 18 <
+;      dc           oooo ; 19
+;      dc           oooo ; 20
 
 
+; _CHAR_WATER_2
 
+;      dc oo | oo | oooo ; 00 <
+;      dc XX | oo | oooo ; 01
+;      dc oo | oo | XooO ; 02
+;      dc oo | oo | XXXo ; 03 <
+;      dc oo | oo | oXXX ; 04
+;      dc oo | oo | oooX ; 05
+;      dc oo | oo | oooo ; 06 <
+;      dc oo | oo | oooo ; 07
+;      dc oo | oo | oooo ; 08
+;      dc      oo | oooo ; 09 <
+;      dc      oo | oooo ; 10
+;      dc      oo | oooo ; 11
+;      dc      oo | oooX ; 12 <
+;      dc      oo | oXXX ; 13
+;      dc      oo | XXXo ; 14
+;      dc           XooO ; 15 <
+;      dc           oooo ; 16
+;      dc           oooo ; 17
+;      dc           oooo ; 18 <
+;      dc           oooo ; 19
+;      dc           oooo ; 20
+
+
+; _CHAR_WATER_3
+
+;      dc oo | oo | oooo ; 00 <
+;      dc XX | oo | oooo ; 01
+;      dc oo | oo | oooo ; 02
+;      dc oo | oo | XXoo ; 03 <
+;      dc oo | oo | XXXX ; 04
+;      dc oo | oo | ooXX ; 05
+;      dc oo | oo | oooo ; 06 <
+;      dc oo | oo | oooo ; 07
+;      dc oo | oo | oooo ; 08
+;      dc      oo | oooo ; 09 <
+;      dc      oo | oooo ; 10
+;      dc      oo | oooo ; 11
+;      dc      oo | oooX ; 12 <
+;      dc      oo | XXXX ; 13
+;      dc      oo | XXXo ; 14
+;      dc           oooo ; 15 <
+;      dc           oooo ; 16
+;      dc           oooo ; 17
+;      dc           oooo ; 18 <
+;      dc           oooo ; 19
+;      dc           oooo ; 20
+
+;     ENDIF ; ENABLE_WATER
 
 
 

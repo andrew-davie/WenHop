@@ -33,26 +33,25 @@ enum ObjectType {
     TYPE_WYRM,                  // 19
     TYPE_GEODOGE,               // 20
     TYPE_GEODOGE_FALLING,       // 21
-    TYPE_GEODOGE_CRITICAL,      // 22
-    TYPE_LAVA,                  // 23
-    TYPE_PEBBLE_ROCK,           // 24
-    TYPE_FLIP_GRAVITY,          // 25
-    TYPE_BLOCK,                 // 26
-    TYPE_GRINDER,               // 27
-    TYPE_HUB,                   // 28
-    TYPE_WATER,                 // 29
-    TYPE_WATERFLOW_0,           // 30
-    TYPE_WATERFLOW_1,           // 31
-    TYPE_WATERFLOW_2,           // 32
-    TYPE_WATERFLOW_3,           // 33
-    TYPE_WATERFLOW_4,           // 34
-    TYPE_TAP,                   // 35
-    TYPE_OUTLET,                // 36
-    TYPE_GRINDER_1,             // 37
-    TYPE_BELT,                  // 38
-    TYPE_BELT_1,                // 39
-    TYPE_CONVERT_PIPE,          // 40
-    TYPE_DOGE_FALLING2,         // 41
+    TYPE_LAVA,                  // 22
+    TYPE_PEBBLE_ROCK,           // 23
+    TYPE_FLIP_GRAVITY,          // 24
+    TYPE_BLOCK,                 // 25
+    TYPE_GRINDER,               // 26
+    TYPE_HUB,                   // 27
+    TYPE_WATER,                 // 28
+    TYPE_WATERFLOW_0,           // 29
+    TYPE_WATERFLOW_1,           // 30
+    TYPE_WATERFLOW_2,           // 31
+    TYPE_WATERFLOW_3,           // 32
+    TYPE_WATERFLOW_4,           // 33
+    TYPE_TAP,                   // 34
+    TYPE_OUTLET,                // 35
+    TYPE_GRINDER_1,             // 36
+    TYPE_BELT,                  // 37
+    TYPE_BELT_1,                // 38
+    TYPE_CONVERT_PIPE,          // 39
+    TYPE_DOGE_FALLING2,         // 40
 
     TYPE_MAX
 };
@@ -89,96 +88,90 @@ enum ChName {
     CH_DOGE_05,                // 023
     CH_DOGE_STATIC,            // 024 (CAN SWITCH ANIMATIONS ON THIS!)
     CH_PEBBLE_ROCK,            // 025
-    CH_EXPLODETOBLANK_0,       // 026
-    CH_EXPLODETOBLANK_1,       // 027
-    CH_EXPLODETOBLANK_2,       // 028
-    CH_EXPLODETOBLANK_3,       // 029
-    CH_EXPLODETOBLANK_4,       // 030
-    CH_DUST_0,                 // 031
-    CH_DUST_1,                 // 032
-    CH_DUST_2,                 // 033
-    CH_GEODOGE,                // 034
-    CH_CONGLOMERATE_1,         // 035
-    CH_CONGLOMERATE_2,         // 036
-    CH_CONGLOMERATE_3,         // 037
-    CH_CONGLOMERATE_4,         // 038
-    CH_CONGLOMERATE_5,         // 039
-    CH_CONGLOMERATE_6,         // 040
-    CH_CONGLOMERATE_7,         // 041
-    CH_CONGLOMERATE_8,         // 042
-    CH_CONGLOMERATE_9,         // 043
-    CH_CONGLOMERATE_10,        // 044
-    CH_CONGLOMERATE_11,        // 045
-    CH_CONGLOMERATE_12,        // 046
-    CH_CONGLOMERATE_13,        // 047
-    CH_CONGLOMERATE_14,        // 048
-    CH_CONGLOMERATE_15,        // 049
-    CH_DUST_ROCK_0,            // 050
-    CH_DUST_ROCK_1,            // 051
-    CH_DUST_ROCK_2,            // 052
-    CH_CONVERT_GEODE_TO_DOGE,  // 053
-    CH_SWITCH_LEFT_OFF,        // 054
-    CH_SWITCH_LEFT_ON,         // 055
-    CH_HORIZONTAL_BAR,         // 056
-    CH_PUSH_LEFT,              // 057       reverse must be +1
-    CH_PUSH_LEFT_REVERSE,      // 058
-    CH_PUSH_RIGHT,             // 059
-    CH_PUSH_RIGHT_REVERSE,     // 060
-    CH_VERTICAL_BAR,           // 061
-    CH_PUSH_UP,                // 062
-    CH_PUSH_UP_REVERSE,        // 063
-    CH_PUSH_DOWN,              // 064
-    CH_PUSH_DOWN_REVERSE,      // 065
-    CH_WYRM_BODY,              // 066
-    CH_WYRM_VERT_BODY,         // 067
-    CH_WYRM_CORNER_LD,         // 068
-    CH_WYRM_CORNER_RD,         // 069
-    CH_WYRM_CORNER_LU,         // 070
-    CH_WYRM_CORNER_RU,         // 071
-    CH_WYRM_HEAD_U,            // 072
-    CH_WYRM_HEAD_R,            // 073
-    CH_WYRM_HEAD_D,            // 074
-    CH_WYRM_HEAD_L,            // 075
-    CH_CONGLOMERATE_MID,       // 076
-    CH_GEODOGE_FALLING,        // 077
-    CH_FLIP_GRAVITY_0,         // 078
-    CH_FLIP_GRAVITY_1,         // 079
-    CH_FLIP_GRAVITY_2,         // 080
-    CH_BLOCK,                  // 081
-    CH_GRINDER_0,              // 082
-    CH_GRINDER_1,              // 083
-    CH_HUB,                    // 084
-    CH_WATER,                  // 085
-    CH_WATERFLOW_0,            // 086 must be grouped
-    CH_WATERFLOW_1,            // 087 .
-    CH_WATERFLOW_2,            // 088 .
-    CH_WATERFLOW_3,            // 089 .
-    CH_WATERFLOW_4,            // 090 /
-    CH_TAP_0,                  // 091
-    CH_HUB_1,                  // 092
-    CH_OUTLET,                 // 093
-    CH_TAP_1,                  // 094
-    CH_BELT_0,                 // 095
-    CH_BELT_1,                 // 096
-    CH_PUSH_DOWN2,             // 097
-    CH_GEODOGE_CONVERT,        // 098
-    CH_CONVERT_PIPE,           // 099
-    CH_WYRM_TAIL_U,            // 100
-    CH_WYRM_TAIL_R,            // 101
-    CH_WYRM_TAIL_D,            // 102
-    CH_WYRM_TAIL_L,            // 103
-    CH_DOGE_FALLING_TOP,       // 104
-    CH_DOGE_FALLING_BOTTOM,    // 105
-    CH_ROCK_FALLING_TOP,       // 106
-    CH_ROCK_FALLING_BOTTOM,    // 107
-    CH_GEODOGE_FALLING_TOP,    // 108
-    CH_GEODOGE_FALLING_BOTTOM, // 109
-    CH_DOGE_FALLING_TOP2,      // 110
-    CH_DOGE_FALLING_BOTTOM2,   // 111
-    CH_DOGE_SIDE_1,            // 112
-    CH_DOGE_SIDE_3,            // 113
-    CH_DOGE_SIDE_2,            // 114
-    CH_DOGE_SIDE_4,            // 115
+    CH_DUST_0,                 // 026
+    CH_DUST_1,                 // 027
+    CH_DUST_2,                 // 028
+    CH_GEODOGE,                // 029
+    CH_CONGLOMERATE_1,         // 030
+    CH_CONGLOMERATE_2,         // 031
+    CH_CONGLOMERATE_3,         // 032
+    CH_CONGLOMERATE_4,         // 033
+    CH_CONGLOMERATE_5,         // 034
+    CH_CONGLOMERATE_6,         // 035
+    CH_CONGLOMERATE_7,         // 036
+    CH_CONGLOMERATE_8,         // 037
+    CH_CONGLOMERATE_9,         // 038
+    CH_CONGLOMERATE_10,        // 039
+    CH_CONGLOMERATE_11,        // 040
+    CH_CONGLOMERATE_12,        // 041
+    CH_CONGLOMERATE_13,        // 042
+    CH_CONGLOMERATE_14,        // 043
+    CH_CONGLOMERATE_15,        // 044
+    CH_DUST_ROCK_0,            // 045
+    CH_DUST_ROCK_1,            // 046
+    CH_DUST_ROCK_2,            // 047
+    CH_CONVERT_GEODE_TO_DOGE,  // 048
+    CH_SWITCH_LEFT_OFF,        // 049
+    CH_SWITCH_LEFT_ON,         // 050
+    CH_HORIZONTAL_BAR,         // 051
+    CH_PUSH_LEFT,              // 052       reverse must be +1
+    CH_PUSH_LEFT_REVERSE,      // 053
+    CH_PUSH_RIGHT,             // 054
+    CH_PUSH_RIGHT_REVERSE,     // 055
+    CH_VERTICAL_BAR,           // 056
+    CH_PUSH_UP,                // 057
+    CH_PUSH_UP_REVERSE,        // 058
+    CH_PUSH_DOWN,              // 059
+    CH_PUSH_DOWN_REVERSE,      // 060
+    CH_WYRM_BODY,              // 061
+    CH_WYRM_VERT_BODY,         // 062
+    CH_WYRM_CORNER_LD,         // 063
+    CH_WYRM_CORNER_RD,         // 064
+    CH_WYRM_CORNER_LU,         // 065
+    CH_WYRM_CORNER_RU,         // 066
+    CH_WYRM_HEAD_U,            // 067
+    CH_WYRM_HEAD_R,            // 068
+    CH_WYRM_HEAD_D,            // 069
+    CH_WYRM_HEAD_L,            // 070
+    CH_GEODOGE_FALLING,        // 071
+    CH_FLIP_GRAVITY_0,         // 072
+    CH_FLIP_GRAVITY_1,         // 073
+    CH_FLIP_GRAVITY_2,         // 074
+    CH_BLOCK,                  // 075
+    CH_GRINDER_0,              // 076
+    CH_GRINDER_1,              // 077
+    CH_HUB,                    // 078
+    CH_WATER,                  // 079
+    CH_WATERFLOW_0,            // 080 must be grouped
+    CH_WATERFLOW_1,            // 081 .
+    CH_WATERFLOW_2,            // 082 .
+    CH_WATERFLOW_3,            // 083 .
+    CH_WATERFLOW_4,            // 084 /
+    CH_TAP_0,                  // 085
+    CH_HUB_1,                  // 086
+    CH_OUTLET,                 // 087
+    CH_TAP_1,                  // 088
+    CH_BELT_0,                 // 089
+    CH_BELT_1,                 // 090
+    CH_PUSH_DOWN2,             // 091
+    CH_GEODOGE_CONVERT,        // 092
+    CH_CONVERT_PIPE,           // 093
+    CH_WYRM_TAIL_U,            // 094
+    CH_WYRM_TAIL_R,            // 095
+    CH_WYRM_TAIL_D,            // 096
+    CH_WYRM_TAIL_L,            // 097
+    CH_DOGE_FALLING_TOP,       // 098
+    CH_DOGE_FALLING_BOTTOM,    // 099
+    CH_ROCK_FALLING_TOP,       // 100
+    CH_ROCK_FALLING_BOTTOM,    // 101
+    CH_GEODOGE_FALLING_TOP,    // 102
+    CH_GEODOGE_FALLING_BOTTOM, // 103
+    CH_DOGE_FALLING_TOP2,      // 104
+    CH_DOGE_FALLING_BOTTOM2,   // 105
+    CH_DOGE_SIDE_1,            // 106
+    CH_DOGE_SIDE_3,            // 107
+    CH_DOGE_SIDE_2,            // 108
+    CH_DOGE_SIDE_4,            // 109
 
     // 127 is limit
 
