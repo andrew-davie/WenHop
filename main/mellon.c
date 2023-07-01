@@ -136,12 +136,7 @@ void initPlayer() {
 // #endif
 // }
 
-void grabDoge(/* unsigned char *where*/) {
-
-    // TODO
-    // *where = CH_DOGE_GRAB | FLAG_THISFRAME;
-
-    // startCharAnimation(TYPE_GRAB, AnimateBase[TYPE_GRAB]);
+void grabDoge() {
 
     totalDogePossible--;
 
@@ -254,7 +249,7 @@ bool checkHighPriorityMove(int dir) {
             frameAdjustX = frameAdjustY = 0;
 
             if (!exitMode) {
-                *meOffset = CH_MELLON_HUSK | FLAG_THISFRAME;
+                *meOffset = FLAG(CH_MELLON_HUSK);
 
                 if (Attribute[destType] & ATT_DIRT)
                     startCharAnimation(TYPE_MELLON_HUSK, AnimateBase[TYPE_MELLON_HUSK]);
@@ -309,7 +304,7 @@ bool checkHighPriorityMove(int dir) {
             }
 
             else
-                *me = CH_DUST_ROCK_0 | FLAG_THISFRAME;
+                *me = FLAG(CH_DUST_ROCK_0);
 
             playerSlow = 0;
             if (!autoMoveFrameCount &&
@@ -383,15 +378,14 @@ bool checkLowPriorityMove(int dir) {
                 addScore(VALUE_BREAK_GEODE);
 
                 //            pushCounter = 2;
-                *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE)
-                                ? CH_CONVERT_GEODE_TO_DOGE | FLAG_THISFRAME
-                                : CH_DUST_0;
+                *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE) ? FLAG(CH_CONVERT_GEODE_TO_DOGE)
+                                                                  : CH_DUST_0;
 
                 surroundingConglomerate(playerX + xdir[dir], playerY + ydir[dir]);
             }
 
             else {
-                *meOffset = CH_CONVERT_PIPE | FLAG_THISFRAME;
+                *meOffset = FLAG(CH_CONVERT_PIPE);
             }
 
             // fixSurroundingConglomerates(meOffset);
@@ -425,8 +419,6 @@ bool checkLowPriorityMove(int dir) {
     return handled;
 }
 
-// #define DOTY 0x10000
-
 void bubbles(int count, int dripX, int dripY, int age, int speed) {
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX, dripY, 1, age, speed);
@@ -440,15 +432,6 @@ void bubbles(int count, int dripX, int dripY, int age, int speed) {
 void movePlayer(unsigned char *me) {
 
     handled = false;
-
-    // lasso
-    // if (!(inpt4 & 0x80)) {        // fire button
-    //     // shakeTime += 10;
-
-    //     if (Attribute[CharToType[GET(*(me + 1))]] & ATT_BLANK)
-    //         *(me + 1) = CH_HORIZ_ZAP_0 | FLAG_THISFRAME;
-
-    // }
 
     // breath bubbles
     static int breath;
@@ -509,8 +492,8 @@ void movePlayer(unsigned char *me) {
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
 
-    if (*(me - _1ROW * gravity) == (CH_DOGE_FALLING | FLAG_THISFRAME) ||
-        *(me - _1ROW * gravity) == (CH_ROCK_FALLING | FLAG_THISFRAME)) {
+    if (*(me - _1ROW * gravity) == (FLAG(CH_DOGE_FALLING)) ||
+        *(me - _1ROW * gravity) == (FLAG(CH_ROCK_FALLING))) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

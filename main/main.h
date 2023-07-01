@@ -17,6 +17,7 @@
 // Old/uncertiain flags that may not work
 
 #define CIRCLE 1
+#define FLAG(a) ((a) | FLAG_THISFRAME)
 
 #define PIECE_DEPTH 30
 #define SPRITE_DEPTH 30

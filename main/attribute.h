@@ -187,74 +187,46 @@ enum ChName {
 
 // clang-format off
 
-#define ATT_ROLL                    (1 <<  0)
-#define ATT_CONVERT                 (1 <<  1)
-#define ATT_EXPLODABLE              (1 <<  2)
-#define ATT_PERMEABLE               (1 <<  3)
-#define ATT_BLANK                   (1 <<  4)
-#define ATT_DIRT                    (1 <<  5)
-#define ATT_GRAB                    (1 <<  6)
-#define ATT_EXPLODES                (1 <<  7)
-#define ATT_PUSH                    (1 <<  8)
-#define ATT_SQUASHABLE_TO_BLANKS    (1 <<  9)
-#define ATT_HARD                    (1 << 10)
-#define ATT_EXIT                    (1 << 11)
-#define ATT_NOROCKNOISE             (1 << 12)
-//13
-#define ATT_BLANKISH                (1 << 14)
-#define ATT_DRIP                    (1 << 15)
-#define ATT_MINE                    (1 << 16)
-#define ATT_WATERFLOW               (1 << 17)
-#define ATT_CONVEYOR                (1 << 18)
-#define ATT_GRIND                   (1 << 19)
-#define ATT_PIPE                    (1 << 20)
-#define ATT_PHASE4                  (1 << 21)
-#define ATT_PHASE2                  (1 << 22)
-#define ATT_PHASE1                  (1 << 23)
-#define ATT_PULL                    (1 << 24)
-#define ATT_DISSOLVES               (1 << 25)
-#define ATT_MELTS                   (1 << 26)
-#define ATT_GEODOGE                 (1 << 27)
-// 28
-// 29
-#define ATT_PAD                     (1 << 30)
-#define ATT_CORNER                  (1 << 31)
+#define ENUM_BIT_VALUE(counter) (1 << counter)
 
-// clang-format on
+#define DEFINE_ENUM_WITH_BIT_VALUES(enumType, ...) \
+    typedef enum { \
+        __VA_ARGS__ \
+    } enumType
 
-#define RKF ATT_BLANKISH
-#define MIN ATT_MINE
-#define QUI ATT_NOROCKNOISE
-#define XIT ATT_EXIT
-#define HRD ATT_HARD
-#define SQB ATT_SQUASHABLE_TO_BLANKS
-#define ACT ATT_ACTIVE
-#define BNG ATT_EXPLODES
-#define GRB ATT_GRAB
-#define SPC ATT_BLANK
-#define PER ATT_PERMEABLE
-#define XPD ATT_EXPLODABLE
-#define FLY ATT_KILLS_FLY
-#define ROL ATT_ROLL
-#define DRP ATT_DRIP
-#define DRT ATT_DIRT
-#define CNR ATT_CORNER
-#define PAD ATT_PAD
-#define DGE ATT_GEODOGE
-#define MLT ATT_MELTS
-#define DIS ATT_DISSOLVES
-#define PUL ATT_PULL
-#define PSH ATT_PUSH
-#define PIP ATT_PIPE
-#define GND ATT_GRIND
-#define CVY ATT_CONVEYOR
-#define WTF ATT_WATERFLOW
-#define CVT ATT_CONVERT
+#define ATT(enumConstant) ATT_##enumConstant = ENUM_BIT_VALUE(__COUNTER__)
 
-#define PH1 ATT_PHASE1
-#define PH2 ATT_PHASE2
-#define PH4 ATT_PHASE4
+DEFINE_ENUM_WITH_BIT_VALUES(TypeAttributes,
 
+    ATT(ROLL),                  // 00
+    ATT(CONVERT),               // 01
+    ATT(EXPLODABLE),            // 02
+    ATT(PERMEABLE),             // 03
+    ATT(BLANK),                 // 04
+    ATT(DIRT),                  // 05
+    ATT(GRAB),                  // 06
+    ATT(PUSH),                  // 07
+    ATT(SQUASHABLE_TO_BLANKS),  // 08
+    ATT(HARD),                  // 09
+    ATT(EXIT),                  // 10
+    ATT(NOROCKNOISE),           // 11
+    ATT(BLANKISH),              // 12
+    ATT(MINE),                  // 13
+    ATT(WATERFLOW),             // 14
+    ATT(CONVEYOR),              // 15
+    ATT(GRIND),                 // 16
+    ATT(PIPE),                  // 17
+    ATT(PHASE4),                // 18
+    ATT(PHASE2),                // 19
+    ATT(PHASE1),                // 20
+    ATT(DISSOLVES),             // 21
+    ATT(MELTS),                 // 22
+    ATT(GEODOGE),               // 23
+    ATT(PAD),                   // 24
+    ATT(CORNER),                // 25
+);
+
+#define POS_CORNER 25
 #define VALUE_BREAK_GEODE 25
 
 #endif

@@ -108,10 +108,10 @@ int activated;
 
 static const int isActive[] = {
 
-    PH1 | PH2, // 0
-    PH1 | PH4, // 1
-    PH1 | PH2, // 2
-    PH1,       // 3
+    ATT_PHASE1 | ATT_PHASE2, // 0
+    ATT_PHASE1 | ATT_PHASE4, // 1
+    ATT_PHASE1 | ATT_PHASE2, // 2
+    ATT_PHASE1,              // 3
 };
 
 unsigned int availableIdleTime;
@@ -176,6 +176,9 @@ int shakeTime;
 const unsigned char reverseBits[] = {
     P8(0),
 };
+
+// TODO: cater for gravity in flag setting
+unsigned char thisFrame[] = {0, FLAG_THISFRAME, FLAG_THISFRAME, 0};
 
 enum SCHEDULE gameSchedule;
 
@@ -982,10 +985,11 @@ void GameVerticalBlank() {
 
 void surroundingConglomerate(int col, int row) {
 
-    unsigned char *pos = RAM + _BOARD + row * _1ROW + col;
-    for (int i = 0; i < 5; i++) {
+    if (visible(col, row)) {
 
-        if (visible(col + xdir[i], row + ydir[i])) {
+        unsigned char *pos = RAM + _BOARD + row * _1ROW + col;
+        for (int i = 0; i < 5; i++) {
+
             unsigned char *offsetPos = pos + dirOffset[i];
             if (Attribute[CharToType[GET(*offsetPos)]] & ATT_GEODOGE) {
 
@@ -1075,18 +1079,18 @@ void Explode(unsigned char *where, unsigned char explosionShape) {
 
     ADDAUDIO(SFX_EXPLODE);
 
-    // bool player = false;
+    int offset[] = {-_BOARD_COLS - 1, -_BOARD_COLS, -_BOARD_COLS + 1, -1, 1,
+                    _BOARD_COLS - 1,  _BOARD_COLS,  _BOARD_COLS + 1};
 
-    for (int x = -1; x < 2; x++)
-        for (int y = -_BOARD_COLS; y < _BOARD_COLS * 2; y += _BOARD_COLS) {
-            unsigned char *cell = where + y + x;
-            unsigned char type = CharToType[GET(*cell)];
-            if (Attribute[type] & ATT_EXPLODABLE) {
-                *cell = explosionShape;
-                if (explosionShape == CH_DOGE_00)
-                    totalDogePossible++;
-            }
+    for (int i = 0; i < 8; i++) {
+        unsigned char *cell = where + offset[i];
+        unsigned char type = CharToType[GET(*cell)];
+        if (Attribute[type] & ATT_EXPLODABLE) {
+            *cell = explosionShape;
+            if (explosionShape == CH_DOGE_00)
+                totalDogePossible++;
         }
+    }
 
     FLASH(4, 4);
 }
@@ -1105,12 +1109,12 @@ void doRoll() {
                 if (Attribute[sideDownType] & ATT_BLANK) {
 
                     if (offset > 0) {
-                        *me = CH_DOGE_SIDE_1 | FLAG_THISFRAME;
-                        *(me + offset) = CH_DOGE_SIDE_3 | FLAG_THISFRAME;
+                        *me = FLAG(CH_DOGE_SIDE_1);
+                        *(me + offset) = FLAG(CH_DOGE_SIDE_3);
 
                     } else {
-                        *me = CH_DOGE_SIDE_2 | FLAG_THISFRAME;
-                        *(me + offset) = CH_DOGE_SIDE_4 | FLAG_THISFRAME;
+                        *me = FLAG(CH_DOGE_SIDE_2);
+                        *(me + offset) = FLAG(CH_DOGE_SIDE_4);
                     }
 
                     int off = offset < 0 ? 4 : 0;
@@ -1131,10 +1135,7 @@ void doRoll() {
 void chainReact_GeoDogeToDoge() {
 
     bool ongoing = false;
-    *me = CH_DOGE_00 | FLAG_THISFRAME;
-
-    // TODO: cater for gravity in flag setting
-    static unsigned char thisFrame[] = {0, FLAG_THISFRAME, FLAG_THISFRAME, 0};
+    *me = FLAG(CH_DOGE_00);
 
     for (int i = 0; i < 4; i++) {
 
@@ -1159,9 +1160,7 @@ void chainReact_GeoDogeToDoge() {
 void chainReact_Pipe() {
 
     bool ongoing = false;
-    *me = CH_DUST_0 | FLAG_THISFRAME;
-
-    static unsigned char thisFrame[] = {0, FLAG_THISFRAME, FLAG_THISFRAME, 0};
+    *me = FLAG(CH_DUST_0);
 
     for (int i = 0; i < 4; i++) {
 
@@ -1209,9 +1208,9 @@ void genericPush(int offsetX, int offsetY) {
                 // Note we may have a lagging flag clear until next frame but who cares
 
                 if (attPushPosFurther & ATT_PERMEABLE)
-                    *pushPosFurther = *pushPos | FLAG_THISFRAME;
+                    *pushPosFurther = FLAG(*pushPos);
 
-                *pushPos = *me | FLAG_THISFRAME;
+                *pushPos = FLAG(*me);
                 *me = offsetX ? CH_HORIZONTAL_BAR : CH_VERTICAL_BAR;
 
                 if (playerPos == pushPos) {
@@ -1250,7 +1249,7 @@ void genericPushReverse(int offsetX, int offsetY) {
         int type = CharToType[GET(*pushPos)];
 
         if (type == TYPE_PUSHER) {
-            *pushPos = *me | FLAG_THISFRAME;
+            *pushPos = FLAG(*me);
             *me = CH_BLANK;
         } else
             *me = (*me) - 1;
@@ -1263,8 +1262,8 @@ void processDoge() {
     int attrNext = Attribute[CharToType[GET(*next)]];
 
     if (attrNext & ATT_BLANK) {
-        *me = CH_DOGE_FALLING_TOP | FLAG_THISFRAME;
-        *next = CH_DOGE_FALLING_BOTTOM | FLAG_THISFRAME;
+        *me = FLAG(CH_DOGE_FALLING_TOP);
+        *next = FLAG(CH_DOGE_FALLING_BOTTOM);
     }
 
     else if (attrNext & ATT_ROLL)
@@ -1286,8 +1285,8 @@ void processPebble() {
         }
 
     if (!rangeRandom((chance))) {
-        *me = CH_PEBBLE_ROCK | FLAG_THISFRAME;
-        nDots(10, boardCol, boardRow, 2, 20 + rangeRandom(30), 3, 5, rangeRandom(0xC000));
+        *me = FLAG(CH_PEBBLE_ROCK);
+        nDots(10, boardCol, boardRow, 2, 20, 2, 5, 0x10000);
     }
 }
 
@@ -1320,7 +1319,7 @@ void processLava() {
 
             else if (att & ATT_MELTS && !(rand & 63)) {
 
-                *neighbour = FLAG_THISFRAME | (att & ATT_GEODOGE) ? CH_DOGE_00 : CH_DUST_0;
+                *neighbour = FLAG((att & ATT_GEODOGE) ? CH_DOGE_00 : CH_DUST_0);
                 nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4, 0x10000);
             }
         }
@@ -1352,7 +1351,7 @@ void processWaterFlow() {
     // Lag the interruption of water flowing downwards
     unsigned char above = *(me - _1ROW);
     if (!(above & FLAG_THISFRAME) && !(Attribute[CharToType[GET(above)]] & ATT_WATERFLOW)) {
-        *me = CH_BLANK | FLAG_THISFRAME;
+        *me = FLAG(CH_BLANK);
         return;
     }
 
@@ -1372,7 +1371,7 @@ void processWaterFlow() {
                         rollWater = CH_WATERFLOW_4;
 
                     // flag enables slow leading edge
-                    *next = rollWater | FLAG_THISFRAME;
+                    *next = FLAG(rollWater);
 
                 } else
 
@@ -1395,7 +1394,7 @@ void processCharBeltAndGrinder() {
 
     if (ATTRIBUTE_BIT(*up, ATT_CONVEYOR) && (ATTRIBUTE_BIT(*up2, ATT_BLANK | ATT_DISSOLVES)) &&
         !(*up & FLAG_THISFRAME)) {
-        *up2 = (*up) | FLAG_THISFRAME;
+        *up2 = FLAG(*up);
         *up = CH_DUST_0;
     }
 }
@@ -1434,17 +1433,12 @@ void processCharGeoDogeAndRock() {
     if (Attribute[typeDown] & ATT_BLANK) {
 
         if (ATTRIBUTE_BIT(*me, ATT_GEODOGE)) {
-            *next = CH_GEODOGE_FALLING_BOTTOM | FLAG_THISFRAME;
-            *me = CH_GEODOGE_FALLING_TOP | FLAG_THISFRAME;
+            *next = FLAG(CH_GEODOGE_FALLING_BOTTOM);
+            *me = FLAG(CH_GEODOGE_FALLING_TOP);
         } else {
-            *next = CH_ROCK_FALLING_BOTTOM | FLAG_THISFRAME;
-            *me = CH_ROCK_FALLING_TOP | FLAG_THISFRAME;
+            *next = FLAG(CH_ROCK_FALLING_BOTTOM);
+            *me = FLAG(CH_ROCK_FALLING_TOP);
         }
-
-        // nDots(1, boardCol, boardRow, 2, 5, 2, 0, 0);
-        // nDots(1, boardCol, boardRow, 2, 15, 2, 3, 0);
-        // nDots(1, boardCol, boardRow, 2, 25, 2, 6, 0);
-        // nDots(1, boardCol, boardRow, 2, 35, 2, 9, 0);
 
         surroundingConglomerate(boardCol, boardRow);
     }
@@ -1460,22 +1454,6 @@ void processCharGeoDogeAndRock() {
         //     doRoll(me, CH_ROCK_FALLING);
         // }
     }
-
-    // // Don't conglomerate if not visible
-
-    // if (!playerDead) {
-    //     int deltaX = playerX - boardCol;
-    //     if (deltaX > 6 | deltaX < -6)
-    //         return;
-
-    //     int deltaY = playerY - boardRow;
-    //     if (deltaY > 5 || deltaY < -5)
-    //         return;
-    // }
-
-    // if (typeofMe == TYPE_GEODOGE)
-    //     for (int i = 0; i < 5; i++)
-    //         conglomerate(me + dirOffset[i]);
 }
 
 void processCharFallingThings() {
@@ -1487,27 +1465,20 @@ void processCharFallingThings() {
         switch (creature) {
 
         case CH_GEODOGE_FALLING:
-            *me = CH_GEODOGE_FALLING_TOP | FLAG_THISFRAME;
-            *next = CH_GEODOGE_FALLING_BOTTOM | FLAG_THISFRAME;
+            *me = FLAG(CH_GEODOGE_FALLING_TOP);
+            *next = FLAG(CH_GEODOGE_FALLING_BOTTOM);
             break;
 
         case CH_DOGE_FALLING:
-            *me = CH_DOGE_FALLING_TOP | FLAG_THISFRAME;
-            *next = CH_DOGE_FALLING_BOTTOM | FLAG_THISFRAME;
+            *me = FLAG(CH_DOGE_FALLING_TOP);
+            *next = FLAG(CH_DOGE_FALLING_BOTTOM);
             break;
 
         case CH_ROCK_FALLING:
-            *me = CH_ROCK_FALLING_TOP | FLAG_THISFRAME;
-            *next = CH_ROCK_FALLING_BOTTOM | FLAG_THISFRAME;
+            *me = FLAG(CH_ROCK_FALLING_TOP);
+            *next = FLAG(CH_ROCK_FALLING_BOTTOM);
             break;
         }
-
-        // if (creature != CH_DOGE_FALLING)
-        //     *me = CH_DUST_0 | FLAG_THISFRAME;
-        // else
-        //     *me = CH_BLANK | FLAG_THISFRAME;
-
-        // *next = creature | FLAG_THISFRAME;
 
         unsigned char *nextNext = next + _1ROW * gravity;
         unsigned char downCh = GET(*nextNext);
@@ -1556,14 +1527,14 @@ void processCharFallingThings() {
     else if (Attribute[typeDown] & ATT_SQUASHABLE_TO_BLANKS) {
 
         if (creature == CH_DOGE_FALLING) {
-            *me = CH_BLANK | FLAG_THISFRAME;
+            *me = FLAG(CH_BLANK);
             pulsePlayerColour = 5;
             grabDoge();
             nDots(6, boardCol, boardRow + 1, 2, 40, 3, 1, 0x10000);
         }
 
         else
-            Explode(next, CH_DUST_0 | FLAG_THISFRAME);
+            Explode(next, FLAG(CH_DUST_0));
 
     } else {
 
@@ -1625,7 +1596,7 @@ void restartBoardScan() {
 
         bool oldDead = playerDead;
 
-        unsigned char *man = RAM + _BOARD + (playerY << 5) + (playerY << 3) + playerX;
+        unsigned char *man = RAM + _BOARD + playerY * _1ROW + playerX;
 
         int what = GET(*man);
 
@@ -1719,7 +1690,7 @@ void processCreatures() {
         break;
 
     case CH_PEBBLE_ROCK:
-        *me = CH_GEODOGE | FLAG_THISFRAME;
+        *me = FLAG(CH_GEODOGE);
         surroundingConglomerate(boardCol, boardRow);
         break;
 
@@ -1748,14 +1719,8 @@ void processCreatures() {
         break;
 
     case CH_PUSH_DOWN:
-        //                    *me = CH_PUSH_DOWN2;
         genericPush(0, 1);
         break;
-
-        // case CH_PUSH_DOWN2:
-        //     *me = CH_PUSH_DOWN;
-        //     genericPush(0, 1);
-        //     break;
 
     case CH_PUSH_DOWN_REVERSE:
         genericPushReverse(0, -1);
@@ -1765,11 +1730,6 @@ void processCreatures() {
     case CH_DUST_ROCK_2:
         *me = CH_BLANK;
         break;
-
-        // case CH_DUST_ROCK_2:
-        //     *me = CH_DOGE_00;
-        //     ADDAUDIO(SFX_UNCOVER);
-        //     break;
 
     case CH_DUST_0:
     case CH_DUST_1:
@@ -1782,16 +1742,15 @@ void processCreatures() {
     case CH_EXPLODETOBLANK_1:
     case CH_EXPLODETOBLANK_2:
     case CH_EXPLODETOBLANK_3:
-        *me = (creature + 1) | FLAG_THISFRAME;
+        *me = FLAG(creature + 1);
         break;
 
     case CH_EXPLODETOBLANK_4:
-        *me = CH_BLANK | FLAG_THISFRAME;
+        *me = FLAG(CH_BLANK);
         break;
 
     case CH_CONVERT_GEODE_TO_DOGE:
-
-        *me = CH_DOGE_00 | FLAG_THISFRAME;
+        *me = FLAG(CH_DOGE_00);
         chainReact_GeoDogeToDoge();
         break;
 
@@ -1799,22 +1758,13 @@ void processCreatures() {
         chainReact_Pipe();
         break;
 
-    case CH_GEODOGE_CONVERT:
-        // *me = CH_GEODOGE | FLAG_THISFRAME;
-        // chainReact_DogeToGeoDoge();
-        break;
-
-        // case CH_FLIP_GRAVITY_0:
-        // case CH_FLIP_GRAVITY_2:
-        // case CH_FLIP_GRAVITY_1:
-
     case CH_BLOCK: {
 
         unsigned char *next = me + _1ROW * gravity;
         unsigned char typeDown = CharToType[GET(*next)];
         if (Attribute[typeDown] & ATT_BLANK) {
-            *next = *me | FLAG_THISFRAME;
-            *me = CH_DUST_0 | FLAG_THISFRAME;
+            *next = FLAG(*me);
+            *me = FLAG(CH_DUST_0);
         }
         break;
     }
@@ -1824,43 +1774,43 @@ void processCreatures() {
         break;
 
     case CH_ROCK_FALLING_TOP:
-        *me = CH_DUST_ROCK_0 | FLAG_THISFRAME;
+        *me = FLAG(CH_DUST_ROCK_0);
         break;
 
     case CH_GEODOGE_FALLING_TOP:
-        *me = CH_DUST_ROCK_0 | FLAG_THISFRAME;
+        *me = FLAG(CH_DUST_ROCK_0);
         break;
 
     case CH_DOGE_SIDE_1:
     case CH_DOGE_SIDE_2:
-        *me = CH_BLANK | FLAG_THISFRAME;
+        *me = FLAG(CH_BLANK);
         break;
 
     case CH_DOGE_SIDE_3:
     case CH_DOGE_SIDE_4:
-        *me = CH_DOGE_FALLING_TOP | FLAG_THISFRAME;
-        *(me + gravity * _1ROW) = CH_DOGE_FALLING_BOTTOM | FLAG_THISFRAME;
+        *me = FLAG(CH_DOGE_FALLING_TOP);
+        *(me + gravity * _1ROW) = FLAG(CH_DOGE_FALLING_BOTTOM);
         break;
 
     case CH_DOGE_FALLING_TOP2:
-        *me = CH_DOGE_FALLING_TOP | FLAG_THISFRAME;
-        *(me + gravity * _1ROW) = CH_DOGE_FALLING_BOTTOM | FLAG_THISFRAME;
+        *me = FLAG(CH_DOGE_FALLING_TOP);
+        *(me + gravity * _1ROW) = FLAG(CH_DOGE_FALLING_BOTTOM);
         break;
 
     case CH_DOGE_FALLING_TOP:
-        *me = CH_BLANK | FLAG_THISFRAME;
+        *me = FLAG(CH_BLANK);
         break;
 
     case CH_DOGE_FALLING_BOTTOM:
-        *me = CH_DOGE_FALLING | FLAG_THISFRAME;
+        *me = FLAG(CH_DOGE_FALLING);
         break;
 
     case CH_ROCK_FALLING_BOTTOM:
-        *me = CH_ROCK_FALLING | FLAG_THISFRAME;
+        *me = FLAG(CH_ROCK_FALLING);
         break;
 
     case CH_GEODOGE_FALLING_BOTTOM:
-        *me = CH_GEODOGE_FALLING | FLAG_THISFRAME;
+        *me = FLAG(CH_GEODOGE_FALLING);
         break;
 
     case CH_DOGE_FALLING:
@@ -1885,19 +1835,9 @@ void processCreatures() {
             checkSwipeFinished() &&
 #endif
             (!isScrolling())) {
-
-            // SAY(__WORD_LETSGOBABY);
-
-            // ADDAUDIO(SFX_PUSH);
-            // startPlayerAnimation(ID_Shades); //(ID_Startup);
-            *me = CH_MELLON_HUSK; // | FLAG_THISFRAME;
+            *me = CH_MELLON_HUSK;
         }
         break;
-
-        // case CH_DOGE_GRAB:
-        //     if (*Animate[TYPE_GRAB] == CH_BLANK)
-        //         *me = CH_BLANK;
-        //     break;
 
     default:
         break;
