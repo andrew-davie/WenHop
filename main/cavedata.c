@@ -100,10 +100,10 @@ const unsigned char caveA[] = {
 
     CAVEDEF_PARALLAX, STEEL, DIRT,
 
-    4,
+    2,
     CH_BLANK, 60, 255, 0, 255, 10,
-    CH_PEBBLE1, 120, 0, 240, 0, 20,
-    CH_PEBBLE2, 120, 0, 240, 0, 20,
+    // CH_PEBBLE1, 120, 0, 240, 0, 20,
+    // CH_PEBBLE2, 120, 0, 240, 0, 20,
     CH_ROCK, 50, 0, 240, 0, 20,
 
     // 0xFE, CH_FLIP_GRAVITY_0, 16, 8,
@@ -123,11 +123,11 @@ const unsigned char caveA[] = {
     // 0xFE, CH_FLOOD_0, 5, 5,
 
 
-        // 0xFE, CH_HORIZONTAL_BAR, 0,3,
-        // 0xFE, CH_HORIZONTAL_BAR, 1,3,
-        // 0xFE, CH_TAP_0, 2,2,
-        // 0xFE, CH_HUB, 2,3,
-        // 0xFE, CH_OUTLET, 2,4,
+        0xFE, CH_HORIZONTAL_BAR, 0,3,
+        0xFE, CH_HORIZONTAL_BAR, 1,3,
+        0xFE, CH_TAP_0, 2,2,
+        0xFE, CH_HUB, 2,3,
+        0xFE, CH_OUTLET, 2,4,
 
 
         // 0xFE, CH_HORIZONTAL_BAR, 3,3,
@@ -242,8 +242,8 @@ const unsigned char caveA[] = {
 
     // LINE+CH_BLANK,30,15,4,5,
 
-    0xFE, CH_DOORCLOSED, 38, 16, 0xFE,
-    CH_MELLON_HUSK_BIRTH, 4, 2,
+    0xFE, CH_DOORCLOSED, 38, 16,
+    0xFE, CH_MELLON_HUSK_BIRTH, 4, 2,
 
     // 0xFE, CH_GRINDER_0, 4, 9,
     // 0xFE, CH_GRINDER_0, 5, 8,
@@ -660,7 +660,7 @@ const unsigned char *caveList[] = {
 //    caveFast,
 
     caveA,
-    // caveA2, caveA5, //caveA4,
+    caveA2, caveA5, //caveA4,
 
     //caveA3,
     // caveA2,

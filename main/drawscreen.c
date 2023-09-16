@@ -435,6 +435,10 @@ static unsigned char *const arenas[] = {
 void drawScreen() { // --> cycles 62870 (@20230616)
 
     extern int shakeX, shakeY;
+
+    shakeX = 0; //-(0x7FFF);
+    shakeY = 0;
+
     int lcount = -((scrollY + shakeY) >> 16) * 3;
 
     int subBlockPixel = (((scrollX + shakeX) & 0xFFFF) * 5) >> 16;
@@ -443,7 +447,11 @@ void drawScreen() { // --> cycles 62870 (@20230616)
     int startRow = (-lcount * (0x10000 / PIECE_DEPTH)) >> 16;
     lcount += startRow * PIECE_DEPTH;
 
-    int characterX = (scrollX + shakeX) >> 16;
+    int spos = scrollX + shakeX;
+    if (spos < 0)
+        spos = scrollX;
+
+    int characterX = spos >> 16;
 
     int scanline = 0;
     for (int row = startRow; scanline < SCANLINES; row++) {
@@ -519,42 +527,45 @@ bool drawBit(int x, int y) {
     return true;
 }
 
-unsigned char rainType[RAINHAILSHINE];
-unsigned char rainAge[RAINHAILSHINE];
+unsigned char particleType[PARTICLE_COUNT];
+unsigned char particleAge[PARTICLE_COUNT];
 
-int rainX[RAINHAILSHINE];
-int rainY[RAINHAILSHINE], /*rainSpeed[RAINHAILSHINE],*/ rainSpeedX[RAINHAILSHINE];
-int rainSpeedY[RAINHAILSHINE];
+int particleX[PARTICLE_COUNT];
+int particleY[PARTICLE_COUNT];
+int particleSpeedX[PARTICLE_COUNT];
+int particleSpeedY[PARTICLE_COUNT];
 
-#define RAINTYPE_BUBBLE 1
 // #define RAINTYPE_DOT 2
 
 void drawParticles() {
 
-    for (int i = 0; i < RAINHAILSHINE; i++) {
-        if (rainAge[i]) {
+    for (int i = 0; i < PARTICLE_COUNT; i++) {
+        if (particleAge[i]) {
 
-            --rainAge[i];
+            --particleAge[i];
 
-            rainX[i] += rainSpeedX[i];
-            rainY[i] += rainSpeedY[i];
+            particleX[i] += particleSpeedX[i];
+            particleY[i] += particleSpeedY[i];
 
-            int y = rainY[i] >> 16;
-            int x = rainX[i] >> 8;
+            if (particleType[i] & PARTICLE_GRAVITY_FLAG)
+                particleSpeedY[i] += 0x800;
 
-            if (rainType[i] == RAINTYPE_BUBBLE) {
+            int y = particleY[i] >> 16;
+            int x = particleX[i] >> 8;
 
-                if ((rainY[i] >> 16) < lavaSurfaceTrixel) {
-                    rainAge[i] = 0;
+            if ((particleType[i] & 0x7F) == RAINTYPE_BUBBLE) {
+
+                if ((particleY[i] >> 16) < lavaSurfaceTrixel) {
+                    particleAge[i] = 0;
                     continue;
                 }
 
                 x += rangeRandom(2) - 1;
-                rainSpeedX[i] = (rainSpeedX[i] * 15) >> 4;
+                particleSpeedX[i] = (particleSpeedX[i] * 15) >> 4;
             }
 
             if (!drawBit(x, y))
-                rainAge[i] = 0;
+                particleAge[i] = 0;
         }
     }
 }

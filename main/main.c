@@ -91,7 +91,10 @@ int time;
 int level;
 
 bool waitRelease;
+
+#ifdef ENABLE_SWITCH
 bool switchOn;
+#endif
 
 unsigned char mm_tv_type; // 0 = NTSC, 1 = PAL, 2 = PAL-60, 3 = SECAM... start @
                           // NTSC always
@@ -237,28 +240,22 @@ void SystemReset() {
 #else
         canPlay[i] = 0b00010001000100010001000100010001;
 #endif
-
-#if WORST_TIMING
-    for (int i = 0; i < TYPE_MAX; i++)
-        worst[i] = 0;
-#endif
-
-    // #if __ENABLE_ATARIVOX
-    // RAM[_BUF_SPEECH] = 0xFF;
-    // #endif
 }
 
 bool visible(int col, int row) {
 
-    int x = ((scrollX + shakeX) * 5) >> 16;
-    int deltaX = col * 5 - x;
-    if (deltaX < -4 || deltaX >= 40)
-        return false;
-
-    int y = (scrollY + shakeY) >> 16;
+    int y = (scrollY /* + shakeY*/) >> 16;
     int deltaY = row * TRILINES - y;
 
-    return (deltaY > -_ARENA_SCANLINES / 3 && deltaY < _ARENA_SCANLINES / 3);
+    if (deltaY <= -TRILINES || deltaY >= _ARENA_SCANLINES / 3)
+        return false;
+
+    int x = ((scrollX /* + shakeX*/) * 5) >> 16;
+    int deltaX = col * 5 - x;
+    if ((unsigned int)/*deltaX < -4 ||*/ deltaX >= 40)
+        return false;
+
+    return true;
 }
 
 int sphereDot(int dotX, int dotY, int type, int age, int speed) {
@@ -272,21 +269,21 @@ int sphereDot(int dotX, int dotY, int type, int age, int speed) {
         if (line >= 0 && line < (_ARENA_SCANLINES / 3 - 1)) {
 
             int oldest = 0;
-            while (++whichDrop < RAINHAILSHINE && rainAge[whichDrop])
-                if (rainAge[whichDrop] < rainAge[oldest])
+            while (++whichDrop < PARTICLE_COUNT && particleAge[whichDrop])
+                if (particleAge[whichDrop] < particleAge[oldest])
                     oldest = whichDrop;
 
-            if (whichDrop == RAINHAILSHINE)
+            if (whichDrop == PARTICLE_COUNT)
                 whichDrop = oldest;
 
-            rainType[whichDrop] = type;
-            rainX[whichDrop] = dotX << 8;
+            particleType[whichDrop] = type;
+            particleX[whichDrop] = dotX << 8;
 
-            rainY[whichDrop] = dotY << 16;
-            rainSpeedX[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed) >> 16;
-            rainSpeedY[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed * 3 * 4) >> 11;
+            particleY[whichDrop] = dotY << 16;
+            particleSpeedX[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed) >> 16;
+            particleSpeedY[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed * 3 * 4) >> 11;
 
-            rainAge[whichDrop] = age;
+            particleAge[whichDrop] = age;
         }
     }
 
@@ -303,12 +300,29 @@ void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int 
         sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age, speed);
 }
 
+void nDotsBackwards(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY,
+                    int speed) {
+
+    if (gravity < 0)
+        offsetY = TRILINES - offsetY;
+
+    for (int i = 0; i < count; i++) {
+        int idx = sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age, speed);
+
+        particleX[idx] += particleAge[idx] * particleSpeedX[idx];
+        particleY[idx] += particleAge[idx] * particleSpeedY[idx];
+
+        particleSpeedX[idx] = -particleSpeedX[idx];
+        particleSpeedY[idx] = -particleSpeedY[idx];
+    }
+}
+
 void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed) {
 
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX, dripY, 2, age, speed);
         if (idx >= 0)
-            rainSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
+            particleSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
     }
 }
 
@@ -396,7 +410,10 @@ void initNextLife() {
     showWater = false;
 
     // lastDisplayMode = DISPLAY_NONE;
+
+#ifdef ENABLE_SWITCH
     switchOn = true;
+#endif
 
     // #define SPEED_INCREMENT (0xC000)
     // #define SPEED_INCREMENT_60 (SPEED_INCREMENT)
@@ -423,8 +440,8 @@ void initNextLife() {
     initPlayer();
     initSprites();
 
-    for (int i = 0; i < RAINHAILSHINE; i++)
-        rainAge[i] = -1;
+    for (int i = 0; i < PARTICLE_COUNT; i++)
+        particleAge[i] = -1;
 
 #if CIRCLE
     initSwipeCircle(CIRCLE_ZOOM_ZERO + 1);
@@ -758,8 +775,11 @@ void GameOverscan() {
 
         shakeTime--;
 
-        shakeX = (rangeRandom(3) - 1) << 13;
-        shakeY = (rangeRandom(6) - 3) << 15;
+#define X_SHAKE 0x3FFF
+#define Y_SHAKE 0x20000
+
+        shakeX = ((int)rangeRandom(X_SHAKE)) - X_SHAKE / 2;
+        shakeY = rangeRandom(Y_SHAKE) - Y_SHAKE / 2;
     } else
         shakeY = shakeX = 0;
 
@@ -1180,8 +1200,9 @@ void chainReact_Pipe() {
 
 void genericPush(int offsetX, int offsetY) {
 
+#ifdef ENABLE_SWITCH
     if (switchOn) {
-
+#endif
         bool atEdge = (boardCol < 3) || (boardCol > 36) || (boardRow < 3) || (boardRow > 18);
         unsigned char *playerPos = RAM + _BOARD + playerY * _1ROW + playerX;
 
@@ -1238,13 +1259,16 @@ void genericPush(int offsetX, int offsetY) {
         }
 
         *me = (*me) + 1; // reverse
+#ifdef ENABLE_SWITCH
     }
+#endif
 }
 
 void genericPushReverse(int offsetX, int offsetY) {
 
+#ifdef ENABLE_SWITCH
     if (switchOn) {
-
+#endif
         unsigned char *pushPos = me + offsetY * _BOARD_COLS + offsetX;
         int type = CharToType[GET(*pushPos)];
 
@@ -1253,7 +1277,9 @@ void genericPushReverse(int offsetX, int offsetY) {
             *me = CH_BLANK;
         } else
             *me = (*me) - 1;
+#ifdef ENABLE_SWITCH
     }
+#endif
 }
 
 void processDoge() {
@@ -1376,7 +1402,10 @@ void processWaterFlow() {
                 } else
 
                     // Water has hit something below
-                    nDots(3, boardCol, boardRow, 2, 40, 2 + rangeRandom(3), 11, 0x10000);
+                    nDots(3, boardCol, boardRow, 2 + PARTICLE_GRAVITY_FLAG, 40, 2 + rangeRandom(3),
+                          11, 0x10000);
+
+                shakeTime = 20;
             }
         }
     }
@@ -1592,6 +1621,11 @@ void restartBoardScan() {
 
     if (!autoMoveFrameCount) { // delay until fully in new square
 
+        // // randomly place a new pebble
+        // int *sq = RAM + _BOARD + rangeRandom(_BOARD_COLS * _BOARD_ROWS);
+        // if (GET(*sq) == CH_DIRT)
+        //     *sq = FLAG(CH_PEBBLE1 + (getRandom32() & 1));
+
         //                    chooseIdleAnimation();
 
         bool oldDead = playerDead;
@@ -1672,7 +1706,15 @@ void processTypes() {
         break;
 
     case TYPE_GEODOGE:
-        processCharGeoDogeAndRock();
+
+        if (!rangeRandom(50)) {
+            *me = FLAG(CH_ROCK_PEBBLE_1);
+            nDotsBackwards(10, boardCol, boardRow, 2, 25, 2, 5, 0x16000);
+        }
+
+        else
+            processCharGeoDogeAndRock();
+
         surroundingConglomerate(boardCol, boardRow);
         break;
 
@@ -1687,6 +1729,15 @@ void processCreatures() {
 
     case CH_OUTLET:
         processOutlet();
+        break;
+
+    case CH_ROCK_PEBBLE_1:
+        *me = FLAG(CH_ROCK_PEBBLE);
+        // shakeTime += 5;
+        break;
+
+    case CH_ROCK_PEBBLE:
+        *me = FLAG(CH_DUST_ROCK_0);
         break;
 
     case CH_PEBBLE_ROCK:

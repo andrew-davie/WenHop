@@ -216,12 +216,13 @@ bool checkHighPriorityMove(int dir) {
                 ADDAUDIO(SFX_WHOOSH);
                 exitMode = 151;
                 waitRelease = true;
-                canPlay[level] |= 1 << (cave + 1);
             }
 
+#ifdef ENABLE_SWITCH
             else if (destType == TYPE_SWITCH) {
                 switchOn = !switchOn;
             }
+#endif
 
             else if (destType == TYPE_FLIP_GRAVITY) {
                 nextGravity = -gravity;
@@ -423,8 +424,8 @@ void bubbles(int count, int dripX, int dripY, int age, int speed) {
     for (int i = 0; i < count; i++) {
         int idx = sphereDot(dripX, dripY, 1, age, speed);
         if (idx >= 0) {
-            rainSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
-            rainSpeedX[idx] >>= 4;
+            particleSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
+            particleSpeedX[idx] >>= 4;
         }
     }
 }
@@ -492,8 +493,7 @@ void movePlayer(unsigned char *me) {
     // after all movement checked, anything falling on player?
     // potential bug - if you're pushing and something falls on you
 
-    if (*(me - _1ROW * gravity) == (FLAG(CH_DOGE_FALLING)) ||
-        *(me - _1ROW * gravity) == (FLAG(CH_ROCK_FALLING))) {
+    if (Attribute[CharToType[*(me - _1ROW * gravity)]] & ATT_CRUSHES) {
         //        SAY(__WORD_WATCHOUT);
         startPlayerAnimation(ID_Die);
         return;

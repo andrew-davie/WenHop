@@ -42,6 +42,9 @@
 #define DIR_D 4
 #define DIR_L 8
 
+#define PARTICLE_GRAVITY_FLAG 0x80
+#define RAINTYPE_BUBBLE 1
+
 extern bool showTool;
 
 void setJumpVectors(int midKernel, int exitKernel);
@@ -85,7 +88,10 @@ enum SCHEDULE {
 extern enum SCHEDULE gameSchedule;
 extern int gameSpeed;
 extern int gameFrame;
+
+#ifdef ENABLE_SWITCH
 extern bool switchOn;
+#endif
 
 enum KERNEL_TYPE {
     KERNEL_COPYRIGHT,
@@ -129,15 +135,15 @@ extern const signed char dirOffset[];
 extern const signed char xdir[];
 extern const signed char ydir[];
 
-#define RAINHAILSHINE 24
+#define PARTICLE_COUNT 24
 
-extern unsigned char rainType[RAINHAILSHINE];
-extern unsigned char rainAge[RAINHAILSHINE];
+extern unsigned char particleType[PARTICLE_COUNT];
+extern unsigned char particleAge[PARTICLE_COUNT];
 
-extern int rainSpeedX[RAINHAILSHINE];
-extern int rainSpeedY[RAINHAILSHINE];
-extern int rainX[RAINHAILSHINE];
-extern int rainY[RAINHAILSHINE];
+extern int particleSpeedX[PARTICLE_COUNT];
+extern int particleSpeedY[PARTICLE_COUNT];
+extern int particleX[PARTICLE_COUNT];
+extern int particleY[PARTICLE_COUNT];
 
 extern int canPlay[5];
 extern int shakeTime;
