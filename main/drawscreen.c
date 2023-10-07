@@ -530,42 +530,56 @@ bool drawBit(int x, int y) {
 unsigned char particleType[PARTICLE_COUNT];
 unsigned char particleAge[PARTICLE_COUNT];
 
-int particleX[PARTICLE_COUNT];
-int particleY[PARTICLE_COUNT];
-int particleSpeedX[PARTICLE_COUNT];
-int particleSpeedY[PARTICLE_COUNT];
+short particleX[PARTICLE_COUNT];
+short particleY[PARTICLE_COUNT];
+unsigned char particleSpeed[PARTICLE_COUNT];
 
-// #define RAINTYPE_DOT 2
+signed char particleDirection[PARTICLE_COUNT];
+unsigned short particleDistance[PARTICLE_COUNT];
+
+const int xsin[] = {
+    0, 97, 181, 236, 256, 236, 181, 97, 0, -97, -181, -236, -256, -236, -181, -97,
+};
+
+const int xcos[] = {
+    256, 236, 181, 97, 0, -97, -181, -236, -256, -236, -181, -97, 0, 97, 181, 236,
+};
 
 void drawParticles() {
 
     for (int i = 0; i < PARTICLE_COUNT; i++) {
         if (particleAge[i]) {
 
-            --particleAge[i];
+            int xOffset = (xsin[(particleDirection[i] >> 4) & 0xF] * particleDistance[i]) >> 16;
+            int yOffset = (xcos[(particleDirection[i] >> 4) & 0xF] * particleDistance[i] * 3) >> 16;
 
-            particleX[i] += particleSpeedX[i];
-            particleY[i] += particleSpeedY[i];
+            int y = (particleY[i] >> 8) + yOffset;
+            int x = (particleX[i] >> 8) + xOffset;
 
-            if (particleType[i] & PARTICLE_GRAVITY_FLAG)
-                particleSpeedY[i] += 0x800;
+            if (particleType[i] == PARTICLETYPE_SPIRAL) {
+                particleDirection[i] += 7;
 
-            int y = particleY[i] >> 16;
-            int x = particleX[i] >> 8;
-
-            if ((particleType[i] & 0x7F) == RAINTYPE_BUBBLE) {
-
-                if ((particleY[i] >> 16) < lavaSurfaceTrixel) {
-                    particleAge[i] = 0;
-                    continue;
-                }
-
-                x += rangeRandom(2) - 1;
-                particleSpeedX[i] = (particleSpeedX[i] * 15) >> 4;
+                if (!rangeRandom(80))
+                    nDotsAtTrixel(4, x, y, 30, 0x1000);
             }
+
+            if (particleType[i] == PARTICLETYPE_BUBBLE) {
+                // if ((particleY[i] >> 16) < lavaSurfaceTrixel) {
+                //     particleAge[i] = 0;
+                //     continue;
+                // }
+
+                //                if (!rangeRandom(5))
+                x += rangeRandom(2) - 1;
+                //                particleSpeedX[i] = (particleSpeedX[i] * 15) >> 4;
+            }
+
+            --particleAge[i];
 
             if (!drawBit(x, y))
                 particleAge[i] = 0;
+
+            particleDistance[i] += particleSpeed[i];
         }
     }
 }

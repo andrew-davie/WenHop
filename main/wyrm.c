@@ -1,5 +1,6 @@
 #include "defines_cdfj.h"
 
+#include "main.h"
 #include "wyrm.h"
 
 #include "attribute.h"
@@ -54,6 +55,9 @@ void newWyrm(int x, int y) {
 void processWyrms() {
 
     for (int i = gameFrame & 1; i < WYRM_POP; i += 2) {
+
+        // if (rangeRandom(110))
+        //     continue;
 
         struct wyrmDetails *wyrm = &wyrms[i];
 
@@ -217,5 +221,8 @@ void processWyrms() {
             unsigned char *head = RAM + _BOARD + wyrm->y[headPos] * _1ROW + wyrm->x[headPos];
             *head = headChar;
         }
+
+        if (rangeRandom(80))
+            nDots(4, wyrm->x[0], wyrm->y[0], PARTICLETYPE_SPIRAL, 30, 2, 5, 0x20000);
     }
 }

@@ -1196,23 +1196,23 @@ const char wordDifficulty[] = {
 };
 
 
-const char wordProto2[] = {
-    XXX___XX, __XXX__X, XX______, XX___XXX, _____XX_, _XXX____,
-    __XX_X__, X___XX__, _XX____X, __X_X___, ____X__X, ___XX___,
-    __X__X__, X___X___, XX_____X, __X_XXX_, ____X__X, ___X____,
-    _X___X__, X__X____, _XX____X, __X_X__X, ____X__X, __X_____,
-    XXXX_XXX, X_XXXX_X, XXX_XX_X, XXX_XXXX, _XX_XXXX, _XXXX___,
-    XXXX__XX, __XXXX_X, XX__XX__, XX___XX_, _XX__XX_, _XXXX___,
+const char wordProto[] = {
+    _XXXX___, XXX___XX, __XXX__X, XX______, ________, ________,
+    X_XX_X__, __XX_X__, X___XX__, _XX_____, ________, ________,
+    X_X__X__, __X__X__, X___X___, XX______, ________, ________,
+    X_XX_X__, _X___X__, X__X____, _XX_____, ________, ________,
+    X____X__, XXXX_XXX, X_XXXX_X, XXX_____, ________, ________,
+    _XXXX___, XXXX__XX, __XXXX_X, XX______, ________, ________,
 };
 
 
-const char wordProto[] = {
-    XXXX_XXX, __X__X__, _XXXX_X_, _X__XX__, X___X___, ________,
-    ___X_X__, X_X__X__, XX____X_, _X_X__X_, X___X___, ________,
-    __X__XXX, X_XXXX__, _XXX__XX, XX_X__X_, X_X_X___, ________,
-    _X___XXX, __XXXX__, ___XX_XX, XX_X__X_, XXXXX___, ________,
-    XXXX_X__, __X__X__, XXXXX_X_, _X_XXXX_, XX_XX___, ________,
-    XXXX_X__, __X__X__, XXXX__X_, _X__XX__, X___X___, ________,
+const char wordProto2[] = {
+    _XXX____, _XXXX___, ________, _XX_____, ________, ________,
+    X__X____, _XX__X__, XXX_X_XX, _____XX_, ________, ________,
+    XXXX____, _XX__X_X, _XX_X_XX, _XX_X__X, ________, ________,
+    XXXX__XX, _XX__X_X, _XX_X_XX, _XX_XX__, ________, ________,
+    X__X_X_X, _XXXXX_X, XXX__XX_, _XX_XXXX, ________, ________,
+    X__X_XX_, _XXXX___, XXX__XX_, _XX__XXX, ________, ________,
 };
 
 // clang-format on
@@ -1375,12 +1375,12 @@ void handleMenuScreen() {
     // static int protoTime = 0;
     // if (++protoTime < 200) {
 
-    //     drawSmallString(180, wordProto);
-    //     drawSmallString(188, wordProto2);
+    drawSmallString(180, wordProto);
+    drawSmallString(188, wordProto2);
 
-    //     for (int line = 179; line < 194; line++) {
-    //         RAM[_BUF_MENU_COLUP0 + line] = 0x8;
-    //     }
+    for (int line = 179; line < 194; line++) {
+        RAM[_BUF_MENU_COLUP0 + line] = 0x2A;
+    }
     // }
 
     // else {

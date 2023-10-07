@@ -135,15 +135,20 @@ extern const signed char dirOffset[];
 extern const signed char xdir[];
 extern const signed char ydir[];
 
-#define PARTICLE_COUNT 24
+#define PARTICLE_COUNT 45
 
 extern unsigned char particleType[PARTICLE_COUNT];
 extern unsigned char particleAge[PARTICLE_COUNT];
 
-extern int particleSpeedX[PARTICLE_COUNT];
-extern int particleSpeedY[PARTICLE_COUNT];
-extern int particleX[PARTICLE_COUNT];
-extern int particleY[PARTICLE_COUNT];
+extern unsigned char particleSpeed[PARTICLE_COUNT];
+// extern int particleSpeedY[PARTICLE_COUNT];
+extern short particleX[PARTICLE_COUNT];
+extern short particleY[PARTICLE_COUNT];
+extern signed char particleDirection[PARTICLE_COUNT];
+extern unsigned short particleDistance[PARTICLE_COUNT];
+
+#define PARTICLETYPE_SPIRAL 5
+#define PARTICLETYPE_BUBBLE 6
 
 extern int canPlay[5];
 extern int shakeTime;
@@ -164,7 +169,7 @@ void initNewGame();
 
 void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY, int speed);
 void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed);
-int sphereDot(int dripX, int dripY, int type, int age, int speed);
+int sphereDot(int dripX, int dripY, int type, int age);
 void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed);
 
 // extern int actualScore;

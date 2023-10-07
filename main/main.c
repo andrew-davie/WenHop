@@ -258,7 +258,7 @@ bool visible(int col, int row) {
     return true;
 }
 
-int sphereDot(int dotX, int dotY, int type, int age, int speed) {
+int sphereDot(int dotX, int dotY, int type, int age) {
 
     int whichDrop = -1;
 
@@ -279,11 +279,15 @@ int sphereDot(int dotX, int dotY, int type, int age, int speed) {
             particleType[whichDrop] = type;
             particleX[whichDrop] = dotX << 8;
 
-            particleY[whichDrop] = dotY << 16;
-            particleSpeedX[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed) >> 16;
-            particleSpeedY[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed * 3 * 4) >> 11;
+            particleY[whichDrop] = dotY << 8;
+            particleSpeed[whichDrop] =
+                rangeRandom(15) + 16; //((int)((rangeRandom(128) - 64)) * speed) >> 16;
+            // particleSpeedY[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed * 3 * 4) >> 11;
 
             particleAge[whichDrop] = age;
+
+            particleDirection[whichDrop] = getRandom32(); // 16.16 angle
+            particleDistance[whichDrop] = 96;             // 16.16 speed
         }
     }
 
@@ -297,7 +301,7 @@ void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int 
         offsetY = TRILINES - offsetY;
 
     for (int i = 0; i < count; i++)
-        sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age, speed);
+        sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age);
 }
 
 void nDotsBackwards(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY,
@@ -307,22 +311,23 @@ void nDotsBackwards(int count, int dripX, int dripY, int type, int age, int offs
         offsetY = TRILINES - offsetY;
 
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age, speed);
+        int idx = sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age);
 
-        particleX[idx] += particleAge[idx] * particleSpeedX[idx];
-        particleY[idx] += particleAge[idx] * particleSpeedY[idx];
+        // TODO vector
+        particleX[idx] += particleAge[idx] * particleSpeed[idx];
+        particleY[idx] += particleAge[idx] * particleSpeed[idx];
 
-        particleSpeedX[idx] = -particleSpeedX[idx];
-        particleSpeedY[idx] = -particleSpeedY[idx];
+        // particleSpeedX[idx] = -particleSpeedX[idx];
+        // particleSpeedY[idx] = -particleSpeedY[idx];
     }
 }
 
 void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed) {
 
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX, dripY, 2, age, speed);
-        if (idx >= 0)
-            particleSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
+        int idx = sphereDot(dripX, dripY, PARTICLETYPE_SPIRAL, age);
+        // if (idx >= 0)
+        // particleSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
     }
 }
 
@@ -1040,7 +1045,7 @@ void setupBoard() {
 
             // Surface lava "bubbles"
             int posX = ((scrollX * 5) >> 16) + rangeRandom(_BOARD_COLS);
-            nDotsAtTrixel(1, posX, lavaSurfaceTrixel + 1, 20, 0x10000);
+            nDotsAtTrixel(1, posX, lavaSurfaceTrixel - 2, 120, 0x5000);
         }
 
         if (showWater) {
@@ -1312,7 +1317,7 @@ void processPebble() {
 
     if (!rangeRandom((chance))) {
         *me = FLAG(CH_PEBBLE_ROCK);
-        nDots(10, boardCol, boardRow, 2, 20, 2, 5, 0x10000);
+        nDots(10, boardCol, boardRow, PARTICLETYPE_SPIRAL, 20, 2, 5, 0x10000);
     }
 }
 
@@ -1355,7 +1360,7 @@ void processLava() {
         case CH_LAVA_BLANK: {
             if (!(rand & (15 << 7))) {
                 (*me)++;
-                nDots(3, boardCol, boardRow, 2, 30, 2, 5, 0xC000);
+                nDots(3, boardCol, boardRow, PARTICLETYPE_SPIRAL, 30, 2, 5, 0xC000);
             }
             break;
         case CH_LAVA_SMALL:
@@ -1537,11 +1542,11 @@ void processCharFallingThings() {
                     unsigned char *dR = dL + 2;
 
                     if (!CharToType[GET(*dR)]) {
-                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
+                        nDots(4, boardCol, boardRow + 1, PARTICLETYPE_SPIRAL, 10, 3, 7, 0x10000);
                     }
 
                     if (!CharToType[GET(*dL)]) {
-                        nDots(4, boardCol, boardRow + 1, 2, 10, 3, 7, 0x10000);
+                        nDots(4, boardCol, boardRow + 1, PARTICLETYPE_SPIRAL, 10, 3, 7, 0x10000);
                     }
                 }
                 // else
@@ -1593,7 +1598,7 @@ void processCharFallingThings() {
         }
 
         if (creature != CH_DOGE_FALLING)
-            nDots(4, boardCol, boardRow, 2, 40, getRandom32() & 3, 10, 0x10000);
+            nDots(6, boardCol, boardRow, 2, 20, 2, 10, 0x60000);
 
         // if (att & ATT_ROLL && creature == CH_DOGE_FALLING)
         //     doRoll(me, creature);
@@ -1698,16 +1703,19 @@ void processTypes() {
         processWaterFlow();
         break;
 
-    case TYPE_BELT:
-    case TYPE_BELT_1:
     case TYPE_GRINDER:
     case TYPE_GRINDER_1:
+        if (!(getRandom32() & 7)) {
+            nDots(1, boardCol, boardRow, 2, 10, 3, 7, 0x10000);
+        }
+    case TYPE_BELT:
+    case TYPE_BELT_1:
         processCharBeltAndGrinder();
         break;
 
     case TYPE_GEODOGE:
 
-        if (!rangeRandom(50)) {
+        if (!rangeRandom(150)) {
             *me = FLAG(CH_ROCK_PEBBLE_1);
             nDotsBackwards(10, boardCol, boardRow, 2, 25, 2, 5, 0x16000);
         }

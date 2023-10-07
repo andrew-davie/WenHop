@@ -18,8 +18,9 @@
 #include "scroll.h"
 #include "sound.h"
 
-int playerX;
-int playerY;
+int playerX; // char pos 0-39 (use *5 for pixel)
+int playerY; // char pos 0-21 (use *10 for pixel and then *3 for scanline)
+
 int frameAdjustX;
 int frameAdjustY;
 unsigned int pushCounter;
@@ -241,7 +242,7 @@ bool checkHighPriorityMove(int dir) {
                 grabDoge(/* meOffset */);
                 //     grabbed = true;
                 // if (grabbed)
-                nDots(4, playerX, playerY, 2, 25, 3, 4, 0x10000);
+                nDots(4, playerX, playerY, PARTICLETYPE_SPIRAL, 25, 3, 4, 0x10000);
             }
 
             playerX += xdir[dir];
@@ -361,6 +362,7 @@ bool checkLowPriorityMove(int dir) {
     if (/*faceDirectionDef[dir] && */ (Attribute[destType] & (ATT_MINE | ATT_PIPE))) {
 
         if (++pushCounter > 1) {
+
             int anim = mineAnimation[dir];
             if (!(dir & 1) && gravity < 0)
                 anim ^= ID_MineDown ^ ID_MineUp;
@@ -422,10 +424,12 @@ bool checkLowPriorityMove(int dir) {
 
 void bubbles(int count, int dripX, int dripY, int age, int speed) {
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX, dripY, 1, age, speed);
+        int idx = sphereDot(dripX, dripY, PARTICLETYPE_BUBBLE, age);
         if (idx >= 0) {
-            particleSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
-            particleSpeedX[idx] >>= 4;
+            // particleSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
+            // particleSpeedX[idx] >>= 4;
+
+            particleDirection[idx] = 128 + rangeRandom(64) - 32;
         }
     }
 }
@@ -442,7 +446,7 @@ void movePlayer(unsigned char *me) {
         if (!(breath & 35) && (breath & 63) < 21) {
             int x = (playerX * 5) + 3;
             int y = (playerY * TRILINES) + 4;
-            bubbles(3, x, y, 200, 0x80000);
+            bubbles(1, x - 1, y - 2, 400, 0x1000);
             ADDAUDIO(SFX_BUBBLER);
         }
     }
