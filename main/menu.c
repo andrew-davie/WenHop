@@ -1196,17 +1196,61 @@ const char wordDifficulty[] = {
 };
 
 
-const char wordProto[] = {
-    _XXXX___, XXX___XX, __XXX__X, XX______, ________, ________,
-    X_XX_X__, __XX_X__, X___XX__, _XX_____, ________, ________,
-    X_X__X__, __X__X__, X___X___, XX______, ________, ________,
-    X_XX_X__, _X___X__, X__X____, _XX_____, ________, ________,
-    X____X__, XXXX_XXX, X_XXXX_X, XXX_____, ________, ________,
-    _XXXX___, XXXX__XX, __XXXX_X, XX______, ________, ________,
+// const char wordProto[] = {
+//     _XXXX___, XXX___XX, __XXX__X, XX______, ________, ________,
+//     X_XX_X__, __XX_X__, X___XX__, _XX_____, ________, ________,
+//     X_X__X__, __X__X__, X___X___, XX______, ________, ________,
+//     X_XX_X__, _X___X__, X__X____, _XX_____, ________, ________,
+//     X____X__, XXXX_XXX, X_XXXX_X, XXX_____, ________, ________,
+//     _XXXX___, XXXX__XX, __XXXX_X, XX______, ________, ________,
+// };
+
+
+// const char wordProto2[] = {
+//     _XXX____, _XXXX___, ________, _XX_____, ________, ________,
+//     X__X____, _XX__X__, XXX_X_XX, _____XX_, ________, ________,
+//     XXXX____, _XX__X_X, _XX_X_XX, _XX_X__X, ________, ________,
+//     XXXX__XX, _XX__X_X, _XX_X_XX, _XX_XX__, ________, ________,
+//     X__X_X_X, _XXXXX_X, XXX__XX_, _XX_XXXX, ________, ________,
+//     X__X_XX_, _XXXX___, XXX__XX_, _XX__XXX, ________, ________,
+// };
+
+
+const char wordProto2[][36] = {
+
+{   _XXX__XX, X__XX_XX, X_XXX___, __XX____, XX__X__X, _XXX_XXX,
+    X_XXX___, XXX__X__, XX__XX__, __X_X__X, __X_X__X, __X__X__,
+    X_X__X__, X_X__X__, X__XX___, __X__X_X, __X_X__X, __X__XXX,
+    X_XX_X_X, __X__X_X, ____XX__, __X__X_X, XXX_X__X, __X__X__,
+    X___X_XX, __XXX_XX, XX_XXX__, __XXXX_X, XXX__XX_, __X__XXX,
+    _XXXX_XX, XX_XX_XX, XXXXX___, __XXX__X, __X__XX_, _XXX_XXX,
+
+},
+{   __X___X_, _XX___XX, __XX____, XXX_XXX_, __XX__XX, X_XXX___,
+    __X_X_X_, X__X_X__, X_X_X__X, ____X__X, _X__X__X, __XXXX__,
+    __X_X_X_, X__X_X__, X_X__X_X, _XX_X__X, _X__X__X, __X__X__,
+    __X_X_X_, X__X_X__, X_X__X_X, __X_XXX_, _XXXX__X, __X__X__,
+    __XXXXX_, XXXX_XXX, X_XXXX_X, XXX_X_XX, _XXXX_XX, X_X__X__,
+    ___XXX__, _XX___XX, __XXX___, XXX_X_XX, _X__X_XX, X_X__X__,},
+
+{   ___XXX__, XX___XXX, __X___X_, XXXX__XX, X_XXX__X, X__XXX__,
+    ___XXX_X, __X_X___, __X_X_X_, X____X__, ___X__X_, _X_XXXX_,
+    ____X__X, XXX__XX_, __X_X_X_, XXX__X_X, X__X__X_, _X_X__X_,
+    ____X__X, XXX____X, __X_X_X_, X____X__, X__X__XX, XX_X__X_,
+    XX__X__X, __X_XXXX, X_XXXXX_, XXXX_XXX, X_XXX_XX, XX_X__X_,
+    XX__X__X, __X_XXX_, ___XXX__, XXXX__XX, X_XXX_X_, _X_X__X_,},
+
+{   ____XXX_, _XX__XX_, X_______, ________, ________, ________,
+    ___X____, X__X_XXX, XX______, ________, ________, ________,
+    ___X____, X__X_X_X, _X______, ________, ________, ________,
+    ___X____, X__X_X_X, _X______, ________, ________, ________,
+    XX_XXXX_, XXXX_X_X, _X______, ________, ________, ________,
+    XX__XXX_, _XX__X_X, _X______, ________, ________, ________,},
+
+
 };
 
-
-const char wordProto2[] = {
+const char wordProto2z[] = {
     _XXX____, _XXXX___, ________, _XX_____, ________, ________,
     X__X____, _XX__X__, XXX_X_XX, _____XX_, ________, ________,
     XXXX____, _XX__X_X, _XX_X_XX, _XX_X__X, ________, ________,
@@ -1375,11 +1419,13 @@ void handleMenuScreen() {
     // static int protoTime = 0;
     // if (++protoTime < 200) {
 
-    drawSmallString(180, wordProto);
-    drawSmallString(188, wordProto2);
+    //    drawSmallString(180, wordProto);
 
-    for (int line = 179; line < 194; line++) {
-        RAM[_BUF_MENU_COLUP0 + line] = 0x2A;
+    for (int i = 0; i < 4; i++)
+        drawSmallString(167 + i * 8, &wordProto2[i][0]);
+
+    for (int line = 164; line < 196; line++) {
+        RAM[_BUF_MENU_COLUP0 + line] = 0x08;
     }
     // }
 

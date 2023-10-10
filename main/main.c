@@ -361,6 +361,8 @@ void initNewGame() {
     lives = 3;
     invincible = false;
     pulsePlayerColour = 0;
+
+    initRope();
 }
 
 void initNextLife() {
@@ -603,6 +605,7 @@ void drawOverscanThings() {
     // createParallaxCharset();
     drawScreen();
     drawScore();
+    //    drawRope(0, -1);
 
     drawPlayerSprite();
 }
@@ -837,6 +840,10 @@ void GameOverscan() {
 
     if (!waitRelease && !(inpt4 & 0x80)) { // JOY0_FIRE)
 
+        extern bool ropeEnabled;
+        if (showTool)
+            ropeEnabled = !ropeEnabled; // true;
+
         showTool = false;
 
         if (!exitMode && triggerOffCounter && triggerOffCounter < DOUBLE_TAP &&
@@ -998,6 +1005,9 @@ void GameVerticalBlank() {
             pulseTool++;
 
             doDrawBitmap(toolIcon[0 /*(pulseTool >> 4) & 1*/], 90);
+
+            // extern bool ropeEnabled;
+            // ropeEnabled = true;
         }
 #if CIRCLE
         swipeCircle();
@@ -1708,6 +1718,7 @@ void processTypes() {
         if (!(getRandom32() & 7)) {
             nDots(1, boardCol, boardRow, 2, 10, 3, 7, 0x10000);
         }
+
     case TYPE_BELT:
     case TYPE_BELT_1:
         processCharBeltAndGrinder();
