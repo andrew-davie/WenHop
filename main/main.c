@@ -18,6 +18,7 @@
 #include "joystick.h"
 #include "mellon.h"
 #include "menu.h"
+#include "particle.h"
 #include "player.h"
 #include "random.h"
 #include "score.h"
@@ -74,7 +75,7 @@ int boardCol;
 int gravity;
 int nextGravity;
 
-int canPlay[5];
+// int canPlay[5];
 
 int explodeCount;
 
@@ -233,12 +234,12 @@ void SystemReset() {
 
     enableICC = LEFT_DIFFICULTY_A;
 
-    for (int i = 0; i < 5; i++)
+    //    for (int i = 0; i < 5; i++)
 
 #if ENABLE_DEBUG
-        canPlay[i] = 0xFFFFFFFF;
+//        canPlay[i] = 0xFFFFFFFF;
 #else
-        canPlay[i] = 0b00010001000100010001000100010001;
+    canPlay[i] = 0b00010001000100010001000100010001;
 #endif
 }
 
@@ -258,7 +259,7 @@ bool visible(int col, int row) {
     return true;
 }
 
-int sphereDot(int dotX, int dotY, int type, int age) {
+int sphereDot(int dotX, int dotY, int type, unsigned char age) {
 
     int whichDrop = -1;
 
@@ -269,43 +270,46 @@ int sphereDot(int dotX, int dotY, int type, int age) {
         if (line >= 0 && line < (_ARENA_SCANLINES / 3 - 1)) {
 
             int oldest = 0;
-            while (++whichDrop < PARTICLE_COUNT && particleAge[whichDrop])
-                if (particleAge[whichDrop] < particleAge[oldest])
+            while (++whichDrop < PARTICLE_COUNT && particle[whichDrop].age)
+                if (particle[whichDrop].age < particle[oldest].age)
                     oldest = whichDrop;
 
             if (whichDrop == PARTICLE_COUNT)
                 whichDrop = oldest;
 
-            particleType[whichDrop] = type;
-            particleX[whichDrop] = dotX << 8;
+            particle[whichDrop].type = type;
+            particle[whichDrop].x = dotX << 8;
 
-            particleY[whichDrop] = dotY << 8;
-            particleSpeed[whichDrop] =
-                rangeRandom(15) + 16; //((int)((rangeRandom(128) - 64)) * speed) >> 16;
-            // particleSpeedY[whichDrop] = ((int)((rangeRandom(128) - 64)) * speed * 3 * 4) >> 11;
+            particle[whichDrop].y = dotY << 8;
+            particle[whichDrop].speed = 0; // rangeRandom(15) + 16;
+            particle[whichDrop].age = age;
 
-            particleAge[whichDrop] = age;
-
-            particleDirection[whichDrop] = getRandom32(); // 16.16 angle
-            particleDistance[whichDrop] = 96;             // 16.16 speed
+            particle[whichDrop].direction = getRandom32(); // 16.16 angle
+            particle[whichDrop].distance = 96;             // 16.16 speed
         }
     }
 
     return whichDrop;
 }
 
-void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY,
+void nDots(int count, int dripX, int dripY, int type, unsigned char age, int offsetX, int offsetY,
            int speed) {
 
     if (gravity < 0)
         offsetY = TRILINES - offsetY;
 
-    for (int i = 0; i < count; i++)
-        sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age);
+    for (int i = 0; i < count; i++) {
+        int idx = sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age);
+        if (idx >= 0) {
+            particle[idx].speed = rangeRandom(speed >> 1);
+            if (type == PT_SPIRAL2)
+                particle[idx].distance = rangeRandom(200) + 50;
+        }
+    }
 }
 
-void nDotsBackwards(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY,
-                    int speed) {
+void nDotsBackwards(int count, int dripX, int dripY, int type, unsigned char age, int offsetX,
+                    int offsetY, int speed) {
 
     if (gravity < 0)
         offsetY = TRILINES - offsetY;
@@ -314,20 +318,20 @@ void nDotsBackwards(int count, int dripX, int dripY, int type, int age, int offs
         int idx = sphereDot(dripX * 5 + offsetX, dripY * TRILINES + offsetY, type, age);
 
         // TODO vector
-        particleX[idx] += particleAge[idx] * particleSpeed[idx];
-        particleY[idx] += particleAge[idx] * particleSpeed[idx];
+        particle[idx].x += particle[idx].age * particle[idx].speed;
+        particle[idx].y += particle[idx].age * particle[idx].speed;
 
-        // particleSpeedX[idx] = -particleSpeedX[idx];
-        // particleSpeedY[idx] = -particleSpeedY[idx];
+        // particle.speedX[idx] = -particle.speedX[idx];
+        // particle.speedY[idx] = -particle.speedY[idx];
     }
 }
 
-void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed) {
+void nDotsAtTrixel(int count, int dripX, int dripY, unsigned char age, int speed) {
 
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX, dripY, PARTICLETYPE_SPIRAL, age);
-        // if (idx >= 0)
-        // particleSpeedY[idx] = -((((int)(rangeRandom(0x10000 >> 1))) * speed) >> 16);
+        int idx = sphereDot(dripX, dripY, PT_SPIRAL, age);
+        if (idx >= 0)
+            particle[idx].speed = speed;
     }
 }
 
@@ -361,8 +365,6 @@ void initNewGame() {
     lives = 3;
     invincible = false;
     pulsePlayerColour = 0;
-
-    initRope();
 }
 
 void initNextLife() {
@@ -448,7 +450,7 @@ void initNextLife() {
     initSprites();
 
     for (int i = 0; i < PARTICLE_COUNT; i++)
-        particleAge[i] = -1;
+        particle[i].age = -1;
 
 #if CIRCLE
     initSwipeCircle(CIRCLE_ZOOM_ZERO + 1);
@@ -605,7 +607,6 @@ void drawOverscanThings() {
     // createParallaxCharset();
     drawScreen();
     drawScore();
-    //    drawRope(0, -1);
 
     drawPlayerSprite();
 }
@@ -840,9 +841,9 @@ void GameOverscan() {
 
     if (!waitRelease && !(inpt4 & 0x80)) { // JOY0_FIRE)
 
-        extern bool ropeEnabled;
-        if (showTool)
-            ropeEnabled = !ropeEnabled; // true;
+        // extern bool ropeEnabled;
+        // if (showTool)
+        //     ropeEnabled = !ropeEnabled; // true;
 
         showTool = false;
 
@@ -996,15 +997,28 @@ void GameVerticalBlank() {
             }
         }
 
-        drawScore();
+        //        drawScore();
         drawParticles();
+        drawRope();
 
         if (showTool) {
+
+            shakeTime = 5;
+
+            // int tempX = playerX;
+            // int tempY = playerY;
+
+            //            playerX = 60;
+            // playerY = 30;
 
             static int pulseTool = 0;
             pulseTool++;
 
             doDrawBitmap(toolIcon[0 /*(pulseTool >> 4) & 1*/], 90);
+            // drawRope();
+
+            // playerX = tempX;
+            // playerY = tempY;
 
             // extern bool ropeEnabled;
             // ropeEnabled = true;
@@ -1055,7 +1069,7 @@ void setupBoard() {
 
             // Surface lava "bubbles"
             int posX = ((scrollX * 5) >> 16) + rangeRandom(_BOARD_COLS);
-            nDotsAtTrixel(1, posX, lavaSurfaceTrixel - 2, 120, 0x5000);
+            nDotsAtTrixel(1, posX, lavaSurfaceTrixel - 2, 120, 0x1000);
         }
 
         if (showWater) {
@@ -1069,7 +1083,7 @@ void setupBoard() {
                 if (((sinus[(waves >> 0) & 15] & 3) != 0) || (gameFrame & 31) == 0) {
                     ++waves;
 
-                    if (!(gameFrame & 31))
+                    if (!(gameFrame & 7))
                         lavaSurfaceTrixel--;
                 }
 
@@ -1154,10 +1168,10 @@ void doRoll() {
 
                     int off = offset < 0 ? 4 : 0;
 
-                    nDots(1, boardCol, boardRow, 2, 15, offset * 2 + off, 4 * gravity, 0);
-                    nDots(1, boardCol, boardRow, 2, 20, offset * 4 + off, 4 * gravity, 0);
-                    nDots(1, boardCol, boardRow, 2, 25, offset * 6 + off, 7 * gravity, 0);
-                    nDots(1, boardCol, boardRow, 2, 30, offset * 7 + off, 10 * gravity, 0);
+                    nDots(1, boardCol, boardRow, PT_TWO, 15, offset * 2 + off, 4 * gravity, 0);
+                    nDots(1, boardCol, boardRow, PT_TWO, 20, offset * 4 + off, 4 * gravity, 0);
+                    nDots(1, boardCol, boardRow, PT_TWO, 25, offset * 6 + off, 7 * gravity, 0);
+                    nDots(1, boardCol, boardRow, PT_TWO, 30, offset * 7 + off, 10 * gravity, 0);
 
                     surroundingConglomerate(boardCol, boardRow);
                     return;
@@ -1228,11 +1242,12 @@ void genericPush(int offsetX, int offsetY) {
         unsigned char *pushPosFurther = atEdge ? &alternate : pushPos + adjustOffset;
         int attPushPosFurther = Attribute[CharToType[GET(*pushPosFurther)]];
 
+        //??
         if (playerPos == pushPos && (atEdge || !(attPushPosFurther & ATT_PERMEABLE))) {
             // shakeTime = 20;
             FLASH(0x42, 8);
             startPlayerAnimation(ID_Xray);
-            nDots(6, boardCol + offsetX, boardRow + offsetY, 2, 50, 3, 4, 0x18000);
+            nDots(6, boardCol + offsetX, boardRow + offsetY, PT_TWO, 50, 3, 4, 0x18000);
         }
 
         int attPushPos = Attribute[CharToType[GET(*pushPos)]];
@@ -1267,8 +1282,9 @@ void genericPush(int offsetX, int offsetY) {
                 surroundingConglomerate(boardCol, boardRow);
                 surroundingConglomerate(boardCol + offsetX, boardRow + offsetY);
 
+                //??
                 if (!(attPushPos & ATT_PERMEABLE))
-                    nDots(6, boardCol + offsetX, boardRow + offsetY, 2, 150, 3, 4, 0x10000);
+                    nDots(6, boardCol + offsetX, boardRow + offsetY, PT_TWO, 150, 3, 4, 0x10000);
                 return;
             }
         }
@@ -1327,7 +1343,7 @@ void processPebble() {
 
     if (!rangeRandom((chance))) {
         *me = FLAG(CH_PEBBLE_ROCK);
-        nDots(10, boardCol, boardRow, PARTICLETYPE_SPIRAL, 20, 2, 5, 0x10000);
+        nDots(10, boardCol, boardRow, PT_SPIRAL, 20, 2, 5, 0x10000);
     }
 }
 
@@ -1361,7 +1377,7 @@ void processLava() {
             else if (att & ATT_MELTS && !(rand & 63)) {
 
                 *neighbour = FLAG((att & ATT_GEODOGE) ? CH_DOGE_00 : CH_DUST_0);
-                nDots(8, boardCol + xdir[i], boardRow + ydir[i], 2, 50, 3, 4, 0x10000);
+                nDots(8, boardCol + xdir[i], boardRow + ydir[i], PT_TWO, 50, 3, 4, 0x10000);
             }
         }
 
@@ -1370,7 +1386,7 @@ void processLava() {
         case CH_LAVA_BLANK: {
             if (!(rand & (15 << 7))) {
                 (*me)++;
-                nDots(3, boardCol, boardRow, PARTICLETYPE_SPIRAL, 30, 2, 5, 0xC000);
+                nDots(3, boardCol, boardRow, PT_SPIRAL, 30, 2, 5, 0xC000);
             }
             break;
         case CH_LAVA_SMALL:
@@ -1417,10 +1433,11 @@ void processWaterFlow() {
                 } else
 
                     // Water has hit something below
-                    nDots(3, boardCol, boardRow, 2 + PARTICLE_GRAVITY_FLAG, 40, 2 + rangeRandom(3),
-                          11, 0x10000);
-
+                    nDots(3, boardCol, boardRow, PT_TWO + PARTICLE_GRAVITY_FLAG, 40,
+                          2 + rangeRandom(3), 11, 100);
+#if ENABLE_SHAKE
                 shakeTime = 20;
+#endif
             }
         }
     }
@@ -1457,7 +1474,7 @@ void processOutlet() {
                     *(me + _1ROW) = CH_WATERFLOW_0 + (getRandom32() & 3);
 
                 else
-                    nDots(1, boardCol, boardRow, 2, 30, rangeRandom(3) + 2, 10, 0x8000);
+                    nDots(1, boardCol, boardRow, PT_TWO, 30, rangeRandom(3) + 2, 10, 0x8000);
             }
         }
 
@@ -1552,11 +1569,11 @@ void processCharFallingThings() {
                     unsigned char *dR = dL + 2;
 
                     if (!CharToType[GET(*dR)]) {
-                        nDots(4, boardCol, boardRow + 1, PARTICLETYPE_SPIRAL, 10, 3, 7, 0x10000);
+                        nDots(4, boardCol, boardRow + 1, PT_SPIRAL, 10, 3, 7, 100);
                     }
 
                     if (!CharToType[GET(*dL)]) {
-                        nDots(4, boardCol, boardRow + 1, PARTICLETYPE_SPIRAL, 10, 3, 7, 0x10000);
+                        nDots(4, boardCol, boardRow + 1, PT_SPIRAL, 10, 3, 7, 100);
                     }
                 }
                 // else
@@ -1574,7 +1591,7 @@ void processCharFallingThings() {
             *me = FLAG(CH_BLANK);
             pulsePlayerColour = 5;
             grabDoge();
-            nDots(6, boardCol, boardRow + 1, 2, 40, 3, 1, 0x10000);
+            nDots(6, boardCol, boardRow + 1, PT_TWO, 40, 3, 1, 100);
         }
 
         else
@@ -1608,7 +1625,7 @@ void processCharFallingThings() {
         }
 
         if (creature != CH_DOGE_FALLING)
-            nDots(6, boardCol, boardRow, 2, 20, 2, 10, 0x60000);
+            nDots(6, boardCol, boardRow, PT_TWO, 20, 2, 10, 600);
 
         // if (att & ATT_ROLL && creature == CH_DOGE_FALLING)
         //     doRoll(me, creature);
@@ -1656,7 +1673,7 @@ void restartBoardScan() {
         playerDead = (type != TYPE_MELLON_HUSK && type != TYPE_MELLON_HUSK_PRE && !exitMode);
 
         if (explodeCount > 0) {
-            nDots(2, playerX, playerY, 1, 1, 2, 0, 0x10000);
+            nDots(2, playerX, playerY, PT_ONE, 1, 2, 0, 100);
             --explodeCount;
         }
 
@@ -1675,7 +1692,7 @@ void restartBoardScan() {
         }
 
         if (playerDead && *playerAnimation)
-            nDots(4, playerX, playerY, 1, 100, 2, 8, 0x10000);
+            nDots(4, playerX, playerY, PT_ONE, 100, 2, 8, 100);
     }
 }
 
@@ -1716,7 +1733,7 @@ void processTypes() {
     case TYPE_GRINDER:
     case TYPE_GRINDER_1:
         if (!(getRandom32() & 7)) {
-            nDots(1, boardCol, boardRow, 2, 10, 3, 7, 0x10000);
+            nDots(1, boardCol, boardRow, PT_TWO, 10, 3, 7, 100);
         }
 
     case TYPE_BELT:
@@ -1728,7 +1745,7 @@ void processTypes() {
 
         if (!rangeRandom(150)) {
             *me = FLAG(CH_ROCK_PEBBLE_1);
-            nDotsBackwards(10, boardCol, boardRow, 2, 25, 2, 5, 0x16000);
+            nDotsBackwards(10, boardCol, boardRow, PT_TWO, 25, 2, 5, 300);
         }
 
         else

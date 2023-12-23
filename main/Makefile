@@ -43,3 +43,5 @@ drawscreen.o: drawplayer.h drawscreen.h menu.h random.h scroll.h sound.h
 sound.o: defines_cdfj.h main.h defines_from_dasm_for_c.h sound.h random.h
 player.o: defines_from_dasm_for_c.h main.h player.h atarivox.h bitpatterns.h
 player.o: rockford.h
+particle.o : particle.h main.h defines_cdfj.h defines_from_dasm_for_c.h
+

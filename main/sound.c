@@ -184,7 +184,7 @@ const unsigned char sampleBlip[] = {
 };
 
 const unsigned char sampleBubbler[] = {
-    0xE, 0x8, 5, 30,
+    0xE, 0x8, 1, 30,
     CMD_STOP,
     //    CMD_LOOP,
     // 12,10,2,1,
@@ -1168,7 +1168,7 @@ void processTracks() {
 
             do {
                 done = true;
-                nextNote = track[i].tune[track[i].index++];
+                nextNote = track[i].tune[++track[i].index];
 
                 if (!nextNote)
                     track[i].index = 0;

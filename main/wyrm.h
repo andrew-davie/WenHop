@@ -1,10 +1,9 @@
 #ifndef __WYRM_H
 #define __WYRM_H
 
-#define WYRM_POP 20
-#define WYRM_MAX 10
+#define WYRM_POP 8
+#define WYRM_MAX 4
 
-extern int wyrmNum;
 
 struct wyrmDetails {
     signed char x[WYRM_MAX];

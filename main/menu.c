@@ -1165,6 +1165,16 @@ const unsigned char charAtoZ[] = {
     ________,
     ________,
 
+    ____X___,
+    ___XXX__,
+    __XXX___,
+    ___XX_X_,
+    ___XXX__,
+    __XXX___,
+    ________,
+    ____XX__,
+    ________,
+    ____X___,
 };
 
 const char wordTvType0[] = {
@@ -1218,46 +1228,53 @@ const char wordDifficulty[] = {
 
 const char wordProto2[][36] = {
 
-{   _XXX__XX, X__XX_XX, X_XXX___, __XX____, XX__X__X, _XXX_XXX,
-    X_XXX___, XXX__X__, XX__XX__, __X_X__X, __X_X__X, __X__X__,
-    X_X__X__, X_X__X__, X__XX___, __X__X_X, __X_X__X, __X__XXX,
-    X_XX_X_X, __X__X_X, ____XX__, __X__X_X, XXX_X__X, __X__X__,
-    X___X_XX, __XXX_XX, XX_XXX__, __XXXX_X, XXX__XX_, __X__XXX,
-    _XXXX_XX, XX_XX_XX, XXXXX___, __XXX__X, __X__XX_, _XXX_XXX,
+{   ________, ________, ______XX, XXX__XXX, ___XX__X, XX__XXX_,
+    ________, ________, _____X__, XX_X___X, X_X__X__, _XX____X,
+    ________, ________, _____X_X, ___X___X, __X__X__, _X___XX_,
+    ________, ________, _____X__, XX_X__X_, __X__X__, X______X,
+    ________, ________, _____X__, ___X_XX_, __XXXX_X, X_____XX,
+    ________, ________, ______XX, XXX__XXX, X__XX__X, XXX_XXX_, },
+
+// {   ____XXX_, _XX__XX_, X_______, XXXX__XX, X___XX_X, XX__XXX_,
+//     ___X____, X__X_XXX, XX_____X, _XX_X___, XX_X__X_, _XX___XX,
+//     ___X____, X__X_X_X, _X_____X, _X__X___, X__X__X_, _X___XX_,
+//     ___X____, X__X_X_X, _X_____X, _XX_X__X, ___X__X_, X_____XX,
+//     XX_XXXX_, XXXX_X_X, _X_____X, ____X_XX, ___XXX_X, XXX__XXX,
+//     XX__XXX_, _XX__X_X, _X______, XXXX__XX, XX__XX_X, XXX_XXX_, },
+
+{   ___XX___, ____X___, ________, _____XX_, ________, ___X____,
+    __X_X_XX, ___XX__X, X_XX_X__, _X___X_X, ___XX_X_, X_____XX,
+    _X__X_X_, X_X_X_X_, _X_X_X_X, _X___X__, X_X_X_X_, X_X__X_X,
+    _XXXX_X_, X_X_X_X_, _XXX_X_X, _X___X__, X_X_X_X_, X_X__XXX,
+    _X__X_X_, X_X_X_X_, _X____XX, X____X_X, X_X_X_XX, X_X__X__,
+    _X__X_X_, X_XXX_X_, __XX__X_, X____XXX, ___XX__X, ___X__XX,
 
 },
-{   __X___X_, _XX___XX, __XX____, XXX_XXX_, __XX__XX, X_XXX___,
-    __X_X_X_, X__X_X__, X_X_X__X, ____X__X, _X__X__X, __XXXX__,
-    __X_X_X_, X__X_X__, X_X__X_X, _XX_X__X, _X__X__X, __X__X__,
-    __X_X_X_, X__X_X__, X_X__X_X, __X_XXX_, _XXXX__X, __X__X__,
-    __XXXXX_, XXXX_XXX, X_XXXX_X, XXX_X_XX, _XXXX_XX, X_X__X__,
-    ___XXX__, _XX___XX, __XXX___, XXX_X_XX, _X__X_XX, X_X__X__,},
+// {   __X___X_, _XX___XX, __XX____, XXX_XXX_, __XX__XX, X_XXX___,
+//     __X_X_X_, X__X_X__, X_X_X__X, ____X__X, _X__X__X, __XXXX__,
+//     __X_X_X_, X__X_X__, X_X__X_X, _XX_X__X, _X__X__X, __X__X__,
+//     __X_X_X_, X__X_X__, X_X__X_X, __X_XXX_, _XXXX__X, __X__X__,
+//     __XXXXX_, XXXX_XXX, X_XXXX_X, XXX_X_XX, _XXXX_XX, X_X__X__,
+//     ___XXX__, _XX___XX, __XXX___, XXX_X_XX, _X__X_XX, X_X__X__,},
 
-{   ___XXX__, XX___XXX, __X___X_, XXXX__XX, X_XXX__X, X__XXX__,
-    ___XXX_X, __X_X___, __X_X_X_, X____X__, ___X__X_, _X_XXXX_,
-    ____X__X, XXX__XX_, __X_X_X_, XXX__X_X, X__X__X_, _X_X__X_,
-    ____X__X, XXX____X, __X_X_X_, X____X__, X__X__XX, XX_X__X_,
-    XX__X__X, __X_XXXX, X_XXXXX_, XXXX_XXX, X_XXX_XX, XX_X__X_,
-    XX__X__X, __X_XXX_, ___XXX__, XXXX__XX, X_XXX_X_, _X_X__X_,},
-
-{   ____XXX_, _XX__XX_, X_______, ________, ________, ________,
-    ___X____, X__X_XXX, XX______, ________, ________, ________,
-    ___X____, X__X_X_X, _X______, ________, ________, ________,
-    ___X____, X__X_X_X, _X______, ________, ________, ________,
-    XX_XXXX_, XXXX_X_X, _X______, ________, ________, ________,
-    XX__XXX_, _XX__X_X, _X______, ________, ________, ________,},
+// {   ___XXX__, XX___XXX, __X___X_, XXXX__XX, X_XXX__X, X__XXX__,
+//     ___XXX_X, __X_X___, __X_X_X_, X____X__, ___X__X_, _X_XXXX_,
+//     ____X__X, XXX__XX_, __X_X_X_, XXX__X_X, X__X__X_, _X_X__X_,
+//     ____X__X, XXX____X, __X_X_X_, X____X__, X__X__XX, XX_X__X_,
+//     XX__X__X, __X_XXXX, X_XXXXX_, XXXX_XXX, X_XXX_XX, XX_X__X_,
+//     XX__X__X, __X_XXX_, ___XXX__, XXXX__XX, X_XXX_X_, _X_X__X_,},
 
 
 };
 
-const char wordProto2z[] = {
-    _XXX____, _XXXX___, ________, _XX_____, ________, ________,
-    X__X____, _XX__X__, XXX_X_XX, _____XX_, ________, ________,
-    XXXX____, _XX__X_X, _XX_X_XX, _XX_X__X, ________, ________,
-    XXXX__XX, _XX__X_X, _XX_X_XX, _XX_XX__, ________, ________,
-    X__X_X_X, _XXXXX_X, XXX__XX_, _XX_XXXX, ________, ________,
-    X__X_XX_, _XXXX___, XXX__XX_, _XX__XXX, ________, ________,
-};
+// const char wordProto2z[] = {
+//     _XXX____, _XXXX___, ________, _XX_____, ________, ________,
+//     X__X____, _XX__X__, XXX_X_XX, _____XX_, ________, ________,
+//     XXXX____, _XX__X_X, _XX_X_XX, _XX_X__X, ________, ________,
+//     XXXX__XX, _XX__X_X, _XX_X_XX, _XX_XX__, ________, ________,
+//     X__X_X_X, _XXXXX_X, XXX__XX_, _XX_XXXX, ________, ________,
+//     X__X_XX_, _XXXX___, XXX__XX_, _XX__XXX, ________, ________,
+// };
 
 // clang-format on
 
@@ -1421,10 +1438,10 @@ void handleMenuScreen() {
 
     //    drawSmallString(180, wordProto);
 
-    for (int i = 0; i < 4; i++)
-        drawSmallString(167 + i * 8, &wordProto2[i][0]);
+    for (int i = 0; i < 2; i++)
+        drawSmallString(176 + i * 9, &wordProto2[i][0]);
 
-    for (int line = 164; line < 196; line++) {
+    for (int line = 175; line < 196; line++) {
         RAM[_BUF_MENU_COLUP0 + line] = 0x08;
     }
     // }
@@ -1453,12 +1470,28 @@ void handleMenuScreen() {
         logo0a += 3;
     }
 
-    // static const char *registered = ":";
-    //  static int landing = 62;
-    //  drawString(5, landing, ";", 0x22); //(R)
-    //  if (--landing < 0)
-    //      landing = 62;
-    drawString(5, 62, ":", 0x22); //(R)
+    static const char *registered = ":";
+    static int landing2 = (-5) << 8;
+    int landing = landing2 >> 8;
+
+    static int accel = 190;
+    if (accel)
+        accel -= 1;
+
+    int landing3 = landing + 8;
+
+    if (!rangeRandom(2) && accel)
+        drawString(5, landing + 8, "<", 0x4C); //(R)
+    else
+        drawString(5, landing3, ";", 0x4C); //(R)
+
+    drawString(5, landing, registered, 0x06); //(R)
+
+    // drawString(5, landing + 11, ";", 0x9C);   //(R)
+
+    //    if (landing2 > -10 << 8)
+    landing2 += accel;
+    // drawString(5, 62, ":", 0x22); //(R)
 }
 
 // void initCopyrightScreen() {
@@ -1728,10 +1761,10 @@ void handleMenuVB() {
     doPlayer();
 #endif
 
-    for (int i = 0; i < 6; i++)
-        if (!RGB[i] || !rangeRandom(64))
-            RGB[i] = (mm_tv_type == SECAM) ? (rangeRandom(7) + 1) << 1
-                                           : LUMINANCE_TITLE | (getRandom32() << 4);
+    // for (int i = 0; i < 6; i++)
+    //     if (!RGB[i] || !rangeRandom(64))
+    //         RGB[i] = (mm_tv_type == SECAM) ? (rangeRandom(7) + 1) << 1
+    //                                        : LUMINANCE_TITLE | (getRandom32() << 4);
 
     int negJoy = (SWCHA >> 4) ^ 0xF;
 
@@ -1756,16 +1789,16 @@ void handleMenuVB() {
 
                 switch (menuLine) {
                 case 0:
-                    do
-                        cave = setBounds(cave + dir, caveCount - 1);
-                    while (!(canPlay[level] & (1 << cave)));
+                    //                    do
+                    cave = setBounds(cave + dir, caveCount - 1);
+                    //                    while (!(canPlay[level] & (1 << cave)));
                     break;
 
                 case 1:
 #if !_ENABLE_TRAINER
                     level = setBounds(level + dir, 4);
-                    while (!(canPlay[level] & (1 << cave)))
-                        cave--;
+                    //                    while (!(canPlay[level] & (1 << cave)))
+                    cave--;
 #endif
                     break;
 

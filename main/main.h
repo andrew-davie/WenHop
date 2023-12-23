@@ -16,7 +16,7 @@
 
 // Old/uncertiain flags that may not work
 
-#define CIRCLE 1
+#define CIRCLE 0
 #define FLAG(a) ((a) | FLAG_THISFRAME)
 
 #define PIECE_DEPTH 30
@@ -135,25 +135,8 @@ extern const signed char dirOffset[];
 extern const signed char xdir[];
 extern const signed char ydir[];
 
-#define PARTICLE_COUNT 24
-#define ROPE_PARTICLE_COUNT 24
-
-extern unsigned char particleType[PARTICLE_COUNT];
-extern unsigned char particleAge[PARTICLE_COUNT];
-
-extern unsigned char particleSpeed[PARTICLE_COUNT];
-// extern int particleSpeedY[PARTICLE_COUNT];
-extern int particleX[PARTICLE_COUNT];
-extern int particleY[PARTICLE_COUNT];
-extern unsigned char particleDirection[PARTICLE_COUNT];
-extern unsigned short particleDistance[PARTICLE_COUNT];
-
-#define PARTICLETYPE_SPIRAL 5
-#define PARTICLETYPE_BUBBLE 6
-
-extern int canPlay[5];
+// extern int canPlay[5];
 extern int shakeTime;
-extern int wyrmNum;
 
 // extern const signed char dirOffset[];
 
@@ -168,10 +151,10 @@ void reanimateDoges(unsigned char *me);
 void handleSelectReset();
 void initNewGame();
 
-void nDots(int count, int dripX, int dripY, int type, int age, int offsetX, int offsetY, int speed);
-void nDotsAtPixel(int count, int dripX, int dripY, int age, int speed);
-int sphereDot(int dripX, int dripY, int type, int age);
-void nDotsAtTrixel(int count, int dripX, int dripY, int age, int speed);
+void nDots(int count, int dripX, int dripY, int type, unsigned char age, int offsetX, int offsetY,
+           int speed);
+int sphereDot(int dripX, int dripY, int type, unsigned char age);
+void nDotsAtTrixel(int count, int dripX, int dripY, unsigned char age, int speed);
 
 // extern int actualScore;
 

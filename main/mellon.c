@@ -12,6 +12,7 @@
 #include "colour.h"
 #include "decodecaves.h"
 #include "joystick.h"
+#include "particle.h"
 #include "player.h"
 #include "random.h"
 #include "score.h"
@@ -199,7 +200,9 @@ bool checkHighPriorityMove(int dir) {
 
         else if (type == TYPE_GRINDER || type == TYPE_GRINDER_1) {
             ADDAUDIO(SFX_EXPLODE_QUIET);
+#if ENABLE_SHAKE
             shakeTime = 5;
+#endif
         }
 
         else if (Attribute[destType] & (ATT_BLANK | ATT_PERMEABLE | ATT_GRAB | ATT_EXIT)) {
@@ -228,7 +231,9 @@ bool checkHighPriorityMove(int dir) {
             else if (destType == TYPE_FLIP_GRAVITY) {
                 nextGravity = -gravity;
                 FLASH(0xC5, 3);
+#if ENABLE_SHAKE
                 shakeTime = 20;
+#endif
                 ADDAUDIO(SFX_SCORE);
             }
 
@@ -242,7 +247,7 @@ bool checkHighPriorityMove(int dir) {
                 grabDoge(/* meOffset */);
                 //     grabbed = true;
                 // if (grabbed)
-                nDots(4, playerX, playerY, PARTICLETYPE_SPIRAL, 25, 3, 4, 0x10000);
+                nDots(4, playerX, playerY, PT_SPIRAL, 25, 3, 4, 100);
             }
 
             playerX += xdir[dir];
@@ -318,7 +323,7 @@ bool checkHighPriorityMove(int dir) {
                 // dirtFlag = true;
                 startCharAnimation(TYPE_MELLON_HUSK, AnimateBase[TYPE_MELLON_HUSK]);
 
-                nDots(6, playerX, playerY, 2, 25, 2, 5, 0x10000);
+                nDots(6, playerX, playerY, PT_TWO, 25, 2, 5, 50);
             }
 
             int dir2 = (gravity < 0) ? dir ^ 2 : dir;
@@ -375,16 +380,20 @@ bool checkLowPriorityMove(int dir) {
             //            nicely as start of push
         }
 
-        if (pushCounter > 10) {
+        if (pushCounter > 8) {
+
+            static signed char xOffset[] = {0, 5, 0, -5};
+            static signed char yOffset[] = {-5, 0, 5, 0};
 
             if (Attribute[destType] & ATT_MINE) {
                 addScore(VALUE_BREAK_GEODE);
 
                 //            pushCounter = 2;
                 *meOffset = ATTRIBUTE_BIT(*meOffset, ATT_GEODOGE) ? FLAG(CH_CONVERT_GEODE_TO_DOGE)
-                                                                  : CH_DUST_0;
+                                                                  : CH_DUST_ROCK_0;
 
                 surroundingConglomerate(playerX + xdir[dir], playerY + ydir[dir]);
+                nDots(6, playerX, playerY, PT_SPIRAL2, 30, xOffset[dir] + 3, yOffset[dir] + 5, 40);
             }
 
             else {
@@ -424,12 +433,12 @@ bool checkLowPriorityMove(int dir) {
 
 void bubbles(int count, int dripX, int dripY, int age, int speed) {
     for (int i = 0; i < count; i++) {
-        int idx = sphereDot(dripX, dripY, PARTICLETYPE_BUBBLE, age);
+        int idx = sphereDot(dripX, dripY, PT_BUBBLE, age);
         if (idx >= 0) {
-            // particleSpeedY[idx] = -0x2800 - rangeRandom(0x2800);
-            // particleSpeedX[idx] >>= 4;
+            particle[idx].speed = 10; //(-0x2800 - rangeRandom(0x2800)) >> 4;
+            // particle.speedX[idx] >>= 4;
 
-            particleDirection[idx] = 128 + rangeRandom(64) - 32;
+            particle[idx].direction = 128 + rangeRandom(64) - 32;
         }
     }
 }

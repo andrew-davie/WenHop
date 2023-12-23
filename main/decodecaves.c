@@ -64,8 +64,6 @@ static int decodeFlasher;
 
 void decodeCave(int cave) {
 
-    wyrmNum = 0;
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
 #pragma GCC diagnostic ignored "-Wpointer-to-int-cast"

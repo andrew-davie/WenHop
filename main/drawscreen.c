@@ -435,20 +435,39 @@ static unsigned char *const arenas[] = {
 
 void drawScreen() { // --> cycles 62870 (@20230616)
 
+#if ENABLE_SHAKE
     extern int shakeX, shakeY;
 
     shakeX = 0; //-(0x7FFF);
     shakeY = 0;
+#endif
 
-    int lcount = -((scrollY + shakeY) >> 16) * 3;
+    int lcount = -((scrollY
+#if ENABLE_SHAKE
+                    + shakeY
+#endif
+                    ) >>
+                   16) *
+                 3;
 
-    int subBlockPixel = (((scrollX + shakeX) & 0xFFFF) * 5) >> 16;
+    int subBlockPixel = (((scrollX
+#if ENABLE_SHAKE
+                           + shakeX
+#endif
+                           ) &
+                          0xFFFF) *
+                         5) >>
+                        16;
     int shift = 5 - subBlockPixel;
 
     int startRow = (-lcount * (0x10000 / PIECE_DEPTH)) >> 16;
     lcount += startRow * PIECE_DEPTH;
 
-    int spos = scrollX + shakeX;
+    int spos = scrollX
+#if ENABLE_SHAKE
+               + shakeX
+#endif
+        ;
     if (spos < 0)
         spos = scrollX;
 
@@ -526,230 +545,6 @@ bool drawBit(int x, int y) {
     base[2] |= bit;
 
     return true;
-}
-
-unsigned char particleType[PARTICLE_COUNT];
-unsigned char particleAge[PARTICLE_COUNT];
-
-int particleX[PARTICLE_COUNT];
-int particleY[PARTICLE_COUNT];
-unsigned char particleSpeed[PARTICLE_COUNT];
-
-unsigned char particleDirection[PARTICLE_COUNT];
-unsigned short particleDistance[PARTICLE_COUNT];
-
-unsigned char ropeDirection[ROPE_PARTICLE_COUNT];
-
-const int xsin[] = {
-    0, 97, 181, 236, 256, 236, 181, 97, 0, -97, -181, -236, -256, -236, -181, -97,
-};
-
-// const int xcos[] = {
-//     256, 236, 181, 97, 0, -97, -181, -236, -256, -236, -181, -97, 0, 97, 181, 236,
-// };
-
-int ropeDelay;
-
-void initRope() {
-
-    static int phs = 0;
-    ropeDelay = 0;
-
-    for (int i = 0; i < ROPE_PARTICLE_COUNT; i++) {
-        //        particleAge[i] = 1;
-
-        if (i)
-            ropeDirection[i] = ropeDirection[i - 1] + (rangeRandom(3) - 1);
-
-        //        ropeDistance[i] = 181;
-        //        particleX[i] = (playerX * 5 + 5 + i) << 8;
-        //      particleY[i] = (playerY * 10 + 5) << 8;
-    }
-}
-
-void whip(int x, int y) {
-
-    int x3 = x >>= 8;
-    int y3 = y >>= 8;
-
-    int xchar = 0;
-    while (x3 > 5) {
-        x3 -= 5;
-        xchar++;
-    }
-
-    int ychar = 0;
-    while (y3 > 10) {
-        y3 -= 10;
-        ychar++;
-    }
-
-    unsigned char *b = RAM + _BOARD + ychar * _BOARD_COLS + xchar;
-    int ch = *b;
-    // if (ch == CH_BLANK)
-    //     *b = CH_DUST_ROCK_0;
-    // else
-    if (ch == CH_ROCK)
-        *b = CH_GEODOGE | FLAG_THISFRAME;
-    else if (ch == CH_GEODOGE)
-        *b = CH_DOGE_00 | FLAG_THISFRAME;
-    else if (ch == CH_DIRT)
-        *b = CH_DUST_0 | FLAG_THISFRAME;
-
-    if (*b & FLAG_THISFRAME) {
-        ADDAUDIO(SFX_MAGIC2);
-        nDots(2, xchar, ychar, 2, 30, 2, 5, 0x1000);
-    }
-}
-
-bool ropeEnabled = false;
-
-void drawRope() {
-
-    if (!ropeEnabled)
-        return;
-
-    static int phs = 0;
-
-    int aY = 0;
-    int amy = autoMoveY;
-    if (amy > 0)
-        while (amy > 3) {
-            amy -= 3;
-            aY++;
-        }
-    else
-        while (amy < 0) {
-            amy += 3;
-            aY--;
-        }
-
-    int x = (playerX * 5 + 2 + ((faceDirection * autoMoveX) >> 2)) << 8;
-    int y = (playerY * 10 + 5 + aY) << 8;
-
-    int x2 = (playerX * 5 + 2 + ((faceDirection * autoMoveX) >> 2)) << 8;
-    int y2 = (playerY * 10 + 5 + aY) << 8;
-
-#define ROPE_DISTANCE 181
-
-    for (int i = 1; i < PARTICLE_COUNT; i++) {
-
-        drawBit((x >> 8), (y >> 8));
-        drawBit((x2 >> 8), (y2 >> 8));
-
-        x += (xsin[(ropeDirection[i] >> 4) & 0xF] * ROPE_DISTANCE) >> 8;
-        y += (xsin[((ropeDirection[i] >> 4) + 4) & 0xF] * 256) >> 8;
-
-        x2 -= (xsin[(ropeDirection[i] >> 4) & 0xF] * ROPE_DISTANCE) >> 8;
-        y2 -= (xsin[((ropeDirection[i] >> 4) + 4) & 0xF] * 256) >> 8;
-    }
-
-#define LOOP 60
-
-    ropeDelay = 0;
-    static int changeUp = 0;
-    if (++changeUp > 400) {
-        changeUp = 0;
-
-        if (ropeDelay)
-            ropeDelay--;
-        else
-            ropeDelay = 20;
-    }
-
-    if (++phs > ropeDelay) {
-        phs = 0;
-
-        static int wantedDirection = 0;
-
-        if (ropeDirection[0] == wantedDirection)
-            wantedDirection = rangeRandom(256);
-
-        else if (ropeDirection[0] < wantedDirection)
-            ropeDirection[0] += ((wantedDirection - ropeDirection[0]) >> 3) + 1;
-
-        else
-            ropeDirection[0] -= ((ropeDirection[0] - wantedDirection) >> 3) + 1;
-
-        for (int i = PARTICLE_COUNT - 1; i > 0; i--)
-            ropeDirection[i] = (ropeDirection[i] * 1 + ropeDirection[i - 1] * 3) >> 2;
-    }
-
-    // Drop a dust @ last particle area
-
-    whip(x2, y2);
-    whip(x, y);
-
-    // x >>= 8;
-    // y >>= 8;
-
-    // xchar = 0;
-    // while (x > 5) {
-    //     x -= 5;
-    //     xchar++;
-    // }
-
-    // ychar = offset;
-    // while (y > 10) {
-    //     y -= 10;
-    //     ychar++;
-    // }
-
-    // actualScore = ychar * _BOARD_COLS + xchar;
-
-    // b = RAM + _BOARD + ychar * _BOARD_COLS + xchar;
-    // ch = *b;
-    // if (ch == CH_BLANK)
-    //     *b = CH_DUST_ROCK_0 | FLAG_THISFRAME;
-    // else if (ch == CH_ROCK)
-    //     *b = CH_GEODOGE | FLAG_THISFRAME;
-    // else if (ch == CH_GEODOGE)
-    //     *b = CH_DOGE_00 | FLAG_THISFRAME;
-    // else if (ch == CH_DIRT)
-    //     *b = CH_DUST_0 | FLAG_THISFRAME;
-}
-
-void drawParticles() {
-
-    //    initRope();
-    drawRope(0, 1);
-
-    for (int i = 0; i < PARTICLE_COUNT; i++) {
-        if (particleAge[i]) {
-
-            int xOffset = (xsin[(particleDirection[i] >> 4) & 0xF] * particleDistance[i]) >> 16;
-            int yOffset =
-                (xsin[((particleDirection[i] >> 4) + 4) & 0xF] * particleDistance[i] * 3) >> 16;
-
-            int y = (particleY[i] >> 8) + yOffset;
-            int x = (particleX[i] >> 8) + xOffset;
-
-            if (particleType[i] == PARTICLETYPE_SPIRAL) {
-                particleDirection[i] += 7;
-
-                if (!rangeRandom(80))
-                    nDotsAtTrixel(4, x, y, 30, 0x1000);
-            }
-
-            if (particleType[i] == PARTICLETYPE_BUBBLE) {
-                // if ((particleY[i] >> 16) < lavaSurfaceTrixel) {
-                //     particleAge[i] = 0;
-                //     continue;
-                // }
-
-                //                if (!rangeRandom(5))
-                x += rangeRandom(2) - 1;
-                //                particleSpeedX[i] = (particleSpeedX[i] * 15) >> 4;
-            }
-
-            --particleAge[i];
-
-            if (!drawBit(x, y))
-                particleAge[i] = 0;
-
-            particleDistance[i] += particleSpeed[i];
-        }
-    }
 }
 
 // EOF

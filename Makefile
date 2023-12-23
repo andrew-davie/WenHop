@@ -143,7 +143,7 @@ CUSTOMLINK = $(SRC)/custom.boot.lds
 CUSTOMOBJS = main.o sound.o custom.o attribute.o random.o \
 	decodecaves.o characterset.o mellon.o cavedata.o drawplayer.o \
 	player.o drawscreen.o colour.o swipeCircle.o score.o \
-	scroll.o animations.o menu.o atarivox.o joystick.o wyrm.o
+	scroll.o animations.o menu.o atarivox.o joystick.o wyrm.o particle.o
 CUSTOMDEPENDS = sound.h main.h attribute.h wyrm.h
 
 CUSTOMTARGETS = $(CUSTOMELF) $(CUSTOMBIN)
@@ -222,3 +222,4 @@ sound.o: main/defines_cdfj.h main/main.h main/defines_from_dasm_for_c.h main/sou
 player.o: main/defines_from_dasm_for_c.h main/main.h main/player.h main/atarivox.h main/bitpatterns.h
 player.o: main/mellon.h
 wyrm.o: main/wyrm.h
+particle.o: main/particle.h main/defines_cdfj.h main/defines_from_dasm_for_c.h

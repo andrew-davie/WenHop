@@ -1,13 +1,12 @@
 #include <stdbool.h>
 
-// #include "defines_from_dasm_for_c.h"
-
 #include "main.h"
 
 #include "atarivox.h"
 #include "bitpatterns.h"
 #include "colour.h"
 #include "mellon.h"
+#include "particle.h"
 #include "player.h"
 #include "sound.h"
 
@@ -3179,7 +3178,7 @@ void processAnimationCommand() {
 
             int dotX = 2 + (*++playerAnimation) * faceDirection;
             int dotY = *++playerAnimation;
-            nDots(6, playerX, playerY, 2, 20, dotX, dotY, 0x10000);
+            nDots(6, playerX, playerY, PT_TWO, 20, dotX, dotY, 100);
             playerAnimation++;
             break;
         }

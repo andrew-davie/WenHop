@@ -3,8 +3,8 @@
 
 void drawScreen();
 void drawIconScreen(int startRow, int endRow);
-void drawParticles();
 void initCharVector();
+bool drawBit(int x, int y);
 
 #endif
 // EOF

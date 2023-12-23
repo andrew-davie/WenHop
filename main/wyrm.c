@@ -5,9 +5,8 @@
 
 #include "attribute.h"
 #include "colour.h"
+#include "particle.h"
 #include "random.h"
-
-int wyrmNum;
 
 const unsigned char wyrmChar[] = {
 
@@ -38,23 +37,25 @@ void initWyrms() {
 
 void newWyrm(int x, int y) {
 
-    if (wyrmNum < WYRM_POP) {
+    for (int i = 0; i < WYRM_POP; i++) {
+        if (wyrms[i].head < 0) {
+            struct wyrmDetails *thisWyrm = &wyrms[i];
 
-        struct wyrmDetails *thisWyrm = &wyrms[wyrmNum];
+            thisWyrm->head = 0;
+            thisWyrm->dir = getRandom32() & 3;
+            thisWyrm->x[0] = x;
+            thisWyrm->y[0] = y;
+            thisWyrm->length = 2;
 
-        thisWyrm->head = 0;
-        thisWyrm->dir = getRandom32() & 3;
-        thisWyrm->x[0] = x;
-        thisWyrm->y[0] = y;
-        thisWyrm->length = 2;
-
-        wyrmNum++;
+            break;
+        }
     }
 }
 
 void processWyrms() {
 
     for (int i = gameFrame & 1; i < WYRM_POP; i += 2) {
+        // for (int i = 0; i < WYRM_POP; i++) {
 
         // if (rangeRandom(110))
         //     continue;
@@ -106,7 +107,7 @@ void processWyrms() {
 
         if (!moveable) {
 
-            if (wyrm->head > 2 && (gameFrame & 3)) {
+            if (wyrm->head > 2 /* && (gameFrame & 1)*/) {
 
                 unsigned char *segment = RAM + _BOARD + wyrm->y[0] * 40 + wyrm->x[0];
                 *segment = CH_DUST_ROCK_0;
@@ -119,25 +120,25 @@ void processWyrms() {
                 wyrm->length--;
             }
 
-            if (!rangeRandom(5)) {
-                // reverse wyrm
+            // if (!rangeRandom(5)) {
+            //  reverse wyrm
 
-                unsigned char tempX2[WYRM_MAX], tempY2[WYRM_MAX];
-                for (int i = 0; i <= wyrm->head; i++) {
-                    tempX2[i] = wyrm->x[i];
-                    tempY2[i] = wyrm->y[i];
-                }
-
-                for (int i = 0; i <= wyrm->head; i++) {
-                    wyrm->x[i] = tempX2[wyrm->head - i];
-                    wyrm->y[i] = tempY2[wyrm->head - i];
-                }
-
-                wyrm->dir = (wyrm->dir + 2) & 3;
+            unsigned char tempX2[WYRM_MAX], tempY2[WYRM_MAX];
+            for (int i = 0; i <= wyrm->head; i++) {
+                tempX2[i] = wyrm->x[i];
+                tempY2[i] = wyrm->y[i];
             }
+
+            for (int i = 0; i <= wyrm->head; i++) {
+                wyrm->x[i] = tempX2[wyrm->head - i];
+                wyrm->y[i] = tempY2[wyrm->head - i];
+            }
+
+            wyrm->dir = (wyrm->dir + 2) & 3;
+            //}
         }
 
-        if (moveable) {
+        else {
 
             unsigned char *segment;
             if (headPos > 0) {
@@ -186,7 +187,7 @@ void processWyrms() {
             segment = RAM + _BOARD + candidateY * 40 + candidateX;
 
             if (TYPEOF(*segment) == TYPE_DOGE)
-                nDots(8, candidateX, candidateY, 2, 50, 3, 0, 0x10000);
+                nDots(8, candidateX, candidateY, PT_TWO, 50, 3, 0, 100);
 
             *segment = wyrm->dir + CH_WYRM_HEAD_U;
         }
@@ -194,7 +195,7 @@ void processWyrms() {
         if (headPos) {
             unsigned char *tailPos = RAM + _BOARD + wyrm->y[0] * _1ROW + wyrm->x[0];
 
-            unsigned char tail;
+            unsigned char tail = CH_WYRM_TAIL_R;
             if (wyrm->y[1] > wyrm->y[0])
                 tail = CH_WYRM_TAIL_U;
 
@@ -203,8 +204,8 @@ void processWyrms() {
 
             else if (wyrm->x[1] > wyrm->x[0])
                 tail = CH_WYRM_TAIL_L;
-            else
-                tail = CH_WYRM_TAIL_R;
+            // else
+            //     tail = CH_WYRM_TAIL_R;
 
             *tailPos = tail;
 
@@ -213,16 +214,13 @@ void processWyrms() {
                 headChar = CH_WYRM_HEAD_L;
             else if (wyrm->x[headPos] > wyrm->x[headPos - 1])
                 headChar = CH_WYRM_HEAD_R;
-            else if (wyrm->y[headPos] < wyrm->y[headPos - 1])
-                headChar = CH_WYRM_HEAD_U;
-            if (wyrm->y[headPos] > wyrm->y[headPos - 1])
+            else if (wyrm->y[headPos] > wyrm->y[headPos - 1])
                 headChar = CH_WYRM_HEAD_D;
 
             unsigned char *head = RAM + _BOARD + wyrm->y[headPos] * _1ROW + wyrm->x[headPos];
             *head = headChar;
         }
 
-        if (rangeRandom(80))
-            nDots(4, wyrm->x[0], wyrm->y[0], PARTICLETYPE_SPIRAL, 30, 2, 5, 0x20000);
+        nDots(4, wyrm->x[0], wyrm->y[0], PT_SPIRAL, 30, 2, 5, 100);
     }
 }

@@ -119,7 +119,7 @@ const unsigned char caveA[] = {
     //     //0xFE,CH_PUSH_DOWN,13,1,
     //     0xFE, CH_HUB, 16,8,
 
-    0xFE, CH_WYRM_BODY, 8, 4,
+//    0xFE, CH_WYRM_BODY, 8, 4,
 
     // 0xFE, CH_FLOOD_0, 5, 5,
 
@@ -662,10 +662,10 @@ const unsigned char *caveList[] = {
 //    caveFast,
 
     caveA,
-//    caveA2,
+    caveA2,
     // caveA5, //caveA4,
 
-    //caveA3,
+    // caveA3,
     // caveA2,
 };
 
